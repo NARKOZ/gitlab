@@ -1,5 +1,7 @@
 # Gitlab
 
+[![Build Status](https://secure.travis-ci.org/NARKOZ/gitlab.png)](http://travis-ci.org/NARKOZ/gitlab)
+
 Gitlab is a Ruby wrapper for the [GitLab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api#gitlab-api).
 
 ## Installation
