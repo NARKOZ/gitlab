@@ -2,10 +2,7 @@ module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
     # An array of valid keys in the options hash when configuring a Gitlab::API.
-    VALID_OPTIONS_KEYS = [:base_uri, :endpoint, :private_token, :user_agent].freeze
-
-    # The API endpoint that will be used if none is set.
-    DEFAULT_ENDPOINT = "api/v2".freeze
+    VALID_OPTIONS_KEYS = [:endpoint, :private_token, :user_agent].freeze
 
     # The user agent that will be sent to the API endpoint if none is set.
     DEFAULT_USER_AGENT = "Gitlab Ruby Gem #{Gitlab::VERSION}".freeze
@@ -33,8 +30,7 @@ module Gitlab
 
     # Resets all configuration options to the defaults.
     def reset
-      self.base_uri       = nil
-      self.endpoint       = DEFAULT_ENDPOINT
+      self.endpoint       = nil
       self.private_token  = nil
       self.user_agent     = DEFAULT_USER_AGENT
     end

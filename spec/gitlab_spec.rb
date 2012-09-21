@@ -9,23 +9,10 @@ describe Gitlab do
     end
   end
 
-  describe ".base_uri=" do
-    it "should set base_uri" do
-      Gitlab.base_uri = 'https://api.example.com'
-      Gitlab.base_uri.should == 'https://api.example.com'
-    end
-  end
-
   describe ".endpoint" do
-    it "should return default endpoint" do
-      Gitlab.endpoint.should == Gitlab::Configuration::DEFAULT_ENDPOINT
-    end
-  end
-
-  describe ".endpoint=" do
     it "should set endpoint" do
-      Gitlab.endpoint = nil
-      Gitlab.endpoint.should be_nil
+      Gitlab.endpoint = 'https://api.example.com'
+      Gitlab.endpoint.should == 'https://api.example.com'
     end
   end
 

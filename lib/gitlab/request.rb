@@ -41,11 +41,11 @@ module Gitlab
       validate_response self.class.delete(path)
     end
 
-    def set_request_defaults(base_uri, endpoint, private_token)
-      raise Error::MissingCredentials.new("Please set a base_uri for API endpoint") unless base_uri
-      raise Error::MissingCredentials.new("Please set a private_token for API endpoint") unless private_token
+    def set_request_defaults(endpoint, private_token)
+      raise Error::MissingCredentials.new("Please set an endpoint") unless endpoint
+      raise Error::MissingCredentials.new("Please set a private_token") unless private_token
 
-      self.class.base_uri "#{base_uri}/#{endpoint}"
+      self.class.base_uri endpoint
       self.class.default_params :private_token => private_token
     end
 
