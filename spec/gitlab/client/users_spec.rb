@@ -20,16 +20,16 @@ describe Gitlab::Client do
   describe ".user" do
     context "with user ID passed" do
       before do
-        stub_get("/users/2", "single_user")
-        @user = Gitlab.user(2)
+        stub_get("/users/1", "user")
+        @user = Gitlab.user(1)
       end
 
       it "should get the correct resource" do
-        a_get("/users/2").should have_been_made
+        a_get("/users/1").should have_been_made
       end
 
       it "should return information about a user" do
-        @user.email.should == "jack@example.com"
+        @user.email.should == "john@example.com"
       end
     end
 
