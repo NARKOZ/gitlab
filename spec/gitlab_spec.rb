@@ -9,7 +9,7 @@ describe Gitlab do
     end
   end
 
-  describe ".endpoint" do
+  describe ".endpoint=" do
     it "should set endpoint" do
       Gitlab.endpoint = 'https://api.example.com'
       Gitlab.endpoint.should == 'https://api.example.com'
@@ -17,20 +17,20 @@ describe Gitlab do
   end
 
   describe ".private_token=" do
-    it "should set private token" do
+    it "should set private_token" do
       Gitlab.private_token = 'secret'
       Gitlab.private_token.should == 'secret'
     end
   end
 
   describe ".user_agent" do
-    it "should return default user agent" do
+    it "should return default user_agent" do
       Gitlab.user_agent.should == Gitlab::Configuration::DEFAULT_USER_AGENT
     end
   end
 
   describe ".user_agent=" do
-    it "should set user agent" do
+    it "should set user_agent" do
       Gitlab.user_agent = 'Custom User Agent'
       Gitlab.user_agent.should == 'Custom User Agent'
     end

@@ -43,7 +43,7 @@ describe Gitlab::Client do
         a_get("/user").should have_been_made
       end
 
-      it "should return information about a current user" do
+      it "should return information about an authorized user" do
         @user.email.should == "john@example.com"
       end
     end
@@ -59,7 +59,7 @@ describe Gitlab::Client do
       a_post("/session").should have_been_made
     end
 
-    it "should return information about a session" do
+    it "should return information about a created session" do
       @session.email.should == "john@example.com"
       @session.private_token.should == "qEsq1pt6HJPaNciie3MG"
     end

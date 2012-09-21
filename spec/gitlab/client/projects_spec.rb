@@ -44,7 +44,7 @@ describe Gitlab::Client do
       a_post("/projects").should have_been_made
     end
 
-    it "should return information about a project" do
+    it "should return information about a created project" do
       @project.name.should == "Gitlab"
       @project.owner.name.should == "John Smith"
     end
@@ -92,7 +92,7 @@ describe Gitlab::Client do
         with(:body => {:access_level => '40'}).should have_been_made
     end
 
-    it "should return information about a team member" do
+    it "should return information about an added team member" do
       @team_member.name.should == "John Smith"
     end
   end
@@ -108,7 +108,7 @@ describe Gitlab::Client do
         with(:body => {:access_level => '40'}).should have_been_made
     end
 
-    it "should return information about a team member" do
+    it "should return information about an edited team member" do
       @team_member.name.should == "John Smith"
     end
   end
@@ -123,7 +123,7 @@ describe Gitlab::Client do
       a_delete("/projects/3/members/1").should have_been_made
     end
 
-    it "should return information about a team member" do
+    it "should return information about a removed team member" do
       @team_member.name.should == "John Smith"
     end
   end
