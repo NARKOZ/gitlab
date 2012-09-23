@@ -65,5 +65,31 @@ class Gitlab::Client
     def edit_issue(project, id, options={})
       put("/projects/#{project}/issues/#{id}", :body => options)
     end
+
+    # Closes an issue.
+    #
+    # @example
+    #   Gitlab.close_issue(3, 42)
+    #   Gitlab.close_issue('gitlab', 42)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @return [Gitlab::ObjectifiedHash] Information about closed issue.
+    def close_issue(project, id)
+      put("/projects/#{project}/issues/#{id}", :body => {:closed => 1})
+    end
+
+    # Reopens an issue.
+    #
+    # @example
+    #   Gitlab.reopen_issue(3, 42)
+    #   Gitlab.reopen_issue('gitlab', 42)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @return [Gitlab::ObjectifiedHash] Information about reopened issue.
+    def reopen_issue(project, id)
+      put("/projects/#{project}/issues/#{id}", :body => {:closed => 0})
+    end
   end
 end

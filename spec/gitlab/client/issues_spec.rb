@@ -85,4 +85,38 @@ describe Gitlab::Client do
       @issue.assignee.name.should == "Jack Smith"
     end
   end
+
+  describe ".close_issue" do
+    before do
+      stub_put("/projects/3/issues/33", "issue")
+      @issue = Gitlab.close_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      a_put("/projects/3/issues/33").
+        with(:body => {:closed => '1'}).should have_been_made
+    end
+
+    it "should return information about an edited issue" do
+      @issue.project_id.should == 3
+      @issue.assignee.name.should == "Jack Smith"
+    end
+  end
+
+  describe ".reopen_issue" do
+    before do
+      stub_put("/projects/3/issues/33", "issue")
+      @issue = Gitlab.reopen_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      a_put("/projects/3/issues/33").
+        with(:body => {:closed => '0'}).should have_been_made
+    end
+
+    it "should return information about an edited issue" do
+      @issue.project_id.should == 3
+      @issue.assignee.name.should == "Jack Smith"
+    end
+  end
 end
