@@ -97,7 +97,7 @@ describe Gitlab::Client do
         with(:body => {:closed => '1'}).should have_been_made
     end
 
-    it "should return information about an edited issue" do
+    it "should return information about an closed issue" do
       @issue.project_id.should == 3
       @issue.assignee.name.should == "Jack Smith"
     end
@@ -114,7 +114,7 @@ describe Gitlab::Client do
         with(:body => {:closed => '0'}).should have_been_made
     end
 
-    it "should return information about an edited issue" do
+    it "should return information about an reopened issue" do
       @issue.project_id.should == 3
       @issue.assignee.name.should == "Jack Smith"
     end
