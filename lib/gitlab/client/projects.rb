@@ -85,7 +85,7 @@ class Gitlab::Client
     # @param  [Integer] access_level The access level to project.
     # @return [Array<Gitlab::ObjectifiedHash>] Information about added team member.
     def add_team_member(project, id, access_level)
-      post("/projects/#{project}/members/#{id}", :body => {:access_level => access_level})
+      post("/projects/#{project}/members", :body => {:user_id => id, :access_level => access_level})
     end
 
     # Updates a team member's project access level.
