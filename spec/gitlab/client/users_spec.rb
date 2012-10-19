@@ -49,6 +49,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_user" do
+    before do
+      stub_post("/users", "user")
+      @user = Gitlab.create_user("email", "pass")
+    end
+
+    it "should get the correct resource" do
+      body = {:email => "email", :password => "pass", :name => "email"}
+      a_post("/users").with(:body => body).should have_been_made
+    end
+
+    it "should return information about a created user" do
+      @user.email.should == "john@example.com"
+    end
+  end
+
   describe ".session" do
     before do
       stub_post("/session", "session")
@@ -99,11 +115,11 @@ describe Gitlab::Client do
   describe ".create_ssh_key" do
     before do
       stub_post("/user/keys", "key")
-      @key = Gitlab.create_ssh_key('title', 'body')
+      @key = Gitlab.create_ssh_key("title", "body")
     end
 
     it "should get the correct resource" do
-      body = {:title => 'title', :key => 'body'}
+      body = {:title => "title", :key => "body"}
       a_post("/user/keys").with(:body => body).should have_been_made
     end
 

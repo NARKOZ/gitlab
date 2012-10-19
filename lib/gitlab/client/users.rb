@@ -27,6 +27,23 @@ class Gitlab::Client
       id.to_i.zero? ? get("/user") : get("/users/#{id}")
     end
 
+    # Creates a new user.
+    # Requires authentication from an admin account.
+    #
+    # @param  [String] email The email of a user.
+    # @param  [String] password The password of a user.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :name The name of a user. Defaults to email.
+    # @option options [String] :skype The skype of a user.
+    # @option options [String] :linkedin The linkedin of a user.
+    # @option options [String] :twitter The twitter of a user.
+    # @option options [Integer] :projects_limit The limit of projects for a user.
+    # @return [Gitlab::ObjectifiedHash] Information about created user.
+    def create_user(email, password, options={})
+      body = {:email => email, :password => password, :name => email}.merge(options)
+      post("/users", :body => body)
+    end
+
     # Creates a new user session.
     #
     # @example
