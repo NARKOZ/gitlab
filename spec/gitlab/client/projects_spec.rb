@@ -144,6 +144,21 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".project_hook" do
+    before do
+      stub_get("/projects/1/hooks/1", "project_hook")
+      @hook = Gitlab.project_hook(1, 1)
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/1/hooks/1").should have_been_made
+    end
+
+    it "should return information about a hook" do
+      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+    end
+  end
+
   describe ".add_project_hook" do
     before do
       stub_post("/projects/1/hooks", "project_hook")
@@ -156,6 +171,22 @@ describe Gitlab::Client do
     end
 
     it "should return information about an added hook" do
+      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+    end
+  end
+
+  describe ".edit_project_hook" do
+    before do
+      stub_put("/projects/1/hooks/1", "project_hook")
+      @hook = Gitlab.edit_project_hook(1, 1, "https://api.example.net/v1/webhooks/ci")
+    end
+
+    it "should get the correct resource" do
+      body = {:url => "https://api.example.net/v1/webhooks/ci"}
+      a_put("/projects/1/hooks/1").with(:body => body).should have_been_made
+    end
+
+    it "should return information about an edited hook" do
       @hook.url.should == "https://api.example.net/v1/webhooks/ci"
     end
   end

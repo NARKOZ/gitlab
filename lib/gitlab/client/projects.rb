@@ -128,6 +128,19 @@ class Gitlab::Client
       get("/projects/#{project}/hooks", :query => options)
     end
 
+    # Gets a project hook.
+    #
+    # @example
+    #   Gitlab.project_hook(42, 5)
+    #   Gitlab.project_hook('gitlab', 5)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of a hook.
+    # @return [Gitlab::ObjectifiedHash]
+    def project_hook(project, id)
+      get("/projects/#{project}/hooks/#{id}")
+    end
+
     # Adds a new hook to the project.
     #
     # @example
@@ -138,6 +151,19 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
     def add_project_hook(project, url)
       post("/projects/#{project}/hooks", :body => {:url => url})
+    end
+
+    # Updates a project hook URL.
+    #
+    # @example
+    #   Gitlab.edit_project_hook(42, 1, 'https://api.example.net/v1/webhooks/ci')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of the hook.
+    # @param  [String] url The hook URL.
+    # @return [Gitlab::ObjectifiedHash] Information about updated hook.
+    def edit_project_hook(project, id, url)
+      put("/projects/#{project}/hooks/#{id}", :body => {:url => url})
     end
 
     # Deletes a hook from project.
