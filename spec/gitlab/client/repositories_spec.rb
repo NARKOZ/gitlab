@@ -65,7 +65,7 @@ describe Gitlab::Client do
         with(:query => {:ref_name => "api"}).should have_been_made
     end
 
-    it "should return an array of respository commits" do
+    it "should return an array of repository commits" do
       @commits.should be_an Array
       @commits.first.id.should == "f7dd067490fe57505f7226c3b54d3127d2f7fd46"
     end
