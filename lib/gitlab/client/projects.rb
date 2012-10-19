@@ -91,7 +91,7 @@ class Gitlab::Client
     # Updates a team member's project access level.
     #
     # @example
-    #   Gitlab.team_members('gitlab', 3, 20)
+    #   Gitlab.edit_team_member('gitlab', 3, 20)
     #
     # @param  [Integer, String] project The ID or code name of a project.
     # @param  [Integer] id The ID of a user.
@@ -131,7 +131,7 @@ class Gitlab::Client
     # Adds a new hook to the project.
     #
     # @example
-    #   Gitlab.project_hooks(42, 'https://api.example.net/v1/webhooks/ci')
+    #   Gitlab.add_project_hook(42, 'https://api.example.net/v1/webhooks/ci')
     #
     # @param  [Integer, String] project The ID or code name of a project.
     # @param  [String] url The hook URL.
