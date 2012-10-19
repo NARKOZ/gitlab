@@ -15,7 +15,7 @@ class Gitlab::Client
     def tags(project, options={})
       get("/projects/#{project}/repository/tags", :query => options)
     end
-    alias :repo_tags :tags
+    alias_method :repo_tags, :tags
 
     # Gets a list of project repositiory branches.
     #
@@ -31,7 +31,7 @@ class Gitlab::Client
     def branches(project, options={})
       get("/projects/#{project}/repository/branches", :query => options)
     end
-    alias :repo_branches :branches
+    alias_method :repo_branches, :branches
 
     # Gets information about a repository branch.
     #
@@ -45,7 +45,7 @@ class Gitlab::Client
     def branch(project, branch)
       get("/projects/#{project}/repository/branches/#{branch}")
     end
-    alias :repo_branch :branch
+    alias_method :repo_branch, :branch
 
     # Gets a list of project commits.
     #
@@ -62,6 +62,6 @@ class Gitlab::Client
     def commits(project, options={})
       get("/projects/#{project}/repository/commits", :query => options)
     end
-    alias :repo_commits :commits
+    alias_method :repo_commits, :commits
   end
 end
