@@ -1,6 +1,21 @@
 class Gitlab::Client
   # Defines methods related to snippets.
   module Snippets
+    # Gets a list of project's snippets.
+    #
+    # @example
+    #   Gitlab.snippets(42)
+    #   Gitlab.snippets('gitlab')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Gitlab::ObjectifiedHash]
+    def snippets(project, options={})
+      get("/projects/#{project}/snippets", :query => options)
+    end
+
     # Gets information about a snippet.
     #
     # @example

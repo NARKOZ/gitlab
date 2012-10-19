@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
+  describe ".snippets" do
+    before do
+      stub_get("/projects/3/snippets", "snippets")
+      @snippets = Gitlab.snippets(3)
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/3/snippets").should have_been_made
+    end
+
+    it "should return an array of project's snippets" do
+      @snippets.should be_an Array
+      @snippets.first.file_name.should == "mailer_test.rb"
+    end
+  end
+
   describe ".snippet" do
     before do
       stub_get("/projects/3/snippets/1", "snippet")
