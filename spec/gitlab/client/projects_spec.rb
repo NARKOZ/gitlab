@@ -83,13 +83,13 @@ describe Gitlab::Client do
 
   describe ".add_team_member" do
     before do
-      stub_post("/projects/3/members/1", "team_member")
+      stub_post("/projects/3/members", "team_member")
       @team_member = Gitlab.add_team_member(3, 1, 40)
     end
 
     it "should get the correct resource" do
-      a_post("/projects/3/members/1").
-        with(:body => {:access_level => '40'}).should have_been_made
+      a_post("/projects/3/members").
+        with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
     end
 
     it "should return information about an added team member" do
