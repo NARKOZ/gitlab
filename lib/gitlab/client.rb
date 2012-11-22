@@ -9,5 +9,6 @@ module Gitlab
     include Gitlab::Client::Snippets
     include Gitlab::Client::Projects
     include Gitlab::Client::Repositories
+    include Gitlab::Client::MergeRequests
   end
 end
