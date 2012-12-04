@@ -70,7 +70,7 @@ class Gitlab::Client
 		# @param [Integer] snippet The ID of an snippet.
 		# @param [Integer] id The ID of an note.
 		# @return [Gitlab::ObjectifiedHash]
-		def snippet_note(project, id)
+		def snippet_note(project, snippet, id)
 			get("/projects/#{project}/snippets/#{snippet}/notes/#{id}")
 		end
 		
