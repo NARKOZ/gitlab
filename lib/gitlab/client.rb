@@ -5,6 +5,7 @@ module Gitlab
 
     include Gitlab::Client::Users
     include Gitlab::Client::Issues
+    include Gitlab::Client::Notes
     include Gitlab::Client::Milestones
     include Gitlab::Client::Snippets
     include Gitlab::Client::Projects
