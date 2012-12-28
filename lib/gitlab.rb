@@ -1,5 +1,4 @@
 require File.expand_path('../gitlab/version', __FILE__)
-require File.expand_path('../gitlab/objectified_hash', __FILE__)
 require File.expand_path('../gitlab/configuration', __FILE__)
 require File.expand_path('../gitlab/error', __FILE__)
 require File.expand_path('../gitlab/request', __FILE__)

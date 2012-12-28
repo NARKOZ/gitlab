@@ -1,4 +1,5 @@
 require 'httparty'
+require 'hashie/mash'
 
 module Gitlab
   # @private
@@ -6,16 +7,16 @@ module Gitlab
     include HTTParty
     format  :json
     headers 'Accept' => 'application/json'
-    parser  Proc.new {|body| parse(body)}
+    parser  Proc.new {|body, _| parse(body)}
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
       body = decode(body)
 
       if body.is_a? Hash
-        ObjectifiedHash.new body
+        Hashie::Mash.new body
       elsif body.is_a? Array
-        body.collect! {|e| ObjectifiedHash.new(e)}
+        body.collect! {|e| Hashie::Mash.new(e)}
       else
         raise Error::Parsing.new "Couldn't parse a response body"
       end
