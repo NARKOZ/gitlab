@@ -7,7 +7,7 @@ module Gitlab
     include HTTParty
     format  :json
     headers 'Accept' => 'application/json'
-    parser  Proc.new {|body| parse(body)}
+    parser  Proc.new {|body, _| parse(body)}
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
