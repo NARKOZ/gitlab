@@ -1,4 +1,5 @@
 require 'httparty'
+require 'hashie/mash'
 
 module Gitlab
   # @private
@@ -13,9 +14,9 @@ module Gitlab
       body = decode(body)
 
       if body.is_a? Hash
-        ObjectifiedHash.new body
+        Hashie::Mash.new body
       elsif body.is_a? Array
-        body.collect! {|e| ObjectifiedHash.new(e)}
+        body.collect! {|e| Hashie::Mash.new(e)}
       else
         raise Error::Parsing.new "Couldn't parse a response body"
       end
