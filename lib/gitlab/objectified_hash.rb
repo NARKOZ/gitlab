@@ -1,6 +1,8 @@
 module Gitlab
   # Converts hashes to the objects.
   class ObjectifiedHash
+    attr_reader :data
+
     # Creates a new ObjectifiedHash.
     def initialize(hash)
       @data = hash.inject({}) do |data, (key,value)|
@@ -8,6 +10,11 @@ module Gitlab
         data[key.to_s] = value
         data
       end
+    end
+
+    # Patches Object#id in Ruby 1.8
+    def id
+      self.data['id']
     end
 
     # Delegate to ObjectifiedHash
