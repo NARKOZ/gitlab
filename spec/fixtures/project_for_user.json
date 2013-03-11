@@ -1,7 +1,7 @@
 {"id": 3, "code": "gitlab", "name": "Gitlab", "description": null, "path": "gitlab", "default_branch": null, "owner": {
-    "id": 1,
-    "email": "john@example.com",
-    "name": "John Smith",
+    "id": 4,
+    "email": "jdoe@example.com",
+    "name": "John Doe",
     "blocked": false,
     "created_at": "2012-09-17T09:41:56Z"
 }, "private": true, "issues_enabled": true, "merge_requests_enabled": true, "wall_enabled": true, "wiki_enabled": true, "created_at": "2012-09-17T09:41:58Z"}

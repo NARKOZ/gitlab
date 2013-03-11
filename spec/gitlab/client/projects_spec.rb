@@ -50,6 +50,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_project_for_user" do
+    before do
+      stub_post("/projects/user/4", "project_for_user")
+      @project = Gitlab.create_project_for_user('Gitlab',4)
+    end
+
+    it "should get the correct resource" do
+      a_post("/projects/user/4").should have_been_made
+    end
+
+    it "should return information about a created project" do
+      @project.name.should == "Gitlab"
+      @project.owner.name.should == 'John Doe'
+      @project.owner.email.should == 'jdoe@example.com'
+    end
+  end
+
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")

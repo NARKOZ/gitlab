@@ -48,6 +48,31 @@ class Gitlab::Client
       post("/projects", :body => {:name => name}.merge(options))
     end
 
+
+
+    # Creates a new project for a user, Available only for admins.
+    #
+    # @example
+    #   Gitlab.create_project('gitlab','user_id')
+    #   Gitlab.create_project('viking','user_id', :description => 'Awesome project')
+    #   Gitlab.create_project('Red', 'user_id', :wall_enabled => false)
+    #
+    # @param  [String] name The name of a project.
+    # @param  [String] user_id The user_id of the projects owner
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :code The code name of a project.
+    # @option options [String] :path The path of a project.
+    # @option options [String] :description The description of a project.
+    # @option options [String] :default_branch The default branch of a project.
+    # @option options [Boolean] :wiki_enabled The wiki integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
+    # @option options [Boolean] :issues_enabled The issues integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :merge_requests_enabled The merge requests functionality for a project (0 = false, 1 = true).
+    # @return [Gitlab::ObjectifiedHash] Information about created project.
+    def create_project_for_user(name, user_id, options={})
+      post("/projects/user/#{user_id}", :body => {:name => name}.merge(options))
+    end
+
     # Gets a list of project team members.
     #
     # @example
