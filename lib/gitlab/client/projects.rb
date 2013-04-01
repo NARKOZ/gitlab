@@ -85,9 +85,11 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or code name of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>] Information about added team member.
-    def add_team_member(project, id, access_level)
-      post("/projects/#{project}/members", :body => {:user_id => id, :access_level => access_level})
+    def add_team_member(project, id, access_level, options = {})
+      body ={:user_id => id, :access_level => access_level}.merge(options)
+      post("/projects/#{project}/members", :body => body)
     end
 
     # Updates a team member's project access level.
@@ -98,9 +100,11 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or code name of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>] Information about updated team member.
-    def edit_team_member(project, id, access_level)
-      put("/projects/#{project}/members/#{id}", :body => {:access_level => access_level})
+    def edit_team_member(project, id, access_level, options = {})
+      body = {:access_level => access_level}.merge(options)
+      put("/projects/#{project}/members/#{id}", :body => body)
     end
 
     # Removes a user from project team.
@@ -110,9 +114,10 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or code name of a project.
     # @param  [Integer] id The ID of a user.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>] Information about removed team member.
-    def remove_team_member(project, id)
-      delete("/projects/#{project}/members/#{id}")
+    def remove_team_member(project, id, options= {})
+      delete("/projects/#{project}/members/#{id}", :body => options)
     end
 
     # Gets a list of project hooks.

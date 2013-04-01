@@ -103,7 +103,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       a_post("/projects/3/members").
-        with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
+          with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
     end
 
     it "should return information about an added team member" do
@@ -119,7 +119,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       a_put("/projects/3/members/1").
-        with(:body => {:access_level => '40'}).should have_been_made
+          with(:body => {:access_level => '40'}).should have_been_made
     end
 
     it "should return information about an edited team member" do
@@ -128,18 +128,35 @@ describe Gitlab::Client do
   end
 
   describe ".remove_team_member" do
-    before do
-      stub_delete("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.remove_team_member(3, 1)
+    context 'as a user' do
+      before do
+        stub_delete("/projects/3/members/1", "team_member")
+        @team_member = Gitlab.remove_team_member(3, 1)
+      end
+
+      it "should get the correct resource" do
+        a_delete("/projects/3/members/1").should have_been_made
+      end
+
+      it "should return information about a removed team member" do
+        @team_member.name.should == "John Smith"
+      end
+    end
+    context 'as sudo-ing to a user' do
+      before do
+        stub_delete("/projects/3/members/1", "team_member")
+        @team_member = Gitlab.remove_team_member(3, 1, :sudo => 1)
+      end
+
+      it "should get the correct resource" do
+        a_delete("/projects/3/members/1").should have_been_made
+      end
+
+      it "should return information about a removed team member" do
+        @team_member.name.should == "John Smith"
+      end
     end
 
-    it "should get the correct resource" do
-      a_delete("/projects/3/members/1").should have_been_made
-    end
-
-    it "should return information about a removed team member" do
-      @team_member.name.should == "John Smith"
-    end
   end
 
   describe ".project_hooks" do
