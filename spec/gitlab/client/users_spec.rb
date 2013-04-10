@@ -115,17 +115,25 @@ describe Gitlab::Client do
   describe ".create_ssh_key" do
     before do
       stub_post("/user/keys", "key")
-      @key = Gitlab.create_ssh_key("title", "body")
     end
 
     it "should get the correct resource" do
+      @key = Gitlab.create_ssh_key("title", "body")
       body = {:title => "title", :key => "body"}
       a_post("/user/keys").with(:body => body).should have_been_made
     end
 
     it "should return information about a created SSH key" do
+      @key = Gitlab.create_ssh_key("title", "body")
       @key.title.should == "narkoz@helium"
     end
+
+    it "should handle sudo" do
+      @key = Gitlab.create_ssh_key("title", "body", {:sudo => 'some_person'})
+      body = {:title => "title", :key => "body", :sudo => "some_person"}
+      a_post("/user/keys").with(:body => body).should have_been_made
+    end
+
   end
 
   describe ".delete_ssh_key" do
