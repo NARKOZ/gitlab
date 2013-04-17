@@ -50,6 +50,20 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_project with owner" do
+    before do
+      stub_post("/users", "user")
+      @owner = Gitlab.create_user("john@example.com", "pass", {name: 'John Owner'})
+      stub_post("/projects/user/#{@owner.id}", "project_with_owner")
+      @project = Gitlab.create_project('Brute', {:user_id => @owner.id})
+    end
+
+    it "should return information about a created project" do
+      @project.name.should == "Brute"
+      @project.owner.name.should == "John Owner"
+    end
+  end
+
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")

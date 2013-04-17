@@ -43,9 +43,11 @@ class Gitlab::Client
     # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
     # @option options [Boolean] :issues_enabled The issues integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :merge_requests_enabled The merge requests functionality for a project (0 = false, 1 = true).
+    # @option options [Integer] :user_id The owner id of a project.
     # @return [Gitlab::ObjectifiedHash] Information about created project.
     def create_project(name, options={})
-      post("/projects", :body => {:name => name}.merge(options))
+      url = options[:user_id] ? "/projects/user/#{options[:user_id]}" : "/projects"
+      post(url, :body => {:name => name}.merge(options))
     end
 
     # Gets a list of project team members.
