@@ -179,5 +179,16 @@ class Gitlab::Client
     def delete_project_hook(project, id)
       delete("/projects/#{project}/hooks/#{id}")
     end
+
+    # Deletes a project.
+    #
+    # @example
+    #   Gitlab.delete_project(1)
+    #
+    # @param  [Integer] project The ID a project.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted project.
+    def delete_project(id)
+      delete("/projects/#{id}")
+    end
   end
 end
