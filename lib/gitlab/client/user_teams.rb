@@ -4,7 +4,7 @@ class Gitlab::Client
     # Gets a list of users_teams.
     #
     # @example
-    #   Gitlab.user_teams.user_teams
+    #   Gitlab.user_teams
     #
     # @return [Array<Gitlab::ObjectifiedHash>]
     def user_teams(options={})
@@ -14,7 +14,7 @@ class Gitlab::Client
     # Gets information about a user team.
     #
     # @example
-    #   Gitlab.user_teams.user_teams(2)
+    #   Gitlab.user_team(2)
     #
     # @param  [Integer] (required) The ID of a user_team.
     # @return [Gitlab::ObjectifiedHash]
@@ -35,8 +35,8 @@ class Gitlab::Client
     # Get a list of project team members. If user id is specified get a specific user
     #
     # @example
-    #   Gitlab.user_teams.teams_members(1)
-    #   Gitlab.user_teams.teams_members(1,3)
+    #   Gitlab.user_team_members(1)
+    #   Gitlab.user_team_members(1,3)
     #
     # @param  [Integer] (required) - The ID of a user_team
     # @param  [Integer] (optional) - The ID of a user
@@ -48,33 +48,33 @@ class Gitlab::Client
     # Adds a user to user team.
     #
     # @example
-    #   Gitlab.user_teams.add_team_member(1, 2, 40)
+    #   Gitlab.add_user_team_member(1, 2, 40)
     #
     # @param  [Integer] (required) The team id to add a member to
     # @param  [Integer] (required) The user id of the user to add to the team
     # @param  [Integer] (required) access_level Project access level
     # @return [Array<Gitlab::ObjectifiedHash>] Information about added team member.
-    def add_team_member(team_id, user_id, access_level)
+    def add_user_team_member(team_id, user_id, access_level)
       post("/user_teams/#{team_id}/members", :body => {:user_id => user_id, :access_level => access_level})
     end
 
     # Removes user from user team.
     #
     # @example
-    #   Gitlab.user_teams.remove_team_member(1, 2)
+    #   Gitlab.remove_user_team_member(1, 2)
     #
     # @param  [Integer] (required) The team ID.
     # @param  [Integer] (required) id The ID of a user.
     # @return [Array<Gitlab::ObjectifiedHash>] Information about removed team member.
-    def remove_team_member(team_id, user_id)
+    def remove_user_team_member(team_id, user_id)
       delete("/user_teams/#{team_id}/members/#{user_id}")
     end
 
     #  Get a list of user team projects. If project_id is specified gets the project specified
     #
     # @example
-    #   Gitlab.user_teams.user_teams_projects(1)
-    #   Gitlab.user_teams.user_teams_projects(1,2)
+    #   Gitlab.user_teams_projects(1)
+    #   Gitlab.user_teams_projects(1,2)
     #
     # @param [Integer] (required) - The ID of a user_team
     # @param [Integer] (optional - The ID of a project
@@ -82,20 +82,6 @@ class Gitlab::Client
     def user_teams_projects(team_id, project_id = nil)
       project_id.to_i.zero? ? get("/user_teams/#{team_id}/projects") : get("/user_teams/#{team_id}/projects/#{project_id}")
     end
-
-    # Gets a user team project.
-    #
-    # @example
-    #   Gitlab.user_teams.user_teams(2)
-    #
-    # @param  [Integer] (required) The ID of a user_team.
-    # @param  [Integer] (required) The ID of a project.
-    # @return [Gitlab::ObjectifiedHash]
-    def user_teams_project(team_id, project_id)
-      get("/user_teams/#{team_id}/projects/#{project_id}")
-    end
-
-
 
     # Add user team project
     # Adds a project to a user team.
@@ -120,7 +106,7 @@ class Gitlab::Client
     # @param  [Integer] (required) The ID of a user team
     # @param  [Integer] (required)   The ID of a team project
     # @return [Array<Gitlab::ObjectifiedHash>] Information about removed team project.
-    def remove_team_project(team_id, user_id)
+    def remove_team_project(team_id, project_id)
       delete("/user_teams/#{team_id}/projects/#{project_id}")
     end
 

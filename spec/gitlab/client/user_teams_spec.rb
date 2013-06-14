@@ -40,7 +40,7 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      body = {:name => "Foo", :path=> "foo"}
+      body = {:name => "Foo", :path => "foo"}
       a_post("/user_teams").with(:body => body).should have_been_made
     end
 
@@ -66,7 +66,7 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".team_member" do
+  describe ".user_team_members" do
     before do
       stub_get("/user_teams/3/members/1", "user_team_member")
       @team_members = Gitlab.user_team_members(3, 1)
@@ -80,15 +80,15 @@ describe Gitlab::Client do
       @team_members.name.should == "John Smith"
     end
   end
-=begin
-  describe ".add_team_member" do
+
+  describe ".add_user_team_member" do
     before do
-      stub_post("/projects/3/members", "team_member")
-      @team_member = Gitlab.add_team_member(3, 1, 40)
+      stub_post("/user_teams/3/members", "user_team_member")
+      @team_member = Gitlab.add_user_team_member(3, 1, 40)
     end
 
     it "should get the correct resource" do
-      a_post("/projects/3/members").
+      a_post("/user_teams/3/members").
           with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
     end
 
@@ -97,35 +97,83 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".edit_team_member" do
+  describe ".remove_user_team_member" do
     before do
-      stub_put("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.edit_team_member(3, 1, 40)
+      stub_delete("/user_teams/3/members/1", "user_team_member")
+      @team_member = Gitlab.remove_user_team_member(3, 1)
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/members/1").
-          with(:body => {:access_level => '40'}).should have_been_made
-    end
-
-    it "should return information about an edited team member" do
-      @team_member.name.should == "John Smith"
-    end
-  end
-
-  describe ".remove_team_member" do
-    before do
-      stub_delete("/projects/3/members/1", "team_member")
-      @team_member = Gitlab.remove_team_member(3, 1)
-    end
-
-    it "should get the correct resource" do
-      a_delete("/projects/3/members/1").should have_been_made
+      a_delete("/user_teams/3/members/1").should have_been_made
     end
 
     it "should return information about a removed team member" do
       @team_member.name.should == "John Smith"
     end
   end
-=end
+
+
+  describe ".user_teams_projects" do
+    context 'when called with out project id' do
+      before do
+        stub_get("/user_teams/3/projects", "user_team_projects")
+        @team_projects = Gitlab.user_teams_projects(3)
+      end
+
+      it "should get the correct resource" do
+        a_get("/user_teams/3/projects").should have_been_made
+      end
+
+      it "should return information about team projects" do
+        @team_projects[0].name.should == "example_project"
+      end
+    end
+
+    context 'when called with project id' do
+      before do
+        stub_get("/user_teams/3/projects/1", "user_team_project")
+        @team_project = Gitlab.user_teams_projects(3, 1)
+      end
+
+      it "should get the correct resource" do
+        a_get("/user_teams/3/projects/1").should have_been_made
+      end
+
+      it "should return information about a team project" do
+        @team_project.name.should == "example_project"
+      end
+    end
+  end
+
+  describe ".add_team_project" do
+    before do
+      stub_post("/user_teams/3/projects", "user_team_project")
+      @team_project = Gitlab.add_team_project(3, 1, 40)
+    end
+
+    it "should get the correct resource" do
+      a_post("/user_teams/3/projects").
+          with(:body => {:project_id => '1', :access_level => '40'}).should have_been_made
+    end
+
+    it "should return information about an added team project" do
+      @team_project.name.should == "example_project"
+    end
+  end
+
+
+  describe ".remove_team_project" do
+    before do
+      stub_delete("/user_teams/3/projects/1", "user_team_project")
+      @team_project = Gitlab.remove_team_project(3, 1)
+    end
+
+    it "should get the correct resource" do
+      a_delete("/user_teams/3/projects/1").should have_been_made
+    end
+
+    it "should return information about a removed team project" do
+      @team_project.name.should == "example_project"
+    end
+  end
 end
