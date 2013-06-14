@@ -29,7 +29,7 @@ class Gitlab::Client
     # @param  [String] (required) - new user team internal name
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def create_user_team(name, path)
-      post("/user_teams", :body => {:name => name, :path=> path})
+      post("/user_teams", :body => {:name => name, :path => path})
     end
 
     # Get a list of project team members. If user id is specified get a specific user
@@ -91,10 +91,10 @@ class Gitlab::Client
     #
     # @param  [Integer] (required) The ID of a user team
     # @param  [Integer] (required) The ID of a project to add
-    # @param  [Integer] (required) greatest_access_level (required) - Maximum project access level
+    # @param  [Integer] (required) - Maximum project access level
     # @return [Array<Gitlab::ObjectifiedHash>] Information about added team project.
     def add_team_project(team_id, project_id, access_level)
-      post("/user_teams/#{team_id}/projects", :body => {:project_id => project_id, :access_level => access_level})
+      post("/user_teams/#{team_id}/projects", :body => {:project_id => project_id, :greatest_access_level => access_level})
     end
 
     # Remove user team project

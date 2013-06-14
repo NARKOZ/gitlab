@@ -50,34 +50,35 @@ describe Gitlab::Client do
   end
 
 
-  describe ".team_members" do
-    before do
-      stub_get("/user_teams/3/members", "user_team_members")
-      @team_members = Gitlab.user_team_members(3)
-    end
-
-    it "should get the correct resource" do
-      a_get("/user_teams/3/members").should have_been_made
-    end
-
-    it "should return an array of team members" do
-      @team_members.should be_an Array
-      @team_members.first.name.should == "John Smith"
-    end
-  end
-
   describe ".user_team_members" do
-    before do
-      stub_get("/user_teams/3/members/1", "user_team_member")
-      @team_members = Gitlab.user_team_members(3, 1)
-    end
+    context "when with no specific member" do
+      before do
+        stub_get("/user_teams/3/members", "user_team_members")
+        @team_members = Gitlab.user_team_members(3)
+      end
 
-    it "should get the correct resource" do
-      a_get("/user_teams/3/members/1").should have_been_made
-    end
+      it "should get the correct resource" do
+        a_get("/user_teams/3/members").should have_been_made
+      end
 
-    it "should return information about a team member" do
-      @team_members.name.should == "John Smith"
+      it "should return an array of team members" do
+        @team_members.should be_an Array
+        @team_members.first.name.should == "John Smith"
+      end
+    end
+    context "when passed a particular member" do
+      before do
+        stub_get("/user_teams/3/members/1", "user_team_member")
+        @team_members = Gitlab.user_team_members(3, 1)
+      end
+
+      it "should get the correct resource" do
+        a_get("/user_teams/3/members/1").should have_been_made
+      end
+
+      it "should return information about a team member" do
+        @team_members.name.should == "John Smith"
+      end
     end
   end
 
