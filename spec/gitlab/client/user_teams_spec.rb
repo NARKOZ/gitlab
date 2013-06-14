@@ -154,7 +154,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       a_post("/user_teams/3/projects").
-          with(:body => {:project_id => '1', :access_level => '40'}).should have_been_made
+          with(:body => {:project_id => '1', :greatest_access_level => '40'}).should have_been_made
     end
 
     it "should return information about an added team project" do
