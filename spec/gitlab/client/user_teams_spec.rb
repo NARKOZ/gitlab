@@ -83,18 +83,29 @@ describe Gitlab::Client do
   end
 
   describe ".add_user_team_member" do
-    before do
-      stub_post("/user_teams/3/members", "user_team_member")
-      @team_member = Gitlab.add_user_team_member(3, 1, 40)
+    context 'successful add' do
+      before do
+        stub_post("/user_teams/3/members", "user_team_member")
+        @team_member = Gitlab.add_user_team_member(3, 1, 40)
+      end
+
+      it "should get the correct resource" do
+        a_post("/user_teams/3/members").
+            with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
+      end
+
+      it "should return information about an added team member" do
+        @team_member.name.should == "John Smith"
+      end
     end
 
-    it "should get the correct resource" do
-      a_post("/user_teams/3/members").
-          with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
-    end
-
-    it "should return information about an added team member" do
-      @team_member.name.should == "John Smith"
+    context 'unsuccessful add' do
+      it "should throw an exception if the team already exists" do
+        stub_request(:post, "#{Gitlab.endpoint}/user_teams/3/members").
+            with(:query => {:private_token => Gitlab.private_token}).
+            to_return({:body => load_fixture("error_already_exists"), :status => 409})
+        expect {Gitlab.add_user_team_member(3, 1, 40)}.to raise_error(Gitlab::Error::Conflict) {|e|e.message.should == "Server responded with code 409, message: 409 Already exists"}
+      end
     end
   end
 
