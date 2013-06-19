@@ -4,9 +4,9 @@ module Gitlab
   # @private
   class Request
     include HTTParty
-    format  :json
+    format :json
     headers 'Accept' => 'application/json'
-    parser  Proc.new {|body, _| parse(body)}
+    parser Proc.new { |body, _| parse(body) }
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
@@ -15,7 +15,7 @@ module Gitlab
       if body.is_a? Hash
         ObjectifiedHash.new body
       elsif body.is_a? Array
-        body.collect! {|e| ObjectifiedHash.new(e)}
+        body.collect! { |e| ObjectifiedHash.new(e) }
       else
         raise Error::Parsing.new "Couldn't parse a response body"
       end
@@ -53,18 +53,30 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
-      message = "Server responsed with code #{response.code}"
       case response.code
-      when 400; raise Error::BadRequest.new message
-      when 401; raise Error::Unauthorized.new message
-      when 403; raise Error::Forbidden.new message
-      when 404; raise Error::NotFound.new message
-      when 500; raise Error::InternalServerError.new message
-      when 502; raise Error::BadGateway.new message
-      when 503; raise Error::ServiceUnavailable.new message
+        when 400;
+          raise Error::BadRequest.new(error_message(response))
+        when 401;
+          raise Error::Unauthorized.new(error_message(response))
+        when 403;
+          raise Error::Forbidden.new(error_message(response))
+        when 404;
+          raise Error::NotFound.new(error_message(response))
+        when 409;
+          raise Error::Conflict.new(error_message(response))
+        when 500;
+          raise Error::InternalServerError.new(error_message(response))
+        when 502;
+          raise Error::BadGateway.new(error_message(response))
+        when 503;
+          raise Error::ServiceUnavailable.new(error_message(response))
       end
 
       response.parsed_response
+    end
+
+    def error_message(response)
+      "Server responded with code #{response.code}, message: #{response.parsed_response.message}"
     end
 
     # Sets a base_uri and private_token parameter for requests.
