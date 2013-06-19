@@ -22,8 +22,8 @@ class Gitlab::Client
     #
     # @param  [Integer, String] id The ID or code name of a project.
     # @return [Gitlab::ObjectifiedHash]
-    def project(id)
-      get("/projects/#{id}")
+    def project(id, options ={})
+      get("/projects/#{id}", :query => options)
     end
 
     # Creates a new project.

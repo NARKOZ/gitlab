@@ -19,19 +19,34 @@ describe Gitlab::Client do
   end
 
   describe ".project" do
-    before do
-      stub_get("/projects/3", "project")
-      @project = Gitlab.project(3)
+    context 'normal execution' do
+      before do
+        stub_get("/projects/3", "project")
+        @project = Gitlab.project(3)
+      end
+
+      it "should get the correct resource" do
+        a_get("/projects/3").should have_been_made
+      end
+
+      it "should return information about a project" do
+        @project.name.should == "Gitlab"
+        @project.owner.name.should == "John Smith"
+      end
     end
 
-    it "should get the correct resource" do
-      a_get("/projects/3").should have_been_made
+    context 'supports sudo' do
+      it "should support the additional argument" do
+        stub_request(:get, "#{Gitlab.endpoint}/projects/3").
+            with(:query => {:private_token => Gitlab.private_token, :sudo => "foo"}).
+            to_return(:body => load_fixture("project"))
+        @project = Gitlab.project(3, {sudo:'foo'})
+        a_get("/projects/3?sudo=foo").should have_been_made
+        @project.name.should == "Gitlab"
+        @project.owner.name.should == "John Smith"
+      end
     end
 
-    it "should return information about a project" do
-      @project.name.should == "Gitlab"
-      @project.owner.name.should == "John Smith"
-    end
   end
 
   describe ".create_project" do
