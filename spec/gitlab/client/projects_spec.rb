@@ -219,4 +219,35 @@ describe Gitlab::Client do
       @hook.url.should == "https://api.example.net/v1/webhooks/ci"
     end
   end
+
+  describe ".make_forked_from" do
+    before do
+      stub_post("/projects/42/fork/24", "project_fork_link")
+      @forked_project_link = Gitlab.make_forked_from(42, 24)
+    end
+
+    it "should get the correct resource" do
+      a_post("/projects/42/fork/24").should have_been_made
+    end
+
+    it "should return information about a forked project" do
+      @forked_project_link.forked_from_project_id.should == 24
+      @forked_project_link.forked_to_project_id.should == 42
+    end
+  end
+
+  describe ".remove_forked" do
+    before do
+      stub_delete("/projects/42/fork", "project_fork_link")
+      @forked_project_link = Gitlab.remove_forked(42)
+    end
+
+    it "should be sent to correct resource" do
+      a_delete("/projects/42/fork").should have_been_made
+    end
+
+    it "should return information about an unforked project" do
+      @forked_project_link.forked_to_project_id.should == 42
+    end
+  end
 end

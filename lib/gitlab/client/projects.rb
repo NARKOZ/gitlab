@@ -179,5 +179,29 @@ class Gitlab::Client
     def delete_project_hook(project, id)
       delete("/projects/#{project}/hooks/#{id}")
     end
+
+    # Mark this project as forked from the other
+    #
+    # @example
+    #   Gitlab.make_forked(42, 24)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of the project it is forked from
+    # @return [Gitlab::ObjectifiedHash] Information about the forked project.
+    def make_forked_from(project, forked_from_project)
+      post("/projects/#{project}/fork/#{forked_from_project}")
+    end
+
+    # Remove a forked_from relationship for a project.
+    #
+    # @example
+    #  Gitlab.remove_forked(42)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of the project it is forked from
+    # @return [Gitlab::ObjectifiedHash] Information about the forked project.
+    def remove_forked(project)
+      delete("/projects/#{project}/fork")
+    end
   end
 end
