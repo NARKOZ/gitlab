@@ -43,6 +43,7 @@ class Gitlab::Client
     # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
     # @option options [Boolean] :issues_enabled The issues integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :merge_requests_enabled The merge requests functionality for a project (0 = false, 1 = true).
+    # @option options [Boolean] :public The setting for making a project public (0 = false, 1 = true).
     # @option options [Integer] :user_id The user/owner id of a project.
     # @return [Gitlab::ObjectifiedHash] Information about created project.
     def create_project(name, options={})
