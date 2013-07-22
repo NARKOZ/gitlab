@@ -17,6 +17,37 @@ class Gitlab::Client
     end
     alias_method :repo_tags, :tags
 
+    # Creates a project tag.
+    #
+    # @example
+    #   Gitlab.create_tag(42, 'v1.0', 'HEAD')
+    #   Gitlab.repo_create_tag('gitlab', 'v.1.0', 'ab73d2ks9dhdk2ld9')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [String] tag name
+    # @param  [String] Git reference (Branch, Commit, Tag, etc)
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def create_tag(project, tag, ref)
+      post("/projects/#{project}/repository/tags/#{tag}/#{ref}")
+    end
+    alias_method :repo_create_tag, :create_tag
+
+    # Deletes a project tag.
+    #
+    # @example
+    #   Gitlab.delete_tag(42, 'v1.0')
+    #   Gitlab.repo_delete_tag('gitlab', 'v.1.0')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [String] tag name
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def delete_tag(project, tag)
+      delete("/projects/#{project}/repository/tags/#{tag}")
+    end
+    alias_method :repo_delete_tag, :delete_tag
+
+    # Gets a list of project repositiory branches.
+
     # Gets a list of project repositiory branches.
     #
     # @example
@@ -46,6 +77,33 @@ class Gitlab::Client
       get("/projects/#{project}/repository/branches/#{branch}")
     end
     alias_method :repo_branch, :branch
+
+    # Creates a branch
+    #
+    # @example
+    #   Gitlab.create_branch(3, 'api')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [String] branch The name of the branch.
+    # @param  [String] Git reference (Branch, Commit, Tag, etc)
+    # @return [Gitlab::ObjectifiedHash]
+    def create_branch(project, branch, ref)
+      post("/projects/#{project}/repository/branches/#{branch}/#{ref}")
+    end
+    alias_method :repo_create_branch, :create_branch
+
+    # Deletes a branch
+    #
+    # @example
+    #   Gitlab.delete_branch(3, 'api')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [String] branch The name of the branch.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_branch(project, branch)
+      delete("/projects/#{project}/repository/branches/#{branch}")
+    end
+    alias_method :repo_delete_branch, :delete_branch
 
     # Gets a list of project commits.
     #
