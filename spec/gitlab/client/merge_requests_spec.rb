@@ -32,4 +32,53 @@ describe Gitlab::Client do
       @merge_request.assignee.name.should == "Jack Smith"
     end
   end
+
+  describe ".create_merge_request" do
+    before do
+      stub_post("/projects/3/merge_requests", "create_merge_request")
+      @merge_request = Gitlab.create_merge_request(3,
+        :source_branch => 'api',
+        :target_branch => 'master',
+        :title         => 'New feature'
+      )
+    end
+
+    it "should return information about a merge request" do
+      @merge_request.project_id.should == 3
+      @merge_request.assignee.name.should == "Jack Smith"
+      @merge_request.title.should == 'New feature'
+    end
+  end
+
+  describe ".update_merge_request" do
+    before do
+      stub_put("/projects/3/merge_request/2", "update_merge_request")
+      @merge_request = Gitlab.update_merge_request(3, 2,
+        :assignee_id   => '1',
+        :target_branch => 'master',
+        :title         => 'A different new feature'
+      )
+    end
+
+    it "should return information about a merge request" do
+      @merge_request.project_id.should == 3
+      @merge_request.assignee.name.should == "Jack Smith"
+      @merge_request.title.should == 'A different new feature'
+    end
+  end
+
+  describe ".comment_merge_request" do
+    before do
+      stub_post("/projects/3/merge_request/2/comments", "comment_merge_request")
+      @merge_request = Gitlab.comment_merge_request(3, 2,
+        :note => 'Cool Merge Request!'
+      )
+    end
+
+    it "should return information about a merge request" do
+      @merge_request.note.should == 'Cool Merge Request!'
+      @merge_request.author.id == 1
+    end
+  end
+
 end
