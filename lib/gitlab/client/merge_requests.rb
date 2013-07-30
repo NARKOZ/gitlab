@@ -50,10 +50,7 @@ class Gitlab::Client
     #
     # Accepts source_branch, target_branch, assignee_id, & title in params.
     def create_merge_request(project, params={})
-
-      raise("Attribute source_branch is required.") unless params.has_key?(:source_branch)
-      raise("Attribute target_branch is required.") unless params.has_key?(:target_branch)
-      raise("Attribute title is required.")         unless params.has_key?(:title)
+      check_attributes!(params, [:source_branch, :target_branch, :title])
 
       post("/projects/#{project}/merge_requests",
         :body => params
@@ -99,11 +96,21 @@ class Gitlab::Client
     # Accepts note (And alias, comment)
     def comment_merge_request(project, merge_id, params={})
       params[:note] = params[:comment]     if params.has_key?(:comment)
-      raise("Attribute note is required.") unless params.has_key?(:note)
+      check_attributes!(params, [:note])
 
       post("/projects/#{project}/merge_request/#{merge_id}/comments",
         :body => params
       )
+    end
+
+    private
+
+    def check_attributes!(options, attrs)
+      attrs.each do |attr|
+        unless options.has_key?(attr) || options.has_key?(attr.to_s)
+          raise Gitlab::Error::MissingAttributes.new("Missing '#{attr}' parameter")
+        end
+      end
     end
 
   end

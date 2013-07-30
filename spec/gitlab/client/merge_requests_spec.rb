@@ -36,14 +36,35 @@ describe Gitlab::Client do
   describe ".create_merge_request" do
     before do
       stub_post("/projects/3/merge_requests", "create_merge_request")
+    end
+
+    it "should fail if it doens't have a source_branch" do
+      expect { Gitlab.create_merge_request(3,
+        :target_branch => 'master',
+        :title         => 'New feature'
+      ) }.to raise_error Gitlab::Error::MissingAttributes
+    end
+
+    it "should fail if it doens't have a target_branch" do
+      expect { Gitlab.create_merge_request(3,
+        :source_branch => 'master',
+        :title         => 'New feature'
+      ) }.to raise_error Gitlab::Error::MissingAttributes
+    end
+
+    it "should fail if it doens't have a title" do
+      expect { Gitlab.create_merge_request(3,
+        :target_branch => 'master',
+        :source_branch => 'master'
+      ) }.to raise_error Gitlab::Error::MissingAttributes
+    end
+
+    it "should return information about a merge request" do
       @merge_request = Gitlab.create_merge_request(3,
         :source_branch => 'api',
         :target_branch => 'master',
         :title         => 'New feature'
       )
-    end
-
-    it "should return information about a merge request" do
       @merge_request.project_id.should == 3
       @merge_request.assignee.name.should == "Jack Smith"
       @merge_request.title.should == 'New feature'
@@ -70,12 +91,18 @@ describe Gitlab::Client do
   describe ".comment_merge_request" do
     before do
       stub_post("/projects/3/merge_request/2/comments", "comment_merge_request")
-      @merge_request = Gitlab.comment_merge_request(3, 2,
-        :note => 'Cool Merge Request!'
-      )
+    end
+
+    it "should fail if it doens't have a note" do
+      expect {
+        Gitlab.create_merge_request(3)
+      }.to raise_error Gitlab::Error::MissingAttributes
     end
 
     it "should return information about a merge request" do
+      @merge_request = Gitlab.comment_merge_request(3, 2,
+        :note => 'Cool Merge Request!'
+      )
       @merge_request.note.should == 'Cool Merge Request!'
       @merge_request.author.id == 1
     end
