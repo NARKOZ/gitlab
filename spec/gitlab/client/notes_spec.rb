@@ -105,17 +105,23 @@ describe Gitlab::Client do
     context "when wall note" do
       before do
         stub_post("/projects/3/notes", "note")
-        @note = Gitlab.create_note(3, "The solution is rather tricky")
       end
 
       it "should get the correct resource" do
+        @note = Gitlab.create_note(3, "The solution is rather tricky")
         a_post("/projects/3/notes").
           with(:body => {:body => 'The solution is rather tricky'}).should have_been_made
       end
 
       it "should return information about a created note" do
+        @note = Gitlab.create_note(3, "The solution is rather tricky")
         @note.body.should == "The solution is rather tricky"
         @note.author.name.should == "John Smith"
+      end
+
+      it "should support sudo" do
+        @note = Gitlab.create_note(3, "The solution is rather tricky", {:sudo => 'Bob'})
+        a_post("/projects/3/notes").with(:body => {:body => 'The solution is rather tricky', :sudo => 'Bob'}).should have_been_made
       end
     end
 
@@ -134,6 +140,11 @@ describe Gitlab::Client do
         @note.body.should == "The solution is rather tricky"
         @note.author.name.should == "John Smith"
       end
+
+      it "should support sudo" do
+        @note = Gitlab.create_issue_note(3, 7, "The solution is rather tricky", {:sudo => 'Bob'})
+        a_post("/projects/3/issues/7/notes").with(:body => {:body => 'The solution is rather tricky', :sudo => 'Bob'}).should have_been_made
+      end
     end
 
     context "when snippet note" do
@@ -150,6 +161,11 @@ describe Gitlab::Client do
       it "should return information about a created note" do
         @note.body.should == "The solution is rather tricky"
         @note.author.name.should == "John Smith"
+      end
+
+      it "should support sudo" do
+        @note = Gitlab.create_snippet_note(3, 7, "The solution is rather tricky", {:sudo => 'Bob'})
+        a_post("/projects/3/snippets/7/notes").with(:body => {:body => 'The solution is rather tricky', :sudo => 'Bob'}).should have_been_made
       end
     end
   end
