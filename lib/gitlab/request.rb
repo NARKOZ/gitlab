@@ -76,7 +76,7 @@ module Gitlab
     end
 
     def error_message(response)
-      "Server responded with code #{response.code}, message: #{response.parsed_response.message}"
+      "Server responded with code #{response.code}, message: #{response.parsed_response.message}. For request:#{response.request.base_uri}#{response.request.path.to_s}"
     end
 
     # Sets a base_uri and private_token parameter for requests.
