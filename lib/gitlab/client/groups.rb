@@ -18,6 +18,42 @@ class Gitlab::Client
       post("/groups", :body => body)
     end
 
+    # Get a list of group members.
+    #
+    # @example
+    #   Gitlab.group_members(1)
+    #
+    # @param  [Integer] (required) - The ID of a group
+    # @return [Gitlab::ObjectifiedHash]
+    def group_members(id)
+      get("/groups/#{id}/members")
+    end
+
+    # Adds a user to group.
+    #
+    # @example
+    #   Gitlab.add_group_member(1, 2, 40)
+    #
+    # @param  [Integer] (required) The group id to add a member to
+    # @param  [Integer] (required) The user id of the user to add to the team
+    # @param  [Integer] (required) access_level Project access level
+    # @return [Array<Gitlab::ObjectifiedHash>] Information about added team member.
+    def add_group_member(team_id, user_id, access_level)
+      post("/groups/#{team_id}/members", :body => {:user_id => user_id, :access_level => access_level})
+    end
+
+    # Removes user from user group.
+    #
+    # @example
+    #   Gitlab.remove_group_member(1, 2)
+    #
+    # @param  [Integer] (required) The group ID.
+    # @param  [Integer] (required) id The ID of a user.
+    # @return [Array<Gitlab::ObjectifiedHash>] Information about removed team member.
+    def remove_group_member(team_id, user_id)
+      delete("/groups/#{team_id}/members/#{user_id}")
+    end
+
     # Transfers a project to a group
     #
     # @param  [Integer] group_id

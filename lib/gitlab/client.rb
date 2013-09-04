@@ -4,7 +4,6 @@ module Gitlab
     Dir[File.expand_path('../client/*.rb', __FILE__)].each{|f| require f}
 
     include Gitlab::Client::Users
-    include Gitlab::Client::UserTeams
     include Gitlab::Client::Issues
     include Gitlab::Client::Notes
     include Gitlab::Client::Milestones
