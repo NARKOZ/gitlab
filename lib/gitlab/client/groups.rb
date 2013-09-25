@@ -1,8 +1,18 @@
 class Gitlab::Client
   # Defines methods related to groups.
   module Groups
-    def groups
-      get("/groups")
+
+    # Gets a list of groups.
+    #
+    # @example
+    #   Gitlab.groups
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def groups(options={})
+      get("/groups", :query => options)
     end
 
     def group(group_id)
