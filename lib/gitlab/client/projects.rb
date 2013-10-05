@@ -204,5 +204,61 @@ class Gitlab::Client
     def remove_forked(project)
       delete("/projects/#{project}/fork")
     end
+
+    # Gets a project deploy keys
+    #
+    # @example
+    #   Gitlab.deploy_keys(42)
+    #   Gitlab.deploy_keys('gitlab')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Gitlab::ObjectifiedHash]
+    def deploy_keys(project, options={})
+      get("/projects/#{project}/keys", :query => options)
+    end
+
+    # Gets a single project deploy key
+    #
+    # @example
+    #   Gitlab.deploy_key(42, 1)
+    #   Gitlab.deploy_key('gitlab', 1)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of a deploy key.
+    # @return [Gitlab::ObjectifiedHash]
+    def deploy_key(project, id)
+      get("/projects/#{project}/keys/#{id}")
+    end
+
+    # Creates a new deploy key
+    #
+    # @example
+    #   Gitlab.create_deploy_key(42, 'My Key', 'Key contents')
+    #   Gitlab.create_deploy_key('gitlab', 'My Key', 'Key content')
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [String] Key title
+    # @param  [String] Key content
+    # @return [Gitlab::ObjectifiedHash]
+    #
+    # Not functional yet. Bug: https://github.com/gitlabhq/gitlabhq/issues/4241
+    #
+    def create_deploy_key(project, title, key)
+      post("/projects/#{project}/keys", title: title, key: key)
+    end
+
+    # Deletes a deploy key from project
+    #
+    # @example
+    #   Gitlab.delete_deploy_key(42, 1)
+    #   Gitlab.delete_deploy_key('gitlab', 1)
+    #
+    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] id The ID of a deploy key.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_deploy_key(project, key)
+      delete("/projects/#{project}/keys/#{key}")
+    end
   end
 end
