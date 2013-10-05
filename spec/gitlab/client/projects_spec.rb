@@ -279,10 +279,25 @@ describe Gitlab::Client do
       a_get("/projects/42/keys/2").should have_been_made
     end
 
-    it "should return project deploy keys" do
+    it "should return project deploy key" do
       @deploy_key.id.should eq 2
       @deploy_key.title.should eq "Key Title"
       @deploy_key.key.should match /ssh-rsa/
+    end
+  end
+
+  describe ".delete_deploy_key" do
+    before do
+      stub_delete("/projects/42/keys/2", "project_delete_key")
+      @deploy_key = Gitlab.delete_deploy_key(42, 2)
+    end
+
+    it "should get the correct resource" do
+      a_delete("/projects/42/keys/2").should have_been_made
+    end
+
+    it "should return information about a deleted key" do
+      @deploy_key.id.should == 2
     end
   end
 end
