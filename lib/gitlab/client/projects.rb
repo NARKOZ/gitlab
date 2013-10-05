@@ -228,7 +228,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a deploy key.
     # @return [Gitlab::ObjectifiedHash]
     def deploy_key(project, id)
-      get("/projects/#{project}/keys/id")
+      get("/projects/#{project}/keys/#{id}")
     end
 
     # Creates a new deploy key

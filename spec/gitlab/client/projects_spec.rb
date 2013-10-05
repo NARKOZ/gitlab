@@ -250,4 +250,39 @@ describe Gitlab::Client do
       @forked_project_link.forked_to_project_id.should == 42
     end
   end
+
+  describe ".deploy_keys" do
+    before do
+      stub_get("/projects/42/keys", "project_keys")
+      @deploy_keys = Gitlab.deploy_keys(42)
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/42/keys").should have_been_made
+    end
+
+    it "should return project deploy keys" do
+      @deploy_keys.should be_an Array
+      @deploy_keys.first.id.should eq 2
+      @deploy_keys.first.title.should eq "Key Title"
+      @deploy_keys.first.key.should match /ssh-rsa/
+    end
+  end
+
+  describe ".deploy_key" do
+    before do
+      stub_get("/projects/42/keys/2", "project_key")
+      @deploy_key = Gitlab.deploy_key(42, 2)
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/42/keys/2").should have_been_made
+    end
+
+    it "should return project deploy keys" do
+      @deploy_key.id.should eq 2
+      @deploy_key.title.should eq "Key Title"
+      @deploy_key.key.should match /ssh-rsa/
+    end
+  end
 end
