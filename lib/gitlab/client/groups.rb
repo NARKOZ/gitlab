@@ -26,7 +26,7 @@ class Gitlab::Client
       get("/groups/#{id}")
     end
 
-    # Creates a new group
+    # Creates a new group.
     #
     # @param  [String] name The name of a group.
     # @param  [String] path The path of a group.
@@ -40,11 +40,15 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.group_members(1)
+    #   Gitlab.group_members(1, :per_page => 40)
     #
     # @param  [Integer] id The ID of a group.
-    # @return [Gitlab::ObjectifiedHash]
-    def group_members(id)
-      get("/groups/#{id}/members")
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_members(id, options={})
+      get("/groups/#{id}/members", :query => options)
     end
 
     # Adds a user to group.
