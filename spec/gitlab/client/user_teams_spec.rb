@@ -104,7 +104,9 @@ describe Gitlab::Client do
         stub_request(:post, "#{Gitlab.endpoint}/user_teams/3/members").
             with(:query => {:private_token => Gitlab.private_token}).
             to_return({:body => load_fixture("error_already_exists"), :status => 409})
-        expect {Gitlab.add_user_team_member(3, 1, 40)}.to raise_error(Gitlab::Error::Conflict) {|e|e.message.should == "Server responded with code 409, message: 409 Already exists. For request: #{Gitlab.endpoint}/user_teams/3/members"}
+        expect {
+          Gitlab.add_user_team_member(3, 1, 40)
+        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/user_teams/3/members")
       end
     end
   end
