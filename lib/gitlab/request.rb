@@ -24,12 +24,8 @@ module Gitlab
     # Decodes a JSON response into Ruby object.
     def self.decode(response)
       begin
-        if MultiJson.respond_to?(:adapter)
-          MultiJson.load response
-        else
-          MultiJson.decode response
-        end
-      rescue MultiJson::DecodeError
+        JSON.load response
+      rescue JSON::ParserError
         raise Error::Parsing.new "The response is not a valid JSON"
       end
     end
