@@ -37,8 +37,6 @@ describe Gitlab::Client do
     end
   end
 
-
-
   describe ".transfer_project_to_group" do
     before do
       stub_post("/projects", "project")
@@ -60,5 +58,54 @@ describe Gitlab::Client do
       @group_transfer.id.should == @group.id
     end
   end
+
+  describe ".group_members" do
+    before do
+      stub_get("/groups/3/members", "group_members")
+      @members = Gitlab.group_members(3)
+    end
+
+    it "should get the correct resource" do
+      a_get("/groups/3/members").should have_been_made
+    end
+
+    it "should return information about a group members" do
+      @members.should be_an Array
+      @members.size.should == 2
+      @members[1].name.should == "John Smith"
+    end
+  end
+
+  describe ".add_group_member" do
+    before do
+      stub_post("/groups/3/members", "group_member")
+      @member = Gitlab.add_group_member(3, 1, 40)
+    end
+
+    it "should get the correct resource" do
+      a_post("/groups/3/members").
+        with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
+    end
+
+    it "should return information about an added member" do
+      @member.name.should == "John Smith"
+    end
+  end
+
+  describe ".remove_group_member" do
+    before do
+      stub_delete("/groups/3/members/1", "group_member_delete")
+      @group = Gitlab.remove_group_member(3, 1)
+    end
+
+    it "should get the correct resource" do
+      a_delete("/groups/3/members/1").should have_been_made
+    end
+
+    it "should return information about the group the member was removed from" do
+      @group.group_id.should == 3
+    end
+  end
+
 
 end
