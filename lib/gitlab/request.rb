@@ -46,8 +46,8 @@ module Gitlab
       validate self.class.put(path, options)
     end
 
-    def delete(path)
-      validate self.class.delete(path)
+    def delete(path, options={})
+      validate self.class.delete(path, options={})
     end
 
     # Checks the response code for common errors.
