@@ -94,7 +94,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       a_put("/projects/3/issues/33").
-        with(:body => {:closed => '1'}).should have_been_made
+        with(:body => {:state_event => 'close'}).should have_been_made
     end
 
     it "should return information about an closed issue" do
@@ -111,7 +111,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       a_put("/projects/3/issues/33").
-        with(:body => {:closed => '0'}).should have_been_made
+        with(:body => {:state_event => 'reopen'}).should have_been_made
     end
 
     it "should return information about an reopened issue" do

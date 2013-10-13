@@ -5,9 +5,9 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_requests(5)
-    #   Gitlab.merge_requests('gitlab', :per_page => 40)
+    #   Gitlab.merge_requests(:per_page => 40)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
@@ -20,87 +20,65 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_request(5, 36)
-    #   Gitlab.merge_request('gitlab', 42)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return <Gitlab::ObjectifiedHash]
     def merge_request(project, id)
       get("/projects/#{project}/merge_request/#{id}")
     end
 
-    # Create a merge request.
+    # Creates a merge request.
     #
     # @example
-    #   Gitlab.create_merge_request(5,
-    #     :source_branch => 'feature_1',
-    #     :target_branch => 'master',
-    #     :title         => 'New feature.'
-    #   )
-    #   Gitlab.create_merge_request('gitlab',
-    #     :source_branch => 'feature_1',
-    #     :target_branch => 'master',
-    #     :title         => 'New feature.',
-    #     :assignee_id   => 1
-    #   )
+    #   Gitlab.create_merge_request(5, 'New merge request',
+    #     :source_branch => 'source_branch', :target_branch => 'target_branch')
+    #   Gitlab.create_merge_request(5, 'New merge request',
+    #     :source_branch => 'source_branch', :target_branch => 'target_branch', :assignee_id => 42)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
-    # @param  [Hash] containing attributes to post.
-    # @return [Array<Gitlab::ObjectifiedHash>]
-    #
-    # Accepts source_branch, target_branch, assignee_id, & title in params.
-    def create_merge_request(project, params={})
-      check_attributes!(params, [:source_branch, :target_branch, :title])
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] title The title of a merge request.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :source_branch (required) The source branch name.
+    # @option options [String] :target_branch (required) The target branch name.
+    # @option options [Integer] :assignee_id (optional) The ID of a user to assign merge request.
+    # @return [Gitlab::ObjectifiedHash] Information about created merge request.
+    def create_merge_request(project, title, options={})
+      check_attributes!(options, [:source_branch, :target_branch])
 
-      post("/projects/#{project}/merge_requests",
-        :body => params
-      )
+      body = {:title => title}.merge(options)
+      post("/projects/#{project}/merge_requests", :body => body)
     end
 
-    # Update a merge request.
+    # Updates a merge request.
     #
     # @example
-    #   Gitlab.update_merge_request(5, 3,
-    #     :source_branch => 'feature_1',
-    #     :target_branch => 'master',
-    #     :title         => 'New feature.'
-    #   )
-    #   Gitlab.update_merge_request('gitlab', 3,
-    #     :source_branch => 'feature_1',
-    #     :target_branch => 'master',
-    #     :title         => 'New feature.',
-    #     :assignee_id   => 1
-    #   )
+    #   Gitlab.update_merge_request(5, 42, :title => 'New title')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
-    # @param  [Hash] containing attributes to post.
-    # @return [Array<Gitlab::ObjectifiedHash>]
-    #
-    # Accepts source_branch, target_branch, assignee_id, & title in params.
-    def update_merge_request(project, merge_id, params={})
-      put("/projects/#{project}/merge_request/#{merge_id}",
-        :body => params
-      )
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :title The title of a merge request.
+    # @option options [String] :source_branch The source branch name.
+    # @option options [String] :target_branch The target branch name.
+    # @option options [Integer] :assignee_id The ID of a user to assign merge request.
+    # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
+    def update_merge_request(project, id, options={})
+      put("/projects/#{project}/merge_request/#{id}", :body => options)
     end
 
-    # Comment on a merge request.
+    # Adds a comment to a merge request.
     #
     # @example
     #   Gitlab.comment_merge_request(5, 1, "Awesome merge!")
     #   Gitlab.comment_merge_request('gitlab', 1, "Awesome merge!")
     #
-    # @param  [Integer, String] project The ID or code name of a project.
-    # @param  [Hash] containing attributes to post.
-    # @return [Array<Gitlab::ObjectifiedHash>]
-    #
-    # Accepts note (And alias, comment)
-    def comment_merge_request(project, merge_id, params={})
-      params[:note] = params[:comment]     if params.has_key?(:comment)
-      check_attributes!(params, [:note])
-
-      post("/projects/#{project}/merge_request/#{merge_id}/comments",
-        :body => params
-      )
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [String] note The content of a comment.
+    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
+    def create_merge_request_comment(project, id, note)
+      post("/projects/#{project}/merge_request/#{id}/comments", :body => {:note => note})
     end
 
     private
@@ -112,6 +90,5 @@ class Gitlab::Client
         end
       end
     end
-
   end
 end

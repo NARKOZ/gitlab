@@ -5,9 +5,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.tags(42)
-    #   Gitlab.repo_tags('gitlab')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
@@ -21,9 +20,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.branches(42)
-    #   Gitlab.repo_branches('gitlab')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
@@ -39,7 +37,7 @@ class Gitlab::Client
     #   Gitlab.branch(3, 'api')
     #   Gitlab.repo_branch(5, 'master')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [String] branch The name of the branch.
     # @return [Gitlab::ObjectifiedHash]
     def branch(project, branch)
@@ -53,7 +51,7 @@ class Gitlab::Client
     #   Gitlab.commits('viking')
     #   Gitlab.repo_commits('gitlab', :ref_name => 'api')
     #
-    # @param  [String] project The name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :ref_name The branch or tag name of a project repository.
     # @option options [Integer] :page The page number.

@@ -20,7 +20,7 @@ class Gitlab::Client
     #   Gitlab.project(3)
     #   Gitlab.project('gitlab')
     #
-    # @param  [Integer, String] id The ID or code name of a project.
+    # @param  [Integer, String] id The ID or name of a project.
     # @return [Gitlab::ObjectifiedHash]
     def project(id, options ={})
       get("/projects/#{id}", :query => options)
@@ -35,13 +35,12 @@ class Gitlab::Client
     #
     # @param  [String] name The name of a project.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :code The code name of a project.
-    # @option options [String] :path The path of a project.
     # @option options [String] :description The description of a project.
     # @option options [String] :default_branch The default branch of a project.
     # @option options [Boolean] :wiki_enabled The wiki integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
     # @option options [Boolean] :issues_enabled The issues integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :snippets_enabled The snippets integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :merge_requests_enabled The merge requests functionality for a project (0 = false, 1 = true).
     # @option options [Boolean] :public The setting for making a project public (0 = false, 1 = true).
     # @option options [Integer] :user_id The user/owner id of a project.
@@ -57,8 +56,9 @@ class Gitlab::Client
     #   Gitlab.team_members(42)
     #   Gitlab.team_members('gitlab')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
+    # @option options [String] :query The search query.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
@@ -71,9 +71,9 @@ class Gitlab::Client
     # @example
     #   Gitlab.team_member('gitlab', 2)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a project team member.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Gitlab::ObjectifiedHash]
     def team_member(project, id)
       get("/projects/#{project}/members/#{id}")
     end
@@ -83,13 +83,14 @@ class Gitlab::Client
     # @example
     #   Gitlab.add_team_member('gitlab', 2, 40)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
-    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
-    # @return [Array<Gitlab::ObjectifiedHash>] Information about added team member.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer, String] :sudo The user id/username to perform the request as (admin only)
+    # @return [Gitlab::ObjectifiedHash] Information about added team member.
     def add_team_member(project, id, access_level, options = {})
-      body ={:user_id => id, :access_level => access_level}.merge(options)
+      body = {:user_id => id, :access_level => access_level}.merge(options)
       post("/projects/#{project}/members", :body => body)
     end
 
@@ -98,10 +99,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.edit_team_member('gitlab', 3, 20)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
-    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer, String] :sudo The user id/username to perform the request as (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>] Information about updated team member.
     def edit_team_member(project, id, access_level, options = {})
       body = {:access_level => access_level}.merge(options)
@@ -113,10 +115,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.remove_team_member('gitlab', 2)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a user.
-    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
-    # @return [Array<Gitlab::ObjectifiedHash>] Information about removed team member.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer, String] :sudo The user id/username to perform the request as (admin only)
+    # @return [Gitlab::ObjectifiedHash] Information about removed team member.
     def remove_team_member(project, id, options= {})
       delete("/projects/#{project}/members/#{id}", :body => options)
     end
@@ -127,7 +130,7 @@ class Gitlab::Client
     #   Gitlab.project_hooks(42)
     #   Gitlab.project_hooks('gitlab')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
@@ -142,7 +145,7 @@ class Gitlab::Client
     #   Gitlab.project_hook(42, 5)
     #   Gitlab.project_hook('gitlab', 5)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a hook.
     # @return [Gitlab::ObjectifiedHash]
     def project_hook(project, id)
@@ -154,7 +157,7 @@ class Gitlab::Client
     # @example
     #   Gitlab.add_project_hook(42, 'https://api.example.net/v1/webhooks/ci')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] url The hook URL.
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
     def add_project_hook(project, url)
@@ -166,7 +169,7 @@ class Gitlab::Client
     # @example
     #   Gitlab.edit_project_hook(42, 1, 'https://api.example.net/v1/webhooks/ci')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of the hook.
     # @param  [String] url The hook URL.
     # @return [Gitlab::ObjectifiedHash] Information about updated hook.
@@ -179,7 +182,7 @@ class Gitlab::Client
     # @example
     #   Gitlab.delete_project_hook('gitlab', 4)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] id The ID of the hook.
     # @return [Gitlab::ObjectifiedHash] Information about deleted hook.
     def delete_project_hook(project, id)
@@ -191,11 +194,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.make_forked(42, 24)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
-    # @param  [Integer] project The ID of the project it is forked from
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of the project it is forked from.
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
-    def make_forked_from(project, forked_from_project)
-      post("/projects/#{project}/fork/#{forked_from_project}")
+    def make_forked_from(project, id)
+      post("/projects/#{project}/fork/#{id}")
     end
 
     # Remove a forked_from relationship for a project.
@@ -203,67 +206,62 @@ class Gitlab::Client
     # @example
     #  Gitlab.remove_forked(42)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] project The ID of the project it is forked from
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
     def remove_forked(project)
       delete("/projects/#{project}/fork")
     end
 
-    # Gets a project deploy keys
+    # Gets a project deploy keys.
     #
     # @example
     #   Gitlab.deploy_keys(42)
-    #   Gitlab.deploy_keys('gitlab')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
-    # @return [Gitlab::ObjectifiedHash]
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
     def deploy_keys(project, options={})
       get("/projects/#{project}/keys", :query => options)
     end
 
-    # Gets a single project deploy key
+    # Gets a single project deploy key.
     #
     # @example
     #   Gitlab.deploy_key(42, 1)
-    #   Gitlab.deploy_key('gitlab', 1)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer, String] project The ID of a project.
     # @param  [Integer] id The ID of a deploy key.
     # @return [Gitlab::ObjectifiedHash]
     def deploy_key(project, id)
       get("/projects/#{project}/keys/#{id}")
     end
 
-    # Creates a new deploy key
+    # Creates a new deploy key.
     #
     # @example
     #   Gitlab.create_deploy_key(42, 'My Key', 'Key contents')
-    #   Gitlab.create_deploy_key('gitlab', 'My Key', 'Key content')
     #
-    # @param  [Integer, String] project The ID or code name of a project.
-    # @param  [String] Key title
-    # @param  [String] Key content
-    # @return [Gitlab::ObjectifiedHash]
-    #
-    # Not functional yet. Bug: https://github.com/gitlabhq/gitlabhq/issues/4241
-    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] title The title of a deploy key.
+    # @param  [String] key The content of a deploy key.
+    # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
     def create_deploy_key(project, title, key)
       post("/projects/#{project}/keys", title: title, key: key)
     end
 
-    # Deletes a deploy key from project
+    # Deletes a deploy key from project.
     #
     # @example
     #   Gitlab.delete_deploy_key(42, 1)
-    #   Gitlab.delete_deploy_key('gitlab', 1)
     #
-    # @param  [Integer, String] project The ID or code name of a project.
+    # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a deploy key.
-    # @return [Gitlab::ObjectifiedHash]
-    def delete_deploy_key(project, key)
-      delete("/projects/#{project}/keys/#{key}")
+    # @return [Gitlab::ObjectifiedHash] Information about deleted deploy key.
+    def delete_deploy_key(project, id)
+      delete("/projects/#{project}/keys/#{id}")
     end
   end
 end
