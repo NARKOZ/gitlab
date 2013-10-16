@@ -57,6 +57,14 @@ user = g.user
 # get a user's email
 user.email
 # => "john@example.com"
+
+# set a sudo mode to perform API calls as another user
+Gitlab.sudo = 'other_user'
+# => "other_user"
+
+# disable a sudo mode
+Gitlab.sudo = nil
+# => nil
 ```
 
 For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/frames).
