@@ -19,34 +19,19 @@ describe Gitlab::Client do
   end
 
   describe ".project" do
-    context 'normal execution' do
-      before do
-        stub_get("/projects/3", "project")
-        @project = Gitlab.project(3)
-      end
-
-      it "should get the correct resource" do
-        a_get("/projects/3").should have_been_made
-      end
-
-      it "should return information about a project" do
-        @project.name.should == "Gitlab"
-        @project.owner.name.should == "John Smith"
-      end
+    before do
+      stub_get("/projects/3", "project")
+      @project = Gitlab.project(3)
     end
 
-    context 'supports sudo' do
-      it "should support the additional argument" do
-        stub_request(:get, "#{Gitlab.endpoint}/projects/3").
-            with(:query => {:private_token => Gitlab.private_token, :sudo => "foo"}).
-            to_return(:body => load_fixture("project"))
-        @project = Gitlab.project(3, {sudo:'foo'})
-        a_get("/projects/3?sudo=foo").should have_been_made
-        @project.name.should == "Gitlab"
-        @project.owner.name.should == "John Smith"
-      end
+    it "should get the correct resource" do
+      a_get("/projects/3").should have_been_made
     end
 
+    it "should return information about a project" do
+      @project.name.should == "Gitlab"
+      @project.owner.name.should == "John Smith"
+    end
   end
 
   describe ".create_project" do
@@ -143,35 +128,18 @@ describe Gitlab::Client do
   end
 
   describe ".remove_team_member" do
-    context 'as a user' do
-      before do
-        stub_delete("/projects/3/members/1", "team_member")
-        @team_member = Gitlab.remove_team_member(3, 1)
-      end
-
-      it "should get the correct resource" do
-        a_delete("/projects/3/members/1").should have_been_made
-      end
-
-      it "should return information about a removed team member" do
-        @team_member.name.should == "John Smith"
-      end
-    end
-    context 'as sudo-ing to a user' do
-      before do
-        stub_delete("/projects/3/members/1", "team_member")
-        @team_member = Gitlab.remove_team_member(3, 1, :sudo => 1)
-      end
-
-      it "should get the correct resource" do
-        a_delete("/projects/3/members/1").should have_been_made
-      end
-
-      it "should return information about a removed team member" do
-        @team_member.name.should == "John Smith"
-      end
+    before do
+      stub_delete("/projects/3/members/1", "team_member")
+      @team_member = Gitlab.remove_team_member(3, 1)
     end
 
+    it "should get the correct resource" do
+      a_delete("/projects/3/members/1").should have_been_made
+    end
+
+    it "should return information about a removed team member" do
+      @team_member.name.should == "John Smith"
+    end
   end
 
   describe ".project_hooks" do
@@ -297,7 +265,7 @@ describe Gitlab::Client do
       @deploy_keys.should be_an Array
       @deploy_keys.first.id.should eq 2
       @deploy_keys.first.title.should eq "Key Title"
-      @deploy_keys.first.key.should match /ssh-rsa/
+      @deploy_keys.first.key.should match(/ssh-rsa/)
     end
   end
 
@@ -314,7 +282,7 @@ describe Gitlab::Client do
     it "should return project deploy key" do
       @deploy_key.id.should eq 2
       @deploy_key.title.should eq "Key Title"
-      @deploy_key.key.should match /ssh-rsa/
+      @deploy_key.key.should match(/ssh-rsa/)
     end
   end
 

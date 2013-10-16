@@ -23,6 +23,13 @@ describe Gitlab do
     end
   end
 
+  describe ".sudo=" do
+    it "should set sudo" do
+      Gitlab.sudo = 'user'
+      Gitlab.sudo.should == 'user'
+    end
+  end
+
   describe ".user_agent" do
     it "should return default user_agent" do
       Gitlab.user_agent.should == Gitlab::Configuration::DEFAULT_USER_AGENT
