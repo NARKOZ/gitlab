@@ -78,9 +78,11 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] body The body of a note.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Gitlab::ObjectifiedHash] Information about created note.
-    def create_note(project, body)
-      post("/projects/#{project}/notes", :body => {:body => body})
+    def create_note(project, body, options = {})
+      body = {:body => body}.merge(options)
+      post("/projects/#{project}/notes", :body => body)
     end
 
     # Creates a new issue note.
@@ -88,9 +90,11 @@ class Gitlab::Client
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] issue The ID of an issue.
     # @param  [String] body The body of a note.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Gitlab::ObjectifiedHash] Information about created note.
-    def create_issue_note(project, issue, body)
-      post("/projects/#{project}/issues/#{issue}/notes", :body => {:body => body})
+    def create_issue_note(project, issue, body, options = {})
+      body = {:body => body}.merge(options)
+      post("/projects/#{project}/issues/#{issue}/notes", :body => body)
     end
 
     # Creates a new snippet note.
@@ -98,9 +102,11 @@ class Gitlab::Client
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] snippet The ID of a snippet.
     # @param  [String] body The body of a note.
+    # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Gitlab::ObjectifiedHash] Information about created note.
-    def create_snippet_note(project, snippet, body)
-      post("/projects/#{project}/snippets/#{snippet}/notes", :body => {:body => body})
+    def create_snippet_note(project, snippet, body, options = {})
+      body = {:body => body}.merge(options)
+      post("/projects/#{project}/snippets/#{snippet}/notes", :body => body)
     end
   end
 end
