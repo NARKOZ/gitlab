@@ -10,11 +10,6 @@ module Gitlab
       end
     end
 
-    # Patches Object#id in Ruby 1.8
-    def id
-      @data['id']
-    end
-
     # Delegate to ObjectifiedHash
     def method_missing(key)
       @data.key?(key.to_s) ? @data[key.to_s] : nil
