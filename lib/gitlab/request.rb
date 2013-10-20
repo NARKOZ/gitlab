@@ -50,30 +50,17 @@ module Gitlab
     # Returns parsed response for successful requests.
     def validate(response)
       case response.code
-        when 400;
-          raise Error::BadRequest.new(error_message(response))
-        when 401;
-          raise Error::Unauthorized.new(error_message(response))
-        when 403;
-          raise Error::Forbidden.new(error_message(response))
-        when 404;
-          raise Error::NotFound.new(error_message(response))
-        when 409;
-          raise Error::Conflict.new(error_message(response))
-        when 500;
-          raise Error::InternalServerError.new(error_message(response))
-        when 502;
-          raise Error::BadGateway.new(error_message(response))
-        when 503;
-          raise Error::ServiceUnavailable.new(error_message(response))
+        when 400; raise Error::BadRequest.new error_message(response)
+        when 401; raise Error::Unauthorized.new error_message(response)
+        when 403; raise Error::Forbidden.new error_message(response)
+        when 404; raise Error::NotFound.new error_message(response)
+        when 409; raise Error::Conflict.new error_message(response)
+        when 500; raise Error::InternalServerError.new error_message(response)
+        when 502; raise Error::BadGateway.new error_message(response)
+        when 503; raise Error::ServiceUnavailable.new error_message(response)
       end
 
       response.parsed_response
-    end
-
-    def error_message(response)
-      "Server responded with code #{response.code}, message: #{response.parsed_response.message}. " \
-      "Request URI: #{response.request.base_uri}#{response.request.path}"
     end
 
     # Sets a base_uri and default_params for requests.
@@ -85,6 +72,13 @@ module Gitlab
       self.class.base_uri endpoint
       self.class.default_params :private_token => private_token, :sudo => sudo
       self.class.default_params.delete(:sudo) if sudo.nil?
+    end
+
+    private
+
+    def error_message(response)
+      "Server responded with code #{response.code}, message: #{response.parsed_response.message}. " \
+      "Request URI: #{response.request.base_uri}#{response.request.path}"
     end
   end
 end

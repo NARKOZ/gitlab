@@ -27,10 +27,10 @@ def a_get(path)
 end
 
 # POST
-def stub_post(path, fixture)
+def stub_post(path, fixture, status_code=200)
   stub_request(:post, "#{Gitlab.endpoint}#{path}").
     with(:query => {:private_token => Gitlab.private_token}).
-    to_return(:body => load_fixture(fixture))
+    to_return(:body => load_fixture(fixture), :status => status_code)
 end
 
 def a_post(path)

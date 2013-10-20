@@ -3,14 +3,14 @@ module Gitlab
   class Client < API
     Dir[File.expand_path('../client/*.rb', __FILE__)].each{|f| require f}
 
-    include Gitlab::Client::Users
-    include Gitlab::Client::Issues
-    include Gitlab::Client::Notes
-    include Gitlab::Client::Milestones
-    include Gitlab::Client::Snippets
-    include Gitlab::Client::Projects
-    include Gitlab::Client::Repositories
-    include Gitlab::Client::MergeRequests
-    include Gitlab::Client::Groups
+    include Users
+    include Issues
+    include Notes
+    include Milestones
+    include Snippets
+    include Projects
+    include Repositories
+    include MergeRequests
+    include Groups
   end
 end

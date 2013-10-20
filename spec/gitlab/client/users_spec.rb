@@ -50,18 +50,29 @@ describe Gitlab::Client do
   end
 
   describe ".create_user" do
-    before do
-      stub_post("/users", "user")
-      @user = Gitlab.create_user("email", "pass")
+    context "when successful request" do
+      before do
+        stub_post("/users", "user")
+        @user = Gitlab.create_user("email", "pass")
+      end
+
+      it "should get the correct resource" do
+        body = {:email => "email", :password => "pass", :name => "email"}
+        a_post("/users").with(:body => body).should have_been_made
+      end
+
+      it "should return information about a created user" do
+        @user.email.should == "john@example.com"
+      end
     end
 
-    it "should get the correct resource" do
-      body = {:email => "email", :password => "pass", :name => "email"}
-      a_post("/users").with(:body => body).should have_been_made
-    end
-
-    it "should return information about a created user" do
-      @user.email.should == "john@example.com"
+    context "when bad request" do
+      it "should throw an exception" do
+        stub_post("/users", "error_already_exists", 409)
+        expect {
+          Gitlab.create_user("email", "pass")
+        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+      end
     end
   end
 

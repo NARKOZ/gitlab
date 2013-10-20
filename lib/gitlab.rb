@@ -1,10 +1,10 @@
-require File.expand_path('../gitlab/version', __FILE__)
-require File.expand_path('../gitlab/objectified_hash', __FILE__)
-require File.expand_path('../gitlab/configuration', __FILE__)
-require File.expand_path('../gitlab/error', __FILE__)
-require File.expand_path('../gitlab/request', __FILE__)
-require File.expand_path('../gitlab/api', __FILE__)
-require File.expand_path('../gitlab/client', __FILE__)
+require 'gitlab/version'
+require 'gitlab/objectified_hash'
+require 'gitlab/configuration'
+require 'gitlab/error'
+require 'gitlab/request'
+require 'gitlab/api'
+require 'gitlab/client'
 
 module Gitlab
   extend Configuration
