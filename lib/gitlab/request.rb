@@ -54,6 +54,7 @@ module Gitlab
         when 401; raise Error::Unauthorized.new error_message(response)
         when 403; raise Error::Forbidden.new error_message(response)
         when 404; raise Error::NotFound.new error_message(response)
+        when 405; raise Error::MethodNotAllowed.new error_message(response)
         when 409; raise Error::Conflict.new error_message(response)
         when 500; raise Error::InternalServerError.new error_message(response)
         when 502; raise Error::BadGateway.new error_message(response)

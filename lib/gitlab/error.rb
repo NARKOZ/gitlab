@@ -24,6 +24,9 @@ module Gitlab
     # Raised when API endpoint returns the HTTP status code 404.
     class NotFound < Error; end
 
+    # Raised when API endpoint returns the HTTP status code 405.
+    class MethodNotAllowed < Error; end
+
     # Raised when API endpoint returns the HTTP status code 409.
     class Conflict < Error; end
 
