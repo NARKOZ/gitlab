@@ -1,4 +1,5 @@
 require 'httparty'
+require 'json'
 
 module Gitlab
   # @private
