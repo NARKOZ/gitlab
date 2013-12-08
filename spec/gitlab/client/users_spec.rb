@@ -76,6 +76,18 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".edit_user" do
+    before do
+      @options = { :name => "Roberto" }
+      stub_put("/users/1", "user").with(:body => @options)
+      @user = Gitlab.edit_user(1, @options)
+    end
+
+    it "should get the correct resource" do
+      a_put("/users/1").with(:body => @options).should have_been_made
+    end
+  end
+
   describe ".session" do
     before do
       stub_post("/session", "session")

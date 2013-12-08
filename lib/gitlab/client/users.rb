@@ -44,6 +44,23 @@ class Gitlab::Client
       post("/users", :body => body)
     end
 
+    # Update a user.
+    # Requires authentication from an admin account.
+    #
+    # @param  [String] The user's id
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] email The email of a user.
+    # @option options [String] password The password of a user.
+    # @option options [String] :name The name of a user. Defaults to email.
+    # @option options [String] :skype The skype of a user.
+    # @option options [String] :linkedin The linkedin of a user.
+    # @option options [String] :twitter The twitter of a user.
+    # @option options [Integer] :projects_limit The limit of projects for a user.
+    # @return [Gitlab::ObjectifiedHash] Information about created user.
+    def edit_user(user_id, options={})
+      put("/users/#{user_id}", :body => options)
+    end
+
     # Creates a new user session.
     #
     # @example
