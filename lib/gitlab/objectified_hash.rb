@@ -9,7 +9,7 @@ module Gitlab
 
       @hash = hash
 
-      @data = self.hash.inject({}) do |data, (key,value)|
+      @data = @hash.inject({}) do |data, (key,value)|
         value = ObjectifiedHash.new(value) if value.is_a? Hash
         data[key.to_s] = value
         data
