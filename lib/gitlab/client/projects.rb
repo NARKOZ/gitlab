@@ -9,9 +9,14 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
+    # @option options [String] :scope Scope of projects. 'owned' for list of projects owned by the authenticated user, 'all' to get all projects (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>]
     def projects(options={})
-      get("/projects", :query => options)
+      if (options[:scope])
+        get("/projects/#{options[:scope]}", :query => options)
+      else
+        get("/projects", :query => options)
+      end
     end
 
     # Gets information about a project.
