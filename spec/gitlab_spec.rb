@@ -5,6 +5,8 @@ describe Gitlab do
 
   describe ".client" do
     it "should be a Gitlab::Client" do
+      Gitlab.endpoint = 'https://api.example.com'
+      Gitlab.private_token = 'secret'
       Gitlab.client.should be_a Gitlab::Client
     end
   end
