@@ -82,4 +82,17 @@ describe Gitlab::ObjectifiedHash do
       convert_value([{ 'key' => 'value' }]).first.should be_kind_of described_class
     end
   end
+
+  describe '.content' do
+    subject(:file_hash) do
+      described_class.new(
+        'encoding' => 'base64',
+        'content' => "QmUgc3VyZSB0byBkcmluayB5b3VyIE92YWx0aW5l\n"
+      )
+    end
+
+    it 'is decoded if an encoding attribute exists' do
+      file_hash.decoded_content.should eq('Be sure to drink your Ovaltine')
+    end
+  end
 end

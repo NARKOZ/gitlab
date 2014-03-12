@@ -70,4 +70,23 @@ describe Gitlab::Client do
       @commits.first.id.should == "f7dd067490fe57505f7226c3b54d3127d2f7fd46"
     end
   end
+
+  describe ".files" do
+    before do
+      stub_get("/projects/3/repository/files", 'project_files')
+        .with(:query => {:file_path => 'README.md', :ref => 'master'})
+      @file_content = Gitlab.files(3, 'README.md', 'master')
+    end
+
+    it 'should get the correct resource' do
+      a_get('/projects/3/repository/files')
+        .with(:query => {:file_path => 'README.md', :ref => 'master'})
+        .should have_been_made
+    end
+
+    it 'should return an array of repository commits' do
+      @file_content.file_path.should eq('README.md')
+      @file_content.should be_kind_of Gitlab::ObjectifiedHash
+    end
+  end
 end

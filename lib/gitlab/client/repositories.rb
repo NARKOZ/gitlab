@@ -61,5 +61,22 @@ class Gitlab::Client
       get("/projects/#{project}/repository/commits", :query => options)
     end
     alias_method :repo_commits, :commits
+
+    # Fetches the content of a specific file
+    #
+    # @example
+    #   Gitlab.files(3, 'README.md')
+    #   Gitlab.files(3, 'README.md', 'e38dc1')
+    #   Gitlab.repo_files(5, 'README.md', 'v1.0.0')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] file_path The path of the file, relative to the root of the project.
+    # @param  [String] ref The reference to the file. A SHA, tag, or branch name.
+    # @return [String] The contents of the file.
+    def files(project, file_path, ref='master')
+      get("/projects/#{project}/repository/files", :query => { file_path: file_path, ref: ref })
+    end
+    alias_method :repo_files, :files
+
   end
 end

@@ -1,6 +1,7 @@
 require 'hashie/extensions/coercion'
 require 'hashie/extensions/indifferent_access'
 require 'hashie/extensions/method_access'
+require 'base64'
 
 module Gitlab
   # Converts hashes to the objects.
@@ -15,6 +16,15 @@ module Gitlab
     def initialize(hash)
       hash.each_pair do |key, value|
         self[key] = _convert_value value
+      end
+
+      if key?(:encoding) && key?(:content)
+        case self[:encoding]
+        when 'base64'
+          self[:decoded_content] = Base64.decode64(self[:content])
+        else
+          warn "Unable to decode content with encoding #{self[:encoding]}"
+        end
       end
     end
 
