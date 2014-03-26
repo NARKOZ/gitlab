@@ -78,6 +78,19 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".update_merge_request" do
+    before do
+      stub_put("/projects/3/merge_request/2", "update_merge_request")
+      @merge_request = Gitlab.update_merge_request(3, 2,
+        :state_event   => 'close',
+      )
+    end
+
+    it "should return the modified merge request" do
+      @merge_request.project_id.should == 3
+    end
+  end
+
   describe ".create_merge_request_comment" do
     before do
       stub_post("/projects/3/merge_request/2/comments", "comment_merge_request")
