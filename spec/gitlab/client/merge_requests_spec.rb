@@ -78,6 +78,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".merge_request_comments" do
+    before do
+      stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
+      @merge_request = Gitlab.merge_request_comments(3, 2)
+    end
+
+    it "should return merge request's comments" do
+      @merge_request.should be_an Array
+      @merge_request.length.should == 2
+      @merge_request[0].note.should == "this is the 1st comment on the 2merge merge request"
+      @merge_request[0].author.id.should == 11
+      @merge_request[1].note.should == "another discussion point on the 2merge request"
+      @merge_request[1].author.id.should == 12
+    end
+  end
+
   describe ".create_merge_request_comment" do
     before do
       stub_post("/projects/3/merge_request/2/comments", "comment_merge_request")

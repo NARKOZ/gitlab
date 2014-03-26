@@ -62,6 +62,7 @@ class Gitlab::Client
     # @option options [String] :source_branch The source branch name.
     # @option options [String] :target_branch The target branch name.
     # @option options [Integer] :assignee_id The ID of a user to assign merge request.
+    # @option options [String] :state_event New state (close|reopen|merge).
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def update_merge_request(project, id, options={})
       put("/projects/#{project}/merge_request/#{id}", :body => options)
