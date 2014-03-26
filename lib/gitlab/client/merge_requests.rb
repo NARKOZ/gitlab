@@ -82,6 +82,18 @@ class Gitlab::Client
       post("/projects/#{project}/merge_request/#{id}/comments", :body => {:note => note})
     end
 
+    # Gets the comments on a merge request.
+    #
+    # @example
+    #   Gitlab.merge_request_comments(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] The merge request's comments.
+    def merge_request_comments(project, id)
+      get("/projects/#{project}/merge_request/#{id}/comments")
+    end
+
     private
 
     def check_attributes!(options, attrs)
