@@ -62,6 +62,7 @@ class Gitlab::Client
     # @option options [String] :source_branch The source branch name.
     # @option options [String] :target_branch The target branch name.
     # @option options [Integer] :assignee_id The ID of a user to assign merge request.
+    # @option options [String] :state_event New state (close|reopen|merge).
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def update_merge_request(project, id, options={})
       put("/projects/#{project}/merge_request/#{id}", :body => options)
@@ -79,6 +80,18 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
     def create_merge_request_comment(project, id, note)
       post("/projects/#{project}/merge_request/#{id}/comments", :body => {:note => note})
+    end
+
+    # Gets the comments on a merge request.
+    #
+    # @example
+    #   Gitlab.merge_request_comments(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] The merge request's comments.
+    def merge_request_comments(project, id)
+      get("/projects/#{project}/merge_request/#{id}/comments")
     end
 
     private
