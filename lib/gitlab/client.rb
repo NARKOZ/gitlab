@@ -10,6 +10,7 @@ module Gitlab
     include Snippets
     include Projects
     include Repositories
+    include Branches
     include MergeRequests
     include Groups
   end
