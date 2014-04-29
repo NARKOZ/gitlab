@@ -22,37 +22,6 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".branches" do
-    before do
-      stub_get("/projects/3/repository/branches", "project_branches")
-      @branches = Gitlab.branches(3)
-    end
-
-    it "should get the correct resource" do
-      a_get("/projects/3/repository/branches").should have_been_made
-    end
-
-    it "should return an array of repository branches" do
-      @branches.should be_an Array
-      @branches.first.name.should == "api"
-    end
-  end
-
-  describe ".branch" do
-    before do
-      stub_get("/projects/3/repository/branches/api", "project_branch")
-      @branch = Gitlab.branch(3, "api")
-    end
-
-    it "should get the correct resource" do
-      a_get("/projects/3/repository/branches/api").should have_been_made
-    end
-
-    it "should return information about a repository branch" do
-      @branch.name.should == "api"
-    end
-  end
-
   describe ".commits" do
     before do
       stub_get("/projects/3/repository/commits", "project_commits").
