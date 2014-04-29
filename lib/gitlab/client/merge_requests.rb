@@ -71,8 +71,8 @@ class Gitlab::Client
     # Adds a comment to a merge request.
     #
     # @example
-    #   Gitlab.comment_merge_request(5, 1, "Awesome merge!")
-    #   Gitlab.comment_merge_request('gitlab', 1, "Awesome merge!")
+    #   Gitlab.create_merge_request_comment(5, 1, "Awesome merge!")
+    #   Gitlab.create_merge_request_comment('gitlab', 1, "Awesome merge!")
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.
