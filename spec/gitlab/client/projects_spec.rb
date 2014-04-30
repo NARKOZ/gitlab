@@ -174,18 +174,36 @@ describe Gitlab::Client do
   end
 
   describe ".add_project_hook" do
-    before do
-      stub_post("/projects/1/hooks", "project_hook")
-      @hook = Gitlab.add_project_hook(1, "https://api.example.net/v1/webhooks/ci")
+    context "without specified events" do
+      before do
+        stub_post("/projects/1/hooks", "project_hook")
+        @hook = Gitlab.add_project_hook(1, "https://api.example.net/v1/webhooks/ci")
+      end
+
+      it "should get the correct resource" do
+        body = {:url => "https://api.example.net/v1/webhooks/ci"}
+        a_post("/projects/1/hooks").with(:body => body).should have_been_made
+      end
+
+      it "should return information about an added hook" do
+        @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      end
     end
 
-    it "should get the correct resource" do
-      body = {:url => "https://api.example.net/v1/webhooks/ci"}
-      a_post("/projects/1/hooks").with(:body => body).should have_been_made
-    end
+    context "with specified events" do
+      before do
+        stub_post("/projects/1/hooks", "project_hook")
+        @hook = Gitlab.add_project_hook(1, "https://api.example.net/v1/webhooks/ci", push_events: true, merge_requests_events: true)
+      end
 
-    it "should return information about an added hook" do
-      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      it "should get the correct resource" do
+        body = {:url => "https://api.example.net/v1/webhooks/ci", push_events: "true", merge_requests_events: "true"}
+        a_post("/projects/1/hooks").with(:body => body).should have_been_made
+      end
+
+      it "should return information about an added hook" do
+        @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      end
     end
   end
 
