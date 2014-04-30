@@ -254,7 +254,7 @@ class Gitlab::Client
     # @param  [String] key The content of a deploy key.
     # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
     def create_deploy_key(project, title, key)
-      post("/projects/#{project}/keys", title: title, key: key)
+      post("/projects/#{project}/keys", body: {title: title, key: key})
     end
 
     # Deletes a deploy key from project.
