@@ -7,9 +7,12 @@ class Gitlab::Client
     #   Gitlab.hooks
     #   Gitlab.system_hooks
     #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def hooks
-      get("/hooks")
+    def hooks(options={})
+      get("/hooks", query: options)
     end
     alias_method :system_hooks, :hooks
 
