@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def hooks(options={})
-      get("/hooks", :query => options)
+      get("/hooks", query: options)
     end
     alias_method :system_hooks, :hooks
 
