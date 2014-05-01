@@ -5,6 +5,8 @@ describe Gitlab::Client do
   it { should respond_to :repo_branches }
   it { should respond_to :repo_branch }
   it { should respond_to :repo_commits }
+  it { should respond_to :repo_commit }
+  it { should respond_to :repo_commit_diff }
 
   describe ".tags" do
     before do
@@ -37,6 +39,38 @@ describe Gitlab::Client do
     it "should return an array of repository commits" do
       @commits.should be_an Array
       @commits.first.id.should == "f7dd067490fe57505f7226c3b54d3127d2f7fd46"
+    end
+  end
+
+  describe ".commit" do
+    before do
+      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6", "project_commit")
+      @commit = Gitlab.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6")
+        .should have_been_made
+    end
+
+    it "should return a repository commit" do
+      @commit.id.should == "6104942438c14ec7bd21c6cd5bd995272b3faff6"
+    end
+  end
+
+  describe ".commit_diff" do
+    before do
+      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff", "project_commit_diff")
+      @diff = Gitlab.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    end
+
+    it "should get the correct resource" do
+      a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff")
+        .should have_been_made
+    end
+
+    it "should return a diff of a commit" do
+      @diff.new_path.should == "doc/update/5.4-to-6.0.md"
     end
   end
 end
