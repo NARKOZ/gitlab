@@ -2,7 +2,7 @@ module Gitlab
   # @private
   class API < Request
     # @private
-    attr_accessor *Configuration::VALID_OPTIONS_KEYS
+    attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
 
     # Creates a new API.
     # @raise [Error:MissingCredentials]
