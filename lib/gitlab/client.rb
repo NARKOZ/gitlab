@@ -3,7 +3,7 @@ module Gitlab
   class Client < API
     Dir[File.expand_path('../client/*.rb', __FILE__)].each{|f| require f}
 
-    include SystemHook
+    include SystemHooks
     include Users
     include Issues
     include Notes

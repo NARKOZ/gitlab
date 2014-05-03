@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to system hooks.
-  module SystemHook
+  module SystemHooks
     # Gets a list of system hooks.
     #
     # @example
@@ -23,7 +23,7 @@ class Gitlab::Client
     #   Gitlab.add_system_hook('https://api.example.net/v1/hook')
     #
     # @param  [String] url The hook URL.
-    # @return [Gitlab::ObjectifiedHash] 
+    # @return [Gitlab::ObjectifiedHash]
     def add_hook(url)
       post("/hooks", :body => {:url => url})
     end
@@ -49,7 +49,7 @@ class Gitlab::Client
     #   Gitlab.delete_system_hook(12)
     #
     # @param  [Integer] id The ID of a system hook.
-    # @return [Gitlab::ObjectifiedHash] 
+    # @return [Gitlab::ObjectifiedHash]
     def delete_hook(id)
       delete("/hooks/#{id}")
     end
