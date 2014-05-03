@@ -66,10 +66,11 @@ module Gitlab
     end
 
     # Sets a base_uri and default_params for requests.
-    # @raise [Error::MissingCredentials] if endpoint or private_token not set.
+    # @raise [Error::MissingCredentials] if endpoint not set or
+    #   private_token is an empty String.
     def set_request_defaults(endpoint, private_token, sudo=nil)
       raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
-      raise Error::MissingCredentials.new("Please set a private_token for user") unless private_token
+      raise Error::MissingCredentials.new("Please set a private_token for user") if private_token == ""
 
       self.class.base_uri endpoint
       self.class.default_params :private_token => private_token, :sudo => sudo
