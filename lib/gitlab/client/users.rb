@@ -43,6 +43,18 @@ module Gitlab
       id.to_i.zero? ? get("/user") : get("/users/#{id}")
     end
 
+    # Creates a new user session.
+    #
+    # @example
+    #   Gitlab.session('jack@example.com', 'secret12345')
+    #
+    # @param  [String] email The email of a user.
+    # @param  [String] password The password of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def session(email, password)
+      post("/session", :body => {:email => email, :password => password})
+    end
+
     # Creates a new user.
     # Requires authentication from an admin account.
     #
