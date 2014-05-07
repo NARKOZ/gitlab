@@ -89,41 +89,18 @@ describe Gitlab::Client do
   end
 
   describe ".session" do
-    after do
-      Gitlab.endpoint = 'https://api.example.com'
-      Gitlab.private_token = 'secret'
-    end
-
     before do
       stub_post("/session", "session")
       @session = Gitlab.session("email", "pass")
     end
 
-    context "when endpoint is not set" do
-      it "should raise Error::MissingCredentials" do
-        Gitlab.endpoint = nil
-        expect {
-          Gitlab.session("email", "pass")
-        }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
-      end
+    it "should get the correct resource" do
+      a_post("/session").should have_been_made
     end
 
-    context "when private_token is not set" do
-      it "should not raise Error::MissingCredentials" do
-        Gitlab.private_token = nil
-        expect { Gitlab.session("email", "pass") }.to_not raise_error
-      end
-    end
-
-    context "when endpoint is set" do
-      it "should get the correct resource" do
-        a_post("/session").should have_been_made
-      end
-
-      it "should return information about a created session" do
-        @session.email.should == "john@example.com"
-        @session.private_token.should == "qEsq1pt6HJPaNciie3MG"
-      end
+    it "should return information about a created session" do
+      @session.email.should == "john@example.com"
+      @session.private_token.should == "qEsq1pt6HJPaNciie3MG"
     end
   end
 

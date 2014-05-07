@@ -1,20 +1,4 @@
-module Gitlab
-  # Creates a new user session.
-  #
-  # @example
-  #   Gitlab.session('jack@example.com', 'secret12345')
-  #
-  # @param  [String] email The email of a user.
-  # @param  [String] password The password of a user.
-  # @return [Gitlab::ObjectifiedHash]
-  # @note This method doesn't require Gitlab.private_token to be set.
-  def self.session(email, password)
-    raise Error::MissingCredentials.new("Please set an endpoint to API") unless Gitlab.endpoint
-    Gitlab::Client.base_uri Gitlab.endpoint
-    response = Gitlab::Client.post("/session", :body => {:email => email, :password => password})
-    Gitlab::Request.new.validate response
-  end
-
+class Gitlab::Client
   # Defines methods related to users.
   module Users
     # Gets a list of users.
@@ -75,6 +59,18 @@ module Gitlab
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def edit_user(user_id, options={})
       put("/users/#{user_id}", :body => options)
+    end
+
+    # Creates a new user session.
+    #
+    # @example
+    #   Gitlab.session('jack@example.com', 'secret12345')
+    #
+    # @param  [String] email The email of a user.
+    # @param  [String] password The password of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def session(email, password)
+      post("/session", :body => {:email => email, :password => password})
     end
 
     # Gets a list of user's SSH keys.
