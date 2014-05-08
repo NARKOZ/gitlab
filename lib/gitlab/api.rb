@@ -11,7 +11,7 @@ module Gitlab
       Configuration::VALID_OPTIONS_KEYS.each do |key|
         send("#{key}=", options[key])
       end
-      set_request_defaults @endpoint, @private_token, @sudo
+      set_request_defaults @endpoint, @private_token, @email, @password, @sudo
     end
   end
 end
