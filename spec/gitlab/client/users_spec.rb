@@ -118,7 +118,7 @@ describe Gitlab::Client do
 
     context "when endpoint is set" do
       it "should get the correct resource" do
-        a_request(:post, "#{Gitlab.endpoint}/session")
+        a_request(:post, "#{Gitlab.endpoint}/session").should have_been_made
       end
 
       it "should return information about a created session" do
