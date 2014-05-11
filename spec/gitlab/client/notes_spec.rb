@@ -9,12 +9,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/notes").should have_been_made
+        expect(a_get("/projects/3/notes")).to have_been_made
       end
 
       it "should return an array of notes" do
-        @notes.should be_an Array
-        @notes.first.author.name.should == "John Smith"
+        expect(@notes).to be_an Array
+        expect(@notes.first.author.name).to eq("John Smith")
       end
     end
 
@@ -25,12 +25,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/issues/7/notes").should have_been_made
+        expect(a_get("/projects/3/issues/7/notes")).to have_been_made
       end
 
       it "should return an array of notes" do
-        @notes.should be_an Array
-        @notes.first.author.name.should == "John Smith"
+        expect(@notes).to be_an Array
+        expect(@notes.first.author.name).to eq("John Smith")
       end
     end
 
@@ -41,12 +41,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/snippets/7/notes").should have_been_made
+        expect(a_get("/projects/3/snippets/7/notes")).to have_been_made
       end
 
       it "should return an array of notes" do
-        @notes.should be_an Array
-        @notes.first.author.name.should == "John Smith"
+        expect(@notes).to be_an Array
+        expect(@notes.first.author.name).to eq("John Smith")
       end
     end
   end
@@ -59,12 +59,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/notes/1201").should have_been_made
+        expect(a_get("/projects/3/notes/1201")).to have_been_made
       end
 
       it "should return information about a note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
 
@@ -75,12 +75,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/issues/7/notes/1201").should have_been_made
+        expect(a_get("/projects/3/issues/7/notes/1201")).to have_been_made
       end
 
       it "should return information about a note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
 
@@ -91,12 +91,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/snippets/7/notes/1201").should have_been_made
+        expect(a_get("/projects/3/snippets/7/notes/1201")).to have_been_made
       end
 
       it "should return information about a note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
   end
@@ -109,13 +109,13 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_post("/projects/3/notes").
-          with(:body => {:body => 'The solution is rather tricky'}).should have_been_made
+        expect(a_post("/projects/3/notes").
+          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
       end
 
       it "should return information about a created note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
 
@@ -126,13 +126,13 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_post("/projects/3/issues/7/notes").
-          with(:body => {:body => 'The solution is rather tricky'}).should have_been_made
+        expect(a_post("/projects/3/issues/7/notes").
+          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
       end
 
       it "should return information about a created note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
 
@@ -143,13 +143,13 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_post("/projects/3/snippets/7/notes").
-          with(:body => {:body => 'The solution is rather tricky'}).should have_been_made
+        expect(a_post("/projects/3/snippets/7/notes").
+          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
       end
 
       it "should return information about a created note" do
-        @note.body.should == "The solution is rather tricky"
-        @note.author.name.should == "John Smith"
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
       end
     end
   end

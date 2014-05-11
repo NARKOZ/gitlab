@@ -13,12 +13,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/hooks").should have_been_made
+      expect(a_get("/hooks")).to have_been_made
     end
 
     it "should return an array of system hooks" do
-      @hooks.should be_an Array
-      @hooks.first.url.should == "http://example.com/hook"
+      expect(@hooks).to be_an Array
+      expect(@hooks.first.url).to eq("http://example.com/hook")
     end
   end
 
@@ -29,11 +29,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/hooks").should have_been_made
+      expect(a_post("/hooks")).to have_been_made
     end
 
     it "should return information about a added system hook" do
-      @hook.url.should == "http://example.com/hook"
+      expect(@hook.url).to eq("http://example.com/hook")
     end
   end
 
@@ -43,12 +43,12 @@ describe Gitlab::Client do
       @hook = Gitlab.hook(3)
     end
     it "should get the correct resource" do
-      a_get("/hooks/3").should have_been_made
+      expect(a_get("/hooks/3")).to have_been_made
     end
 
     it "should return information about a added system hook" do
-      @hook.event_name.should == "project_create"
-      @hook.project_id.should == 1
+      expect(@hook.event_name).to eq("project_create")
+      expect(@hook.project_id).to eq(1)
     end
   end
 
@@ -59,11 +59,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/hooks/3").should have_been_made
+      expect(a_delete("/hooks/3")).to have_been_made
     end
 
     it "should return information about a deleted system hook" do
-      @hook.url.should == "http://example.com/hook"
+      expect(@hook.url).to eq("http://example.com/hook")
     end
   end
 end

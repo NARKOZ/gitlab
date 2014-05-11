@@ -9,18 +9,18 @@ describe Gitlab::Request do
   describe ".default_options" do
     it "should have default values" do
       default_options = Gitlab::Request.default_options
-      default_options.should be_a Hash
-      default_options[:parser].should be_a Proc
-      default_options[:format].should == :json
-      default_options[:headers].should == {'Accept' => 'application/json'}
-      default_options[:default_params].should be_nil
+      expect(default_options).to be_a Hash
+      expect(default_options[:parser]).to be_a Proc
+      expect(default_options[:format]).to eq(:json)
+      expect(default_options[:headers]).to eq({'Accept' => 'application/json'})
+      expect(default_options[:default_params]).to be_nil
     end
   end
 
   describe ".parse" do
     it "should return ObjectifiedHash" do
       body = JSON.unparse({a: 1, b: 2})
-      Gitlab::Request.parse(body).should be_an Gitlab::ObjectifiedHash
+      expect(Gitlab::Request.parse(body)).to be_an Gitlab::ObjectifiedHash
     end
   end
 
@@ -36,12 +36,12 @@ describe Gitlab::Request do
     context "when endpoint is set" do
       it "should set base_uri" do
         Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000)
-        Gitlab::Request.base_uri.should == "http://rabbit-hole.example.org"
+        expect(Gitlab::Request.base_uri).to eq("http://rabbit-hole.example.org")
       end
 
       it "should set default_params" do
         Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000, 'sudoer')
-        Gitlab::Request.default_params.should == {:sudo => 'sudoer'}
+        expect(Gitlab::Request.default_params).to eq({:sudo => 'sudoer'})
       end
     end
   end

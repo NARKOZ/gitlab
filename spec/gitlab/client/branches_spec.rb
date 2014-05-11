@@ -13,12 +13,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/repository/branches").should have_been_made
+      expect(a_get("/projects/3/repository/branches")).to have_been_made
     end
 
     it "should return an array of repository branches" do
-      @branches.should be_an Array
-      @branches.first.name.should == "api"
+      expect(@branches).to be_an Array
+      expect(@branches.first.name).to eq("api")
     end
   end
 
@@ -29,11 +29,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/repository/branches/api").should have_been_made
+      expect(a_get("/projects/3/repository/branches/api")).to have_been_made
     end
 
     it "should return information about a repository branch" do
-      @branch.name.should == "api"
+      expect(@branch.name).to eq("api")
     end
   end
 
@@ -44,12 +44,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/repository/branches/api/protect").should have_been_made
+      expect(a_put("/projects/3/repository/branches/api/protect")).to have_been_made
     end
 
     it "should return information about a protected repository branch" do
-      @branch.name.should == "api"
-      @branch.protected.should == true
+      expect(@branch.name).to eq("api")
+      expect(@branch.protected).to eq(true)
     end
   end
 
@@ -60,12 +60,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/repository/branches/api/unprotect").should have_been_made
+      expect(a_put("/projects/3/repository/branches/api/unprotect")).to have_been_made
     end
 
     it "should return information about an unprotected repository branch" do
-      @branch.name.should == "api"
-      @branch.protected.should == false
+      expect(@branch.name).to eq("api")
+      expect(@branch.protected).to eq(false)
     end
   end
 
@@ -77,11 +77,11 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_post("/projects/3/repository/branches").should have_been_made
+        expect(a_post("/projects/3/repository/branches")).to have_been_made
       end
 
       it "should return information about a new repository branch" do
-        @branch.name.should == "api"
+        expect(@branch.name).to eq("api")
       end
     end
     context "with commit hash" do
@@ -91,11 +91,11 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_post("/projects/3/repository/branches").should have_been_made
+        expect(a_post("/projects/3/repository/branches")).to have_been_made
       end
 
       it "should return information about a new repository branch" do
-        @branch.name.should == "api"
+        expect(@branch.name).to eq("api")
       end
     end
   end

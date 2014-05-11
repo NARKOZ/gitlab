@@ -8,12 +8,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/merge_requests").should have_been_made
+      expect(a_get("/projects/3/merge_requests")).to have_been_made
     end
 
     it "should return an array of project's merge requests" do
-      @merge_requests.should be_an Array
-      @merge_requests.first.project_id.should == 3
+      expect(@merge_requests).to be_an Array
+      expect(@merge_requests.first.project_id).to eq(3)
     end
   end
 
@@ -24,12 +24,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/merge_request/1").should have_been_made
+      expect(a_get("/projects/3/merge_request/1")).to have_been_made
     end
 
     it "should return information about a merge request" do
-      @merge_request.project_id.should == 3
-      @merge_request.assignee.name.should == "Jack Smith"
+      expect(@merge_request.project_id).to eq(3)
+      expect(@merge_request.assignee.name).to eq("Jack Smith")
     end
   end
 
@@ -55,9 +55,9 @@ describe Gitlab::Client do
         :source_branch => 'api',
         :target_branch => 'master'
       )
-      @merge_request.project_id.should == 3
-      @merge_request.assignee.name.should == "Jack Smith"
-      @merge_request.title.should == 'New feature'
+      expect(@merge_request.project_id).to eq(3)
+      expect(@merge_request.assignee.name).to eq("Jack Smith")
+      expect(@merge_request.title).to eq('New feature')
     end
   end
 
@@ -72,9 +72,9 @@ describe Gitlab::Client do
     end
 
     it "should return information about a merge request" do
-      @merge_request.project_id.should == 3
-      @merge_request.assignee.name.should == "Jack Smith"
-      @merge_request.title.should == 'A different new feature'
+      expect(@merge_request.project_id).to eq(3)
+      expect(@merge_request.assignee.name).to eq("Jack Smith")
+      expect(@merge_request.title).to eq('A different new feature')
     end
   end
 
@@ -85,12 +85,12 @@ describe Gitlab::Client do
     end
 
     it "should return merge request's comments" do
-      @merge_request.should be_an Array
-      @merge_request.length.should == 2
-      @merge_request[0].note.should == "this is the 1st comment on the 2merge merge request"
-      @merge_request[0].author.id.should == 11
-      @merge_request[1].note.should == "another discussion point on the 2merge request"
-      @merge_request[1].author.id.should == 12
+      expect(@merge_request).to be_an Array
+      expect(@merge_request.length).to eq(2)
+      expect(@merge_request[0].note).to eq("this is the 1st comment on the 2merge merge request")
+      expect(@merge_request[0].author.id).to eq(11)
+      expect(@merge_request[1].note).to eq("another discussion point on the 2merge request")
+      expect(@merge_request[1].author.id).to eq(12)
     end
   end
 
@@ -101,12 +101,12 @@ describe Gitlab::Client do
     end
 
     it "should return merge request's comments" do
-      @merge_request.should be_an Array
-      @merge_request.length.should == 2
-      @merge_request[0].note.should == "this is the 1st comment on the 2merge merge request"
-      @merge_request[0].author.id.should == 11
-      @merge_request[1].note.should == "another discussion point on the 2merge request"
-      @merge_request[1].author.id.should == 12
+      expect(@merge_request).to be_an Array
+      expect(@merge_request.length).to eq(2)
+      expect(@merge_request[0].note).to eq("this is the 1st comment on the 2merge merge request")
+      expect(@merge_request[0].author.id).to eq(11)
+      expect(@merge_request[1].note).to eq("another discussion point on the 2merge request")
+      expect(@merge_request[1].author.id).to eq(12)
     end
   end
 
@@ -117,7 +117,7 @@ describe Gitlab::Client do
 
     it "should return information about a merge request" do
       @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
-      @merge_request.note.should == 'Cool Merge Request!'
+      expect(@merge_request.note).to eq('Cool Merge Request!')
       @merge_request.author.id == 1
     end
   end

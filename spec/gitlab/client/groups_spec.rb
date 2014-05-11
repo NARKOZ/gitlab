@@ -10,13 +10,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/groups").should have_been_made
-      a_get("/groups/3").should have_been_made
+      expect(a_get("/groups")).to have_been_made
+      expect(a_get("/groups/3")).to have_been_made
     end
 
     it "should return an array of Groups" do
-      @groups.should be_an Array
-      @groups.first.path.should == "threegroup"
+      expect(@groups).to be_an Array
+      expect(@groups.first.path).to eq("threegroup")
     end
   end
 
@@ -27,13 +27,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/groups").
-          with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'}).should have_been_made
+      expect(a_post("/groups").
+          with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'})).to have_been_made
     end
 
     it "should return information about a created group" do
-      @group.name.should == "Gitlab-Group"
-      @group.path.should == "gitlab-group"
+      expect(@group.name).to eq("Gitlab-Group")
+      expect(@group.path).to eq("gitlab-group")
     end
   end
 
@@ -49,13 +49,13 @@ describe Gitlab::Client do
     end
 
     it "should post to the correct resource" do
-      a_post("/groups/#{@group.id}/projects/#{@project.id}").with(:body => {:id => @group.id.to_s, :project_id => @project.id.to_s}).should have_been_made
+      expect(a_post("/groups/#{@group.id}/projects/#{@project.id}").with(:body => {:id => @group.id.to_s, :project_id => @project.id.to_s})).to have_been_made
     end
 
     it "should return information about the group" do
-      @group_transfer.name.should == @group.name
-      @group_transfer.path.should == @group.path
-      @group_transfer.id.should == @group.id
+      expect(@group_transfer.name).to eq(@group.name)
+      expect(@group_transfer.path).to eq(@group.path)
+      expect(@group_transfer.id).to eq(@group.id)
     end
   end
 
@@ -66,13 +66,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/groups/3/members").should have_been_made
+      expect(a_get("/groups/3/members")).to have_been_made
     end
 
     it "should return information about a group members" do
-      @members.should be_an Array
-      @members.size.should == 2
-      @members[1].name.should == "John Smith"
+      expect(@members).to be_an Array
+      expect(@members.size).to eq(2)
+      expect(@members[1].name).to eq("John Smith")
     end
   end
 
@@ -83,12 +83,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/groups/3/members").
-        with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
+      expect(a_post("/groups/3/members").
+        with(:body => {:user_id => '1', :access_level => '40'})).to have_been_made
     end
 
     it "should return information about an added member" do
-      @member.name.should == "John Smith"
+      expect(@member.name).to eq("John Smith")
     end
   end
 
@@ -99,11 +99,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/groups/3/members/1").should have_been_made
+      expect(a_delete("/groups/3/members/1")).to have_been_made
     end
 
     it "should return information about the group the member was removed from" do
-      @group.group_id.should == 3
+      expect(@group.group_id).to eq(3)
     end
   end
 

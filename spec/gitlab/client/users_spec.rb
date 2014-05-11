@@ -8,12 +8,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/users").should have_been_made
+      expect(a_get("/users")).to have_been_made
     end
 
     it "should return an array of users" do
-      @users.should be_an Array
-      @users.first.email.should == "john@example.com"
+      expect(@users).to be_an Array
+      expect(@users.first.email).to eq("john@example.com")
     end
   end
 
@@ -25,11 +25,11 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/users/1").should have_been_made
+        expect(a_get("/users/1")).to have_been_made
       end
 
       it "should return information about a user" do
-        @user.email.should == "john@example.com"
+        expect(@user.email).to eq("john@example.com")
       end
     end
 
@@ -40,11 +40,11 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/user").should have_been_made
+        expect(a_get("/user")).to have_been_made
       end
 
       it "should return information about an authorized user" do
-        @user.email.should == "john@example.com"
+        expect(@user.email).to eq("john@example.com")
       end
     end
   end
@@ -58,11 +58,11 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         body = {:email => "email", :password => "pass", :name => "email"}
-        a_post("/users").with(:body => body).should have_been_made
+        expect(a_post("/users").with(:body => body)).to have_been_made
       end
 
       it "should return information about a created user" do
-        @user.email.should == "john@example.com"
+        expect(@user.email).to eq("john@example.com")
       end
     end
 
@@ -84,7 +84,7 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/users/1").with(:body => @options).should have_been_made
+      expect(a_put("/users/1").with(:body => @options)).to have_been_made
     end
   end
 
@@ -118,12 +118,12 @@ describe Gitlab::Client do
 
     context "when endpoint is set" do
       it "should get the correct resource" do
-        a_request(:post, "#{Gitlab.endpoint}/session").should have_been_made
+        expect(a_request(:post, "#{Gitlab.endpoint}/session")).to have_been_made
       end
 
       it "should return information about a created session" do
-        @session.email.should == "john@example.com"
-        @session.private_token.should == "qEsq1pt6HJPaNciie3MG"
+        expect(@session.email).to eq("john@example.com")
+        expect(@session.private_token).to eq("qEsq1pt6HJPaNciie3MG")
       end
     end
   end
@@ -135,12 +135,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/user/keys").should have_been_made
+      expect(a_get("/user/keys")).to have_been_made
     end
 
     it "should return an array of SSH keys" do
-      @keys.should be_an Array
-      @keys.first.title.should == "narkoz@helium"
+      expect(@keys).to be_an Array
+      expect(@keys.first.title).to eq("narkoz@helium")
     end
   end
 
@@ -151,11 +151,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/user/keys/1").should have_been_made
+      expect(a_get("/user/keys/1")).to have_been_made
     end
 
     it "should return information about an SSH key" do
-      @key.title.should == "narkoz@helium"
+      expect(@key.title).to eq("narkoz@helium")
     end
   end
 
@@ -167,11 +167,11 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       body = {:title => "title", :key => "body"}
-      a_post("/user/keys").with(:body => body).should have_been_made
+      expect(a_post("/user/keys").with(:body => body)).to have_been_made
     end
 
     it "should return information about a created SSH key" do
-      @key.title.should == "narkoz@helium"
+      expect(@key.title).to eq("narkoz@helium")
     end
   end
 
@@ -182,11 +182,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/user/keys/1").should have_been_made
+      expect(a_delete("/user/keys/1")).to have_been_made
     end
 
     it "should return information about a deleted SSH key" do
-      @key.title.should == "narkoz@helium"
+      expect(@key.title).to eq("narkoz@helium")
     end
   end
 end

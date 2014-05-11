@@ -8,13 +8,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects").should have_been_made
+      expect(a_get("/projects")).to have_been_made
     end
 
     it "should return an array of projects" do
-      @projects.should be_an Array
-      @projects.first.name.should == "Brute"
-      @projects.first.owner.name.should == "John Smith"
+      expect(@projects).to be_an Array
+      expect(@projects.first.name).to eq("Brute")
+      expect(@projects.first.owner.name).to eq("John Smith")
     end
   end
 
@@ -25,12 +25,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3").should have_been_made
+      expect(a_get("/projects/3")).to have_been_made
     end
 
     it "should return information about a project" do
-      @project.name.should == "Gitlab"
-      @project.owner.name.should == "John Smith"
+      expect(@project.name).to eq("Gitlab")
+      expect(@project.owner.name).to eq("John Smith")
     end
   end
 
@@ -41,12 +41,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/projects").should have_been_made
+      expect(a_post("/projects")).to have_been_made
     end
 
     it "should return information about a created project" do
-      @project.name.should == "Gitlab"
-      @project.owner.name.should == "John Smith"
+      expect(@project.name).to eq("Gitlab")
+      expect(@project.owner.name).to eq("John Smith")
     end
   end
 
@@ -59,8 +59,8 @@ describe Gitlab::Client do
     end
 
     it "should return information about a created project" do
-      @project.name.should == "Brute"
-      @project.owner.name.should == "John Owner"
+      expect(@project.name).to eq("Brute")
+      expect(@project.owner.name).to eq("John Owner")
     end
   end
 
@@ -71,12 +71,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/members").should have_been_made
+      expect(a_get("/projects/3/members")).to have_been_made
     end
 
     it "should return an array of team members" do
-      @team_members.should be_an Array
-      @team_members.first.name.should == "John Smith"
+      expect(@team_members).to be_an Array
+      expect(@team_members.first.name).to eq("John Smith")
     end
   end
 
@@ -87,11 +87,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/members/1").should have_been_made
+      expect(a_get("/projects/3/members/1")).to have_been_made
     end
 
     it "should return information about a team member" do
-      @team_member.name.should == "John Smith"
+      expect(@team_member.name).to eq("John Smith")
     end
   end
 
@@ -102,12 +102,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/projects/3/members").
-          with(:body => {:user_id => '1', :access_level => '40'}).should have_been_made
+      expect(a_post("/projects/3/members").
+          with(:body => {:user_id => '1', :access_level => '40'})).to have_been_made
     end
 
     it "should return information about an added team member" do
-      @team_member.name.should == "John Smith"
+      expect(@team_member.name).to eq("John Smith")
     end
   end
 
@@ -118,12 +118,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/members/1").
-          with(:body => {:access_level => '40'}).should have_been_made
+      expect(a_put("/projects/3/members/1").
+          with(:body => {:access_level => '40'})).to have_been_made
     end
 
     it "should return information about an edited team member" do
-      @team_member.name.should == "John Smith"
+      expect(@team_member.name).to eq("John Smith")
     end
   end
 
@@ -134,11 +134,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/projects/3/members/1").should have_been_made
+      expect(a_delete("/projects/3/members/1")).to have_been_made
     end
 
     it "should return information about a removed team member" do
-      @team_member.name.should == "John Smith"
+      expect(@team_member.name).to eq("John Smith")
     end
   end
 
@@ -149,12 +149,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/1/hooks").should have_been_made
+      expect(a_get("/projects/1/hooks")).to have_been_made
     end
 
     it "should return an array of hooks" do
-      @hooks.should be_an Array
-      @hooks.first.url.should == "https://api.example.net/v1/webhooks/ci"
+      expect(@hooks).to be_an Array
+      expect(@hooks.first.url).to eq("https://api.example.net/v1/webhooks/ci")
     end
   end
 
@@ -165,11 +165,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/1/hooks/1").should have_been_made
+      expect(a_get("/projects/1/hooks/1")).to have_been_made
     end
 
     it "should return information about a hook" do
-      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
     end
   end
 
@@ -182,11 +182,11 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         body = {:url => "https://api.example.net/v1/webhooks/ci"}
-        a_post("/projects/1/hooks").with(:body => body).should have_been_made
+        expect(a_post("/projects/1/hooks").with(:body => body)).to have_been_made
       end
 
       it "should return information about an added hook" do
-        @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+        expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
       end
     end
 
@@ -198,11 +198,11 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         body = {:url => "https://api.example.net/v1/webhooks/ci", push_events: "true", merge_requests_events: "true"}
-        a_post("/projects/1/hooks").with(:body => body).should have_been_made
+        expect(a_post("/projects/1/hooks").with(:body => body)).to have_been_made
       end
 
       it "should return information about an added hook" do
-        @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+        expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
       end
     end
   end
@@ -215,11 +215,11 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       body = {:url => "https://api.example.net/v1/webhooks/ci"}
-      a_put("/projects/1/hooks/1").with(:body => body).should have_been_made
+      expect(a_put("/projects/1/hooks/1").with(:body => body)).to have_been_made
     end
 
     it "should return information about an edited hook" do
-      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
     end
   end
 
@@ -230,11 +230,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/projects/1/hooks/1").should have_been_made
+      expect(a_delete("/projects/1/hooks/1")).to have_been_made
     end
 
     it "should return information about a deleted hook" do
-      @hook.url.should == "https://api.example.net/v1/webhooks/ci"
+      expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
     end
   end
 
@@ -245,12 +245,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/projects/42/fork/24").should have_been_made
+      expect(a_post("/projects/42/fork/24")).to have_been_made
     end
 
     it "should return information about a forked project" do
-      @forked_project_link.forked_from_project_id.should == 24
-      @forked_project_link.forked_to_project_id.should == 42
+      expect(@forked_project_link.forked_from_project_id).to eq(24)
+      expect(@forked_project_link.forked_to_project_id).to eq(42)
     end
   end
 
@@ -261,11 +261,11 @@ describe Gitlab::Client do
     end
 
     it "should be sent to correct resource" do
-      a_delete("/projects/42/fork").should have_been_made
+      expect(a_delete("/projects/42/fork")).to have_been_made
     end
 
     it "should return information about an unforked project" do
-      @forked_project_link.forked_to_project_id.should == 42
+      expect(@forked_project_link.forked_to_project_id).to eq(42)
     end
   end
 
@@ -276,14 +276,14 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/42/keys").should have_been_made
+      expect(a_get("/projects/42/keys")).to have_been_made
     end
 
     it "should return project deploy keys" do
-      @deploy_keys.should be_an Array
-      @deploy_keys.first.id.should eq 2
-      @deploy_keys.first.title.should eq "Key Title"
-      @deploy_keys.first.key.should match(/ssh-rsa/)
+      expect(@deploy_keys).to be_an Array
+      expect(@deploy_keys.first.id).to eq 2
+      expect(@deploy_keys.first.title).to eq "Key Title"
+      expect(@deploy_keys.first.key).to match(/ssh-rsa/)
     end
   end
 
@@ -294,13 +294,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/42/keys/2").should have_been_made
+      expect(a_get("/projects/42/keys/2")).to have_been_made
     end
 
     it "should return project deploy key" do
-      @deploy_key.id.should eq 2
-      @deploy_key.title.should eq "Key Title"
-      @deploy_key.key.should match(/ssh-rsa/)
+      expect(@deploy_key.id).to eq 2
+      expect(@deploy_key.title).to eq "Key Title"
+      expect(@deploy_key.key).to match(/ssh-rsa/)
     end
   end
 
@@ -311,11 +311,11 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_delete("/projects/42/keys/2").should have_been_made
+      expect(a_delete("/projects/42/keys/2")).to have_been_made
     end
 
     it "should return information about a deleted key" do
-      @deploy_key.id.should == 2
+      expect(@deploy_key.id).to eq(2)
     end
   end
 end

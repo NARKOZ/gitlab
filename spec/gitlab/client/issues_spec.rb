@@ -9,12 +9,12 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/projects/3/issues").should have_been_made
+        expect(a_get("/projects/3/issues")).to have_been_made
       end
 
       it "should return an array of project's issues" do
-        @issues.should be_an Array
-        @issues.first.project_id.should == 3
+        expect(@issues).to be_an Array
+        expect(@issues.first.project_id).to eq(3)
       end
     end
 
@@ -25,13 +25,13 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        a_get("/issues").should have_been_made
+        expect(a_get("/issues")).to have_been_made
       end
 
       it "should return an array of user's issues" do
-        @issues.should be_an Array
-        @issues.first.closed.should be_false
-        @issues.first.author.name.should == "John Smith"
+        expect(@issues).to be_an Array
+        expect(@issues.first.closed).to be_false
+        expect(@issues.first.author.name).to eq("John Smith")
       end
     end
   end
@@ -43,12 +43,12 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_get("/projects/3/issues/33").should have_been_made
+      expect(a_get("/projects/3/issues/33")).to have_been_made
     end
 
     it "should return information about an issue" do
-      @issue.project_id.should == 3
-      @issue.assignee.name.should == "Jack Smith"
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
 
@@ -59,13 +59,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_post("/projects/3/issues").
-        with(:body => {:title => 'title'}).should have_been_made
+      expect(a_post("/projects/3/issues").
+        with(:body => {:title => 'title'})).to have_been_made
     end
 
     it "should return information about a created issue" do
-      @issue.project_id.should == 3
-      @issue.assignee.name.should == "Jack Smith"
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
 
@@ -76,13 +76,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/issues/33").
-        with(:body => {:title => 'title'}).should have_been_made
+      expect(a_put("/projects/3/issues/33").
+        with(:body => {:title => 'title'})).to have_been_made
     end
 
     it "should return information about an edited issue" do
-      @issue.project_id.should == 3
-      @issue.assignee.name.should == "Jack Smith"
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
 
@@ -93,13 +93,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/issues/33").
-        with(:body => {:state_event => 'close'}).should have_been_made
+      expect(a_put("/projects/3/issues/33").
+        with(:body => {:state_event => 'close'})).to have_been_made
     end
 
     it "should return information about an closed issue" do
-      @issue.project_id.should == 3
-      @issue.assignee.name.should == "Jack Smith"
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
 
@@ -110,13 +110,13 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      a_put("/projects/3/issues/33").
-        with(:body => {:state_event => 'reopen'}).should have_been_made
+      expect(a_put("/projects/3/issues/33").
+        with(:body => {:state_event => 'reopen'})).to have_been_made
     end
 
     it "should return information about an reopened issue" do
-      @issue.project_id.should == 3
-      @issue.assignee.name.should == "Jack Smith"
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
 end

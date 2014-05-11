@@ -7,17 +7,17 @@ describe Gitlab::ObjectifiedHash do
   end
 
   it "should objectify hash" do
-    @oh.a.should == @hash[:a]
-    @oh.b.should == @hash[:b]
+    expect(@oh.a).to eq(@hash[:a])
+    expect(@oh.b).to eq(@hash[:b])
   end
 
   describe "#to_hash" do
     it "should return an original hash" do
-      @oh.to_hash.should == @hash
+      expect(@oh.to_hash).to eq(@hash)
     end
 
     it "should have an alias #to_h" do
-      @oh.respond_to?(:to_h).should be_true
+      expect(@oh.respond_to?(:to_h)).to be_true
     end
   end
 end
