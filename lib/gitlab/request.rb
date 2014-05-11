@@ -34,22 +34,22 @@ module Gitlab
     end
 
     def get(path, options={})
-      set_private_token_param(options)
+      set_private_token_header(options)
       validate self.class.get(path, options)
     end
 
     def post(path, options={})
-      set_private_token_param(options, path)
+      set_private_token_header(options, path)
       validate self.class.post(path, options)
     end
 
     def put(path, options={})
-      set_private_token_param(options)
+      set_private_token_header(options)
       validate self.class.put(path, options)
     end
 
     def delete(path, options={})
-      set_private_token_param(options)
+      set_private_token_header(options)
       validate self.class.delete(path, options)
     end
 
@@ -84,15 +84,13 @@ module Gitlab
 
     private
 
-    # Sets a private_token parameter for requests.
+    # Sets a PRIVATE-TOKEN header for requests.
     # @raise [Error::MissingCredentials] if private_token not set.
-    def set_private_token_param(options, path=nil)
-      # session doesn't require private_token param
-      return if path == '/session'
-
-      raise Error::MissingCredentials.new("Please set a private_token for user") unless @private_token
-      private_token_param = {:private_token => @private_token}
-      options[:query] = options[:query] ? options[:query].merge(private_token_param) : private_token_param
+    def set_private_token_header(options, path=nil)
+      unless path == '/session'
+        raise Error::MissingCredentials.new("Please set a private_token for user") unless @private_token
+        options[:headers] = {'PRIVATE-TOKEN' => @private_token}
+      end
     end
 
     def error_message(response)
