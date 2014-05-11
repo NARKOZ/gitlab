@@ -71,6 +71,19 @@ module Gitlab
       response.parsed_response
     end
 
+    # Sets a base_uri and default_params for requests.
+    # @raise [Error::MissingCredentials] if endpoint not set.
+    def set_request_defaults(endpoint, private_token, sudo=nil)
+      raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
+      @private_token = private_token
+
+      self.class.base_uri endpoint
+      self.class.default_params :sudo => sudo
+      self.class.default_params.delete(:sudo) if sudo.nil?
+    end
+
+    private
+
     # Sets a private_token parameter for requests.
     # @raise [Error::MissingCredentials] if private_token not set.
     def set_private_token_param(options, path=nil)
@@ -81,18 +94,6 @@ module Gitlab
       private_token_param = {:private_token => @private_token}
       options[:query] = options[:query] ? options[:query].merge(private_token_param) : private_token_param
     end
-
-    # Sets a base_uri and default_params for requests.
-    # @raise [Error::MissingCredentials] if endpoint not set.
-    def set_request_defaults(endpoint, private_token, sudo=nil)
-      raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
-      @private_token = private_token
-
-      self.class.base_uri endpoint
-      self.class.default_params :sudo => sudo unless sudo.nil?
-    end
-
-    private
 
     def error_message(response)
       "Server responded with code #{response.code}, message: #{response.parsed_response.message}. " \

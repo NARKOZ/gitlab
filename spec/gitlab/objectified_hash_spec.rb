@@ -6,6 +6,11 @@ describe Gitlab::ObjectifiedHash do
     @oh = Gitlab::ObjectifiedHash.new @hash
   end
 
+  it "should objectify hash" do
+    @oh.a.should == @hash[:a]
+    @oh.b.should == @hash[:b]
+  end
+
   describe "#to_hash" do
     it "should return an original hash" do
       @oh.to_hash.should == @hash
