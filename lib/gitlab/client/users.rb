@@ -69,6 +69,7 @@ class Gitlab::Client
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
     # @return [Gitlab::ObjectifiedHash]
+    # @note This method doesn't require private_token to be set.
     def session(email, password)
       post("/session", :body => {:email => email, :password => password})
     end

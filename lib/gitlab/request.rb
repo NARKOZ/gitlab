@@ -9,6 +9,8 @@ module Gitlab
     headers 'Accept' => 'application/json'
     parser Proc.new { |body, _| parse(body) }
 
+    attr_accessor :private_token
+
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
       body = decode(body)
@@ -32,19 +34,23 @@ module Gitlab
     end
 
     def get(path, options={})
+      set_private_token_param(options)
       validate self.class.get(path, options)
     end
 
     def post(path, options={})
+      set_private_token_param(options, path)
       validate self.class.post(path, options)
     end
 
     def put(path, options={})
+      set_private_token_param(options)
       validate self.class.put(path, options)
     end
 
-    def delete(path)
-      validate self.class.delete(path)
+    def delete(path, options={})
+      set_private_token_param(options)
+      validate self.class.delete(path, options)
     end
 
     # Checks the response code for common errors.
@@ -65,15 +71,25 @@ module Gitlab
       response.parsed_response
     end
 
+    # Sets a private_token parameter for requests.
+    # @raise [Error::MissingCredentials] if private_token not set.
+    def set_private_token_param(options, path=nil)
+      # session doesn't require private_token param
+      return if path == '/session'
+
+      raise Error::MissingCredentials.new("Please set a private_token for user") unless @private_token
+      private_token_param = {:private_token => @private_token}
+      options[:query] = options[:query] ? options[:query].merge(private_token_param) : private_token_param
+    end
+
     # Sets a base_uri and default_params for requests.
-    # @raise [Error::MissingCredentials] if endpoint or private_token not set.
+    # @raise [Error::MissingCredentials] if endpoint not set.
     def set_request_defaults(endpoint, private_token, sudo=nil)
       raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
-      raise Error::MissingCredentials.new("Please set a private_token for user") unless private_token
+      @private_token = private_token
 
       self.class.base_uri endpoint
-      self.class.default_params :private_token => private_token, :sudo => sudo
-      self.class.default_params.delete(:sudo) if sudo.nil?
+      self.class.default_params :sudo => sudo unless sudo.nil?
     end
 
     private
