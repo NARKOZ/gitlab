@@ -1,18 +1,18 @@
 module Gitlab
   # Wrapper for the Gitlab REST API.
   class Client < API
-    Dir[File.expand_path('../client/*.rb', __FILE__)].each{|f| require f}
+    Dir[File.expand_path('../client/*.rb', __FILE__)].each {|f| require f}
 
-    include SystemHooks
-    include Users
+    include Branches
+    include Groups
     include Issues
-    include Notes
+    include MergeRequests
     include Milestones
-    include Snippets
+    include Notes
     include Projects
     include Repositories
-    include Branches
-    include MergeRequests
-    include Groups
+    include Snippets
+    include SystemHooks
+    include Users
   end
 end
