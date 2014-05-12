@@ -26,4 +26,12 @@ module Gitlab
   def self.respond_to?(method)
     return client.respond_to?(method) || super
   end
+
+  # Returns an unsorted array of available client methods.
+  #
+  # @return [Array<Symbol>]
+  def self.actions
+    hidden = /endpoint|private_token|user_agent|sudo|get|post|put|\Adelete\z|validate|set_request_defaults/
+    (Gitlab::Client.instance_methods - Object.methods).reject {|e| e[hidden]}
+  end
 end
