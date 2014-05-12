@@ -8,7 +8,7 @@ module Gitlab
     DEFAULT_USER_AGENT = "Gitlab Ruby Gem #{Gitlab::VERSION}".freeze
 
     # @private
-    attr_accessor *VALID_OPTIONS_KEYS
+    attr_accessor(*VALID_OPTIONS_KEYS)
 
     # Sets all configuration options to their default values
     # when this module is extended.
