@@ -36,6 +36,16 @@ class Gitlab::CLI
     max_value_length = hash.values.map {|v| v.to_s.size }.max
 
     keys.each_with_index do |key, index|
+      separator = '+' + '-' * (max_value_length + max_key_length + 5) + '+'
+
+      # print executed command
+      if index == 0
+        puts separator
+        print "| ".ljust(max_key_length)
+        print "Gitlab.#{cmd} #{args.join(', ')}"
+        puts ' |'.rjust(max_value_length) # FIXME
+      end
+
       case value = hash[key]
       when Array
         # TODO: handle
@@ -46,15 +56,7 @@ class Gitlab::CLI
       when nil
         next
       else
-        separator = '+' + '-' * (max_value_length + max_key_length + 5) + '+'
 
-        # print executed command
-        if index == 1
-          puts separator
-          print "| ".ljust(max_key_length)
-          print "Gitlab.#{cmd} #{args.join(', ')}"
-          puts ' |'.rjust(max_value_length) # FIXME
-        end
 
         # print returned data
         puts separator
