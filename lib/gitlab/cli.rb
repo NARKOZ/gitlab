@@ -20,9 +20,9 @@ class Gitlab::CLI
         begin
           data = arguments.any? ? Gitlab.send(cmd.to_sym, *arguments) : Gitlab.send(cmd.to_sym)
           if data.kind_of? Gitlab::ObjectifiedHash
-            puts single_table_output(data, cmd, arguments)
+            puts single_record_table(data, cmd, arguments)
           elsif data.kind_of? Array
-            puts multiple_table_output(data, cmd, arguments)
+            puts multiple_record_table(data, cmd, arguments)
           end
         rescue => e
           puts e.message
@@ -35,7 +35,7 @@ class Gitlab::CLI
     end
   end
 
-  def self.multiple_table_output(data, cmd, args)
+  def self.multiple_record_table(data, cmd, args)
     return 'No data' if data.empty?
 
     arr = data.map(&:to_h)
@@ -65,7 +65,7 @@ class Gitlab::CLI
     end
   end
 
-  def self.single_table_output(data, cmd, args)
+  def self.single_record_table(data, cmd, args)
     hash = data.to_h
     keys = hash.keys.sort {|x, y| x.to_s <=> y.to_s }
 
