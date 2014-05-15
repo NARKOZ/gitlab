@@ -50,12 +50,8 @@ class Gitlab::CLI
 
         keys.each do |key|
           case value = hash[key]
-          when Array
-            # TODO
-            next
           when Hash
-            # TODO
-            next
+            value = 'Hash'
           when nil
             value = 'null'
           end
@@ -78,12 +74,8 @@ class Gitlab::CLI
 
       keys.each_with_index do |key, index|
         case value = hash[key]
-        when Array
-          # TODO
-          next
         when Hash
-          # TODO
-          next
+          value = 'Hash'
         when nil
           value = 'null'
         end
