@@ -19,7 +19,11 @@ class Gitlab::CLI
       if Gitlab.actions.include?(cmd.to_sym)
         begin
           data = arguments.any? ? Gitlab.send(cmd.to_sym, *arguments) : Gitlab.send(cmd.to_sym)
-          puts table_output(data.to_h, cmd, arguments)
+          if data.kind_of? Gitlab::ObjectifiedHash
+            puts single_table_output(data, cmd, arguments)
+          elsif data.kind_of? Array
+            puts multiple_table_output(data, cmd, arguments)
+          end
         rescue => e
           puts e.message
           exit(1)
@@ -31,7 +35,42 @@ class Gitlab::CLI
     end
   end
 
-  def self.table_output(hash, cmd, args)
+  def self.multiple_table_output(data, cmd, args)
+    return 'No data' if data.empty?
+
+    arr = data.map(&:to_h)
+    keys = arr.first.keys.sort {|x, y| x.to_s <=> y.to_s }
+
+    table do |t|
+      t.title = "Gitlab.#{cmd} #{args.join(', ')}"
+      t.headings = keys
+
+      arr.each_with_index do |hash, index|
+        values = []
+
+        keys.each do |key|
+          case value = hash[key]
+          when Array
+            # TODO
+            next
+          when Hash
+            # TODO
+            next
+          when nil
+            value = 'null'
+          end
+
+          values << value
+        end
+
+        t.add_row values
+        t.add_separator unless arr.size - 1 == index
+      end
+    end
+  end
+
+  def self.single_table_output(data, cmd, args)
+    hash = data.to_h
     keys = hash.keys.sort {|x, y| x.to_s <=> y.to_s }
 
     table do |t|
