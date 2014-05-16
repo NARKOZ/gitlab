@@ -7,7 +7,7 @@ class Gitlab::CLI
     run(command, args)
   end
 
-  def self.run(cmd, arguments=[])
+  def self.run(cmd, args=[])
     case cmd
     when 'help'
       puts 'Available commands:'
@@ -16,28 +16,26 @@ class Gitlab::CLI
     when '-v', '--version'
       puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
     else
-      if Gitlab.actions.include?(cmd.to_sym)
-        begin
-          if arguments.any?
-            if arguments.last.start_with?('--only=') || arguments.last.start_with?('--except=')
-              command_args = arguments[0..-2]
-            end
-          end
-
-          data = arguments.any? ? Gitlab.send(cmd.to_sym, *command_args) : Gitlab.send(cmd.to_sym)
-
-          if data.kind_of? Gitlab::ObjectifiedHash
-            puts single_record_table(data, cmd, arguments)
-          elsif data.kind_of? Array
-            puts multiple_record_table(data, cmd, arguments)
-          end
-        rescue => e
-          puts e.message
-          exit(1)
-        end
-      else
+      unless Gitlab.actions.include?(cmd.to_sym)
         puts 'Unknown command'
         exit(1)
+      end
+
+      if args.any? && (args.last.start_with?('--only=') || args.last.start_with?('--except='))
+        command_args = args[0..-2]
+      end
+
+      begin
+        data = args.any? ? Gitlab.send(cmd, *command_args) : Gitlab.send(cmd)
+      rescue => e
+        puts e.message
+        exit(1)
+      end
+
+      if data.kind_of? Gitlab::ObjectifiedHash
+        puts single_record_table(data, cmd, args)
+      elsif data.kind_of? Array
+        puts multiple_record_table(data, cmd, args)
       end
     end
   end
