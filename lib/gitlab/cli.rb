@@ -18,7 +18,14 @@ class Gitlab::CLI
     else
       if Gitlab.actions.include?(cmd.to_sym)
         begin
-          data = arguments.any? ? Gitlab.send(cmd.to_sym, *arguments) : Gitlab.send(cmd.to_sym)
+          if arguments.any?
+            if arguments.last.start_with?('--only=') || arguments.last.start_with?('--except=')
+              command_args = arguments[0..-2]
+            end
+          end
+
+          data = arguments.any? ? Gitlab.send(cmd.to_sym, *command_args) : Gitlab.send(cmd.to_sym)
+
           if data.kind_of? Gitlab::ObjectifiedHash
             puts single_record_table(data, cmd, arguments)
           elsif data.kind_of? Array
@@ -35,11 +42,29 @@ class Gitlab::CLI
     end
   end
 
+  def self.required_fields(args)
+    if args.any? && args.last.start_with?('--only=')
+      args.last.gsub('--only=', '').split(',')
+    else
+      []
+    end
+  end
+
+  def self.excluded_fields(args)
+    if args.any? && args.last.start_with?('--except=')
+      args.last.gsub('--except=', '').split(',')
+    else
+      []
+    end
+  end
+
   def self.multiple_record_table(data, cmd, args)
     return 'No data' if data.empty?
 
     arr = data.map(&:to_h)
     keys = arr.first.keys.sort {|x, y| x.to_s <=> y.to_s }
+    keys = keys & required_fields(args) if required_fields(args).any?
+    keys = keys - excluded_fields(args)
 
     table do |t|
       t.title = "Gitlab.#{cmd} #{args.join(', ')}"
@@ -68,6 +93,8 @@ class Gitlab::CLI
   def self.single_record_table(data, cmd, args)
     hash = data.to_h
     keys = hash.keys.sort {|x, y| x.to_s <=> y.to_s }
+    keys = keys & required_fields(args) if required_fields(args).any?
+    keys = keys - excluded_fields(args)
 
     table do |t|
       t.title = "Gitlab.#{cmd} #{args.join(', ')}"
