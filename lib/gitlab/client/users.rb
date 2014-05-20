@@ -44,10 +44,9 @@ class Gitlab::Client
       post("/users", :body => body)
     end
 
-    # Update a user.
-    # Requires authentication from an admin account.
+    # Updates a user.
     #
-    # @param  [String] The user's id
+    # @param  [Integer] id The ID of a user.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] email The email of a user.
     # @option options [String] password The password of a user.
