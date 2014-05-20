@@ -30,8 +30,8 @@ module Gitlab
 
     # Resets all configuration options to the defaults.
     def reset
-      self.endpoint       = nil
-      self.private_token  = nil
+      self.endpoint       = ENV['GITLAB_API_ENDPOINT']
+      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN']
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
     end

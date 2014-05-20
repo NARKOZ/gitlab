@@ -9,6 +9,15 @@ describe Gitlab do
     end
   end
 
+  describe ".actions" do
+    it "should return an array of client methods" do
+      actions = Gitlab.actions
+      expect(actions).to be_an Array
+      expect(actions.first).to be_a Symbol
+      expect(actions.sort.first).to match(/add_/)
+    end
+  end
+
   describe ".endpoint=" do
     it "should set endpoint" do
       Gitlab.endpoint = 'https://api.example.com'
