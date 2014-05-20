@@ -33,10 +33,13 @@ class Gitlab::CLI
         exit(1)
       end
 
-      if data.kind_of? Gitlab::ObjectifiedHash
+      case data
+      when Gitlab::ObjectifiedHash
         puts single_record_table(data, cmd, args)
-      elsif data.kind_of? Array
+      when Array
         puts multiple_record_table(data, cmd, args)
+      else
+        puts data.inspect
       end
     end
   end
