@@ -24,6 +24,8 @@ class Gitlab::CLI
 
       if args.any? && (args.last.start_with?('--only=') || args.last.start_with?('--except='))
         command_args = args[0..-2]
+      else
+        command_args = args
       end
 
       confirm_command(cmd)
