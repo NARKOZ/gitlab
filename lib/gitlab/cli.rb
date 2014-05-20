@@ -10,14 +10,12 @@ class Gitlab::CLI
   def self.run(cmd, args=[])
     case cmd
     when 'help'
-      puts 'Available commands:'
-      puts '-' * 19
-      puts Gitlab.actions.sort.join(', ')
+      puts actions_table
     when '-v', '--version'
       puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
     else
       unless Gitlab.actions.include?(cmd.to_sym)
-        puts 'Unknown command'
+        puts "Unknown command. Run `gitlab help` for a list of available commands."
         exit(1)
       end
 
@@ -36,6 +34,40 @@ class Gitlab::CLI
         puts single_record_table(data, cmd, args)
       elsif data.kind_of? Array
         puts multiple_record_table(data, cmd, args)
+      end
+    end
+  end
+
+  def self.actions_table
+    client = Gitlab::Client.new(endpoint: '')
+    actions = Gitlab.actions
+    methods = []
+
+    actions.each do |action|
+      methods << {
+        name: action,
+        owner: client.method(action).owner.to_s.gsub('Gitlab::Client::', '')
+      }
+    end
+
+    owners = methods.map {|m| m[:owner]}.uniq.sort
+    methods_c = methods.group_by {|m| m[:owner]}
+    methods_c = methods_c.map {|_, v| [_, v.sort_by {|hv| hv[:name]}] }
+    methods_c = methods_c.sort_by {|v| v.first}.to_h
+    max_column_length = methods_c.values.max_by {|v| v.size}.size
+
+    rows = max_column_length.times.map do |i|
+      methods_c.keys.map do |key|
+        methods_c[key][i] ? methods_c[key][i][:name] : ''
+      end
+    end
+
+    table do |t|
+      t.title = "Available commands (#{actions.size} total)"
+      t.headings = owners
+
+      rows.each do |row|
+        t.add_row row
       end
     end
   end

@@ -12,7 +12,7 @@ describe Gitlab::CLI do
     context "when command is help" do
       it "should show available actions" do
         output = capture_output { Gitlab::CLI.run('help') }
-        expect(output).to include('Available commands:')
+        expect(output).to include('Available commands')
       end
     end
 
