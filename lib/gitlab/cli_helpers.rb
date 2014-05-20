@@ -58,8 +58,8 @@ class Gitlab::CLI
       owners = methods.map {|m| m[:owner]}.uniq.sort
       methods_c = methods.group_by {|m| m[:owner]}
       methods_c = methods_c.map {|_, v| [_, v.sort_by {|hv| hv[:name]}] }
-      methods_c = methods_c.sort_by {|v| v.first}.to_h
-      max_column_length = methods_c.values.max_by {|v| v.size}.size
+      methods_c = Hash[methods_c.sort_by(&:first).map {|k, v| [k, v]}]
+      max_column_length = methods_c.values.max_by(&:size).size
 
       rows = max_column_length.times.map do |i|
         methods_c.keys.map do |key|

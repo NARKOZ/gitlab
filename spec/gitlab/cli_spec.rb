@@ -13,6 +13,8 @@ describe Gitlab::CLI do
       it "should show available actions" do
         output = capture_output { Gitlab::CLI.run('help') }
         expect(output).to include('Available commands')
+        expect(output).to include('MergeRequests')
+        expect(output).to include('team_members')
       end
     end
 
