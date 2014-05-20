@@ -26,6 +26,8 @@ class Gitlab::CLI
         command_args = args[0..-2]
       end
 
+      confirm_command(cmd)
+
       begin
         data = args.any? ? Gitlab.send(cmd, *command_args) : Gitlab.send(cmd)
       rescue => e

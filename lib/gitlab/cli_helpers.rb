@@ -25,6 +25,21 @@ class Gitlab::CLI
       end
     end
 
+    # Confirms command with a desctructive action.
+    #
+    # @return [String]
+    def confirm_command(cmd)
+      if cmd.start_with?('remove_') || cmd.start_with?('delete_')
+        puts "Are you sure? (y/n)"
+        if %w(y yes).include?($stdin.gets.to_s.strip.downcase)
+          puts 'Proceeding..'
+        else
+          puts 'Command aborted.'
+          exit(1)
+        end
+      end
+    end
+
     # Table with available commands.
     #
     # @return [String]
