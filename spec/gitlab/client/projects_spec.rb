@@ -74,7 +74,7 @@ describe Gitlab::Client do
       expect(a_delete("/projects/Gitlab")).to have_been_made
     end
 
-    it "should return information about a created project" do
+    it "should return information about a deleted project" do
       expect(@project.name).to eq("Gitlab")
       expect(@project.owner.name).to eq("John Smith")
     end
