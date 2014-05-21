@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Gitlab::VERSION
   gem.authors       = ["Nihad Abbasov"]
   gem.email         = ["mail@narkoz.me"]
-  gem.description   = %q{Ruby client for GitLab API}
-  gem.summary       = %q{A Ruby wrapper for the GitLab API}
+  gem.description   = %q{Ruby client and CLI for GitLab API}
+  gem.summary       = %q{A Ruby wrapper and CLI for the GitLab API}
   gem.homepage      = "https://github.com/narkoz/gitlab"
 
   gem.files         = `git ls-files`.split($/)
