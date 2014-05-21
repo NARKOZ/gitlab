@@ -14,6 +14,13 @@ class Gitlab::CLI
     case cmd
     when 'help'
       puts actions_table
+    when 'info'
+      endpoint = Gitlab.endpoint ? Gitlab.endpoint : 'not set'
+      private_token = Gitlab.private_token ? Gitlab.private_token : 'not set'
+      puts "Gitlab endpoint is #{endpoint}"
+      puts "Gitlab private token is #{private_token}"
+      puts "Ruby Version is #{RUBY_VERSION}"
+      puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
     when '-v', '--version'
       puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
     else

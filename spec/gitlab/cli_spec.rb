@@ -9,6 +9,16 @@ describe Gitlab::CLI do
       end
     end
 
+    context "when command is info" do
+      it "should show environment info" do
+        output = capture_output { Gitlab::CLI.run('info') }
+        expect(output).to include("Gitlab endpoint is")
+        expect(output).to include("Gitlab private token is")
+        expect(output).to include("Ruby Version is")
+        expect(output).to include("Gitlab Ruby Gem")
+      end
+    end
+
     context "when command is help" do
       it "should show available actions" do
         output = capture_output { Gitlab::CLI.run('help') }
