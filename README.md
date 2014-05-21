@@ -2,7 +2,10 @@
 
 [![Build Status](https://travis-ci.org/NARKOZ/gitlab.png)](http://travis-ci.org/NARKOZ/gitlab)
 
-Gitlab is a Ruby wrapper for the [GitLab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api#gitlab-api).
+[website](http://narkoz.github.io/gitlab) |
+[documentation](http://rubydoc.info/gems/gitlab/frames)
+
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api#gitlab-api).
 
 ## Installation
 
@@ -25,7 +28,7 @@ Configuration example:
 
 ```ruby
 Gitlab.configure do |config|
-  config.endpoint       = 'https://example.net/api/v2' # API endpoint URL (required)
+  config.endpoint       = 'https://example.net/api/v3' # API endpoint URL (required)
   config.private_token  = 'qEsq1pt6HJPaNciie3MG'       # user's private token (required)
   config.user_agent     = 'Custom User Agent'          # user agent, default to 'Gitlab Ruby Gem [version]' (optional)
 end
@@ -35,7 +38,7 @@ Usage examples:
 
 ```ruby
 # set an API endpoint
-Gitlab.endpoint = 'http://example.net/api/v2'
+Gitlab.endpoint = 'http://example.net/api/v3'
 # => "http://example.net/api/v2"
 
 # set a user private token
@@ -68,6 +71,28 @@ Gitlab.sudo = nil
 ```
 
 For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/frames).
+
+## CLI
+
+Usage examples:
+
+```sh
+# list users
+gitlab users
+
+# get current user
+gitlab user
+
+# get a user
+gitlab user 2
+
+# filter output
+gitlab user --only=id,username
+
+gitlab user --except=email,bio
+```
+
+For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## License
 
