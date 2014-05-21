@@ -1,0 +1,78 @@
+---
+title: Configuration
+---
+
+#page-content-wrapper
+  .content-header
+    h1
+      a#menu-toggle.btn.btn-default href="#"
+        span.fa-reorder
+      | Configuration
+
+  .page-content.inset
+    .row
+      .col-md-8
+        p You need to set an API endpoint URL before usage
+        pre
+          code
+            | Gitlab.endpoint = 'http://example.net/api/v3'
+        p
+          ' Setting GitLab user's private token (not required for
+          code session
+          | )
+        pre
+          code
+            | Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
+
+        h1 Sudo
+        p Optionally you can set sudo parameter to perform API calls as another user
+        pre
+          code
+            | Gitlab.sudo = 'other_user'
+        p To disable it
+        pre
+          code
+            | Gitlab.sudo = nil
+
+        hr
+
+        h1 Clients
+        p You can set different configuration values for each client
+        pre
+          code
+            |
+              client1 = Gitlab.client(endpoint: 'https://api1.example.com', private_token: 'user-001')
+              client2 = Gitlab.client(endpoint: 'https://api2.example.com', private_token: 'user-002')
+
+        hr
+
+        h1 Environment variables
+        p
+          ' Gitlab uses
+          code GITLAB_API_ENDPOINT
+          '
+          ' and
+          code GITLAB_API_PRIVATE_TOKEN
+          '
+          ' environment variables by default.
+
+        hr
+
+        h1 Ruby on Rails
+        p
+          ' Create file
+          code config/initializers/gitlab.rb
+          '
+          ' and insert the following code into. Edit where necessary.
+        pre
+          code
+            |
+              Gitlab.configure do |config|
+                config.endpoint       = 'https://example.net/api/v3'
+                config.private_token  = ''
+                config.user_agent     = 'Custom User Agent'
+              end
+
+        br
+        p
+          a.btn.btn-primary.btn-lg href="usage.html" Usage Info

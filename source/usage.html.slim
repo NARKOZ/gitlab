@@ -1,0 +1,58 @@
+---
+title: Usage
+---
+
+#page-content-wrapper
+  .content-header
+    h1
+      a#menu-toggle.btn.btn-default href="#"
+        span.fa-reorder
+      | Usage
+
+  .page-content.inset
+    .row
+      .col-md-8
+        h1 ObjectifiedHash
+        p
+          ' Gitlab returns
+          code Gitlab::ObjectifiedHash
+          '
+          | for items which gives you object-like access to parsed JSON response
+        pre
+          code
+            |
+              user = Gitlab.user
+              user.email #=> "john@example.com"
+
+        p
+          ' You can access the original hash by running
+          code to_h
+          '
+          ' or
+          code to_hash
+          '
+          ' on
+          code Gitlab::ObjectifiedHash
+          '
+          | instance
+        pre
+          code
+            |
+              user = Gitlab.user
+              hash = user.to_h
+
+        hr
+
+        h1 Pagination
+        p
+          ' Use
+          code page
+          '
+          ' (page number) and
+          code per_page
+          '
+          | (number of results per page) in options to paginate collections
+        pre
+          code
+            |
+              Gitlab.projects(per_page: 5)

@@ -4,11 +4,15 @@ html
     meta charset="utf-8"
     meta content="width=device-width, initial-scale=1" name="viewport"
     meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
-    title = current_page.data.title || 'GitLab'
+    title = current_page.data.title ? "#{current_page.data.title} - GitLab" : 'GitLab'
+    link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"
     = stylesheet_link_tag 'all'
     /[if lt IE 9]
       script src="//html5shiv.googlecode.com/svn/trunk/html5.js"
 
   body class=page_classes
-    == yield
+    #wrapper
+      == partial 'sidebar'
+      == yield
+    script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
     == javascript_include_tag 'all'

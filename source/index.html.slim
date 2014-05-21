@@ -1,4 +1,55 @@
----
-title: GitLab
----
+#page-content-wrapper
+  .content-header
+    h1
+      a#menu-toggle.btn.btn-default href="#"
+        span.fa-reorder
+      | GitLab
 
+  .page-content.inset
+    .row
+      .col-md-4
+        h1
+          ' Quick Start
+          small Rubygems
+        pre
+          code
+            | gem install gitlab
+        a.btn.btn-primary.btn-block href="installation.html" Get Started
+
+      .col-md-4
+        h1
+          ' Quick Start
+          small Bundler
+        pre
+          code
+            | gem 'gitlab'
+        a.btn.btn-primary.btn-block href="installation.html" Get Started
+
+      .col-md-4
+        h1
+          ' Quick Start
+          small Manual build
+        pre
+          code
+            |
+              git clone git@github.com:NARKOZ/gitlab.git
+              cd gitlab
+              gem build gitlab.gemspec
+        a.btn.btn-primary.btn-block href="installation.html" Get Started
+
+    hr
+
+    .row
+      .col-md-3
+        ul.list-group
+          li.list-group-item Convenient DSL
+          li.list-group-item Fully customizable
+          li.list-group-item Easy error handling
+          li.list-group-item Intuitive CLI
+          li.list-group-item Test coverage above 90%
+          li.list-group-item Multithreaded environment support
+
+    .row
+      .col-md-12
+        p
+          a.btn.btn-success.btn-lg href="https://github.com/narkoz/gitlab" Gitlab on GitHub

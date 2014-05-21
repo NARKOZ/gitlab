@@ -1,0 +1,78 @@
+---
+title: CLI
+---
+
+#page-content-wrapper
+  .content-header
+    h1
+      a#menu-toggle.btn.btn-default href="#"
+        span.fa-reorder
+      | CLI
+
+  .page-content.inset
+    .row
+      .col-md-8
+        h1 Commands
+        p
+          ' You need to set
+          a href="configuration.html" environment variables
+          '
+          | before using CLI.
+        p
+          ' Send gitlab methods as commands, and parameters as arguments to
+          code gitlab
+          '
+          | command line utility
+        pre
+          code
+            | gitlab users
+        pre
+          code
+            | gitlab user
+        pre
+          code
+            | gitlab user 2
+
+        hr
+
+        h1 Filter
+        p
+          ' You can filter output by supplying
+          code --only
+          '
+          ' or
+          code --except
+          '
+          | flags
+        pre
+          code
+            |
+              gitlab user --only=id,email,name
+        pre
+          code
+            |
+              gitlab users --except=id,email,name
+
+        hr
+
+        h1 Warning
+        p Before executing destructive commands you will be prompted to confirm them.
+
+        hr
+
+        h1 Additional commands
+        p
+          code help
+          '
+          | lists all available actions
+        p
+          code info
+          '
+          | gives information about environment
+        p
+          code -v
+          '
+          ' or
+          code --version
+          '
+          | shows gem version
