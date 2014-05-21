@@ -55,6 +55,17 @@ class Gitlab::Client
       post(url, :body => {:name => name}.merge(options))
     end
 
+    # Deletes a project.
+    #
+    # @example
+    #   Gitlab.delete_project(4)
+    #
+    # @param  [Integer, String] id The ID or name of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted project.
+    def delete_project(id)
+      delete("/projects/#{id}")
+    end
+
     # Gets a list of project team members.
     #
     # @example

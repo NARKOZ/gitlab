@@ -64,6 +64,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".delete_project" do
+    before do
+      stub_delete("/projects/Gitlab", "project")
+      @project = Gitlab.delete_project('Gitlab')
+    end
+
+    it "should get the correct resource" do
+      expect(a_delete("/projects/Gitlab")).to have_been_made
+    end
+
+    it "should return information about a created project" do
+      expect(@project.name).to eq("Gitlab")
+      expect(@project.owner.name).to eq("John Smith")
+    end
+  end
+
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")
