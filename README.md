@@ -34,6 +34,8 @@ Gitlab.configure do |config|
 end
 ```
 
+(Note: If you are using Gitlab.com's hosted service, your endpoint will be `https://gitlab.com/api/v3`)
+
 Usage examples:
 
 ```ruby
