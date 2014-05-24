@@ -43,7 +43,7 @@ Usage examples:
 ```ruby
 # set an API endpoint
 Gitlab.endpoint = 'http://example.net/api/v3'
-# => "http://example.net/api/v2"
+# => "http://example.net/api/v3"
 
 # set a user private token
 Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
