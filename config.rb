@@ -25,6 +25,15 @@ Slim::Engine.set_default_options format: :html5
 # Helpers
 ###
 
+commit_sha = `git log --pretty="%h" -n1`.strip
+commit_message = "update to #{commit_sha}"
+
+activate :deploy do |deploy|
+  deploy.build_before = true
+  deploy.method = :git
+  deploy.commit_message = commit_message
+end
+
 # Automatic image dimensions on image_tag helper
 activate :automatic_image_sizes
 

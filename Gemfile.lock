@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/NARKOZ/middleman-deploy.git
+  revision: efd66e7fcab1c9c3c0ddb09558f19811f05b2cae
+  branch: custom-commit-message
+  specs:
+    middleman-deploy (0.2.3)
+      middleman-core (>= 3.0.0)
+      net-sftp
+      ptools
+
+GIT
   remote: git://github.com/twbs/bootstrap-sass.git
   revision: a416cb86a3ddc6906892b2c0472deea306989fea
   specs:
@@ -81,12 +91,16 @@ GEM
       sprockets-sass (~> 1.1.0)
     minitest (4.7.5)
     multi_json (1.10.1)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.1)
     padrino-helpers (0.12.2)
       i18n (~> 0.6, >= 0.6.7)
       padrino-support (= 0.12.2)
       tilt (~> 1.4.1)
     padrino-support (0.12.2)
       activesupport (>= 3.1)
+    ptools (1.2.4)
     rack (1.5.2)
     rack-livereload (0.3.15)
       rack
@@ -127,5 +141,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass!
   middleman (~> 3.3.2)
+  middleman-deploy!
   middleman-livereload (~> 3.1.0)
   slim
