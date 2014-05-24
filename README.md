@@ -28,9 +28,11 @@ Configuration example:
 
 ```ruby
 Gitlab.configure do |config|
-  config.endpoint       = 'https://example.net/api/v3' # API endpoint URL (required)
-  config.private_token  = 'qEsq1pt6HJPaNciie3MG'       # user's private token (required)
-  config.user_agent     = 'Custom User Agent'          # user agent, default to 'Gitlab Ruby Gem [version]' (optional)
+  config.endpoint       = 'https://example.net/api/v3' # API endpoint URL, default: ENV['GITLAB_API_ENDPOINT']
+  config.private_token  = 'qEsq1pt6HJPaNciie3MG'       # user's private token, default: ENV['GITLAB_API_PRIVATE_TOKEN']
+  # Optional
+  # config.user_agent   = 'Custom User Agent'          # user agent, default: 'Gitlab Ruby Gem [version]'
+  # config.sudo         = 'user'                       # username for sudo mode, default: nil
 end
 ```
 
