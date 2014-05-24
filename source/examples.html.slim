@@ -13,10 +13,30 @@ title: Examples
   .page-content.inset
     .row
       .col-md-8
-        h1 Session
+        h1 Get private token
         p Authorize and get private token of a user
         pre
           code
             |
               user = Gitlab.session('email', 'password')
               user.private_token #=> "qEsq1pt6HJPaNciie3MG"
+
+        hr
+
+        h1 Mass create projects
+        p Bulk create projects and repositories
+        pre
+          code
+            | # See: http://narkoz.github.io/gitlab/configuration.html
+            = "\n"
+            | client = Gitlab.client(endpoint: endpoint, private_token: private_token)
+            = "\n"
+            = "\n"
+            | project_names = %w(project1 project2 project007)
+            = "\n"
+            = "\n"
+            |
+              project_names.each do |name|
+                project = client.create_project name
+                puts "\#{name} created on \#{project.web_url}"
+              end
