@@ -40,3 +40,18 @@ title: Examples
                 project = client.create_project name
                 puts "\#{name} created on \#{project.web_url}"
               end
+
+        hr
+
+        h1 Handling errors
+        p
+          ' The client raises errors inherited from
+          code Gitlab::Error::Error
+        pre
+          code
+            |
+              begin
+                client.create_project 'example'
+              rescue Gitlab::Error::Error => error
+                puts error
+              end
