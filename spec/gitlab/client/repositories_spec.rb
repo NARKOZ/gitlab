@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Gitlab::Client do
   it { should respond_to :repo_tags }
+  it { should respond_to :repo_create_tag }
   it { should respond_to :repo_branches }
   it { should respond_to :repo_branch }
   it { should respond_to :repo_commits }
@@ -21,6 +22,21 @@ describe Gitlab::Client do
     it "should return an array of repository tags" do
       expect(@tags).to be_an Array
       expect(@tags.first.name).to eq("v2.8.2")
+    end
+  end
+
+  describe ".create_tag" do
+    before do
+      stub_post("/projects/3/repository/tags", "tag")
+      @tag = Gitlab.create_tag(3,'v1.0.0','2695effb5807a22ff3d138d593fd856244e155e7')
+    end
+
+    it "should get the correct resource" do
+      a_post("/projects/3/repository/tags").should have_been_made
+    end
+
+    it "should return information about a new repository tag" do
+      @tag.name.should == 'v1.0.0'
     end
   end
 
