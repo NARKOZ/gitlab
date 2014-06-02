@@ -34,6 +34,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".project_events" do
+    before do
+      stub_get("/projects/1/events", "project_events")
+      @events = Gitlab.project_events(1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/1/events")).to have_been_made
+    end
+
+    it "should return an array of events" do
+      expect(@events).to be_an Array
+      expect(@events.first.action_name).to eq("closed")
+    end
+  end
+
   describe ".create_project" do
     before do
       stub_post("/projects", "project")
