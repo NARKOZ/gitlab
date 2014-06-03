@@ -17,7 +17,7 @@ describe Gitlab::ObjectifiedHash do
     end
 
     it "should have an alias #to_h" do
-      expect(@oh.respond_to?(:to_h)).to be_true
+      expect(@oh.respond_to?(:to_h)).to be_truthy
     end
   end
 end

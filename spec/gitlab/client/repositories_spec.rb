@@ -28,15 +28,15 @@ describe Gitlab::Client do
   describe ".create_tag" do
     before do
       stub_post("/projects/3/repository/tags", "tag")
-      @tag = Gitlab.create_tag(3,'v1.0.0','2695effb5807a22ff3d138d593fd856244e155e7')
+      @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
     end
 
     it "should get the correct resource" do
-      a_post("/projects/3/repository/tags").should have_been_made
+      expect(a_post("/projects/3/repository/tags")).to have_been_made
     end
 
     it "should return information about a new repository tag" do
-      @tag.name.should == 'v1.0.0'
+      expect(@tag.name).to eq("v1.0.0")
     end
   end
 

@@ -30,7 +30,7 @@ describe Gitlab::Client do
 
       it "should return an array of user's issues" do
         expect(@issues).to be_an Array
-        expect(@issues.first.closed).to be_false
+        expect(@issues.first.closed).to be_falsey
         expect(@issues.first.author.name).to eq("John Smith")
       end
     end
