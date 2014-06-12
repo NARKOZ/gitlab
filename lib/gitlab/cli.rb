@@ -27,7 +27,7 @@ class Gitlab::CLI
     when 'shell'
       Gitlab::Shell.start
     else
-      unless Gitlab.actions.include?(cmd.to_sym)
+      unless valid_command?(cmd)
         puts "Unknown command. Run `gitlab help` for a list of available commands."
         exit(1)
       end

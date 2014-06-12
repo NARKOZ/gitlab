@@ -25,6 +25,14 @@ class Gitlab::CLI
       end
     end
 
+    # Confirms command is valid.
+    #
+    # @return [Boolean]
+    def valid_command?(cmd)
+      command = cmd.is_a?(Symbol) ? cmd : cmd.to_sym
+      Gitlab.actions.include?(command)
+    end
+
     # Confirms command with a desctructive action.
     #
     # @return [String]
