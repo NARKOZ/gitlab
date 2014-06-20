@@ -25,6 +25,14 @@ class Gitlab::CLI
       end
     end
 
+    # Confirms command is valid.
+    #
+    # @return [Boolean]
+    def valid_command?(cmd)
+      command = cmd.is_a?(Symbol) ? cmd : cmd.to_sym
+      Gitlab.actions.include?(command)
+    end
+
     # Confirms command with a desctructive action.
     #
     # @return [String]
@@ -75,6 +83,22 @@ class Gitlab::CLI
           t.add_row row
         end
       end
+    end
+
+    # Decides which table to use.
+    #
+    # @return [String]
+
+    def output_table(cmd, args, data)
+      case data
+      when Gitlab::ObjectifiedHash
+        puts single_record_table(data, cmd, args)
+      when Array
+        puts multiple_record_table(data, cmd, args)
+      else
+        puts data.inspect
+      end
+
     end
 
     # Table for a single record.
@@ -136,6 +160,17 @@ class Gitlab::CLI
           t.add_separator unless arr.size - 1 == index
         end
       end
+    end
+
+    # Helper function to call Gitlab commands, w/ args
+    def gitlab_helper(cmd,args=[])
+      begin
+        data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
+      rescue => e
+        puts e.message
+        yield if block_given?
+      end
+      data
     end
   end
 end

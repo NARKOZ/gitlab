@@ -1,6 +1,7 @@
 require 'gitlab'
 require 'terminal-table/import'
 require_relative 'cli_helpers'
+require_relative 'shell'
 
 class Gitlab::CLI
   extend Helpers
@@ -23,8 +24,10 @@ class Gitlab::CLI
       puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
     when '-v', '--version'
       puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
+    when 'shell'
+      Gitlab::Shell.start
     else
-      unless Gitlab.actions.include?(cmd.to_sym)
+      unless valid_command?(cmd)
         puts "Unknown command. Run `gitlab help` for a list of available commands."
         exit(1)
       end
@@ -37,21 +40,8 @@ class Gitlab::CLI
 
       confirm_command(cmd)
 
-      begin
-        data = args.any? ? Gitlab.send(cmd, *command_args) : Gitlab.send(cmd)
-      rescue => e
-        puts e.message
-        exit(1)
-      end
-
-      case data
-      when Gitlab::ObjectifiedHash
-        puts single_record_table(data, cmd, args)
-      when Array
-        puts multiple_record_table(data, cmd, args)
-      else
-        puts data.inspect
-      end
+      data = gitlab_helper(cmd,command_args) { exit(1) }
+      output_table(cmd,args,data)
     end
   end
 end

@@ -96,6 +96,24 @@ gitlab user --only=id,username
 gitlab user --except=email,bio
 ```
 
+## CLI Shell
+
+Usage:
+
+```sh
+[user@host ~]$ gitlab shell
+# set endpoint for session
+gitlab> endpoint= http://192.168.1.20/api/v3
+"http://192.168.1.20/api/v3"
+# set private token for session
+gitlab> private_token= Z78CpekqasoWahskVcVr
+"Z78CpekqasoWahskVcVr"
+# list groups
+gitlab> groups
+# protect a branch
+gitlab> protect_branch 1 master
+```
+
 For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## License
