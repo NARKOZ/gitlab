@@ -1,29 +1,22 @@
 GIT
-  remote: git://github.com/NARKOZ/middleman-deploy.git
-  revision: efd66e7fcab1c9c3c0ddb09558f19811f05b2cae
-  branch: custom-commit-message
-  specs:
-    middleman-deploy (0.2.3)
-      middleman-core (>= 3.0.0)
-      net-sftp
-      ptools
-
-GIT
   remote: git://github.com/twbs/bootstrap-sass.git
-  revision: a416cb86a3ddc6906892b2c0472deea306989fea
+  revision: 081372ebf582d69791b3f77c6e4c383f86043a04
   specs:
     bootstrap-sass (3.1.1.1)
+      autoprefixer-rails (~> 1.1)
       sass (~> 3.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.0.5)
+    activesupport (4.1.1)
       i18n (~> 0.6, >= 0.6.9)
-      minitest (~> 4.2)
-      multi_json (~> 1.3)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
       thread_safe (~> 0.1)
-      tzinfo (~> 0.3.37)
+      tzinfo (~> 1.1)
+    autoprefixer-rails (1.3.1.20140619)
+      execjs
     chunky_png (1.3.1)
     coffee-script (2.2.0)
       coffee-script-source
@@ -40,7 +33,7 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    execjs (2.0.2)
+    execjs (2.2.0)
     ffi (1.9.3)
     fssm (0.2.10)
     haml (4.0.5)
@@ -51,24 +44,24 @@ GEM
     http_parser.rb (0.6.0)
     i18n (0.6.9)
     json (1.8.1)
-    kramdown (1.3.3)
+    kramdown (1.4.0)
     listen (1.3.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
-    middleman (3.3.2)
+    middleman (3.3.3)
       coffee-script (~> 2.2.0)
       compass (>= 0.12.4)
-      compass-import-once (~> 1.0.4)
+      compass-import-once (= 1.0.4)
       execjs (~> 2.0)
       haml (>= 4.0.5)
       kramdown (~> 1.2)
-      middleman-core (= 3.3.2)
+      middleman-core (= 3.3.3)
       middleman-sprockets (>= 3.1.2)
       sass (>= 3.2.17, < 4.0)
       uglifier (~> 2.5)
-    middleman-core (3.3.2)
-      activesupport (~> 4.0.1)
+    middleman-core (3.3.3)
+      activesupport (~> 4.1.0)
       bundler (~> 1.1)
       erubis
       hooks (~> 0.3)
@@ -79,6 +72,10 @@ GEM
       rack-test (~> 0.6.2)
       thor (>= 0.15.2, < 2.0)
       tilt (~> 1.4.1, < 2.0)
+    middleman-deploy (0.2.4)
+      middleman-core (>= 3.0.0)
+      net-sftp
+      ptools
     middleman-livereload (3.1.1)
       em-websocket (>= 0.2.0)
       middleman-core (>= 3.0.2)
@@ -89,7 +86,7 @@ GEM
       sprockets (~> 2.2)
       sprockets-helpers (~> 1.1.0)
       sprockets-sass (~> 1.1.0)
-    minitest (4.7.5)
+    minitest (5.3.5)
     multi_json (1.10.1)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
@@ -107,9 +104,9 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     rb-fsevent (0.9.4)
-    rb-inotify (0.9.4)
+    rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    rb-kqueue (0.2.2)
+    rb-kqueue (0.2.3)
       ffi (>= 0.5.0)
     sass (3.2.19)
     slim (2.0.2)
@@ -127,11 +124,12 @@ GEM
       tilt (~> 1.1)
     temple (0.6.7)
     thor (0.19.1)
-    thread_safe (0.3.3)
+    thread_safe (0.3.4)
     tilt (1.4.1)
-    tzinfo (0.3.39)
+    tzinfo (1.2.1)
+      thread_safe (~> 0.1)
     uber (0.0.6)
-    uglifier (2.5.0)
+    uglifier (2.5.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
 
@@ -141,6 +139,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass!
   middleman (~> 3.3.2)
-  middleman-deploy!
+  middleman-deploy
   middleman-livereload (~> 3.1.0)
   slim
