@@ -70,6 +70,10 @@ title: CLI
           '
           | lists all available actions
         p
+          code shell
+          '
+          | runs shell to perform commands
+        p
           code info
           '
           | gives information about environment
@@ -80,3 +84,27 @@ title: CLI
           code --version
           '
           | shows gem version
+
+        hr
+
+        h1 Shell
+        p
+          ' You can perform commands in special
+          code gitlab
+          '
+          ' shell by running
+          code gitlab shell
+
+        pre
+          code
+            |
+              gitlab shell
+
+              # list available commands
+              gitlab> help
+
+              # list groups
+              gitlab> groups
+
+              # protect a branch
+              gitlab> protect_branch 1 master
