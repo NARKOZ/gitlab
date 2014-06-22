@@ -40,8 +40,8 @@ class Gitlab::CLI
 
       confirm_command(cmd)
 
-      data = gitlab_helper(cmd,command_args) { exit(1) }
-      output_table(cmd,args,data)
+      data = gitlab_helper(cmd, command_args) { exit(1) }
+      output_table(cmd, args, data)
     end
   end
 end

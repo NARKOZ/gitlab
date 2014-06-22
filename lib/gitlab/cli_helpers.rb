@@ -88,7 +88,6 @@ class Gitlab::CLI
     # Decides which table to use.
     #
     # @return [String]
-
     def output_table(cmd, args, data)
       case data
       when Gitlab::ObjectifiedHash
@@ -98,7 +97,6 @@ class Gitlab::CLI
       else
         puts data.inspect
       end
-
     end
 
     # Table for a single record.
@@ -162,14 +160,15 @@ class Gitlab::CLI
       end
     end
 
-    # Helper function to call Gitlab commands, w/ args
-    def gitlab_helper(cmd,args=[])
+    # Helper function to call Gitlab commands with args.
+    def gitlab_helper(cmd, args=[])
       begin
         data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
       rescue => e
         puts e.message
         yield if block_given?
       end
+
       data
     end
   end

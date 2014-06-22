@@ -1,7 +1,7 @@
 require 'gitlab'
 require 'gitlab/help'
-require "readline"
-require_relative 'cli_helpers'
+require 'gitlab/cli_helpers'
+require 'readline'
 
 class Gitlab::Shell
   extend Gitlab::CLI::Helpers
@@ -11,8 +11,8 @@ class Gitlab::Shell
 
     comp = proc { |s| actions.map(&:to_s).grep(/^#{Regexp.escape(s)}/) }
 
-    Readline.completion_append_character = " "
     Readline.completion_proc = comp
+    Readline.completion_append_character = ' '
 
     client = Gitlab::Client.new(endpoint: '')
 
@@ -20,9 +20,9 @@ class Gitlab::Shell
       next if buf.nil? || buf.empty?
       buf = buf.split.map(&:chomp)
       cmd = buf.shift
-      args = buf.count > 0 ? buf : [] 
+      args = buf.count > 0 ? buf : []
 
-      if cmd === 'help'
+      if cmd == 'help'
         methods = []
 
         actions.each do |action|
@@ -31,16 +31,18 @@ class Gitlab::Shell
             owner: client.method(action).owner.to_s
           }
         end
-        args[0].nil? ? Gitlab::Help.get_help(methods) : Gitlab::Help.get_help(methods,args[0])
+
+        args[0].nil? ? Gitlab::Help.get_help(methods) : Gitlab::Help.get_help(methods, args[0])
         next
       end
-      data = if !actions.include?(cmd.to_sym)
-        "'#{cmd}' is not a valid command.  See the 'help' for a list of valid commands."
-      else
+
+      data = if actions.include?(cmd.to_sym)
         confirm_command(cmd)
-        gitlab_helper(cmd,args)
+        gitlab_helper(cmd, args)
+      else
+        "'#{cmd}' is not a valid command.  See the 'help' for a list of valid commands."
       end
-      
+
       output_table(cmd, args, data)
     end
   end
