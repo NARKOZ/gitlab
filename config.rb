@@ -1,6 +1,8 @@
 Slim::Engine.set_default_options format: :html5
 
-%w(cli configuration examples installation usage).each do |page|
+PAGES = %w(cli configuration examples installation usage)
+
+PAGES.each do |page|
   proxy page, "#{page}.html"
 end
 
@@ -43,6 +45,8 @@ set :images_dir, 'images'
 
 # Build-specific configuration
 configure :build do
+  PAGES.map {|p| ignore p }
+
   # For example, change the Compass output style for deployment
   activate :minify_css
 
