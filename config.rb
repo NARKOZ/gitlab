@@ -33,7 +33,7 @@ end
 
 helpers do
   def link_to_get_started
-    link_to 'Get Started', 'installation', class: 'btn btn-primary btn-block'
+    link_to 'Get Started', 'gitlab/installation', class: 'btn btn-primary btn-block'
   end
 end
 
