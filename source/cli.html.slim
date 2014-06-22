@@ -13,12 +13,13 @@ title: CLI
   .page-content.inset
     .row
       .col-md-8
-        h1 Commands
-        p
+        .alert.alert-danger
           ' You need to set
-          a href="configuration.html" environment variables
+          a.alert-link href="configuration" environment variables
           '
           | before using CLI.
+
+        h1 Commands
         p
           ' Send gitlab methods as commands, and parameters as arguments to
           code gitlab
@@ -56,8 +57,10 @@ title: CLI
 
         hr
 
-        h1 Warning
-        p Before executing destructive commands you will be prompted to confirm them.
+        .alert.alert-warning
+          strong Warning:
+          '
+          | Before executing destructive commands you will be prompted to confirm them.
 
         hr
 
