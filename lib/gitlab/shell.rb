@@ -16,8 +16,10 @@ class Gitlab::Shell
 
     client = Gitlab::Client.new(endpoint: '')
 
-    while buf = Readline.readline("gitlab> ", true)
+    while buf = Readline.readline('gitlab> ', true)
       next if buf.nil? || buf.empty?
+      break if buf == 'exit'
+
       buf = buf.split.map(&:chomp)
       cmd = buf.shift
       args = buf.count > 0 ? buf : []
