@@ -8,6 +8,8 @@ describe Gitlab::Client do
   it { should respond_to :repo_commits }
   it { should respond_to :repo_commit }
   it { should respond_to :repo_commit_diff }
+  it { should respond_to :repo_commit_comments }
+  it { should respond_to :repo_create_commit_comment }
 
   describe ".tags" do
     before do
@@ -87,6 +89,34 @@ describe Gitlab::Client do
 
     it "should return a diff of a commit" do
       expect(@diff.new_path).to eq("doc/update/5.4-to-6.0.md")
+    end
+  end
+
+  describe ".commit_comments" do
+    before do
+      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "commit_comments")
+      @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    end
+
+    it "should return commit's comments" do
+      expect(@commit_comments).to be_an Array
+      expect(@commit_comments.length).to eq(2)
+      expect(@commit_comments[0].note).to eq("this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
+      expect(@commit_comments[0].author.id).to eq(11)
+      expect(@commit_comments[1].note).to eq("another discussion point on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
+      expect(@commit_comments[1].author.id).to eq(12)
+    end
+  end
+
+  describe ".create_commit_comment" do
+    before do
+      stub_post("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "comment_commit")
+    end
+
+    it "should return information about the newly created comment" do
+      @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
+      expect(@merge_request.note).to eq('Nice code!')
+      @merge_request.author.id == 1
     end
   end
 end
