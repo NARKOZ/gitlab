@@ -105,8 +105,8 @@ class Gitlab::Client
     # @param  [String] title The title of an SSH key.
     # @param  [String] key The SSH key body.
     # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
-    def create_ssh_key(title, key)
-      post("/user/keys", :body => {:title => title, :key => key})
+    def create_ssh_key(id, title, key)
+      post("/user/#{id}/keys", :body => {:title => title, :key => key})
     end
 
     # Deletes an SSH key.
