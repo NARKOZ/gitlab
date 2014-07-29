@@ -20,10 +20,10 @@ module Gitlab::Help
             ri_output = `#{ri_cmd} -T #{namespace} 2>&1`.chomp
 
             if $? == 0
-              ri_output.gsub!(/#{cmd}\((.*)\)/, cmd+' \1')
+              ri_output.gsub!(/#{cmd}\((.*?)\)/, cmd+' \1')
               ri_output.gsub!(/Gitlab\./, 'gitlab> ')
               ri_output.gsub!(/Gitlab\..+$/, '')
-              ri_output.gsub!(/\,/, '')
+              ri_output.gsub!(/\,\s?/, ' ')
               help = ri_output
             else
               help = "Ri docs not found for #{namespace}, please install the docs to use 'help'"

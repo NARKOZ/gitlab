@@ -20,7 +20,7 @@ class Gitlab::Shell
       next if buf.nil? || buf.empty?
       break if buf == 'exit'
 
-      buf = buf.split.map(&:chomp)
+      buf = buf.scan(/["][^"]+["]|\S+/).map { |word| word.gsub(/^['"]|['"]$/,'') }
       cmd = buf.shift
       args = buf.count > 0 ? buf : []
 
