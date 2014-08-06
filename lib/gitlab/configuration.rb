@@ -2,7 +2,7 @@ module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
     # An array of valid keys in the options hash when configuring a Gitlab::API.
-    VALID_OPTIONS_KEYS = [:endpoint, :private_token, :user_agent, :sudo].freeze
+    VALID_OPTIONS_KEYS = [:endpoint, :private_token, :user_agent, :sudo, :httparty].freeze
 
     # The user agent that will be sent to the API endpoint if none is set.
     DEFAULT_USER_AGENT = "Gitlab Ruby Gem #{Gitlab::VERSION}".freeze
