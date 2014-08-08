@@ -16,6 +16,10 @@ module Gitlab
     end
     alias_method :to_h, :to_hash
 
+    def [](key)
+      to_hash[key]
+    end
+
     # Delegate to ObjectifiedHash.
     def method_missing(key)
       @data.key?(key.to_s) ? @data[key.to_s] : nil
