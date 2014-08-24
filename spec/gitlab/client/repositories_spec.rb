@@ -26,17 +26,34 @@ describe Gitlab::Client do
   end
 
   describe ".create_tag" do
-    before do
-      stub_post("/projects/3/repository/tags", "tag")
-      @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
+    context "lightweight" do
+      before do
+        stub_post("/projects/3/repository/tags", "tag")
+        @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
+      end
+
+      it "should get the correct resource" do
+        expect(a_post("/projects/3/repository/tags")).to have_been_made
+      end
+
+      it "should return information about a new repository tag" do
+        expect(@tag.name).to eq("v1.0.0")
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_post("/projects/3/repository/tags")).to have_been_made
-    end
+    context "annotated" do
+      before do
+        stub_post("/projects/3/repository/tags", "tag")
+        @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7', 'this is an annotated tag')
+      end
 
-    it "should return information about a new repository tag" do
-      expect(@tag.name).to eq("v1.0.0")
+      it "should get the correct resource" do
+        expect(a_post("/projects/3/repository/tags")).to have_been_made
+      end
+
+      it "should return information about a new repository tag" do
+        expect(@tag.name).to eq("v1.0.0")
+      end
     end
   end
 
