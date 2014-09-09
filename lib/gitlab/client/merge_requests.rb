@@ -86,12 +86,16 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_request_comments(5, 1)
+    #   Gitlab.merge_request_comments(5, 1, :per_page =>10, :page => 2)
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash] The merge request's comments.
-    def merge_request_comments(project, id)
-      get("/projects/#{project}/merge_request/#{id}/comments")
+    def merge_request_comments(project, id, options={})
+      get("/projects/#{project}/merge_request/#{id}/comments", :query => options)
     end
 
     private
