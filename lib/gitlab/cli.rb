@@ -8,7 +8,13 @@ class Gitlab::CLI
 
   def self.start(args)
     command = args.shift.strip rescue 'help'
+    load_config
     run(command, args)
+  end
+
+  def self.load_config
+    path = "#{ENV['HOME']}/.gitlab.rb"
+    require path if File.file? path
   end
 
   def self.run(cmd, args=[])
