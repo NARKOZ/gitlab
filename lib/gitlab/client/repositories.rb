@@ -74,5 +74,20 @@ class Gitlab::Client
       get("/projects/#{project}/repository/commits/#{sha}/diff") 
     end
     alias_method :repo_commit_diff, :commit_diff
+
+    # Compare branches, tags or commits
+    #
+    # @example
+    #   Gitlab.compare(42, 'master', 'feature/branch')
+    #   Gitlab.repo_compare(42, 'master', 'feature/branch')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String] the commit SHA or branch name of from branch
+    # @param [String] the commit SHA or branch name of to branch
+    # @retuen [Gitlab::ObjectifiedHash]
+    def compare(project, from, to)
+      get("/projects/#{project}/repository/compare?from=#{from}&to=#{to}")
+    end
+    alias_method :repo_compare, :compare
   end
 end
