@@ -8,6 +8,7 @@ describe Gitlab::Client do
   it { should respond_to :repo_commits }
   it { should respond_to :repo_commit }
   it { should respond_to :repo_commit_diff }
+  it { should respond_to :repo_compare}
 
   describe ".tags" do
     before do
@@ -87,6 +88,18 @@ describe Gitlab::Client do
 
     it "should return a diff of a commit" do
       expect(@diff.new_path).to eq("doc/update/5.4-to-6.0.md")
+    end
+  end
+
+  describe ".compare" do
+    before do
+      stub_get("/projects/3/repository/compare?from=master&to=feature", "compare_merge_request_diff")
+      @diff = Gitlab.compare(3, 'master', 'feature')
+    end
+
+    it "should get diffs of a merge request" do
+      expect(@diff.diffs).to be_kind_of Array
+      expect(@diff.diffs.last["new_path"]).to eq "files/js/application.js"
     end
   end
 end
