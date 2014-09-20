@@ -191,7 +191,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
     def add_project_hook(project, url, options = {})
       available_events = [:push_events, :merge_requests_events, :issues_events]
-      passed_events = available_events.select { |event| options[event] }
+      passed_events = available_events.select { |event| options.has_key?(event) }
       events = Hash[passed_events.map { |event| [event, options[event]] }]
 
       post("/projects/#{project}/hooks", :body => {:url => url}.merge(events))
