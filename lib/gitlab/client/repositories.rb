@@ -104,5 +104,23 @@ class Gitlab::Client
       raw_get("/projects/#{project}/repository/blobs/#{sha}?filepath=#{file_path}")
     end
     alias_method :repo_contents, :contents
+
+    # Get the comments of a commit in a project.
+    def commit_comments project, sha
+      get("/projects/#{project}/repository/commits/#{sha}/comments")
+    end
+    alias_method :repo_commit_comments, :commit_comments
+
+    # Adds a comment to a commit.
+    #
+    def create_commit_comments project, sha, note, options = {}
+      post("/projects/#{project}/repository/commits/#{sha}/comments", body: {
+        note: note,
+        path: options[:path],
+        line: options[:line],
+        line_type: options[:line_type]
+      })
+    end
+
   end
 end
