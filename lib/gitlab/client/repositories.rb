@@ -19,7 +19,7 @@ class Gitlab::Client
     # Creates a new project repository tag.
     #
     # @example
-    #   Gitlab.create_tag(42,'new_tag','master'))
+    #   Gitlab.create_tag(42,'new_tag','master')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String]  tag_name The name of the new tag.
