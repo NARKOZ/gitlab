@@ -78,8 +78,13 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @param  [String] note The content of a comment.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
-    def create_merge_request_comment(project, id, note)
-      post("/projects/#{project}/merge_request/#{id}/comments", :body => {:note => note})
+    def create_merge_request_comment(project, id, note, options = {})
+      post("/projects/#{project}/merge_request/#{id}/comments", :body => {
+        :note => note,
+        :line => options[:line],
+        :file_path => options[:file_path],
+        :line_type => options[:line_type]
+      })
     end
 
     # Gets the comments on a merge request.
