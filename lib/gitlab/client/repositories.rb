@@ -74,5 +74,53 @@ class Gitlab::Client
       get("/projects/#{project}/repository/commits/#{sha}/diff") 
     end
     alias_method :repo_commit_diff, :commit_diff
+
+    # Compare branches, tags or commits
+    #
+    # @example
+    #   Gitlab.compare(42, 'master', 'feature/branch')
+    #   Gitlab.repo_compare(42, 'master', 'feature/branch')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String] the commit SHA or branch name of from branch
+    # @param [String] the commit SHA or branch name of to branch
+    # @retuen [Gitlab::ObjectifiedHash]
+    def compare(project, from, to)
+      get("/projects/#{project}/repository/compare?from=#{from}&to=#{to}")
+    end
+    alias_method :repo_compare, :compare
+
+    # Raw file content
+    #
+    # @example
+    #   Gitlab.contents(42, "ed899a2f4b50b4370feeea94676502b42383c746", "path/of/file")
+    #   Gitlab.repo_contents(42, "ed899a2f4b50b4370feeea94676502b42383c746", "path/of/file")
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String]  The commit or branch name
+    # @param [String] The path the file
+    # @return [Gitlab::ObjectifiedHash]
+    def contents(project, sha, file_path)
+      raw_get("/projects/#{project}/repository/blobs/#{sha}?filepath=#{file_path}")
+    end
+    alias_method :repo_contents, :contents
+
+    # Get the comments of a commit in a project.
+    def commit_comments project, sha
+      get("/projects/#{project}/repository/commits/#{sha}/comments")
+    end
+    alias_method :repo_commit_comments, :commit_comments
+
+    # Adds a comment to a commit.
+    #
+    def create_commit_comments project, sha, note, options = {}
+      post("/projects/#{project}/repository/commits/#{sha}/comments", body: {
+        note: note,
+        path: options[:path],
+        line: options[:line],
+        line_type: options[:line_type]
+      })
+    end
+
   end
 end
