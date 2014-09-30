@@ -34,21 +34,25 @@ module Gitlab
     end
 
     def get(path, options={})
+      set_httparty_config(options)
       set_private_token_header(options)
       validate self.class.get(path, options)
     end
 
     def post(path, options={})
+      set_httparty_config(options)
       set_private_token_header(options, path)
       validate self.class.post(path, options)
     end
 
     def put(path, options={})
+      set_httparty_config(options)
       set_private_token_header(options)
       validate self.class.put(path, options)
     end
 
     def delete(path, options={})
+      set_httparty_config(options)
       set_private_token_header(options)
       validate self.class.delete(path, options)
     end
@@ -90,6 +94,14 @@ module Gitlab
       unless path == '/session'
         raise Error::MissingCredentials.new("Please set a private_token for user") unless @private_token
         options[:headers] = {'PRIVATE-TOKEN' => @private_token}
+      end
+    end
+
+    # Set HTTParty configuration
+    # @see https://github.com/jnunemaker/httparty
+    def set_httparty_config(options)
+      if self.httparty
+        options.merge!(self.httparty)
       end
     end
 
