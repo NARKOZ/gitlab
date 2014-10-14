@@ -68,6 +68,20 @@ class Gitlab::Client
       put("/projects/#{project}/merge_request/#{id}", :body => options)
     end
 
+    # Accepts a merge request.
+    #
+    # @example
+    #   Gitlab.accept_merge_request(5, 42, :merge_commit_message => 'Nice!')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :merge_commit_message Custom merge commit message
+    # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
+    def accept_merge_request(project, id, options={})
+      put("/projects/#{project}/merge_request/#{id}/merge", :body => options)
+    end
+
     # Adds a comment to a merge request.
     #
     # @example
