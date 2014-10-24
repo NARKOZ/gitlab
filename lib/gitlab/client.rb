@@ -14,5 +14,6 @@ module Gitlab
     include Snippets
     include SystemHooks
     include Users
+    include Helpers
   end
 end
