@@ -33,28 +33,21 @@ module Gitlab
       end
     end
 
-    def get(path, options={})
+    def get(   path, opts={}); http_validated_response_body_for __method__, path, opts; end
+    def post(  path, opts={}); http_validated_response_body_for __method__, path, opts; end
+    def put(   path, opts={}); http_validated_response_body_for __method__, path, opts; end
+    def delete(path, opts={}); http_validated_response_body_for __method__, path, opts; end
+
+    def http_response_for verb, path, options={}
       set_httparty_config(options)
-      set_private_token_header(options)
-      validate self.class.get(path, options)
+      set_private_token_header(options, (verb==:post ? path : nil) )
+      # Here, self is probably Gitlab::Client, to which
+      # Gitlab delegates missing methods.
+      self.class.send(verb, path, options)
     end
 
-    def post(path, options={})
-      set_httparty_config(options)
-      set_private_token_header(options, path)
-      validate self.class.post(path, options)
-    end
-
-    def put(path, options={})
-      set_httparty_config(options)
-      set_private_token_header(options)
-      validate self.class.put(path, options)
-    end
-
-    def delete(path, options={})
-      set_httparty_config(options)
-      set_private_token_header(options)
-      validate self.class.delete(path, options)
+    def http_validated_response_body_for verb, path, options
+      validate http_response_for verb, path, options
     end
 
     # Checks the response code for common errors.
