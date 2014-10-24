@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash]
     def snippets(project, options={})
-      get("/projects/#{project}/snippets", :query => options)
+      paginate("/projects/#{project}/snippets", :query => options)
     end
 
     # Gets information about a snippet.

@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def branches(project, options={})
-      get("/projects/#{project}/repository/branches", :query => options)
+      paginate("/projects/#{project}/repository/branches", :query => options)
     end
     alias_method :repo_branches, :branches
 

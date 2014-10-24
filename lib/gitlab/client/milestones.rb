@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def milestones(project, options={})
-      get("/projects/#{project}/milestones", :query => options)
+      paginate("/projects/#{project}/milestones", :query => options)
     end
 
     # Gets a single milestone.

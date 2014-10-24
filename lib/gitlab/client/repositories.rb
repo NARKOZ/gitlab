@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def tags(project, options={})
-      get("/projects/#{project}/repository/tags", :query => options)
+      paginate("/projects/#{project}/repository/tags", :query => options)
     end
     alias_method :repo_tags, :tags
 
@@ -43,7 +43,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def commits(project, options={})
-      get("/projects/#{project}/repository/commits", :query => options)
+      paginate("/projects/#{project}/repository/commits", :query => options)
     end
     alias_method :repo_commits, :commits
 

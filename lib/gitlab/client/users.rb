@@ -83,7 +83,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def ssh_keys(options={})
-      get("/user/keys", :query => options)
+      paginate("/user/keys", :query => options)
     end
 
     # Gets information about SSH key.

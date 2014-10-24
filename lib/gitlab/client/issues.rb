@@ -16,9 +16,9 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def issues(project=nil, options={})
       if project.to_i.zero?
-        get("/issues", :query => options)
+        paginate("/issues", :query => options)
       else
-        get("/projects/#{project}/issues", :query => options)
+        paginate("/projects/#{project}/issues", :query => options)
       end
     end
 

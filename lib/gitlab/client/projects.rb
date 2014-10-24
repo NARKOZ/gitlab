@@ -13,9 +13,9 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def projects(options={})
       if (options[:scope])
-        get("/projects/#{options[:scope]}", :query => options)
+        paginate("/projects/#{options[:scope]}", :query => options)
       else
-        get("/projects", :query => options)
+        paginate("/projects", :query => options)
       end
     end
 
@@ -43,7 +43,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_events(project, options={})
-      get("/projects/#{project}/events", :query => options)
+      paginate("/projects/#{project}/events", :query => options)
     end
 
     # Creates a new project.
@@ -96,7 +96,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def team_members(project, options={})
-      get("/projects/#{project}/members", :query => options)
+      paginate("/projects/#{project}/members", :query => options)
     end
 
     # Gets a project team member.
@@ -164,7 +164,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_hooks(project, options={})
-      get("/projects/#{project}/hooks", :query => options)
+      paginate("/projects/#{project}/hooks", :query => options)
     end
 
     # Gets a project hook.
@@ -257,7 +257,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def deploy_keys(project, options={})
-      get("/projects/#{project}/keys", :query => options)
+      paginate("/projects/#{project}/keys", :query => options)
     end
 
     # Gets a single project deploy key.
