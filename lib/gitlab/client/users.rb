@@ -30,17 +30,27 @@ class Gitlab::Client
     # Creates a new user.
     # Requires authentication from an admin account.
     #
+    # @example
+    #   Gitlab.create_user('john@example.com', 'secret12345', 'john', 'John Smith')
+    #
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
+    # @param  [String] username The username of a user.
+    # @param  [String] name The name of a user.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :name The name of a user. Defaults to email.
     # @option options [String] :skype The skype of a user.
     # @option options [String] :linkedin The linkedin of a user.
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
+    # @option options [Integer] :extern_uid The external uid of a user.
+    # @option options [String] :provider The external provider name of a user.
+    # @option options [String] :bio The biography of a user.
+    # @option options [Boolean] :admin User is admin (0 = false, 1 = true).
+    # @option options [Boolean] :can_create_group User can create groups (0 = false, 1 = true).
     # @return [Gitlab::ObjectifiedHash] Information about created user.
-    def create_user(email, password, options={})
-      body = {:email => email, :password => password, :name => email}.merge(options)
+    def create_user(email, password, username, name, options={})
+      body = {:email => email, :password => password, :username => username,
+              :name => name}.merge(options)
       post("/users", :body => body)
     end
 
@@ -71,6 +81,17 @@ class Gitlab::Client
     # @note This method doesn't require private_token to be set.
     def session(email, password)
       post("/session", :body => {:email => email, :password => password})
+    end
+
+    # Deletes a user.
+    #
+    # @example
+    #   Gitlab.delete_user(42)
+    #
+    # @param  [Integer] id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted user.
+    def delete_user(id)
+      delete("/users/#{id}")
     end
 
     # Gets a list of user's SSH keys.
