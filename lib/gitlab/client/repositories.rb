@@ -24,9 +24,10 @@ class Gitlab::Client
     # @param  [Integer] project The ID of a project.
     # @param  [String]  tag_name The name of the new tag.
     # @param  [String]  ref The ref (commit sha, branch name, or another tag) the tag will point to.
+    # @param  [String]  message Optional message for tag, creates annotated tag if specified.
     # @return [Gitlab::ObjectifiedHash]
-    def create_tag(project, tag_name, ref)
-      post("/projects/#{project}/repository/tags", body: {tag_name: tag_name, ref: ref})
+    def create_tag(project, tag_name, ref, message='')
+      post("/projects/#{project}/repository/tags", body: {tag_name: tag_name, ref: ref, message: message})
     end
     alias_method :repo_create_tag, :create_tag
 
