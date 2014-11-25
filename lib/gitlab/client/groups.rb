@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def groups(options={})
-      get("/groups", :query => options)
+      paginate("/groups", :query => options)
     end
 
     # Gets a single group.

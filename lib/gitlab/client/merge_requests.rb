@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def merge_requests(project, options={})
-      get("/projects/#{project}/merge_requests", :query => options)
+      paginate("/projects/#{project}/merge_requests", :query => options)
     end
 
     # Gets a single merge request.
