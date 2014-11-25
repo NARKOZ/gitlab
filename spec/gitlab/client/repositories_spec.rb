@@ -7,6 +7,7 @@ describe Gitlab::Client do
   it { should respond_to :repo_branch }
   it { should respond_to :repo_commits }
   it { should respond_to :repo_commit }
+  it { should respond_to :repo_file_contents }
   it { should respond_to :repo_commit_diff }
 
   describe ".tags" do
@@ -74,6 +75,21 @@ describe Gitlab::Client do
     it "should return an array of repository commits" do
       expect(@commits).to be_an Array
       expect(@commits.first.id).to eq("f7dd067490fe57505f7226c3b54d3127d2f7fd46")
+    end
+  end
+
+  describe ".file_contents" do
+    before do
+      stub_get("/projects/3/repository/blobs/master?filepath=Gemfile", "raw_file")
+      @tree = Gitlab.file_contents(3, filepath: "Gemfile")
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/blobs/master?filepath=Gemfile")).to have_been_made
+    end
+
+    it "should return file contents" do
+      expect(@tree).to eq("source 'https://rubygems.org'\ngem 'rails', '4.1.2'\n")
     end
   end
 

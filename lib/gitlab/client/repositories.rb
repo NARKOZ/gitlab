@@ -75,5 +75,22 @@ class Gitlab::Client
       get("/projects/#{project}/repository/commits/#{sha}/diff") 
     end
     alias_method :repo_commit_diff, :commit_diff
+
+    # Get file tree project (root level).
+    #
+    # @example
+    #   Gitlab.file_contents(42, filepath: "Gemfile")
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Gitlab::ObjectifiedHash]
+    def file_contents(project, options={})
+      branch_or_sha = options.delete(:sha) || "master"
+      headers = {"PRIVATE-TOKEN" => private_token}
+      response = HTTParty.get("#{endpoint}/projects/#{project}/repository/blobs/#{branch_or_sha}", query: options, headers: headers)
+      validate response
+      response.response.body
+    end
+    alias_method :repo_file_contents, :file_contents
   end
 end
