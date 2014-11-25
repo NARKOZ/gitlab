@@ -8,6 +8,7 @@ describe Gitlab::Client do
   it { should respond_to :repo_commits }
   it { should respond_to :repo_commit }
   it { should respond_to :repo_commit_diff }
+  it { should respond_to :repo_tree }
 
   describe ".tags" do
     before do
@@ -56,6 +57,22 @@ describe Gitlab::Client do
         expect(@tag.name).to eq("v1.1.0")
         expect(@tag.message).to eq("Release 1.1.0")
       end
+    end
+  end
+
+  describe ".tree" do
+    before do
+      stub_get("/projects/3/repository/tree", "tree")
+      @tree = Gitlab.tree(3)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/tree")).to have_been_made
+    end
+
+    it "should return an array of repository tree files (root level)" do
+      expect(@tree).to be_an Array
+      expect(@tree.first.name).to eq("app")
     end
   end
 

@@ -75,5 +75,19 @@ class Gitlab::Client
       get("/projects/#{project}/repository/commits/#{sha}/diff") 
     end
     alias_method :repo_commit_diff, :commit_diff
+
+    # Get file tree project (root level).
+    #
+    # @example
+    #   Gitlab.tree(42)
+    #   Gitlab.tree(42, path: "Gemfile")
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Gitlab::ObjectifiedHash]
+    def tree(project, options={})
+      get("/projects/#{project}/repository/tree", query: options)
+    end
+    alias_method :repo_tree, :tree
   end
 end
