@@ -1,3 +1,4 @@
+require 'yaml'
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
   module Helpers
@@ -7,7 +8,7 @@ class Gitlab::CLI
     #
     # @return [Array]
     def required_fields(args)
-      if args.any? && args.last.start_with?('--only=')
+      if args.any? && args.last.is_a?(String) && args.last.start_with?('--only=')
         args.last.gsub('--only=', '').split(',')
       else
         []
@@ -18,7 +19,7 @@ class Gitlab::CLI
     #
     # @return [Array]
     def excluded_fields(args)
-      if args.any? && args.last.start_with?('--except=')
+      if args.any? && args.last.is_a?(String) && args.last.start_with?('--except=')
         args.last.gsub('--except=', '').split(',')
       else
         []
@@ -45,7 +46,7 @@ class Gitlab::CLI
           puts 'Command aborted.'
           exit(1)
         end
-      end
+      end 
     end
 
     # Table with available commands.
@@ -170,6 +171,42 @@ class Gitlab::CLI
       end
 
       data
+    end
+
+    # Convert a hash (recursively) to use symbol hash keys
+    # @return [Hash]
+    def symbolize_keys(hash)
+      if hash.is_a?(Hash)
+        hash = hash.each_with_object({}) do |(key, value), newhash|
+          begin
+            newhash[key.to_sym] = symbolize_keys(value)
+          rescue NoMethodError
+            puts "error: cannot convert hash key to symbol: #{arg}"
+            raise
+          end
+        end
+      end
+
+      hash
+    end
+
+    # Run YAML::load on each arg and symbolize hash keys if found.
+    # @return [Array]
+    def yaml_load_and_symbolize_hash!(args)
+      args.map! do |arg|
+        begin
+          arg = YAML::load(arg)
+
+          if arg.is_a?(Hash)
+            arg = symbolize_keys(arg)
+          end
+        rescue Psych::SyntaxError
+          puts "error: Argument is not valid YAML syntax: #{arg}"
+          raise
+        end
+
+        arg
+      end
     end
   end
 end

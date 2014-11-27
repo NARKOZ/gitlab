@@ -38,6 +38,12 @@ class Gitlab::CLI
         command_args = args
       end
 
+      begin
+        yaml_load_and_symbolize_hash!(command_args)
+      rescue
+        exit 1
+      end
+
       confirm_command(cmd)
 
       data = gitlab_helper(cmd, command_args) { exit(1) }

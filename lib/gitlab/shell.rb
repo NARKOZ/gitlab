@@ -2,10 +2,12 @@ require 'gitlab'
 require 'gitlab/help'
 require 'gitlab/cli_helpers'
 require 'readline'
+require 'shellwords'
 
 class Gitlab::Shell
   extend Gitlab::CLI::Helpers
 
+  # Start gitlab shell and run infinite loop waiting for user input
   def self.start
     actions = Gitlab.actions
 
@@ -20,7 +22,13 @@ class Gitlab::Shell
       next if buf.nil? || buf.empty?
       break if buf == 'exit'
 
-      buf = buf.scan(/["][^"]+["]|\S+/).map { |word| word.gsub(/^['"]|['"]$/,'') }
+      begin
+        buf = Shellwords.shellwords(buf)
+      rescue ArgumentError => e
+        puts e.message
+        next
+      end
+
       cmd = buf.shift
       args = buf.count > 0 ? buf : []
 
@@ -34,15 +42,28 @@ class Gitlab::Shell
           }
         end
 
-        args[0].nil? ? Gitlab::Help.get_help(methods) : Gitlab::Help.get_help(methods, args[0])
+        args[0].nil? ? Gitlab::Help.get_help(methods) :
+                       Gitlab::Help.get_help(methods, args[0])
         next
       end
+
+      syntax_errors = false
+
+      begin
+        yaml_load_and_symbolize_hash!(args)
+      rescue
+        syntax_errors = true
+      end
+
+      # errors have been displayed, return to the prompt
+      next if syntax_errors 
 
       data = if actions.include?(cmd.to_sym)
         confirm_command(cmd)
         gitlab_helper(cmd, args)
       else
-        "'#{cmd}' is not a valid command.  See the 'help' for a list of valid commands."
+        "'#{cmd}' is not a valid command. " +
+        "See the 'help' for a list of valid commands."
       end
 
       output_table(cmd, args, data)
