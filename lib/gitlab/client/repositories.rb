@@ -72,8 +72,37 @@ class Gitlab::Client
     # @param  [String] sha The name of a repository branch or tag or if not given the default branch.
     # @return [Gitlab::ObjectifiedHash]
     def commit_diff(project, sha)
-      get("/projects/#{project}/repository/commits/#{sha}/diff") 
+      get("/projects/#{project}/repository/commits/#{sha}/diff")
     end
     alias_method :repo_commit_diff, :commit_diff
+
+    # Gets a list of comments for a commit.
+    #
+    # @example
+    #   Gitlab.commit_comments(5, c9f9662a9b1116c838b523ed64c6abdb4aae4b8b)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String] sha The commit hash or name of a repository branch or tag.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def commit_comments(project, commit, options={})
+      get("/projects/#{project}/repository/commits/#{commit}/comments", :query => options)
+    end
+    alias_method :repo_commit_comments, :commit_comments
+
+    # Creates a new comment for a commit.
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] sha The commit hash or name of a repository branch or tag.
+    # @param  [String] note The text of a comment.
+    # @option options [String] :path The file path.
+    # @option options [Integer] :line The line number.
+    # @option options [Integer] :line_type The line type (new or old).
+    # @return [Gitlab::ObjectifiedHash] Information about created comment.
+    def create_commit_comment(project, commit, note, options={})
+      post("/projects/#{project}/repository/commits/#{commit}/comments", :body => options.merge(:note => note))
+    end
+    alias_method :repo_create_commit_comment, :create_commit_comment
   end
 end
