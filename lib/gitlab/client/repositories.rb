@@ -96,9 +96,10 @@ class Gitlab::Client
     # @param  [Integer] project The ID of a project.
     # @param  [String] sha The commit hash or name of a repository branch or tag.
     # @param  [String] note The text of a comment.
+    # @param  [Hash] options A customizable set of options.
     # @option options [String] :path The file path.
     # @option options [Integer] :line The line number.
-    # @option options [Integer] :line_type The line type (new or old).
+    # @option options [String] :line_type The line type (new or old).
     # @return [Gitlab::ObjectifiedHash] Information about created comment.
     def create_commit_comment(project, commit, note, options={})
       post("/projects/#{project}/repository/commits/#{commit}/comments", :body => options.merge(:note => note))
@@ -113,6 +114,8 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
+    # @option options [String] :path The path inside repository.
+    # @option options [String] :ref_name The name of a repository branch or tag.
     # @return [Gitlab::ObjectifiedHash]
     def tree(project, options={})
       get("/projects/#{project}/repository/tree", query: options)
