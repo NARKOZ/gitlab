@@ -96,7 +96,7 @@ gitlab user --only=id,username
 gitlab user --except=email,bio
 
 # how to pass options hash to a command (use YAML)
-gitlab create_merge_request 4 "I'm creating a new merge request!" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
+gitlab create_merge_request 4 "I'm creating a new merge request." "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
 
@@ -118,7 +118,7 @@ gitlab> groups
 gitlab> protect_branch 1 master
 
 # how to pass options hash to a command (use YAML)
-gitlab> create_merge_request 4 "I'm creating a new merge request!" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
+gitlab> create_merge_request 4 "I'm creating a new merge request." "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 ```
 
 For more information, refer to [website](http://narkoz.github.io/gitlab).
