@@ -76,6 +76,24 @@ class Gitlab::Client
     end
     alias_method :repo_commit_diff, :commit_diff
 
+    # Get the contents of a file
+    #
+    # @example
+    #   Gitlab.file_contents(42, 'Gemfile')
+    #   Gitlab.repo_file_contents(3, 'Gemfile', 'ed899a2f4b50b4370feeea94676502b42383c746')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] filepath The relative path of the file in the repository
+    # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
+    # @return [String]
+    def file_contents(project, filepath, ref = 'master')
+      get "/projects/#{project}/repository/blobs/#{ref}?filepath=#{filepath}",
+        format: nil,
+        headers: { Accept: 'text/plain' },
+        parser: ::Gitlab::Request::Parser
+    end
+    alias_method :repo_file_contents, :file_contents
+
     # Gets a list of comments for a commit.
     #
     # @example

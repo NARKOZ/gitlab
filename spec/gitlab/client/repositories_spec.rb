@@ -28,6 +28,21 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".file_contents" do
+    before do
+      stub_get("/projects/3/repository/blobs/master?filepath=Gemfile", "raw_file")
+      @file_contents = Gitlab.file_contents(3, "Gemfile")
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/blobs/master?filepath=Gemfile")).to have_been_made
+    end
+
+    it "should return file contents" do
+      expect(@file_contents).to eq("source 'https://rubygems.org'\ngem 'rails', '4.1.2'\n")
+    end
+  end
+
   describe ".create_tag" do
     context "lightweight" do
       before do
