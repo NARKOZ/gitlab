@@ -62,4 +62,14 @@ describe Gitlab do
       end
     end
   end
+
+  describe ".http_proxy" do
+    it "delegates the method to Gitlab::Request" do
+      Gitlab::Request = spy('request')
+      Gitlab.http_proxy('fazbearentertainment.com', 1987, 'ffazbear', 'itsme')
+
+      expect(Gitlab::Request).to have_received(:http_proxy).
+        with('fazbearentertainment.com', 1987, 'ffazbear', 'itsme')
+    end
+  end
 end
