@@ -27,6 +27,11 @@ module Gitlab
     return client.respond_to?(method) || super
   end
 
+  # Delegate to HTTParty.http_proxy
+  def self.http_proxy(address = nil, port = nil, username = nil, password = nil)
+    Gitlab::Request.http_proxy(address, port, username, password)
+  end
+
   # Returns an unsorted array of available client methods.
   #
   # @return [Array<Symbol>]
