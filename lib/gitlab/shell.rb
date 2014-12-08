@@ -1,6 +1,7 @@
 require 'gitlab'
 require 'gitlab/help'
 require 'gitlab/cli_helpers'
+require 'gitlab/shell_history'
 require 'readline'
 require 'shellwords'
 
@@ -9,6 +10,7 @@ class Gitlab::Shell
 
   # Start gitlab shell and run infinite loop waiting for user input
   def self.start
+    history.load
     actions = Gitlab.actions
 
     comp = proc { |s| actions.map(&:to_s).grep(/^#{Regexp.escape(s)}/) }
@@ -18,9 +20,11 @@ class Gitlab::Shell
 
     client = Gitlab::Client.new(endpoint: '')
 
-    while buf = Readline.readline('gitlab> ', true)
+    while buf = Readline.readline('gitlab> ')
       next if buf.nil? || buf.empty?
       break if buf == 'exit'
+
+      history.save(buf)
 
       begin
         buf = Shellwords.shellwords(buf)
@@ -68,5 +72,9 @@ class Gitlab::Shell
 
       output_table(cmd, args, data)
     end
+  end
+
+  def self.history
+    @history ||= History.new
   end
 end
