@@ -1,5 +1,6 @@
 class Gitlab::Shell
   class History
+    DEFAULT_HISTFILESIZE = 200
     DEFAULT_FILE_PATH = File.join(Dir.home, '.gitlab_shell_history')
 
     def initialize(options = {})
@@ -11,13 +12,17 @@ class Gitlab::Shell
       read_from_file { |line| Readline::HISTORY << line.chomp }
     end
 
-    def save(line)
-      Readline::HISTORY << line
-      history_file.puts line if history_file
+    def save
+      lines.each { |line| history_file.puts line if history_file }
     end
 
+    def push(line)
+      Readline::HISTORY << line
+    end
+    alias_method :<<, :push
+
     def lines
-      Readline::HISTORY.to_a
+      Readline::HISTORY.to_a.last(max_lines)
     end
 
     private
@@ -26,7 +31,7 @@ class Gitlab::Shell
       if defined?(@history_file)
         @history_file
       else
-        @history_file = File.open(history_file_path, 'a', 0600).tap do |file|
+        @history_file = File.open(history_file_path, 'w', 0600).tap do |file|
           file.sync = true
         end
       end
@@ -47,6 +52,10 @@ class Gitlab::Shell
       end
     rescue => error
       warn "History file not loaded: #{error.message}"
+    end
+
+    def max_lines
+      (ENV['GITLAB_HISTFILESIZE']|| DEFAULT_HISTFILESIZE).to_i
     end
   end
 end

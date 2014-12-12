@@ -22,9 +22,9 @@ class Gitlab::Shell
 
     while buf = Readline.readline('gitlab> ')
       next if buf.nil? || buf.empty?
-      break if buf == 'exit'
+      quit_shell if buf == 'exit'
 
-      history.save(buf)
+      history << buf
 
       begin
         buf = Shellwords.shellwords(buf)
@@ -72,6 +72,11 @@ class Gitlab::Shell
 
       output_table(cmd, args, data)
     end
+  end
+
+  def self.quit_shell
+    history.save
+    exit
   end
 
   def self.history

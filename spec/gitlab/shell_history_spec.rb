@@ -11,17 +11,30 @@ describe Gitlab::Shell::History do
     after do @file.close(true) end
 
     it 'saves the lines' do
-      @history.save('party on, dudes')
-      @history.save('be excellent to each other')
+      @history << 'party on, dudes'
+      @history << 'be excellent to each other'
+      @history.save
       expect(File.read @file.path).
         to eq("party on, dudes\nbe excellent to each other\n")
     end
 
     it 'has the lines' do
-      @history.save('party on, dudes')
-      @history.save('be excellent to each other')
+      @history << 'party on, dudes'
+      @history << 'be excellent to each other'
       expect(@history.lines).
         to eq(["party on, dudes", "be excellent to each other"])
+    end
+
+    it 'limits the lines to GITLAB_HISTFILESIZE' do
+      ENV['GITLAB_HISTFILESIZE'] = '2'
+      @history << 'bogus'
+      @history << 'party on, dudes'
+      @history << 'be excellent to each other'
+      @history.save
+      expect(@history.lines).
+        to eq(["party on, dudes", "be excellent to each other"])
+      expect(File.read @file.path).
+        to eq("party on, dudes\nbe excellent to each other\n")
     end
   end
 
