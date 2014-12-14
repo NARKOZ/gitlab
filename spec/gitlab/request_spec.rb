@@ -34,9 +34,10 @@ describe Gitlab::Request do
     end
 
     context "when endpoint is set" do
-      it "should set base_uri" do
-        Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000)
-        expect(Gitlab::Request.base_uri).to eq("http://rabbit-hole.example.org")
+      it "should set instance variable 'endpoint'" do
+        request = Gitlab::Request.new
+        request.set_request_defaults('http://rabbit-hole.example.org', 1234000)
+        expect(request.instance_variable_get(:@endpoint)).to eq("http://rabbit-hole.example.org")
       end
 
       it "should set default_params" do
