@@ -20,5 +20,9 @@ module Gitlab
     def method_missing(key)
       @data.key?(key.to_s) ? @data[key.to_s] : nil
     end
+
+    def respond_to?(method_name, include_private = false)
+      @hash.keys.map(&:to_sym).include?(method_name.to_sym) || super
+    end
   end
 end

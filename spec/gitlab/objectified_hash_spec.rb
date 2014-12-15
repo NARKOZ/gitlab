@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Gitlab::ObjectifiedHash do
   before do
-    @hash = {a: 1, b: 2}
+    @hash = {a: 1, b: 2, 'string' => 'string', symbol: :symbol}
     @oh = Gitlab::ObjectifiedHash.new @hash
   end
 
@@ -18,6 +18,24 @@ describe Gitlab::ObjectifiedHash do
 
     it "should have an alias #to_h" do
       expect(@oh.respond_to?(:to_h)).to be_truthy
+    end
+  end
+
+  describe "#respond_to" do
+    it "should return true for methods this object responds to through method_missing as sym" do
+      expect(@oh.respond_to?(:a)).to be_truthy
+    end
+
+    it "should return true for methods this object responds to through method_missing as string" do
+      expect(@oh.respond_to?('string')).to be_truthy
+    end
+
+    it "should not care if you use a string or symbol to reference a method" do
+      expect(@oh.respond_to?(:string)).to be_truthy
+    end
+
+    it "should not care if you use a string or symbol to reference a method" do
+      expect(@oh.respond_to?('symbol')).to be_truthy
     end
   end
 end
