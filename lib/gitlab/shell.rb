@@ -21,6 +21,8 @@ class Gitlab::Shell
     client = Gitlab::Client.new(endpoint: '')
 
     while buf = Readline.readline('gitlab> ')
+      trap('INT') { quit_shell } # capture ctrl-c
+
       next if buf.nil? || buf.empty?
       quit_shell if buf == 'exit'
 
