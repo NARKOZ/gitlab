@@ -7,6 +7,15 @@ describe Gitlab do
     it "should be a Gitlab::Client" do
       expect(Gitlab.client).to be_a Gitlab::Client
     end
+
+    it "should not override each other" do
+      client1 = Gitlab.client(endpoint: 'https://api1.example.com', private_token: '001')
+      client2 = Gitlab.client(endpoint: 'https://api2.example.com', private_token: '002')
+      expect(client1.endpoint).to eq('https://api1.example.com')
+      expect(client2.endpoint).to eq('https://api2.example.com')
+      expect(client1.private_token).to eq('001')
+      expect(client2.private_token).to eq('002')
+    end
   end
 
   describe ".actions" do
