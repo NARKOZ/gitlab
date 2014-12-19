@@ -342,7 +342,7 @@ describe Gitlab::Client do
 
   describe ".delete_deploy_key" do
     before do
-      stub_delete("/projects/42/keys/2", "project_delete_key")
+      stub_delete("/projects/42/keys/2", "project_key")
       @deploy_key = Gitlab.delete_deploy_key(42, 2)
     end
 

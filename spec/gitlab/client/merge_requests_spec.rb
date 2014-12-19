@@ -35,7 +35,7 @@ describe Gitlab::Client do
 
   describe ".create_merge_request" do
     before do
-      stub_post("/projects/3/merge_requests", "create_merge_request")
+      stub_post("/projects/3/merge_requests", "merge_request")
     end
 
     it "should fail if it doesn't have a source_branch" do
@@ -57,13 +57,12 @@ describe Gitlab::Client do
       )
       expect(@merge_request.project_id).to eq(3)
       expect(@merge_request.assignee.name).to eq("Jack Smith")
-      expect(@merge_request.title).to eq('New feature')
     end
   end
 
   describe ".update_merge_request" do
     before do
-      stub_put("/projects/3/merge_request/2", "update_merge_request")
+      stub_put("/projects/3/merge_request/2", "merge_request")
       @merge_request = Gitlab.update_merge_request(3, 2,
         :assignee_id   => '1',
         :target_branch => 'master',
@@ -74,23 +73,6 @@ describe Gitlab::Client do
     it "should return information about a merge request" do
       expect(@merge_request.project_id).to eq(3)
       expect(@merge_request.assignee.name).to eq("Jack Smith")
-      expect(@merge_request.title).to eq('A different new feature')
-    end
-  end
-
-  describe ".merge_request_comments" do
-    before do
-      stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
-      @merge_request = Gitlab.merge_request_comments(3, 2)
-    end
-
-    it "should return merge request's comments" do
-      expect(@merge_request).to be_an Array
-      expect(@merge_request.length).to eq(2)
-      expect(@merge_request[0].note).to eq("this is the 1st comment on the 2merge merge request")
-      expect(@merge_request[0].author.id).to eq(11)
-      expect(@merge_request[1].note).to eq("another discussion point on the 2merge request")
-      expect(@merge_request[1].author.id).to eq(12)
     end
   end
 
@@ -112,7 +94,7 @@ describe Gitlab::Client do
 
   describe ".create_merge_request_comment" do
     before do
-      stub_post("/projects/3/merge_request/2/comments", "comment_merge_request")
+      stub_post("/projects/3/merge_request/2/comments", "merge_request_comment")
     end
 
     it "should return information about a merge request" do

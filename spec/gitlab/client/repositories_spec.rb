@@ -44,9 +44,9 @@ describe Gitlab::Client do
   end
 
   describe ".create_tag" do
-    context "lightweight" do
+    context "when lightweight" do
       before do
-        stub_post("/projects/3/repository/tags", "lightweight_tag")
+        stub_post("/projects/3/repository/tags", "project_tag_lightweight")
         @tag = Gitlab.create_tag(3, 'v1.0.0', '2695effb5807a22ff3d138d593fd856244e155e7')
       end
 
@@ -60,9 +60,9 @@ describe Gitlab::Client do
       end
     end
 
-    context "annotated" do
+    context "when annotated" do
       before do
-        stub_post("/projects/3/repository/tags", "annotated_tag")
+        stub_post("/projects/3/repository/tags", "project_tag_annotated")
         @tag = Gitlab.create_tag(3, 'v1.1.0', '2695effb5807a22ff3d138d593fd856244e155e7', 'Release 1.1.0')
       end
 
@@ -145,7 +145,7 @@ describe Gitlab::Client do
 
   describe ".commit_comments" do
     before do
-      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "commit_comments")
+      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "project_commit_comments")
       @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
@@ -161,7 +161,7 @@ describe Gitlab::Client do
 
   describe ".create_commit_comment" do
     before do
-      stub_post("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "comment_commit")
+      stub_post("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "project_commit_comment")
     end
 
     it "should return information about the newly created comment" do

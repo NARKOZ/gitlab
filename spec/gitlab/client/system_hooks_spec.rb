@@ -39,16 +39,16 @@ describe Gitlab::Client do
 
   describe ".hook" do
     before do
-      stub_get("/hooks/3", "system_hook_test")
+      stub_get("/hooks/3", "system_hook")
       @hook = Gitlab.hook(3)
     end
+
     it "should get the correct resource" do
       expect(a_get("/hooks/3")).to have_been_made
     end
 
     it "should return information about a added system hook" do
-      expect(@hook.event_name).to eq("project_create")
-      expect(@hook.project_id).to eq(1)
+      expect(@hook.url).to eq("http://example.com/hook")
     end
   end
 
