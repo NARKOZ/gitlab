@@ -23,7 +23,7 @@ describe Gitlab do
       actions = Gitlab.actions
       expect(actions).to be_an Array
       expect(actions.first).to be_a Symbol
-      expect(actions.sort.first).to match(/add_/)
+      expect(actions.sort.first).to eq(:accept_merge_request)
     end
   end
 

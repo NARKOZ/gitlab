@@ -90,6 +90,24 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".accept_merge_request" do
+    before do
+      stub_put("/projects/5/merge_request/42/merge", "merge_request").
+        with(:body => {:merge_commit_message => 'Nice!'})
+      @merge_request = Gitlab.accept_merge_request(5, 42, :merge_commit_message => 'Nice!')
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/projects/5/merge_request/42/merge").
+        with(:body => {:merge_commit_message => 'Nice!'})).to have_been_made
+    end
+
+    it "should return information about merged merge request" do
+      expect(@merge_request.project_id).to eq(3)
+      expect(@merge_request.assignee.name).to eq("Jack Smith")
+    end
+  end
+
   describe ".merge_request_comments" do
     before do
       stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
