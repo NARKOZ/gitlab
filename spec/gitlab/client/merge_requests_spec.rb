@@ -62,12 +62,26 @@ describe Gitlab::Client do
 
   describe ".update_merge_request" do
     before do
-      stub_put("/projects/3/merge_request/2", "merge_request")
+      stub_put("/projects/3/merge_request/2", "merge_request").
+        with(:body => {
+          :assignee_id => '1',
+          :target_branch => 'master',
+          :title => 'A different new feature'
+        })
       @merge_request = Gitlab.update_merge_request(3, 2,
         :assignee_id   => '1',
         :target_branch => 'master',
         :title         => 'A different new feature'
       )
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/projects/3/merge_request/2").
+        with(:body => {
+          :assignee_id => '1',
+          :target_branch => 'master',
+          :title => 'A different new feature'
+        })).to have_been_made
     end
 
     it "should return information about a merge request" do
@@ -80,6 +94,10 @@ describe Gitlab::Client do
     before do
       stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
       @merge_request = Gitlab.merge_request_comments(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/merge_request/2/comments")).to have_been_made
     end
 
     it "should return merge request's comments" do
@@ -95,12 +113,16 @@ describe Gitlab::Client do
   describe ".create_merge_request_comment" do
     before do
       stub_post("/projects/3/merge_request/2/comments", "merge_request_comment")
+      @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/merge_request/2/comments")).to have_been_made
     end
 
     it "should return information about a merge request" do
-      @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
       expect(@merge_request.note).to eq('Cool Merge Request!')
-      @merge_request.author.id == 1
+      expect(@merge_request.author.id).to eq(1)
     end
   end
 end
