@@ -39,8 +39,10 @@ class Gitlab::CLI
       end
 
       begin
-        yaml_load_and_symbolize_hash!(command_args)
-      rescue
+        yaml_load_arguments! command_args
+        command_args.map! {|arg| symbolize_keys arg }
+      rescue => e
+        puts e.message
         exit 1
       end
 

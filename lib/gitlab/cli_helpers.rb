@@ -92,44 +92,18 @@ class Gitlab::CLI
     def output_table(cmd, args, data)
       case data
       when Gitlab::ObjectifiedHash
-        puts single_record_table(data, cmd, args)
+        puts record_table([data], cmd, args)
       when Array
-        puts multiple_record_table(data, cmd, args)
-      else
-        puts data.inspect
+        puts record_table(data, cmd, args)
+      else  # probably just an error msg
+        puts data
       end
     end
 
-    # Table for a single record.
+    # Table to display records.
     #
     # @return [String]
-    def single_record_table(data, cmd, args)
-      hash = data.to_h
-      keys = hash.keys.sort {|x, y| x.to_s <=> y.to_s }
-      keys = keys & required_fields(args) if required_fields(args).any?
-      keys = keys - excluded_fields(args)
-
-      table do |t|
-        t.title = "Gitlab.#{cmd} #{args.join(', ')}"
-
-        keys.each_with_index do |key, index|
-          case value = hash[key]
-          when Hash
-            value = 'Hash'
-          when nil
-            value = 'null'
-          end
-
-          t.add_row [key, value]
-          t.add_separator unless keys.size - 1 == index
-        end
-      end
-    end
-
-    # Table for multiple records.
-    #
-    # @return [String]
-    def multiple_record_table(data, cmd, args)
+    def record_table(data, cmd, args)
       return 'No data' if data.empty?
 
       arr = data.map(&:to_h)
@@ -181,7 +155,7 @@ class Gitlab::CLI
           begin
             newhash[key.to_sym] = symbolize_keys(value)
           rescue NoMethodError
-            puts "error: cannot convert hash key to symbol: #{arg}"
+            puts "error: cannot convert hash key to symbol: #{key}"
             raise
           end
         end
@@ -190,16 +164,12 @@ class Gitlab::CLI
       hash
     end
 
-    # Run YAML::load on each arg and symbolize hash keys if found.
+    # Run YAML::load on each arg.
     # @return [Array]
-    def yaml_load_and_symbolize_hash!(args)
+    def yaml_load_arguments!(args)
       args.map! do |arg|
         begin
           arg = YAML::load(arg)
-
-          if arg.is_a?(Hash)
-            arg = symbolize_keys(arg)
-          end
         rescue Psych::SyntaxError
           puts "error: Argument is not valid YAML syntax: #{arg}"
           raise

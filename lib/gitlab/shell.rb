@@ -8,39 +8,69 @@ require 'shellwords'
 class Gitlab::Shell
   extend Gitlab::CLI::Helpers
 
-  # Start gitlab shell and run infinite loop waiting for user input
-  def self.start
-    history.load
-    actions = Gitlab.actions
+  class << self
+    attr_reader :client, :actions, :arguments, :command
 
-    comp = proc { |s| actions.map(&:to_s).grep(/^#{Regexp.escape(s)}/) }
+    def start
+      setup
 
-    Readline.completion_proc = comp
-    Readline.completion_append_character = ' '
+      while buffer = Readline.readline('gitlab> ')
+        trap('INT') { quit_shell } # capture ctrl-c
+        
+        parse_input buffer
 
-    client = Gitlab::Client.new(endpoint: '')
+        yaml_load_arguments! @arguments
+        @arguments.map! { |arg| symbolize_keys arg }
 
-    while buf = Readline.readline('gitlab> ')
-      trap('INT') { quit_shell } # capture ctrl-c
+        case buffer
+        when nil, '' 
+          next
+        when 'exit'
+          quit_shell
+        when /^\bhelp\b+/
+          puts help arguments[0]
+        else
+          begin
+            history << buffer
 
-      next if buf.nil? || buf.empty?
-      quit_shell if buf == 'exit'
-
-      history << buf
-
-      begin
-        buf = Shellwords.shellwords(buf)
-      rescue ArgumentError => e
-        puts e.message
-        next
+            data = execute command, arguments
+            output_table command, arguments, data
+          rescue ArgumentError => e
+            puts e.message
+            next
+          rescue
+            next
+          end
+        end
       end
+    end
 
-      cmd = buf.shift
-      args = buf.count > 0 ? buf : []
+    def parse_input buffer
+      buf = Shellwords.shellwords(buffer)
 
-      if cmd == 'help'
+      @command = buf.shift
+      @arguments = buf.count > 0 ? buf : []
+    end
+
+    def setup
+      history.load
+
+      Readline.completion_proc = completion
+      Readline.completion_append_character = ' '
+
+      @client = Gitlab::Client.new(endpoint: '')
+      @actions = Gitlab.actions
+    end
+
+    def completion
+      proc { |str| actions.map(&:to_s).grep(/^#{Regexp.escape(str)}/) }
+    end
+
+    def help cmd
+      if cmd.nil?
+        actions_table
+      else
         methods = []
-
         actions.each do |action|
           methods << {
             name: action.to_s,
@@ -48,40 +78,28 @@ class Gitlab::Shell
           }
         end
 
-        args[0].nil? ? Gitlab::Help.get_help(methods) :
-                       Gitlab::Help.get_help(methods, args[0])
-        next
+        Gitlab::Help.get_help(methods, arguments[0])
       end
+    end
 
-      syntax_errors = false
-
-      begin
-        yaml_load_and_symbolize_hash!(args)
-      rescue
-        syntax_errors = true
-      end
-
-      # errors have been displayed, return to the prompt
-      next if syntax_errors 
-
-      data = if actions.include?(cmd.to_sym)
+    def execute cmd = command, args = arguments
+      if actions.include?(cmd.to_sym)
         confirm_command(cmd)
         gitlab_helper(cmd, args)
       else
-        "'#{cmd}' is not a valid command. " +
+        "Unknown command: #{cmd}. " +
         "See the 'help' for a list of valid commands."
       end
-
-      output_table(cmd, args, data)
     end
-  end
 
-  def self.quit_shell
-    history.save
-    exit
-  end
+    def quit_shell
+      history.save
+      exit
+    end
 
-  def self.history
-    @history ||= History.new
-  end
+    def history
+      @history ||= History.new
+    end
+
+  end  # class << self
 end
