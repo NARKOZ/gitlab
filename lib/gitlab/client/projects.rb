@@ -187,7 +187,11 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] url The hook URL.
-    # @param  [Hash] options Events list (`{push_events: true, merge_requests_events: false}`).
+    # @param  [Hash] options A customizable set of options.
+    # @param  option [Boolean] :push_events Trigger hook on push events (0 = false, 1 = true)
+    # @param  option [Boolean] :issues_events Trigger hook on issues events (0 = false, 1 = true)
+    # @param  option [Boolean] :merge_requests_events Trigger hook on merge_requests events (0 = false, 1 = true)
+    # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
     def add_project_hook(project, url, options={})
       body = {:url => url}.merge(options)
@@ -202,9 +206,15 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of the hook.
     # @param  [String] url The hook URL.
+    # @param  [Hash] options A customizable set of options.
+    # @param  option [Boolean] :push_events Trigger hook on push events (0 = false, 1 = true)
+    # @param  option [Boolean] :issues_events Trigger hook on issues events (0 = false, 1 = true)
+    # @param  option [Boolean] :merge_requests_events Trigger hook on merge_requests events (0 = false, 1 = true)
+    # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about updated hook.
-    def edit_project_hook(project, id, url)
-      put("/projects/#{project}/hooks/#{id}", :body => {:url => url})
+    def edit_project_hook(project, id, url, options={})
+      body = {:url => url}.merge(options)
+      put("/projects/#{project}/hooks/#{id}", :body => body)
     end
 
     # Deletes a hook from project.
