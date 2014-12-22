@@ -33,14 +33,6 @@ module Gitlab
       end
     end
 
-    def raw_get(path, options={})
-      set_private_token_header(options)
-      response = self.class.get(path, options)
-      raw_validate response
-
-      response.body
-    end
-
     def get(path, options={})
       set_httparty_config(options)
       set_private_token_header(options)
@@ -68,12 +60,6 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
-      raw_validate response
-
-      response.parsed_response
-    end
-
-    def raw_validate(response)
       case response.code
         when 400; raise Error::BadRequest.new error_message(response)
         when 401; raise Error::Unauthorized.new error_message(response)
@@ -85,6 +71,8 @@ module Gitlab
         when 502; raise Error::BadGateway.new error_message(response)
         when 503; raise Error::ServiceUnavailable.new error_message(response)
       end
+
+      response.parsed_response
     end
 
     # Sets a base_uri and default_params for requests.

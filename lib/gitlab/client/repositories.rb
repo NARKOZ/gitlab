@@ -154,20 +154,5 @@ class Gitlab::Client
       get("/projects/#{project}/repository/compare?from=#{from}&to=#{to}")
     end
     alias_method :repo_compare, :compare
-
-    # Raw file content
-    #
-    # @example
-    #   Gitlab.contents(42, "ed899a2f4b50b4370feeea94676502b42383c746", "path/of/file")
-    #   Gitlab.repo_contents(42, "ed899a2f4b50b4370feeea94676502b42383c746", "path/of/file")
-    #
-    # @param [Integer] project The ID of a project.
-    # @param [String]  The commit or branch name
-    # @param [String] The path the file
-    # @return [Gitlab::ObjectifiedHash]
-    def contents(project, sha, file_path)
-      raw_get("/projects/#{project}/repository/blobs/#{sha}?filepath=#{file_path}")
-    end
-    alias_method :repo_contents, :contents
   end
 end
