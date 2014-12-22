@@ -11,6 +11,8 @@ describe Gitlab::Client do
   it { should respond_to :repo_commit_comments }
   it { should respond_to :repo_create_commit_comment }
   it { should respond_to :repo_tree }
+  it { should respond_to :repo_compare}
+  it { should respond_to :repo_contents}
 
   describe ".tags" do
     before do
@@ -168,6 +170,29 @@ describe Gitlab::Client do
       @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
       expect(@merge_request.note).to eq('Nice code!')
       @merge_request.author.id == 1
+    end
+  end
+
+  describe ".compare" do
+    before do
+      stub_get("/projects/3/repository/compare?from=master&to=feature", "compare_merge_request_diff")
+      @diff = Gitlab.compare(3, 'master', 'feature')
+    end
+
+    it "should get diffs of a merge request" do
+      expect(@diff.diffs).to be_kind_of Array
+      expect(@diff.diffs.last["new_path"]).to eq "files/js/application.js"
+    end
+  end
+
+  describe ".contents" do
+    before do
+      stub_get("/projects/3/repository/blobs/ed899a2f4b50b4370feeea94676502b42383c746?filepath=path/of/file", "blob_sha")
+      @content = Gitlab.contents(3, 'ed899a2f4b50b4370feeea94676502b42383c746', 'path/of/file')
+    end
+
+    it "should get contents of file in commit sha" do
+      expect(@content).to eq "blob of file\n"
     end
   end
 end
