@@ -1,6 +1,10 @@
 # Gitlab
 
-[![Build Status](https://travis-ci.org/NARKOZ/gitlab.png)](http://travis-ci.org/NARKOZ/gitlab)
+[![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg?style=flat)](https://travis-ci.org/NARKOZ/gitlab)
+[![Code Climate](https://img.shields.io/codeclimate/github/NARKOZ/gitlab.svg?style=flat)](https://codeclimate.com/github/NARKOZ/gitlab)
+[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg?style=flat)](https://inch-ci.org/github/NARKOZ/gitlab)
+[![Gem version](https://img.shields.io/gem/v/gitlab.svg?style=flat)](https://rubygems.org/gems/gitlab)
+[![License](https://img.shields.io/badge/license-BSD-red.svg?style=flat)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](http://narkoz.github.io/gitlab) |
 [documentation](http://rubydoc.info/gems/gitlab/frames)
