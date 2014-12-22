@@ -189,12 +189,9 @@ class Gitlab::Client
     # @param  [String] url The hook URL.
     # @param  [Hash] options Events list (`{push_events: true, merge_requests_events: false}`).
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
-    def add_project_hook(project, url, options = {})
-      available_events = [:push_events, :merge_requests_events, :issues_events]
-      passed_events = available_events.select { |event| options[event] }
-      events = Hash[passed_events.map { |event| [event, options[event]] }]
-
-      post("/projects/#{project}/hooks", :body => {:url => url}.merge(events))
+    def add_project_hook(project, url, options={})
+      body = {:url => url}.merge(options)
+      post("/projects/#{project}/hooks", :body => body)
     end
 
     # Updates a project hook URL.
