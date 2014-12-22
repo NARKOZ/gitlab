@@ -150,6 +150,11 @@ describe Gitlab::Client do
       @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments"))
+        .to have_been_made
+    end
+
     it "should return commit's comments" do
       expect(@commit_comments).to be_an Array
       expect(@commit_comments.length).to eq(2)
@@ -163,19 +168,25 @@ describe Gitlab::Client do
   describe ".create_commit_comment" do
     before do
       stub_post("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "project_commit_comment")
+      @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
     end
 
     it "should return information about the newly created comment" do
-      @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
       expect(@merge_request.note).to eq('Nice code!')
-      @merge_request.author.id == 1
+      expect(@merge_request.author.id).to eq(1)
     end
   end
 
   describe ".compare" do
     before do
-      stub_get("/projects/3/repository/compare?from=master&to=feature", "compare_merge_request_diff")
+      stub_get("/projects/3/repository/compare", "compare_merge_request_diff").
+        with(:query => {:from => "master", :to => "feature"})
       @diff = Gitlab.compare(3, 'master', 'feature')
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/compare").
+        with(:query => {:from => "master", :to => "feature"})).to have_been_made
     end
 
     it "should get diffs of a merge request" do

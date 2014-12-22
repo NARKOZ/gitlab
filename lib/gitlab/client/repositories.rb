@@ -140,18 +140,18 @@ class Gitlab::Client
     end
     alias_method :repo_tree, :tree
 
-    # Compare branches, tags or commits
+    # Compares branches, tags or commits.
     #
     # @example
     #   Gitlab.compare(42, 'master', 'feature/branch')
     #   Gitlab.repo_compare(42, 'master', 'feature/branch')
     #
     # @param [Integer] project The ID of a project.
-    # @param [String] the commit SHA or branch name of from branch
-    # @param [String] the commit SHA or branch name of to branch
-    # @retuen [Gitlab::ObjectifiedHash]
+    # @param [String] from The commit SHA or branch name of from branch.
+    # @param [String] to The commit SHA or branch name of to branch.
+    # @return [Gitlab::ObjectifiedHash]
     def compare(project, from, to)
-      get("/projects/#{project}/repository/compare?from=#{from}&to=#{to}")
+      get("/projects/#{project}/repository/compare", :query => {:from => from, :to => to})
     end
     alias_method :repo_compare, :compare
   end
