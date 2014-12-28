@@ -22,6 +22,11 @@ describe Gitlab::Shell do
     it "should set the Readline completion_proc" do
       completion = Readline.completion_proc
       expect(completion).to be_truthy
+      expect(completion).to be_a Proc
+    end
+    it "should set the Readline completion_append_character" do
+      completion_character = Readline.completion_append_character
+      expect(completion_character).to eq(' ')
     end
   end
 
