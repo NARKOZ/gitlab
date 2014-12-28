@@ -4,38 +4,56 @@ require 'gitlab/cli_helpers'
 module Gitlab::Help
   extend Gitlab::CLI::Helpers
 
-  def self.get_help(methods,cmd)
-    help = ''
+  class << self
 
-    ri_cmd = `which ri`.chomp
+    def get_help(cmd)
+      cmd_namespace = namespace cmd
 
-    if $? == 0
-      namespace = methods.select {|m| m[:name] === cmd }.
-                          map {|m| m[:owner]+'.'+m[:name] }.shift
+      if cmd_namespace
+        ri_output = `#{ri_cmd} -T #{cmd_namespace} 2>&1`.chomp
 
-      if namespace
-        begin
-          ri_output = `#{ri_cmd} -T #{namespace} 2>&1`.chomp
-
-          if $? == 0
-            ri_output.gsub!(/#{cmd}\((.*?)\)/m, cmd+' \1')
-            ri_output.gsub!(/Gitlab\./, 'gitlab> ')
-            ri_output.gsub!(/Gitlab\..+$/, '')
-            ri_output.gsub!(/\,[\s]*/, ' ')
-            help = ri_output
-          else
-            help = "Ri docs not found for #{namespace}, please install the docs to use 'help'."
-          end
-        rescue => e
-          puts e.message
+        if $? == 0
+          change_help_output! cmd, ri_output
+          ri_output
+        else
+          "Ri docs not found for #{cmd}, please install the docs to use 'help'."
         end
       else
-        help = "Unknown command: #{cmd}."
+        "Unknown command: #{cmd}."
       end
-    else
-      help = "'ri' tool not found in your PATH, please install it to use the help."
     end
 
-    help
-  end
+    def ri_cmd
+      @ri_cmd if @ri_cmd
+      which_ri = `which ri`.chomp
+      if which_ri.length < 1
+        raise "'ri' tool not found in your PATH, please install it to use the help."
+      end
+      @ri_cmd = which_ri
+    end
+
+    def namespace cmd
+      help_methods.select { |method| method[:name] === cmd }.
+                   map    { |method| method[:owner] + '.' + method[:name] }.
+                   shift
+    end
+
+    def help_methods
+      @help_methods ||= Gitlab.actions.map do |action|
+        {
+          name: action.to_s,
+          owner: Gitlab.client.method(action).owner.to_s
+        }
+      end
+    end
+
+    def change_help_output! cmd, output_str
+      output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd+' \1')
+      output_str.gsub!(/Gitlab\./, 'gitlab> ')
+      output_str.gsub!(/Gitlab\..+$/, '')
+      output_str.gsub!(/\,[\s]*/, ' ')
+    end
+
+  end # class << self
 end
+

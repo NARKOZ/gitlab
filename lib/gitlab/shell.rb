@@ -35,10 +35,8 @@ class Gitlab::Shell
 
             data = execute command, arguments
             output_table command, arguments, data
-          rescue ArgumentError => e
+          rescue => e
             puts e.message
-            next
-          rescue
             next
           end
         end
@@ -67,19 +65,7 @@ class Gitlab::Shell
     end
 
     def help cmd
-      if cmd.nil?
-        actions_table
-      else
-        methods = []
-        actions.each do |action|
-          methods << {
-            name: action.to_s,
-            owner: client.method(action).owner.to_s
-          }
-        end
-
-        Gitlab::Help.get_help(methods, arguments[0])
-      end
+      cmd.nil? ? actions_table : Gitlab::Help.get_help(cmd)
     end
 
     def execute cmd = command, args = arguments

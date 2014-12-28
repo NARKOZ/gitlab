@@ -86,7 +86,7 @@ class Gitlab::CLI
       end
     end
 
-    # Decides which table to use.
+    # Outputs a nicely formatted table or error msg.
     #
     # @return [String]
     def output_table(cmd, args, data)
