@@ -2,6 +2,23 @@ require 'spec_helper'
 
 describe Gitlab::Help do
 
+  describe ".ri_cmd" do
+    context "ri command found" do
+      it "should return the path to RI" do
+        allow(Gitlab::Help).to receive(:`).with(/which ri/).and_return('/usr/bin/ri')
+        expect(Gitlab::Help.ri_cmd).to eq('/usr/bin/ri')
+      end
+    end
+
+    context "ri command NOT found" do
+      it "should raise" do
+        allow(Gitlab::Help).to receive(:`).with(/which ri/).and_return('')
+        expect{Gitlab::Help.ri_cmd}.to raise_error
+      end
+    end
+
+  end
+
   describe ".change_help_output!" do
     before do
       @cmd = "create_branch"
@@ -13,17 +30,6 @@ describe Gitlab::Help do
     end
   end
 
-  describe ".help_methods" do
-    before do
-      @methods = Gitlab::Help.help_methods
-    end
-    it "should return Array of Hashes containing method names and owners" do
-      expect(@methods).to be_a Array
-      expect(@methods.all? { |m| m.is_a? Hash} ).to be true
-      expect(@methods.all? { |m| m.keys.sort === [:name, :owner]} ).to be true
-    end
-  end
-  
   describe ".namespace" do
     before do
       @cmd = 'create_tag'

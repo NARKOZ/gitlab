@@ -1,8 +1,35 @@
 require 'yaml'
+
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
   module Helpers
     extend self
+
+    # Returns actions available to CLI & Shell
+    #
+    # @return [Array]
+    def actions
+      @actions ||= Gitlab.actions
+    end
+
+    # Returns Gitlab::Client instance
+    #
+    # @return [Gitlab::Client]
+    def client
+      @client ||= Gitlab::Client.new(endpoint: (Gitlab.endpoint || ''))
+    end
+
+    # Returns method names and their owners
+    #
+    # @return [Array<Hash>]
+    def method_owners
+      @method_owners ||= actions.map do |action|
+        {
+          name: action.to_s,
+          owner: client.method(action).owner.to_s
+        }
+      end
+    end
 
     # Returns filtered required fields.
     #
@@ -53,19 +80,8 @@ class Gitlab::CLI
     #
     # @return [String]
     def actions_table
-      client = Gitlab::Client.new(endpoint: '')
-      actions = Gitlab.actions
-      methods = []
-
-      actions.each do |action|
-        methods << {
-          name: action,
-          owner: client.method(action).owner.to_s.gsub('Gitlab::Client::', '')
-        }
-      end
-
-      owners = methods.map {|m| m[:owner]}.uniq.sort
-      methods_c = methods.group_by {|m| m[:owner]}
+      owners = method_owners.map {|m| m[:owner].gsub('Gitlab::Client::','')}.uniq.sort
+      methods_c = method_owners.group_by {|m| m[:owner]}
       methods_c = methods_c.map {|_, v| [_, v.sort_by {|hv| hv[:name]}] }
       methods_c = Hash[methods_c.sort_by(&:first).map {|k, v| [k, v]}]
       max_column_length = methods_c.values.max_by(&:size).size

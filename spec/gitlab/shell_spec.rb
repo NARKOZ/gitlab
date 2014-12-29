@@ -1,24 +1,38 @@
 require 'spec_helper'
 
 describe Gitlab::Shell do
+  before do
+    Gitlab::Shell.setup
+  end
+
+  describe ".execute" do
+    context "invalid command" do
+      it "should raise" do
+        expect{Gitlab::Shell.execute 'foobar', []}.to raise_error(RuntimeError)
+      end
+    end
+  end
+
   describe ".history" do
+    before do
+      @history = Gitlab::Shell.history
+    end
+
     it "should return a Gitlab::Shell::History instance" do
-      history = Gitlab::Shell.history
-      expect(history).to be_a Gitlab::Shell::History
+      expect(@history).to be_a Gitlab::Shell::History
+    end
+    it "should respond to :save" do
+      expect(@history).to respond_to :save
+    end
+    it "should respond to :load" do
+      expect(@history).to respond_to :load
+    end
+    it "should respond to :<<" do
+      expect(@history).to respond_to :<<
     end
   end
 
   describe ".setup" do
-    before(:all) do
-      Gitlab::Shell.setup
-    end
-    it "should create an instance of Gitlab::Client in class variable 'client'" do
-      expect(Gitlab::Shell.client).to be_a Gitlab::Client
-    end
-    it "should set array of @actions" do
-      expect(Gitlab::Shell.actions).to be_a Array
-      expect(Gitlab::Shell.actions.sort).to eq(Gitlab.actions.sort)
-    end
     it "should set the Readline completion_proc" do
       completion = Readline.completion_proc
       expect(completion).to be_truthy
@@ -31,9 +45,18 @@ describe Gitlab::Shell do
   end
 
   describe ".completion" do
+    before do
+      @comp = Gitlab::Shell.completion
+    end
     it "should return a Proc object" do
-      comp = Gitlab::Shell.completion
-      expect(comp).to be_a Proc
+      expect(@comp).to be_a Proc
+    end
+    context "called with an argument" do
+      it "should return an Array of matching commands" do
+        completed_cmds = @comp.call 'group'
+        expect(completed_cmds).to be_a Array
+        expect(completed_cmds.sort).to eq(['group', 'group_members', 'groups'])
+      end
     end
   end
 

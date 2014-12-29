@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe Gitlab::CLI::Helpers do
+  describe ".method_owners" do
+    before do
+      @methods = Gitlab::CLI::Helpers.method_owners
+    end
+    it "should return Array of Hashes containing method names and owners" do
+      expect(@methods).to be_a Array
+      expect(@methods.all? { |m| m.is_a? Hash} ).to be true
+      expect(@methods.all? { |m| m.keys.sort === [:name, :owner]} ).to be true
+    end
+  end
+
   describe ".valid_command?" do
     it "should return true when command is valid" do
       expect(Gitlab::CLI::Helpers.valid_command? 'merge_requests').to be_truthy
@@ -9,6 +20,7 @@ describe Gitlab::CLI::Helpers do
       expect(Gitlab::CLI::Helpers.valid_command? 'mmmmmerge_requests').to be_falsy
     end
   end
+
   describe ".symbolize_keys" do
     context "when input is a Hash" do
       it "should return a Hash with symbols for keys" do

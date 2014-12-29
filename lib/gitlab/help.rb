@@ -25,26 +25,19 @@ module Gitlab::Help
 
     def ri_cmd
       @ri_cmd if @ri_cmd
+
       which_ri = `which ri`.chomp
-      if which_ri.length < 1
+      if which_ri.empty?
         raise "'ri' tool not found in your PATH, please install it to use the help."
       end
+
       @ri_cmd = which_ri
     end
 
     def namespace cmd
-      help_methods.select { |method| method[:name] === cmd }.
-                   map    { |method| method[:owner] + '.' + method[:name] }.
-                   shift
-    end
-
-    def help_methods
-      @help_methods ||= Gitlab.actions.map do |action|
-        {
-          name: action.to_s,
-          owner: Gitlab.client.method(action).owner.to_s
-        }
-      end
+      method_owners.select { |method| method[:name] === cmd }.
+                    map    { |method| method[:owner] + '.' + method[:name] }.
+                    shift
     end
 
     def change_help_output! cmd, output_str

@@ -9,7 +9,7 @@ class Gitlab::Shell
   extend Gitlab::CLI::Helpers
 
   class << self
-    attr_reader :client, :actions, :arguments, :command
+    attr_reader :arguments, :command
 
     def start
       setup
@@ -55,16 +55,13 @@ class Gitlab::Shell
 
       Readline.completion_proc = completion
       Readline.completion_append_character = ' '
-
-      @client = Gitlab::Client.new(endpoint: '')
-      @actions = Gitlab.actions
     end
 
     def completion
       proc { |str| actions.map(&:to_s).grep(/^#{Regexp.escape(str)}/) }
     end
 
-    def help cmd
+    def help cmd=nil
       cmd.nil? ? actions_table : Gitlab::Help.get_help(cmd)
     end
 
@@ -73,8 +70,8 @@ class Gitlab::Shell
         confirm_command(cmd)
         gitlab_helper(cmd, args)
       else
-        "Unknown command: #{cmd}. " +
-        "See the 'help' for a list of valid commands."
+        raise "Unknown command: #{cmd}. " +
+              "See the 'help' for a list of valid commands."
       end
     end
 
