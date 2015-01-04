@@ -7,7 +7,7 @@
 - [bc14ec5](https://github.com/NARKOZ/gitlab/commit/bc14ec5173e432ced601c108cae6eca56026d41e) Refactor of Gitlab::Shell to hopefully make it more readable & testable.  Wrote tests for some Gitlab::Shell & Gitlab::CLI::Helper methods.  Other minor improvements and refactors. (@asedge)
 - **Your contribution here.**
 
-### v3.3.0 (22/12/2014)
+### 3.3.0 (22/12/2014)
 - [42b4bc7](https://github.com/NARKOZ/gitlab/commit/42b4bc7b0e5e35f151ab61e27099606f0f38af31) fix docs and specs
 - [04e39e0](https://github.com/NARKOZ/gitlab/commit/04e39e013a7a74f6101a97c3791da0594da232a3) ability to update hook triggers
 - [6c66fe9](https://github.com/NARKOZ/gitlab/commit/6c66fe92a56cca58630a34ed3e7991517dd63604) remove useless check for available hook events
@@ -16,7 +16,7 @@
 - [1ec8b38](https://github.com/NARKOZ/gitlab/commit/1ec8b38322657c3f97a60deb10dc08b828ba9875) test multiple clients
 - [44d013a](https://github.com/NARKOZ/gitlab/commit/44d013af76535a2227678869148fb7a8195691df) Capture CTRL-C in Shell (@chrisdambrosio)
 - [3cba3b2](https://github.com/NARKOZ/gitlab/commit/3cba3b2420d72d8aead0febf0ba3564c7615cf8c) Adding respond_to override to the ObjectifiedHash class so it properly responds to respond_to? calls (@koglinjg)
-- [ce20c47](https://github.com/NARKOZ/gitlab/commit/ce20c4768c3e591b0cea72e8738371ab76d7289e) limit hitory file size - closes #93 (@chrisdambrosio)
+- [ce20c47](https://github.com/NARKOZ/gitlab/commit/ce20c4768c3e591b0cea72e8738371ab76d7289e) limit history file size - closes #93 (@chrisdambrosio)
 - [1cf656f](https://github.com/NARKOZ/gitlab/commit/1cf656f7cf9f1821339b9e6ed711f6218cddbf0f) Save/load shell mode history - closes #79 (@chrisdambrosio)
 - [727780b](https://github.com/NARKOZ/gitlab/commit/727780b8f282bb8fe461a54e558fe0775b4b36fd) HTTP proxy support - closes #52 (@chrisdambrosio)
 - [e4ceb18](https://github.com/NARKOZ/gitlab/commit/e4ceb187aa5e47d20740676aea4f36c473ddd241) implement .file_contents (@chrisdambrosio)
@@ -35,7 +35,7 @@
 - [382fe71](https://github.com/NARKOZ/gitlab/commit/382fe71e3d509a57f736138ffbb673695577f709) Add missing documentation: :group_id, :namespace_id (@arioch)
 - [c9f9662](https://github.com/NARKOZ/gitlab/commit/c9f9662a9b1116c838b523ed64c6abdb4aae4b8b) add exit command to shell
 
-### v3.2.0 (22/06/2014)
+### 3.2.0 (22/06/2014)
 - [fee67da](https://github.com/NARKOZ/gitlab/commit/fee67da36cdab7906004e7a060602eb342c8b946) Handling some error cases when calling for help. (@asedge)
 - [7705b01](https://github.com/NARKOZ/gitlab/commit/7705b01c94d8833fb055ca072d34c0019c622caf) Adding online help for Gitlab::Shell using "ri" command.  I'm unsure if this is the best idea.  Some refactoring still needs to be done to remove duplicate code. (@asedge)
 - [599deff](https://github.com/NARKOZ/gitlab/commit/599deffbe193aed420747be16516b29b8beeb31f) Fix output_table call in CLI. (@asedge)
@@ -46,7 +46,7 @@
 - [8c2aa8f](https://github.com/NARKOZ/gitlab/commit/8c2aa8fc9f660696596639d458444bc00fe17f0c) Add create_tag method.  Add tests for new method. (@asedge)
 - [cd5ae8b](https://github.com/NARKOZ/gitlab/commit/cd5ae8ba8aca5025a41ec1dd9fad70dae10c2fd3) clarify default config options
 
-### v3.1.0 (22/05/2014)
+### 3.1.0 (22/05/2014)
 - [16834bb](https://github.com/NARKOZ/gitlab/commit/16834bb178fa6bf6c7ec8b67bfedfdc32145769d) add info command to CLI
 - [68aebb7](https://github.com/NARKOZ/gitlab/commit/68aebb76b24972b7d00a78f3d4f923fca009ba31) ability to delete a project
 - [ac54e55](https://github.com/NARKOZ/gitlab/commit/ac54e55825d16373862fbbc176d6c9c2594dc593) set command arguments when no filters
@@ -82,7 +82,7 @@
 - [35aadef](https://github.com/NARKOZ/gitlab/commit/35aadef3f321d4d700c3f7926f2206ac241e7191) scope for projects api (@voanhduy1512)
 - [7152c85](https://github.com/NARKOZ/gitlab/commit/7152c8520bf77f49385bb71ef82a574172500b00) Add edit_user method (@robertomiranda)
 
-### v3.0.0 (22/10/2013)
+### 3.0.0 (22/10/2013)
 - [da31730](https://github.com/NARKOZ/gitlab/commit/da3173016870d76aabbd43ee1b04e7348cbdbb1e) handle response code 405
 - [3c18ad0](https://github.com/NARKOZ/gitlab/commit/3c18ad0d373b4647232be3bbc1ee88aed9a3bbfc) remove ruby 1.8 patch
 - [3fca003](https://github.com/NARKOZ/gitlab/commit/3fca0033e8dabbefdbf50fc15713866521d0e1d3) re-implement handling of sudo requests
@@ -111,10 +111,10 @@
 - [e562a7d](https://github.com/NARKOZ/gitlab/commit/e562a7db8ffdf9ec947895800e9c5b7753b83bfb) bring support for ruby 1.8
 - [63c3592](https://github.com/NARKOZ/gitlab/commit/63c3592af45aa0d01de09910f562a4f875d01f6a) Notes api for wall, issues, and snippets notes. List, read and create. (@jozefvaclavik)
 
-### v2.2.0 (22/11/2012)
+### 2.2.0 (22/11/2012)
 - [2ef4d48](https://github.com/NARKOZ/gitlab/commit/2ef4d48a0db13a7363973455c3c0ac9d2bf6df56) support merge requests API
 
-### v2.1.0 (22/10/2012)
+### 2.1.0 (22/10/2012)
 - [89541c1](https://github.com/NARKOZ/gitlab/commit/89541c1dddccf185318645bb2748541955f221b0) add ability to create a user
 - [483b4f6](https://github.com/NARKOZ/gitlab/commit/483b4f6812e657e9ea12c0c89199654393554aa7) fix typos in docs
 - [7632ecb](https://github.com/NARKOZ/gitlab/commit/7632ecba57c8fa3fe966ee6eb0055bb7752d79fd) add ability to list project snippets
@@ -123,5 +123,5 @@
 - [6a0176a](https://github.com/NARKOZ/gitlab/commit/6a0176aac542eacd9df24da20a8994f9f70e6ed7) refactor Request class
 - [53746d5](https://github.com/NARKOZ/gitlab/commit/53746d55f19f75e72b3439d25f7940ba66151c94) add convenient methods to change a state of an issue
 
-### v2.0.0 (21/09/2012)
+### 2.0.0 (21/09/2012)
 - [b47a324](https://github.com/NARKOZ/gitlab/commit/b47a324d616b7fa4e23160abae357887b9dde13f) initial implementation
