@@ -80,7 +80,7 @@ class Gitlab::CLI
     #
     # @return [String]
     def actions_table
-      owners = method_owners.map {|m| m[:owner].gsub('Gitlab::Client::','')}.uniq.sort
+      owners = method_owners.map {|m| m[:owner].gsub(/Gitlab::(?:Client::)?/,'')}.uniq.sort
       methods_c = method_owners.group_by {|m| m[:owner]}
       methods_c = methods_c.map {|_, v| [_, v.sort_by {|hv| hv[:name]}] }
       methods_c = Hash[methods_c.sort_by(&:first).map {|k, v| [k, v]}]
