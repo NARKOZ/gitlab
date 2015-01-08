@@ -11,6 +11,7 @@ module Gitlab
     include Notes
     include Projects
     include Repositories
+    include RepositoryFiles
     include Snippets
     include SystemHooks
     include Users
