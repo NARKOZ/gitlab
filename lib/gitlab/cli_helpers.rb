@@ -171,8 +171,7 @@ class Gitlab::CLI
           begin
             newhash[key.to_sym] = symbolize_keys(value)
           rescue NoMethodError
-            puts "error: cannot convert hash key to symbol: #{key}"
-            raise
+            raise "error: cannot convert hash key to symbol: #{key}"
           end
         end
       end
@@ -187,8 +186,7 @@ class Gitlab::CLI
         begin
           arg = YAML::load(arg)
         rescue Psych::SyntaxError
-          puts "error: Argument is not valid YAML syntax: #{arg}"
-          raise
+          raise "error: Argument is not valid YAML syntax: #{arg}"
         end
 
         arg

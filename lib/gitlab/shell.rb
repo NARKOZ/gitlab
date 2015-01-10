@@ -17,28 +17,27 @@ class Gitlab::Shell
       while buffer = Readline.readline('gitlab> ')
         trap('INT') { quit_shell } # capture ctrl-c
         
-        parse_input buffer
+        begin
+          parse_input buffer
 
-        yaml_load_arguments! @arguments
-        @arguments.map! { |arg| symbolize_keys arg }
+          yaml_load_arguments! @arguments
+          @arguments.map! { |arg| symbolize_keys arg }
 
-        case buffer
-        when nil, '' 
-          next
-        when 'exit'
-          quit_shell
-        when /^\bhelp\b+/
-          puts help arguments[0]
-        else
-          begin
+          case buffer
+          when nil, ''
+            next
+          when 'exit'
+            quit_shell
+          when /^\bhelp\b+/
+            puts help arguments[0]
+          else
             history << buffer
 
             data = execute command, arguments
             output_table command, arguments, data
-          rescue => e
-            puts e.message
-            next
           end
+        rescue => e
+          puts e.message
         end
       end
     end
