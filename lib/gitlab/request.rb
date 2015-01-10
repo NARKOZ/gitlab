@@ -106,8 +106,21 @@ module Gitlab
     end
 
     def error_message(response)
-      "Server responded with code #{response.code}, message: #{response.parsed_response.message}. " \
+      "Server responded with code #{response.code}, message: " \
+      "#{handle_error(response.parsed_response.message)}. " \
       "Request URI: #{response.request.base_uri}#{response.request.path}"
     end
+
+    # Handle error response message in case of nested hashes
+    def handle_error(message)
+      if message.is_a? Gitlab::ObjectifiedHash
+        message.to_h.sort.map do |key, val|
+          "'#{key}' #{(val.is_a?(Hash) ? val.sort.map { |k,v| "(#{k}: #{v.join(' ')})"} : val).join(' ')}"
+        end.join(', ')
+      else
+        message
+      end
+    end
+
   end
 end

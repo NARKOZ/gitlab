@@ -5,6 +5,12 @@ describe Gitlab::Request do
   it { should respond_to :post }
   it { should respond_to :put }
   it { should respond_to :delete }
+  before do
+    @request = Gitlab::Request.new
+    @obj_h = Gitlab::ObjectifiedHash.new({user: ['not set'],
+                                          password: ['too short'],
+                                          embed_entity: { foo: ['bar'], sna: ['fu'] }})
+  end
 
   describe ".default_options" do
     it "should have default values" do
@@ -28,16 +34,15 @@ describe Gitlab::Request do
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
         expect {
-          Gitlab::Request.new.set_request_defaults(nil, 1234000)
+          @request.set_request_defaults(nil, 1234000)
         }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
     context "when endpoint is set" do
       it "should set instance variable 'endpoint'" do
-        request = Gitlab::Request.new
-        request.set_request_defaults('http://rabbit-hole.example.org', 1234000)
-        expect(request.instance_variable_get(:@endpoint)).to eq("http://rabbit-hole.example.org")
+        @request.set_request_defaults('http://rabbit-hole.example.org', 1234000)
+        expect(@request.instance_variable_get(:@endpoint)).to eq("http://rabbit-hole.example.org")
       end
 
       it "should set default_params" do
@@ -46,4 +51,20 @@ describe Gitlab::Request do
       end
     end
   end
+
+  describe "#handle_error" do
+    context "when passed an ObjectifiedHash" do
+      it "should return a joined string of error messages sorted by key" do
+        expect(@request.send(:handle_error, @obj_h)).to eq("'embed_entity' (foo: bar) (sna: fu), 'password' too short, 'user' not set")
+      end
+    end
+
+    context "when passed a String" do
+      it "should return the String untouched" do
+        error = 'this is an error string'
+        expect(@request.send(:handle_error, error)).to eq('this is an error string')
+      end
+    end
+  end
+
 end
