@@ -40,6 +40,8 @@ class Gitlab::Shell
           puts e.message
         end
       end
+
+      quit_shell # save history if user presses ctrl-d
     end
 
     def parse_input buffer
