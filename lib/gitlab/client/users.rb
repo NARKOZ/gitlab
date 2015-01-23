@@ -45,6 +45,14 @@ class Gitlab::Client
       post("/users", :body => body)
     end
 
+    # Delete a user.
+    #
+    # @param  [Integer] id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted user.
+    def delete_user(user_id)
+      delete("/users/#{user_id}")
+    end
+
     # Updates a user.
     #
     # @param  [Integer] id The ID of a user.
