@@ -53,7 +53,8 @@ describe Gitlab::Client do
     context "when successful request" do
       before do
         stub_post("/users", "user")
-        @user = Gitlab.create_user("email", "pass", "username")
+        options = { username: "username" }
+        @user = Gitlab.create_user("email", "pass", options)
       end
 
       it "should get the correct resource" do
@@ -69,8 +70,9 @@ describe Gitlab::Client do
     context "when bad request" do
       it "should throw an exception" do
         stub_post("/users", "error_already_exists", 409)
+        options = { username: "username" }
         expect {
-          Gitlab.create_user("email", "pass", "username")
+          Gitlab.create_user("email", "pass", options)
         }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
       end
     end
