@@ -1,3 +1,5 @@
+require_relative 'settings'
+
 module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
@@ -30,10 +32,10 @@ module Gitlab
 
     # Resets all configuration options to the defaults.
     def reset
-      self.endpoint       = ENV['GITLAB_API_ENDPOINT']
-      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN']
-      self.sudo           = nil
-      self.user_agent     = DEFAULT_USER_AGENT
+      self.endpoint       = Settings.config.endpoint
+      self.private_token  = Settings.config.private_token
+      self.sudo           = Settings.config.sudo
+      self.user_agent     = Settings.config.user_agent
     end
   end
 end

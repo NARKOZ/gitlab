@@ -108,6 +108,25 @@ gitlab user --except=email,bio
 gitlab create_merge_request 4 "I'm creating a new merge request." "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
+## Configuration files
+In some cases if might be useful to specify your connection settings in a config file so that you can easily switch
+to different servers.  Your not required to use configuration files as environment variables is still the default method
+of supplying the gitlab config. In order to use this functionality, you will need to generate the primary config below.
+
+```shell
+   mkdir ~/.gitlab_cli
+   # ~/.gitlab_cli/gitlab_cli_config.yml
+   :gitlab_api_endpoint: https://gitlab.com/api/v3
+   :gitlab_private_token: 1234567abcdefg!#JK
+```
+
+To work with secondary GitLab servers you can create additional config files in the ~/.gitlab_cli directory.
+When you want to connect to your secondary server you can specify the config file in a environment variable before
+calling your gitlab cli.
+
+`GITLAB_CONFIG_FILE=gitlab_saas.yml`
+
+The gitlab api will always load the primary config first unless specified to load the secondary config.
 
 ## CLI Shell
 
