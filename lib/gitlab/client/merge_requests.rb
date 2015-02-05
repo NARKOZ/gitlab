@@ -42,6 +42,7 @@ class Gitlab::Client
     # @option options [String] :source_branch (required) The source branch name.
     # @option options [String] :target_branch (required) The target branch name.
     # @option options [Integer] :assignee_id (optional) The ID of a user to assign merge request.
+    # @option options [Integer] :target_project_id (optional) The target project ID.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
     def create_merge_request(project, title, options={})
       check_attributes!(options, [:source_branch, :target_branch])
