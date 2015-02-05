@@ -41,6 +41,13 @@ describe Gitlab do
     end
   end
 
+  describe ".auth_token=" do
+    it "should set auth_token" do
+      Gitlab.auth_token = 'secret'
+      expect(Gitlab.auth_token).to eq('secret')
+    end
+  end
+
   describe ".sudo=" do
     it "should set sudo" do
       Gitlab.sudo = 'user'

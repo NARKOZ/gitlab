@@ -34,21 +34,39 @@ describe Gitlab::Request do
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
         expect {
-          @request.set_request_defaults(nil, 1234000)
+          @request.set_request_defaults(nil, 1234000, 1234000)
         }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
     context "when endpoint is set" do
       it "should set instance variable 'endpoint'" do
-        @request.set_request_defaults('http://rabbit-hole.example.org', 1234000)
+        @request.set_request_defaults('http://rabbit-hole.example.org', 1234000, 1234000)
         expect(@request.instance_variable_get(:@endpoint)).to eq("http://rabbit-hole.example.org")
       end
 
       it "should set default_params" do
-        Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000, 'sudoer')
+        Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000, 1234000, 'sudoer')
         expect(Gitlab::Request.default_params).to eq({:sudo => 'sudoer'})
       end
+    end
+  end
+
+  describe "#set_authorization_header" do
+    it "should raise MissingCredentials when auth_token and private_token are not set" do
+      expect {
+        @request.send(:set_authorization_header, {})
+      }.to raise_error(Gitlab::Error::MissingCredentials)
+    end
+
+    it "should set the correct header when given a private_token" do
+      @request.private_token = 1234000
+      expect(@request.send(:set_authorization_header, {})).to eq({"PRIVATE-TOKEN"=>1234000})
+    end
+
+    it "should set the correct header when given a auth_token" do
+      @request.auth_token = 1234000
+      expect(@request.send(:set_authorization_header, {})).to eq({"Authorization"=>"Bearer 1234000"})
     end
   end
 
