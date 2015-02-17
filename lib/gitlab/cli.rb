@@ -14,7 +14,7 @@ class Gitlab::CLI
   def self.run(cmd, args=[])
     case cmd
     when 'help'
-      puts actions_table
+      puts help(args.shift) { |out| out.gsub!(/Gitlab\./, 'gitlab ') }
     when 'info'
       endpoint = Gitlab.endpoint ? Gitlab.endpoint : 'not set'
       private_token = Gitlab.private_token ? Gitlab.private_token : 'not set'

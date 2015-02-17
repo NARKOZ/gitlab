@@ -26,7 +26,7 @@ describe Gitlab::Help do
     end
     it "should return a String of modified output" do
       Gitlab::Help.change_help_output! @cmd, @help_output
-      expect(@help_output).to eq("gitlab> create_branch 4 'new-branch' 'master'")
+      expect(@help_output).to eq("Gitlab.create_branch 4 'new-branch' 'master'")
     end
   end
 

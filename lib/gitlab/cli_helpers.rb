@@ -76,29 +76,14 @@ class Gitlab::CLI
       end 
     end
 
-    # Table with available commands.
+    # Gets defined help for a specific command/action.
     #
-    # @return [Terminal::Table]
-    def actions_table
-      owners = method_owners.map {|m| m[:owner].gsub(/Gitlab::(?:Client::)?/,'')}.uniq.sort
-      methods_c = method_owners.group_by {|m| m[:owner]}
-      methods_c = methods_c.map {|_, v| [_, v.sort_by {|hv| hv[:name]}] }
-      methods_c = Hash[methods_c.sort_by(&:first).map {|k, v| [k, v]}]
-      max_column_length = methods_c.values.max_by(&:size).size
-
-      rows = max_column_length.times.map do |i|
-        methods_c.keys.map do |key|
-          methods_c[key][i] ? methods_c[key][i][:name] : ''
-        end
-      end
-
-      table do |t|
-        t.title = "Available commands (#{actions.size} total)"
-        t.headings = owners
-
-        rows.each do |row|
-          t.add_row row
-        end
+    # @return [String]
+    def help(cmd = nil, &block)
+      if cmd.nil? or Gitlab::Help.help_map.has_key?(cmd)
+        Gitlab::Help.actions_table(cmd)
+      else
+        Gitlab::Help.get_help(cmd, &block)
       end
     end
 

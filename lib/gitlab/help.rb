@@ -17,6 +17,8 @@ module Gitlab::Help
 
         if $? == 0
           change_help_output! cmd, ri_output
+          yield ri_output if block_given?
+
           ri_output
         else
           "Ri docs not found for #{cmd}, please install the docs to use 'help'."
@@ -30,14 +32,44 @@ module Gitlab::Help
     #
     # @return [String]
     def ri_cmd
-      @ri_cmd if @ri_cmd
-
       which_ri = `which ri`.chomp
       if which_ri.empty?
-        raise "'ri' tool not found in your PATH, please install it to use the help."
+        raise "'ri' tool not found in $PATH. Please install it to use the help."
       end
 
-      @ri_cmd = which_ri
+      which_ri
+    end
+
+    # A hash map that contains help topics (Branches, Groups, etc.)
+    # and a list of commands that are defined under a topic (create_branch,
+    # branches, protect_branch, etc.).
+    #
+    # @return [Hash<Array>]
+    def help_map
+      @help_map ||= begin
+          actions.each_with_object({}) do |action, hsh|
+            key = client.method(action).
+                         owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
+            hsh[key] ||= []
+            hsh[key] << action.to_s
+          end
+      end
+    end
+
+    # Table with available commands.
+    #
+    # @return [Terminal::Table]
+    def actions_table(topic = nil)
+      rows = topic ? help_map[topic] : help_map.keys
+      table do |t|
+        t.title = topic || "Help Topics"
+
+        # add_row expects an array and we have strings hence the map.
+        rows.sort.map { |r| [r] }.each_with_index do |row, index|
+          t.add_row row
+          t.add_separator unless rows.size - 1 == index
+        end
+      end
     end
 
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
@@ -50,8 +82,6 @@ module Gitlab::Help
     # Massage output from 'ri'.
     def change_help_output!(cmd, output_str)
       output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd+' \1')
-      output_str.gsub!(/Gitlab\./, 'gitlab> ')
-      output_str.gsub!(/Gitlab\..+$/, '')
       output_str.gsub!(/\,[\s]*/, ' ')
     end
 

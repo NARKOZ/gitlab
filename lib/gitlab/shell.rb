@@ -29,7 +29,7 @@ class Gitlab::Shell
           when 'exit'
             quit_shell
           when /^\bhelp\b+/
-            puts help arguments[0]
+            puts help(arguments[0]) { |out| out.gsub!(/Gitlab\./, 'gitlab> ') }
           else
             history << buffer
 
@@ -61,10 +61,6 @@ class Gitlab::Shell
     # Gets called when user hits TAB key to do completion
     def completion
       proc { |str| actions.map(&:to_s).grep(/^#{Regexp.escape(str)}/) }
-    end
-
-    def help(cmd = nil)
-      cmd.nil? ? actions_table : Gitlab::Help.get_help(cmd)
     end
 
     # Execute a given command with arguements
