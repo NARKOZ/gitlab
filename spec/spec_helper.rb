@@ -14,6 +14,10 @@ def capture_output
   out.string
 end
 
+def fixtures_dir
+  File.expand_path(File.join(File.dirname(__FILE__), 'fixtures'))
+end
+
 def load_fixture(name)
   File.new(File.dirname(__FILE__) + "/fixtures/#{name}.json")
 end
