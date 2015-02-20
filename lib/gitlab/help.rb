@@ -6,6 +6,9 @@ module Gitlab::Help
 
   class << self
 
+    # Returns the (modified) help from the 'ri' command or returns an error.
+    #
+    # @return [String]
     def get_help(cmd)
       cmd_namespace = namespace cmd
 
@@ -23,6 +26,9 @@ module Gitlab::Help
       end
     end
 
+    # Finds the location of 'ri' on a system.
+    #
+    # @return [String]
     def ri_cmd
       @ri_cmd if @ri_cmd
 
@@ -34,13 +40,15 @@ module Gitlab::Help
       @ri_cmd = which_ri
     end
 
-    def namespace cmd
+    # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
+    def namespace(cmd)
       method_owners.select { |method| method[:name] === cmd }.
                     map    { |method| method[:owner] + '.' + method[:name] }.
                     shift
     end
 
-    def change_help_output! cmd, output_str
+    # Massage output from 'ri'.
+    def change_help_output!(cmd, output_str)
       output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd+' \1')
       output_str.gsub!(/Gitlab\./, 'gitlab> ')
       output_str.gsub!(/Gitlab\..+$/, '')

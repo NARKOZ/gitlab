@@ -44,7 +44,7 @@ class Gitlab::Shell
       quit_shell # save history if user presses ctrl-d
     end
 
-    def parse_input buffer
+    def parse_input(buffer)
       buf = Shellwords.shellwords(buffer)
 
       @command = buf.shift
@@ -58,15 +58,17 @@ class Gitlab::Shell
       Readline.completion_append_character = ' '
     end
 
+    # Gets called when user hits TAB key to do completion
     def completion
       proc { |str| actions.map(&:to_s).grep(/^#{Regexp.escape(str)}/) }
     end
 
-    def help cmd=nil
+    def help(cmd = nil)
       cmd.nil? ? actions_table : Gitlab::Help.get_help(cmd)
     end
 
-    def execute cmd = command, args = arguments
+    # Execute a given command with arguements
+    def execute(cmd = command, args = arguments)
       if actions.include?(cmd.to_sym)
         confirm_command(cmd)
         gitlab_helper(cmd, args)

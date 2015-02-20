@@ -78,7 +78,7 @@ class Gitlab::CLI
 
     # Table with available commands.
     #
-    # @return [String]
+    # @return [Terminal::Table]
     def actions_table
       owners = method_owners.map {|m| m[:owner].gsub(/Gitlab::(?:Client::)?/,'')}.uniq.sort
       methods_c = method_owners.group_by {|m| m[:owner]}
@@ -103,8 +103,6 @@ class Gitlab::CLI
     end
 
     # Outputs a nicely formatted table or error msg.
-    #
-    # @return [String]
     def output_table(cmd, args, data)
       case data
       when Gitlab::ObjectifiedHash
@@ -118,7 +116,7 @@ class Gitlab::CLI
 
     # Table to display records.
     #
-    # @return [String]
+    # @return [Terminal::Table]
     def record_table(data, cmd, args)
       return 'No data' if data.empty?
 
@@ -152,7 +150,7 @@ class Gitlab::CLI
     end
 
     # Helper function to call Gitlab commands with args.
-    def gitlab_helper(cmd, args=[])
+    def gitlab_helper(cmd, args = [])
       begin
         data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
       rescue => e
