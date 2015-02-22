@@ -12,11 +12,10 @@ class Gitlab::Shell
     attr_reader :arguments, :command
 
     def start
+      trap('INT') { quit_shell } # capture ctrl-c
       setup
 
       while buffer = Readline.readline('gitlab> ')
-        trap('INT') { quit_shell } # capture ctrl-c
-        
         begin
           parse_input buffer
 
