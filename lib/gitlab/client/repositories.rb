@@ -155,5 +155,17 @@ class Gitlab::Client
       get("/projects/#{project}/repository/compare", :query => {:from => from, :to => to})
     end
     alias_method :repo_compare, :compare
+    
+    # Lists repository contributors.
+    #
+    # @example
+    #   Gitlab.contributors(42)
+    #
+    # @param [Integer] project The ID of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def contributors(project, from, to)
+      get("/projects/#{project}/repository/contributors")
+    end
+    alias_method :repo_contributors, :contributors
   end
 end
