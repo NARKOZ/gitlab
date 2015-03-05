@@ -4,6 +4,7 @@ module Gitlab
     Dir[File.expand_path('../client/*.rb', __FILE__)].each {|f| require f}
 
     include Branches
+    include Commits
     include Groups
     include Issues
     include MergeRequests
