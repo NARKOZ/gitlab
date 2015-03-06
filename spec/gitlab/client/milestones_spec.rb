@@ -31,6 +31,22 @@ describe Gitlab::Client do
       expect(@milestone.project_id).to eq(3)
     end
   end
+  
+  describe ".milestone_issues" do
+    before do
+      stub_get("/projects/3/milestones/1/issues", "milestone_issues")
+      @milestone_issues = Gitlab.milestone_issues(3, 1)
+    end
+    
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/milestones/1/issues")).to have_been_made
+    end
+
+    it "should return an array of milestone's issues" do
+      expect(@milestone_issues).to be_an Array
+      expect(@milestone_issues.first.milestone.id).to eq(1)
+    end
+  end
 
   describe ".create_milestone" do
     before do
