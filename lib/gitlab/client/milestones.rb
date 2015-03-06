@@ -26,6 +26,18 @@ class Gitlab::Client
     def milestone(project, id)
       get("/projects/#{project}/milestones/#{id}")
     end
+    
+    # Gets the issues of a given milestone.
+    #
+    # @example
+    #   Gitlab.milestone_issues(5, 2)
+    #
+    # @param  [Integer, String] project The ID of a project.
+    # @param  [Integer, String] milestone The ID of a milestone.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def milestone_issues(project, milestone)
+      get("/projects/#{project}/milestones/#{milestone}/issues")
+    end
 
     # Creates a new milestone.
     #
