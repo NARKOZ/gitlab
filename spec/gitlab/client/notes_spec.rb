@@ -152,5 +152,22 @@ describe Gitlab::Client do
         expect(@note.author.name).to eq("John Smith")
       end
     end
+
+    context "when merge_request note" do
+      before do
+        stub_post("/projects/3/merge_requests/7/notes", "note")
+        @note = Gitlab.create_merge_request_note(3, 7, "The solution is rather tricky")
+      end
+
+      it "should get the correct resource" do
+        expect(a_post("/projects/3/merge_requests/7/notes").
+          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
+      end
+
+      it "should return information about a created note" do
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
+      end
+    end
   end
 end
