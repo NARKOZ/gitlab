@@ -102,5 +102,14 @@ class Gitlab::Client
     def create_snippet_note(project, snippet, body)
       post("/projects/#{project}/snippets/#{snippet}/notes", :body => {:body => body})
     end
+
+    # Creates a new note for a single merge request.
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge request.
+    # @param [String] body The content of a note.
+    def create_merge_request_note(project, merge_request, body)
+      post("/projects/#{project}/merge_requests/#{merge_request}/notes", :body => {:body => body})
+    end
   end
 end
