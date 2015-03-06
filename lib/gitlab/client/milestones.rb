@@ -34,9 +34,11 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID of a project.
     # @param  [Integer, String] milestone The ID of a milestone.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def milestone_issues(project, milestone)
-      get("/projects/#{project}/milestones/#{milestone}/issues")
+    def milestone_issues(project, milestone, options={})
+      get("/projects/#{project}/milestones/#{milestone}/issues", :query => options)
     end
 
     # Creates a new milestone.
