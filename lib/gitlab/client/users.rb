@@ -1,5 +1,7 @@
 class Gitlab::Client
   # Defines methods related to users.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/users.md
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/session.md
   module Users
     # Gets a list of users.
     #

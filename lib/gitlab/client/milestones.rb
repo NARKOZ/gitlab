@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to milestones.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/milestones.md
   module Milestones
     # Gets a list of project's milestones.
     #
@@ -25,6 +26,20 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def milestone(project, id)
       get("/projects/#{project}/milestones/#{id}")
+    end
+
+    # Gets the issues of a given milestone.
+    #
+    # @example
+    #   Gitlab.milestone_issues(5, 2)
+    #
+    # @param  [Integer, String] project The ID of a project.
+    # @param  [Integer, String] milestone The ID of a milestone.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def milestone_issues(project, milestone, options={})
+      get("/projects/#{project}/milestones/#{milestone}/issues", :query => options)
     end
 
     # Creates a new milestone.

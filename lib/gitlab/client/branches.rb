@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to repositories.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/branches.md
   module Branches
     # Gets a list of project repositiory branches.
     #
@@ -28,7 +29,7 @@ class Gitlab::Client
     def branch(project, branch)
       get("/projects/#{project}/repository/branches/#{branch}")
     end
-    
+
     alias_method :repo_branch, :branch
 
     # Protects a repository branch.

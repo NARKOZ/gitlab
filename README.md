@@ -7,7 +7,8 @@
 [![License](https://img.shields.io/badge/license-BSD-red.svg?style=flat)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](http://narkoz.github.io/gitlab) |
-[documentation](http://rubydoc.info/gems/gitlab/frames)
+[documentation](http://rubydoc.info/gems/gitlab/frames) |
+[gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
 Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api#gitlab-api).
 
@@ -23,7 +24,7 @@ Or add to a Gemfile:
 
 ```ruby
 gem 'gitlab'
-# gem 'gitlab', :git => 'git://github.com/NARKOZ/gitlab.git'
+# gem 'gitlab', github: 'NARKOZ/gitlab'
 ```
 
 ## Usage
@@ -59,11 +60,11 @@ Gitlab.http_proxy('proxyhost', 8888)
 Gitlab.http_proxy('proxyhost', 8888, 'proxyuser', 'strongpasswordhere')
 
 # list projects
-Gitlab.projects(:per_page => 5)
+Gitlab.projects(per_page: 5)
 # => [#<Gitlab::ObjectifiedHash:0x000000023326e0 @data={"id"=>1, "code"=>"brute", "name"=>"Brute", "description"=>nil, "path"=>"brute", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x00000002331600 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:56Z"}>, #<Gitlab::ObjectifiedHash:0x000000023450d8 @data={"id"=>2, "code"=>"mozart", "name"=>"Mozart", "description"=>nil, "path"=>"mozart", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x00000002344ca0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:57Z"}>, #<Gitlab::ObjectifiedHash:0x00000002344958 @data={"id"=>3, "code"=>"gitlab", "name"=>"Gitlab", "description"=>nil, "path"=>"gitlab", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x000000023447a0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:58Z"}>]
 
 # initialize a new client
-g = Gitlab.client(:endpoint => 'https://api.example.com', :private_token => 'qEsq1pt6HJPaNciie3MG')
+g = Gitlab.client(endpoint: 'https://api.example.com', private_token: 'qEsq1pt6HJPaNciie3MG')
 # => #<Gitlab::Client:0x00000001e62408 @endpoint="https://api.example.com", @private_token="qEsq1pt6HJPaNciie3MG", @user_agent="Gitlab Ruby Gem 2.0.0">
 
 # get a user
@@ -104,8 +105,8 @@ gitlab user --only=id,username
 
 gitlab user --except=email,bio
 
-# how to pass options hash to a command (use YAML)
-gitlab create_merge_request 4 "I'm creating a new merge request." "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
+# passing options hash to a command (use YAML)
+gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
 
@@ -126,10 +127,11 @@ gitlab> groups
 # protect a branch
 gitlab> protect_branch 1 master
 
-# how to pass options hash to a command (use YAML)
-gitlab> create_merge_request 4 "I'm creating a new merge request." "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
+# passing options hash to a command (use YAML)
+gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 ```
 
+Try it online at https://gitlab-live.herokuapp.com  
 For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## License

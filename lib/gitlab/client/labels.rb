@@ -1,4 +1,6 @@
 class Gitlab::Client
+  # Defines methods related to labels.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/labels.md
   module Labels
     # Gets a list of project's labels.
     #
