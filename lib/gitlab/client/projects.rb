@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to projects.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/projects.md
   module Projects
     # Gets a list of projects owned by the authenticated user.
     #

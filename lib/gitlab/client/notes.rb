@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to notes.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/notes.md
   module Notes
     # Gets a list of projects notes.
     #

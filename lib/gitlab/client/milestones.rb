@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to milestones.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/milestones.md
   module Milestones
     # Gets a list of project's milestones.
     #
@@ -26,7 +27,7 @@ class Gitlab::Client
     def milestone(project, id)
       get("/projects/#{project}/milestones/#{id}")
     end
-    
+
     # Gets the issues of a given milestone.
     #
     # @example

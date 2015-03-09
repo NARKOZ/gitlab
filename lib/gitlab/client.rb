@@ -6,6 +6,7 @@ module Gitlab
     include Branches
     include Groups
     include Issues
+    include Labels
     include MergeRequests
     include Milestones
     include Notes
@@ -15,6 +16,5 @@ module Gitlab
     include Snippets
     include SystemHooks
     include Users
-    include Labels
   end
 end

@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to snippets.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/project_snippets.md
   module Snippets
     # Gets a list of project's snippets.
     #
