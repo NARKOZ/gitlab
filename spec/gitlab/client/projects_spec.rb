@@ -84,6 +84,21 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".edit_project" do
+    before do
+      stub_put("/projects/2", "project_edit")
+      @project = Gitlab.edit_project(2, {description: 'test_text'})
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/projects/2")).to have_been_made
+    end
+
+    it "should return information about a created project" do
+      expect(@project.description).to eq("test_text")
+    end
+  end
+
   describe ".delete_project" do
     before do
       stub_delete("/projects/Gitlab", "project")
