@@ -6,7 +6,7 @@ require_relative 'shell'
 class Gitlab::CLI
   extend Helpers
 
-  # Start a new CLI session.
+  # Starts a new CLI session.
   #
   # @example
   #   Gitlab::CLI.start(['help'])
