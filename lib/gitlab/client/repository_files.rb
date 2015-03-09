@@ -2,6 +2,7 @@ require 'base64'
 
 class Gitlab::Client
   # Defines methods related to repository files.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/repository_files.md
   module RepositoryFiles
     # Creates a new repository file.
     #

@@ -1,5 +1,6 @@
 class Gitlab::Client
   # Defines methods related to repositories.
+  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/repositories.md
   module Repositories
     # Gets a list of project repository tags.
     #
