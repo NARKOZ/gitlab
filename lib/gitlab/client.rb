@@ -4,8 +4,10 @@ module Gitlab
     Dir[File.expand_path('../client/*.rb', __FILE__)].each {|f| require f}
 
     include Branches
+    include Commits
     include Groups
     include Issues
+    include Labels
     include MergeRequests
     include Milestones
     include Notes
@@ -15,6 +17,5 @@ module Gitlab
     include Snippets
     include SystemHooks
     include Users
-    include Labels
   end
 end

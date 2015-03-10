@@ -6,11 +6,27 @@ require_relative 'shell'
 class Gitlab::CLI
   extend Helpers
 
+  # Starts a new CLI session.
+  #
+  # @example
+  #   Gitlab::CLI.start(['help'])
+  #   Gitlab::CLI.start(['help', 'issues'])
+  #
+  # @param [Array] args The command and it's optional arguments.
   def self.start(args)
     command = args.shift.strip rescue 'help'
     run(command, args)
   end
 
+  # Processes a CLI command and outputs a result to the stream (stdout).
+  #
+  # @example
+  #   Gitlab::CLI.run('help')
+  #   Gitlab::CLI.run('help', ['issues'])
+  #
+  # @param [String] cmd The name of a command.
+  # @param [Array] args The optional arguments for a command.
+  # @return [nil]
   def self.run(cmd, args=[])
     case cmd
     when 'help'
