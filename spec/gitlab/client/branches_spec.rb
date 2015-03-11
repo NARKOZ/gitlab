@@ -81,4 +81,19 @@ describe Gitlab::Client do
       expect(@branch.name).to eq("api")
     end
   end
+
+  describe ".delete_branch" do
+    before do
+      stub_delete("/projects/3/repository/branches/api", "branch_delete")
+      @branch = Gitlab.delete_branch(3, "api")
+    end
+
+    it "should get the correct resource" do
+      expect(a_delete("/projects/3/repository/branches/api")).to have_been_made
+    end
+
+    it "should return information about the deleted repository branch" do
+      expect(@branch.branch_name).to eq("api")
+    end
+  end
 end

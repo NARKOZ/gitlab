@@ -75,6 +75,20 @@ class Gitlab::Client
     end
     alias_method :repo_create_branch, :create_branch
 
+    # Deletes a repository branch.  Requires Gitlab >= 6.8.x
+    #
+    # @example
+    #   Gitlab.delete_branch(3, 'api')
+    #   Gitlab.repo_delete_branch(5, 'master')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] branch The name of the branch to delete
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_branch(project, branch)
+      delete("/projects/#{project}/repository/branches/#{branch}")
+    end
+    alias_method :repo_delete_branch, :delete_branch
+
   end
 end
 
