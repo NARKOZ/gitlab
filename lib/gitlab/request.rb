@@ -9,7 +9,7 @@ module Gitlab
     headers 'Accept' => 'application/json'
     parser Proc.new { |body, _| parse(body) }
 
-    attr_accessor :private_token, :auth_token, :endpoint
+    attr_accessor :private_token, :endpoint
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
@@ -77,12 +77,8 @@ module Gitlab
 
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
-    def set_request_defaults(endpoint, private_token, auth_token, sudo=nil)
-      raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
-      @private_token = private_token
-      @auth_token = auth_token
-      @endpoint = endpoint
-
+    def set_request_defaults(sudo=nil)
+      raise Error::MissingCredentials.new("Please set an endpoint to API") unless @endpoint
       self.class.default_params :sudo => sudo
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
@@ -90,14 +86,14 @@ module Gitlab
     private
 
     # Sets a PRIVATE-TOKEN or Authorization header for requests.
-    # @raise [Error::MissingCredentials] if private_token and auth_token are set.
+    # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
     def set_authorization_header(options, path=nil)
       unless path == '/session'
-        raise Error::MissingCredentials.new("Please set a private_token or auth_token for user") unless @private_token || @auth_token
-        if @private_token
+        raise Error::MissingCredentials.new("Please provide a private_token or auth_token for user") unless @private_token
+        if @private_token.length <= 20
           options[:headers] = {'PRIVATE-TOKEN' => @private_token}
         else
-          options[:headers] = {'Authorization' => "Bearer #{@auth_token}"}
+          options[:headers] = {'Authorization' => "Bearer #{@private_token}"}
         end
       end
     end

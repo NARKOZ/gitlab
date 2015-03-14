@@ -33,20 +33,20 @@ describe Gitlab::Request do
   describe "#set_request_defaults" do
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
+        @request.endpoint = nil
         expect {
-          @request.set_request_defaults(nil, 1234000, 1234000)
+          @request.set_request_defaults
         }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
     context "when endpoint is set" do
-      it "should set instance variable 'endpoint'" do
-        @request.set_request_defaults('http://rabbit-hole.example.org', 1234000, 1234000)
-        expect(@request.instance_variable_get(:@endpoint)).to eq("http://rabbit-hole.example.org")
+      before(:each) do
+        @request.endpoint = 'http://rabbit-hole.example.org'
       end
 
       it "should set default_params" do
-        Gitlab::Request.new.set_request_defaults('http://rabbit-hole.example.org', 1234000, 1234000, 'sudoer')
+        @request.set_request_defaults('sudoer')
         expect(Gitlab::Request.default_params).to eq({:sudo => 'sudoer'})
       end
     end
@@ -60,13 +60,13 @@ describe Gitlab::Request do
     end
 
     it "should set the correct header when given a private_token" do
-      @request.private_token = 1234000
-      expect(@request.send(:set_authorization_header, {})).to eq({"PRIVATE-TOKEN"=>1234000})
+      @request.private_token = 'ys9BtunN3rDKbaJCYXaN'
+      expect(@request.send(:set_authorization_header, {})).to eq({"PRIVATE-TOKEN"=>'ys9BtunN3rDKbaJCYXaN'})
     end
 
-    it "should set the correct header when given a auth_token" do
-      @request.auth_token = 1234000
-      expect(@request.send(:set_authorization_header, {})).to eq({"Authorization"=>"Bearer 1234000"})
+    it "should set the correct header when setting an auth_token via the private_token config option" do
+      @request.private_token = '3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603'
+      expect(@request.send(:set_authorization_header, {})).to eq({"Authorization"=>"Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603"})
     end
   end
 
