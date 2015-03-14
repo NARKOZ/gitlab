@@ -73,6 +73,28 @@ class Gitlab::Client
       post(url, :body => {:name => name}.merge(options))
     end
 
+    # Edits a project.
+    #
+    # @example
+    #   Gitlab.edit_project(4)
+    #
+    # @param  [Integer, String] id The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :name The project name.
+    # @option options [String] :path The repository name for the project.
+    # @option options [String] :description The description of a project.
+    # @option options [String] :default_branch The default branch of a project.
+    # @option options [Boolean] :issues_enabled The issues integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :merge_requests_enabled The merge requests functionality for a project (0 = false, 1 = true).
+    # @option options [Boolean] :wiki_enabled The wiki integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :snippets_enabled The snippets integration for a project (0 = false, 1 = true).
+    # @option options [Boolean] :public The setting for making a project public (0 = false, 1 = true).
+    # @option options [Integer] :visibility_level The visibility level of the project
+    # @return [Gitlab::ObjectifiedHash] Information about edited project.
+    def edit_project(id, options={})
+      put("/projects/#{id}", body: options)
+    end
+
     # Deletes a project.
     #
     # @example
