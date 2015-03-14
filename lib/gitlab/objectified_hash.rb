@@ -11,10 +11,16 @@ module Gitlab
       end
     end
 
+    # @return [Hash] The original hash.
     def to_hash
       @hash
     end
     alias_method :to_h, :to_hash
+
+    # @return [String] Formatted string with the class name, object id and original hash.
+    def inspect
+      "#<#{self.class}:#{object_id} {hash: #{@hash.inspect}}"
+    end
 
     # Delegate to ObjectifiedHash.
     def method_missing(key)

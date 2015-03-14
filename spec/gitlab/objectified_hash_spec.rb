@@ -21,6 +21,13 @@ describe Gitlab::ObjectifiedHash do
     end
   end
 
+  describe "#inspect" do
+    it "should return a formatted string" do
+      pretty_string = "#<#{@oh.class.name}:#{@oh.object_id} {hash: #{@hash.to_s}}"
+      expect(@oh.inspect).to eq(pretty_string)
+    end
+  end
+
   describe "#respond_to" do
     it "should return true for methods this object responds to through method_missing as sym" do
       expect(@oh.respond_to?(:a)).to be_truthy
