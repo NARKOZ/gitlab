@@ -128,10 +128,10 @@ gitlab> groups
 gitlab> protect_branch 1 master
 
 # passing options hash to a command (use YAML)
-gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
+gitlab> create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 ```
 
-Try it online at https://gitlab-live.herokuapp.com  
+Web version is available at https://gitlab-live.herokuapp.com  
 For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## License
