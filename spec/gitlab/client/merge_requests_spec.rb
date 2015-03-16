@@ -143,4 +143,24 @@ describe Gitlab::Client do
       expect(@merge_request.author.id).to eq(1)
     end
   end
+
+  describe ".merge_request_changes" do
+    before do
+      stub_get("/projects/3/merge_request/2/changes", "merge_request_changes")
+      @mr_changes = Gitlab.merge_request_changes(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/merge_request/2/changes")).to have_been_made
+    end
+
+    it "should return the merge request changes" do
+      expect(@mr_changes.changes).to be_a Array
+      expect(@mr_changes.changes.first['old_path']).to eq('lib/omniauth/builder.rb')
+      expect(@mr_changes.id).to eq(2)
+      expect(@mr_changes.project_id).to eq(3)
+      expect(@mr_changes.source_branch).to eq('uncovered')
+      expect(@mr_changes.target_branch).to eq('master')
+    end
+  end
 end
