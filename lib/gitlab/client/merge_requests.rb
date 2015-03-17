@@ -114,6 +114,18 @@ class Gitlab::Client
       get("/projects/#{project}/merge_request/#{id}/comments", :query => options)
     end
 
+    # Gets the changes of a merge request.
+    #
+    # @example
+    #   Gitlab.merge_request_changes(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] The merge request's changes.
+    def merge_request_changes(project, id)
+      get("/projects/#{project}/merge_request/#{id}/changes")
+    end
+
     private
 
     def check_attributes!(options, attrs)
