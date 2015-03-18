@@ -36,9 +36,11 @@ class Gitlab::Client
     #
     # @param [Integer] project The ID of a project.
     # @param [Integer] snippet The ID of a snippet.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def snippet_notes(project, snippet)
-      get("/projects/#{project}/snippets/#{snippet}/notes")
+    def snippet_notes(project, snippet, options={})
+      get("/projects/#{project}/snippets/#{snippet}/notes", :query => options)
     end
 
     # Gets a single wall note.
