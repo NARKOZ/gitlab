@@ -8,9 +8,11 @@ class Gitlab::Client
     #   Gitlab.notes(5)
     #
     # @param [Integer] project The ID of a project.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def notes(project)
-      get("/projects/#{project}/notes")
+    def notes(project, options={})
+      get("/projects/#{project}/notes", :query => options)
     end
 
     # Gets a list of notes for a issue.
