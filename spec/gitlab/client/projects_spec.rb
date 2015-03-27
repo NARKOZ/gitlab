@@ -18,6 +18,24 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".project_search" do
+    before do
+      stub_get("/projects/search/Gitlab", "project_search")
+      @project_search = Gitlab.project_search("Gitlab")
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/search/Gitlab")).to have_been_made
+    end
+
+    it "should return an array of projects found" do
+      expect(@project_search).to be_an Array
+      expect(@project_search.first.name).to eq("Gitlab")
+      expect(@project_search.first.owner.name).to eq("John Smith")
+    end
+
+  end
+
   describe ".project" do
     before do
       stub_get("/projects/3", "project")
