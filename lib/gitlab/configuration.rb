@@ -9,6 +9,8 @@ module Gitlab
 
     # @private
     attr_accessor(*VALID_OPTIONS_KEYS)
+    # @private
+    alias_method :auth_token=, :private_token=
 
     # Sets all configuration options to their default values
     # when this module is extended.
@@ -31,7 +33,7 @@ module Gitlab
     # Resets all configuration options to the defaults.
     def reset
       self.endpoint       = ENV['GITLAB_API_ENDPOINT']
-      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN']
+      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV['GITLAB_API_AUTH_TOKEN']
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
     end

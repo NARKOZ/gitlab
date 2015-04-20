@@ -35,25 +35,25 @@ module Gitlab
 
     def get(path, options={})
       set_httparty_config(options)
-      set_private_token_header(options)
+      set_authorization_header(options)
       validate self.class.get(@endpoint + path, options)
     end
 
     def post(path, options={})
       set_httparty_config(options)
-      set_private_token_header(options, path)
+      set_authorization_header(options, path)
       validate self.class.post(@endpoint + path, options)
     end
 
     def put(path, options={})
       set_httparty_config(options)
-      set_private_token_header(options)
+      set_authorization_header(options)
       validate self.class.put(@endpoint + path, options)
     end
 
     def delete(path, options={})
       set_httparty_config(options)
-      set_private_token_header(options)
+      set_authorization_header(options)
       validate self.class.delete(@endpoint + path, options)
     end
 
@@ -77,23 +77,24 @@ module Gitlab
 
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
-    def set_request_defaults(endpoint, private_token, sudo=nil)
-      raise Error::MissingCredentials.new("Please set an endpoint to API") unless endpoint
-      @private_token = private_token
-      @endpoint = endpoint
-
+    def set_request_defaults(sudo=nil)
+      raise Error::MissingCredentials.new("Please set an endpoint to API") unless @endpoint
       self.class.default_params :sudo => sudo
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
 
     private
 
-    # Sets a PRIVATE-TOKEN header for requests.
-    # @raise [Error::MissingCredentials] if private_token not set.
-    def set_private_token_header(options, path=nil)
+    # Sets a PRIVATE-TOKEN or Authorization header for requests.
+    # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
+    def set_authorization_header(options, path=nil)
       unless path == '/session'
-        raise Error::MissingCredentials.new("Please set a private_token for user") unless @private_token
-        options[:headers] = {'PRIVATE-TOKEN' => @private_token}
+        raise Error::MissingCredentials.new("Please provide a private_token or auth_token for user") unless @private_token
+        if @private_token.length <= 20
+          options[:headers] = {'PRIVATE-TOKEN' => @private_token}
+        else
+          options[:headers] = {'Authorization' => "Bearer #{@private_token}"}
+        end
       end
     end
 

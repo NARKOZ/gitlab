@@ -16,6 +16,11 @@ describe Gitlab do
       expect(client1.private_token).to eq('001')
       expect(client2.private_token).to eq('002')
     end
+
+    it "should set private_token to the auth_token when provided" do
+      client = Gitlab.client(endpoint: 'https://api2.example.com', auth_token: '3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603')
+      expect(client.private_token).to eq('3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603')
+    end
   end
 
   describe ".actions" do
@@ -38,6 +43,13 @@ describe Gitlab do
     it "should set private_token" do
       Gitlab.private_token = 'secret'
       expect(Gitlab.private_token).to eq('secret')
+    end
+  end
+
+  describe ".auth_token=" do
+    it "should set auth_token", focus: true do
+      Gitlab.auth_token = 'auth_secret'
+      expect(Gitlab.private_token).to eq('auth_secret')
     end
   end
 
