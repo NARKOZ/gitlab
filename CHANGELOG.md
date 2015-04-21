@@ -1,6 +1,34 @@
 ## Change Log
 
 ### upcoming
+- [9acb83d](https://github.com/NARKOZ/gitlab/commit/9acb83d2d068720b07934f5152313dc22a2f6374) remove check for missing attributes
+- [8896e2b](https://github.com/NARKOZ/gitlab/commit/8896e2b7d5e8df509d48a411fd4440e27ed13995) return false when response body is empty
+- [a04f3af](https://github.com/NARKOZ/gitlab/commit/a04f3af2d7aa8eec60c4f044fdb148e45c1ca133) escape ref parameter for repo_file_contents
+- [8dcfec5](https://github.com/NARKOZ/gitlab/commit/8dcfec5aaaff9ef1c12687c5f9ca90f6aed0f912) Add tests for project_search. (@asedge)
+- [75ead81](https://github.com/NARKOZ/gitlab/commit/75ead813b4335bab2464b6af0fb776c3d746242f) Added :page and :per_page query options to snippet_notes method (@StephenOTT)
+- [f9818cb](https://github.com/NARKOZ/gitlab/commit/f9818cb121c8eeb9197e66732fec30ab90deecad) Added :page and :per_page query options to issue_notes method (@StephenOTT)
+- [f92d745](https://github.com/NARKOZ/gitlab/commit/f92d745f1f561955d8fcbed4e23b43bb92ace255) Added :page and :per_page query options to notes method (@StephenOTT)
+- [d4c3f20](https://github.com/NARKOZ/gitlab/commit/d4c3f2052c844486cf2b99a5346af4cd3fc001c9) Add support for merge_request_changes (@dsander)
+- [2253fba](https://github.com/NARKOZ/gitlab/commit/2253fbab0a915d23f30de04a90167a0c783f9a6b) Allow authenticating via oauth with the private_token (@dsander)
+- [8b7bcb4](https://github.com/NARKOZ/gitlab/commit/8b7bcb478e168f5ce2c94b8633b33128c29252b9) add inspect method to ObjectifiedHash
+- [257737c](https://github.com/NARKOZ/gitlab/commit/257737c80ca93a71dfb5f8d990e5de1423603dfc) add delete_branch (@marc-ta)
+- [f6532d5](https://github.com/NARKOZ/gitlab/commit/f6532d5074e0bb0d06bc251fb43b73f49a7af17a) improve docs
+- [5164e6d](https://github.com/NARKOZ/gitlab/commit/5164e6de544bc34c57c3444e0b63cf3aada23776) Adding options hash to milestone_issues method.
+- [57fa92d](https://github.com/NARKOZ/gitlab/commit/57fa92d7eef96e84498fa005e7ab83abc2a41a2b) Added support to get milestone issues. (@pbendersky)
+- [d604e58](https://github.com/NARKOZ/gitlab/commit/d604e58732ea08fb15acdc1be339535e34e68d73) Add create_merge_request_note
+- [cea19b8](https://github.com/NARKOZ/gitlab/commit/cea19b8e607033700dcab4648c05ac398cfe9566) Add project_search method (@ey3ball)
+- [d0ebd3b](https://github.com/NARKOZ/gitlab/commit/d0ebd3b3a0ed83fc62d2a2e22ba9aa29a99cdcb6) Catch SIGINT earlier during shell session. Fixes #111. (@asedge)
+- [2133562](https://github.com/NARKOZ/gitlab/commit/21335623009553197b61826d9894a739de152665) Redo the actions_table to make it more readable. CLI can now display the same help as the Shell. Closes #106. (@asedge)
+- [da18909](https://github.com/NARKOZ/gitlab/commit/da1890949fb9eb60c13ab670dd8428d27de1814b) Add some method documentation and small style fixes. (@asedge)
+- [7e1b408](https://github.com/NARKOZ/gitlab/commit/7e1b408e48152df1ce6e2be74a653c3801a37c10) Authenticate via oauth an auth_token (@dsander)
+- [adb28b3](https://github.com/NARKOZ/gitlab/commit/adb28b30dab47bd3a58eae697d40e4aa346ea2c8) Update create_merge_request doc to include :target_project_id parameter.  Closes #108. (@asedge)
+- [525e913](https://github.com/NARKOZ/gitlab/commit/525e9131fe99a3f7396b547810e957058ab5a092) add ruby-2.2 to travis-ci
+- [3671c89](https://github.com/NARKOZ/gitlab/commit/3671c89071d712ee71fa51cac67f3e0b9a28b03b) Save shell history when user presses Ctrl-d (@asedge)
+- [c8e5f50](https://github.com/NARKOZ/gitlab/commit/c8e5f50684533e00550bfa4474062665000df28a) Hide httparty & httparty= methods from Gitlab.actions - just like endpoint, private_token, etc. (@asedge)
+- [358deeb](https://github.com/NARKOZ/gitlab/commit/358deeb8ed849defe28c7cba84e1935d549fce22) Fix a regression with exception handling in shell. (@asedge)
+- [9612ce3](https://github.com/NARKOZ/gitlab/commit/9612ce3b8274a385ce8c1fcd5ca5d0a0eba71c7e) Added support for repository files create, edit and remove. (@razielgn)
+- [2203ad7](https://github.com/NARKOZ/gitlab/commit/2203ad7fcaa337da3d9700cbbc342d961be18eee) Fix headings in action_table. (@asedge)
+- [b4dceb3](https://github.com/NARKOZ/gitlab/commit/b4dceb3d2d582682f3cb35ca63e41e237d222596) add CHANGELOG.md
 - [e2bd91c](https://github.com/NARKOZ/gitlab/commit/e2bd91ccf488dfede7688801e54270da0d395a56) Small refactor of Gitlab::Help, Gitlab::Shell & Gitlab::CLI::Helpers. Add some new tests and refactor ones recently added. (@asedge)
 - [bffd84f](https://github.com/NARKOZ/gitlab/commit/bffd84f4e9e37d056772536f33a52f40df0b7882) Refactor Gitlab::Help.  Add tests some. (@asedge)
 - [9bd4f7a](https://github.com/NARKOZ/gitlab/commit/9bd4f7ad69614ee009c351811deee9eb2a6c3d05) Add test for Gitlab::Shell. (@asedge)
