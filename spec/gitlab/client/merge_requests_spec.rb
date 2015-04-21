@@ -38,18 +38,6 @@ describe Gitlab::Client do
       stub_post("/projects/3/merge_requests", "merge_request")
     end
 
-    it "should fail if it doesn't have a source_branch" do
-      expect {
-        Gitlab.create_merge_request(3, 'New merge request', :target_branch => 'master')
-      }.to raise_error Gitlab::Error::MissingAttributes
-    end
-
-    it "should fail if it doesn't have a target_branch" do
-      expect {
-        Gitlab.create_merge_request(3, 'New merge request', :source_branch => 'dev')
-      }.to raise_error Gitlab::Error::MissingAttributes
-    end
-
     it "should return information about a merge request" do
       @merge_request = Gitlab.create_merge_request(3, 'New feature',
         :source_branch => 'api',

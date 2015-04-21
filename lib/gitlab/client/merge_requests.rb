@@ -46,8 +46,6 @@ class Gitlab::Client
     # @option options [Integer] :target_project_id (optional) The target project ID.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
     def create_merge_request(project, title, options={})
-      check_attributes!(options, [:source_branch, :target_branch])
-
       body = {:title => title}.merge(options)
       post("/projects/#{project}/merge_requests", :body => body)
     end
@@ -124,16 +122,6 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] The merge request's changes.
     def merge_request_changes(project, id)
       get("/projects/#{project}/merge_request/#{id}/changes")
-    end
-
-    private
-
-    def check_attributes!(options, attrs)
-      attrs.each do |attr|
-        unless options.has_key?(attr) || options.has_key?(attr.to_s)
-          raise Gitlab::Error::MissingAttributes.new("Missing '#{attr}' parameter")
-        end
-      end
     end
   end
 end

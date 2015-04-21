@@ -3,9 +3,6 @@ module Gitlab
     # Custom error class for rescuing from all Gitlab errors.
     class Error < StandardError; end
 
-    # Raise when attributes are missing.
-    class MissingAttributes < Error; end
-
     # Raised when API endpoint credentials not configured.
     class MissingCredentials < Error; end
 

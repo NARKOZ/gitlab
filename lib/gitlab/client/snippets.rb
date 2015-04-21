@@ -41,7 +41,6 @@ class Gitlab::Client
     # @option options [String] :lifetime (optional) The expiration date of a snippet.
     # @return [Gitlab::ObjectifiedHash] Information about created snippet.
     def create_snippet(project, options={})
-      check_attributes!(options, [:title, :file_name, :code])
       post("/projects/#{project}/snippets", :body => options)
     end
 
@@ -72,16 +71,6 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about deleted snippet.
     def delete_snippet(project, id)
       delete("/projects/#{project}/snippets/#{id}")
-    end
-
-    private
-
-    def check_attributes!(options, attrs)
-      attrs.each do |attr|
-        unless options.has_key?(attr) || options.has_key?(attr.to_s)
-          raise Gitlab::Error::MissingAttributes.new("Missing '#{attr}' parameter")
-        end
-      end
     end
   end
 end
