@@ -278,17 +278,36 @@ describe Gitlab::Client do
   end
 
   describe ".delete_project_hook" do
-    before do
-      stub_delete("/projects/1/hooks/1", "project_hook")
-      @hook = Gitlab.delete_project_hook(1, 1)
+    context "when empty response" do
+      before do
+        stub_request(:delete, "#{Gitlab.endpoint}/projects/1/hooks/1").
+          with(:headers => {'PRIVATE-TOKEN' => Gitlab.private_token}).
+          to_return(:body => '')
+        @hook = Gitlab.delete_project_hook(1, 1)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/1/hooks/1")).to have_been_made
+      end
+
+      it "should return false" do
+        expect(@hook).to be(false)
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_delete("/projects/1/hooks/1")).to have_been_made
-    end
+    context "when JSON response" do
+      before do
+        stub_delete("/projects/1/hooks/1", "project_hook")
+        @hook = Gitlab.delete_project_hook(1, 1)
+      end
 
-    it "should return information about a deleted hook" do
-      expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
+      it "should get the correct resource" do
+        expect(a_delete("/projects/1/hooks/1")).to have_been_made
+      end
+
+      it "should return information about a deleted hook" do
+        expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
+      end
     end
   end
 

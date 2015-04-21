@@ -19,6 +19,8 @@ module Gitlab
         ObjectifiedHash.new body
       elsif body.is_a? Array
         body.collect! { |e| ObjectifiedHash.new(e) }
+      elsif body.nil?
+        false
       else
         raise Error::Parsing.new "Couldn't parse a response body"
       end
