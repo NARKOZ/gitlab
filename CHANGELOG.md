@@ -1,6 +1,9 @@
 ## Change Log
 
 ### upcoming
+- **Your contribution here.**
+
+### 3.4.0 (22/04/2015)
 - [9acb83d](https://github.com/NARKOZ/gitlab/commit/9acb83d2d068720b07934f5152313dc22a2f6374) remove check for missing attributes
 - [8896e2b](https://github.com/NARKOZ/gitlab/commit/8896e2b7d5e8df509d48a411fd4440e27ed13995) return false when response body is empty
 - [a04f3af](https://github.com/NARKOZ/gitlab/commit/a04f3af2d7aa8eec60c4f044fdb148e45c1ca133) escape ref parameter for repo_file_contents
@@ -33,7 +36,6 @@
 - [bffd84f](https://github.com/NARKOZ/gitlab/commit/bffd84f4e9e37d056772536f33a52f40df0b7882) Refactor Gitlab::Help.  Add tests some. (@asedge)
 - [9bd4f7a](https://github.com/NARKOZ/gitlab/commit/9bd4f7ad69614ee009c351811deee9eb2a6c3d05) Add test for Gitlab::Shell. (@asedge)
 - [bc14ec5](https://github.com/NARKOZ/gitlab/commit/bc14ec5173e432ced601c108cae6eca56026d41e) Refactor of Gitlab::Shell to hopefully make it more readable & testable.  Wrote tests for some Gitlab::Shell & Gitlab::CLI::Helper methods.  Other minor improvements and refactors. (@asedge)
-- **Your contribution here.**
 
 ### 3.3.0 (22/12/2014)
 - [42b4bc7](https://github.com/NARKOZ/gitlab/commit/42b4bc7b0e5e35f151ab61e27099606f0f38af31) fix docs and specs
