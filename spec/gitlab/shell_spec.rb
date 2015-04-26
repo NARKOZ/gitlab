@@ -62,7 +62,7 @@ describe Gitlab::Shell do
 
   describe ".parse_input" do
     context "with arguments" do
-      it "should set command & arguements" do
+      it "should set command & arguments" do
         Gitlab::Shell.parse_input('create_branch 1 "api" "master"') 
         expect(Gitlab::Shell.command).to eq('create_branch')
         expect(Gitlab::Shell.arguments).to eq(['1', 'api', 'master'])

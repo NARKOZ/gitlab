@@ -162,18 +162,14 @@ class Gitlab::CLI
       hash
     end
 
-    # Run YAML::load on each arg.
-    # @return [Array]
-    def yaml_load_arguments!(args)
-      args.map! do |arg|
-        begin
-          arg = YAML::load(arg)
-        rescue Psych::SyntaxError
-          raise "error: Argument is not valid YAML syntax: #{arg}"
-        end
-
-        arg
+    # YAML::load on a single argument
+    def yaml_load(arg)
+      begin
+        yaml = YAML::load(arg)
+      rescue Psych::SyntaxError
+        raise "error: Argument is not valid YAML syntax: #{arg}"
       end
+      yaml
     end
   end
 end

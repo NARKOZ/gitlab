@@ -19,8 +19,7 @@ class Gitlab::Shell
         begin
           parse_input buffer
 
-          yaml_load_arguments! @arguments
-          @arguments.map! { |arg| symbolize_keys arg }
+          @arguments.map! { |arg| symbolize_keys(yaml_load(arg)) }
 
           case buffer
           when nil, ''

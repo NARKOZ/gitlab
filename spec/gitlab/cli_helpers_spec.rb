@@ -38,19 +38,19 @@ describe Gitlab::CLI::Helpers do
     end
   end
 
-  describe ".yaml_load_arguments!" do
-    context "when arguments are YAML" do
+  describe ".yaml_load" do
+    context "when argument is a YAML string" do
       it "should return Ruby objects" do
-        arguments = ["{foo: bar, sna: fu}"] 
-        Gitlab::CLI::Helpers.yaml_load_arguments! arguments
-        expect(arguments).to eq([{'foo' => 'bar', 'sna' => 'fu'}])
+        argument = "{foo: bar, sna: fu}" 
+        output = Gitlab::CLI::Helpers.yaml_load argument
+        expect(output).to eq({'foo' => 'bar', 'sna' => 'fu'})
       end
     end
 
     context "when input is NOT valid YAML" do
       it "should raise" do
         ruby_array = [1, 2, 3, 4]
-        expect { Gitlab::CLI::Helpers.yaml_load_arguments! ruby_array}.to raise_exception
+        expect { Gitlab::CLI::Helpers.yaml_load ruby_array}.to raise_exception
       end
     end
   end

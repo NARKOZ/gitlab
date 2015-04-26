@@ -1,3 +1,5 @@
+require 'yaml'
+require 'gitlab/cli_helpers'
 module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
@@ -34,8 +36,21 @@ module Gitlab
     def reset
       self.endpoint       = ENV['GITLAB_API_ENDPOINT']
       self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV['GITLAB_API_AUTH_TOKEN']
+      self.httparty       = get_httparty_config(ENV['GITLAB_API_HTTPARTY_OPTIONS'])
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
+    end
+
+    private
+
+    # Allows HTTParty config to be specified in ENV using YAML hash.
+    def get_httparty_config options
+      return options if options.nil?
+
+      httparty = Gitlab::CLI::Helpers.yaml_load(options)
+
+      raise ArgumentError, "HTTParty config should be a Hash." unless httparty.is_a? Hash
+      Gitlab::CLI::Helpers.symbolize_keys httparty
     end
   end
 end

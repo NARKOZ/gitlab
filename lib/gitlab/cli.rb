@@ -55,8 +55,7 @@ class Gitlab::CLI
       end
 
       begin
-        yaml_load_arguments! command_args
-        command_args.map! {|arg| symbolize_keys arg }
+        command_args.map! { |arg| symbolize_keys(yaml_load(arg)) }
       rescue => e
         puts e.message
         exit 1
