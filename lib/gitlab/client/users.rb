@@ -62,6 +62,17 @@ class Gitlab::Client
       put("/users/#{user_id}", :body => options)
     end
 
+    # Deletes a user.
+    #
+    # @example
+    #   Gitlab.delete_user(1)
+    #
+    # @param [Integer] id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted user.
+    def delete_user(user_id)
+      delete("/users/#{user_id}")
+    end
+
     # Creates a new user session.
     #
     # @example
@@ -121,5 +132,6 @@ class Gitlab::Client
     def delete_ssh_key(id)
       delete("/user/keys/#{id}")
     end
+
   end
 end
