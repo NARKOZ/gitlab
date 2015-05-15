@@ -88,6 +88,21 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".delete_user" do
+    before do
+      stub_delete("/users/1", "user")
+      @user = Gitlab.delete_user(1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_delete("/users/1")).to have_been_made
+    end
+
+    it "should return information about a deleted user" do
+      expect(@user.email).to eq("john@example.com")
+    end
+  end
+
   describe ".session" do
     after do
       Gitlab.endpoint = 'https://api.example.com'
@@ -189,4 +204,5 @@ describe Gitlab::Client do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
+
 end
