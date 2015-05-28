@@ -108,4 +108,21 @@ describe Gitlab::Client do
   end
 
 
+  describe ".group_search" do
+    before do
+      stub_get("/groups?search=Group", "group_search")
+      @groups = Gitlab.group_search('Group')
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/groups?search=Group")).to have_been_made
+    end
+
+    it "should return an array of groups found" do
+      expect(@groups.first.id).to eq(5)
+      expect(@groups.last.id).to eq(8)
+    end
+  end
+
+
 end

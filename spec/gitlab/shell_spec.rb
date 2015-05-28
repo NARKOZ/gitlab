@@ -55,7 +55,7 @@ describe Gitlab::Shell do
       it "should return an Array of matching commands" do
         completed_cmds = @comp.call 'group'
         expect(completed_cmds).to be_a Array
-        expect(completed_cmds.sort).to eq(['group', 'group_members', 'groups'])
+        expect(completed_cmds.sort).to eq(['group', 'group_members', 'group_search', 'groups'])
       end
     end
   end
