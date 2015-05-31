@@ -100,7 +100,7 @@ class Gitlab::Client
     # Gets a list of comments for a commit.
     #
     # @example
-    #   Gitlab.commit_comments(5, c9f9662a9b1116c838b523ed64c6abdb4aae4b8b)
+    #   Gitlab.commit_comments(5, 'c9f9662a9b1116c838b523ed64c6abdb4aae4b8b')
     #
     # @param [Integer] project The ID of a project.
     # @param [String] sha The commit hash or name of a repository branch or tag.
@@ -113,6 +113,9 @@ class Gitlab::Client
     alias_method :repo_commit_comments, :commit_comments
 
     # Creates a new comment for a commit.
+    #
+    # @example
+    #   Gitlab.create_commit_comment(5, 'c9f9662a9b1116c838b523ed64c6abdb4aae4b8b', 'Nice work on this commit!')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] sha The commit hash or name of a repository branch or tag.

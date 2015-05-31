@@ -44,6 +44,9 @@ class Gitlab::Client
 
     # Creates a new milestone.
     #
+    # @example
+    #   Gitlab.create_milestone(5, 'v1.0')
+    #
     # @param  [Integer] project The ID of a project.
     # @param  [String] title The title of a milestone.
     # @param  [Hash] options A customizable set of options.
@@ -56,6 +59,9 @@ class Gitlab::Client
     end
 
     # Updates a milestone.
+    #
+    # @example
+    #   Gitlab.edit_milestone(5, 2, :state_event => 'activate')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a milestone.

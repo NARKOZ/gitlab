@@ -83,6 +83,9 @@ class Gitlab::Client
 
     # Creates a new wall note.
     #
+    # @example
+    #   Gitlab.create_note(5, 'This is a wall note!')
+    #
     # @param  [Integer] project The ID of a project.
     # @param  [String] body The body of a note.
     # @return [Gitlab::ObjectifiedHash] Information about created note.
@@ -91,6 +94,9 @@ class Gitlab::Client
     end
 
     # Creates a new issue note.
+    #
+    # @example
+    #   Gitlab.create_issue_note(6, 1, 'Adding a note to my issue.')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] issue The ID of an issue.
@@ -102,6 +108,9 @@ class Gitlab::Client
 
     # Creates a new snippet note.
     #
+    # @example
+    #   Gitlab.create_snippet_note(3, 2, 'Look at this awesome snippet!')
+    #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] snippet The ID of a snippet.
     # @param  [String] body The body of a note.
@@ -111,6 +120,9 @@ class Gitlab::Client
     end
 
     # Creates a new note for a single merge request.
+    #
+    # @example
+    #   Gitlab.create_merge_request_note(5, 3, 'This MR is ready for review.')
     #
     # @param [Integer] project The ID of a project.
     # @param [Integer] merge_request The ID of a merge request.

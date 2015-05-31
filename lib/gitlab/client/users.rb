@@ -32,6 +32,9 @@ class Gitlab::Client
     # Creates a new user.
     # Requires authentication from an admin account.
     #
+    # @example
+    #   Gitlab.create_user('joe@foo.org', 'secret', :name => 'Joe Smith')
+    #
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
     # @param  [Hash] options A customizable set of options.
@@ -48,10 +51,13 @@ class Gitlab::Client
 
     # Updates a user.
     #
+    # @example
+    #   Gitlab.edit_user(15, :email => 'joe.smith@foo.org', :projects_limit => 20)
+    #
     # @param  [Integer] id The ID of a user.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] email The email of a user.
-    # @option options [String] password The password of a user.
+    # @option options [String] :email The email of a user.
+    # @option options [String] :password The password of a user.
     # @option options [String] :name The name of a user. Defaults to email.
     # @option options [String] :skype The skype of a user.
     # @option options [String] :linkedin The linkedin of a user.

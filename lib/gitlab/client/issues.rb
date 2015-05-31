@@ -37,6 +37,10 @@ class Gitlab::Client
 
     # Creates a new issue.
     #
+    # @example
+    #   Gitlab.create_issue(5, 'New issue')
+    #   Gitlab.create_issue(5, 'New issue', :description => "This is a new issue", :assignee_id => 42)
+    #
     # @param  [Integer] project The ID of a project.
     # @param  [String] title The title of an issue.
     # @param  [Hash] options A customizable set of options.
@@ -51,6 +55,9 @@ class Gitlab::Client
     end
 
     # Updates an issue.
+    #
+    # @example
+    #   Gitlab.edit_issue(6, 1, :title => 'Updated title')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of an issue.

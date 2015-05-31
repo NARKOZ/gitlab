@@ -29,6 +29,10 @@ class Gitlab::Client
 
     # Creates a new group.
     #
+    # @example
+    #   Gitlab.create_group('new-group', 'group-path')
+    #   Gitlab.create_group('gitlab', 'gitlab-path', :description => "New Gitlab project")
+    #
     # @param  [String] name The name of a group.
     # @param  [String] path The path of a group.
     # @return [Gitlab::ObjectifiedHash] Information about created group.
@@ -78,6 +82,9 @@ class Gitlab::Client
     end
 
     # Transfers a project to a group
+    #
+    # @example
+    #   Gitlab.transfer_project_to_group(3, 50)
     #
     # @param  [Integer] id The ID of a group.
     # @param  [Integer] project_id The ID of a project.
