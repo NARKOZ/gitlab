@@ -1,4 +1,3 @@
-require 'yaml'
 require 'gitlab/cli_helpers'
 module Gitlab
   # Defines constants and methods related to configuration.
