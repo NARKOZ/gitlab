@@ -4,6 +4,22 @@ class Gitlab::Client
   # Defines methods related to repository files.
   # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/repository_files.md
   module RepositoryFiles
+    # Gets a repository file.
+    #
+    # @example
+    #   Gitlab.get_file(42, "README.md", "master")
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] file_path The full path of the file.
+    # @param  [String] ref The name of branch, tag or commit.
+    # @return [Gitlab::ObjectifiedHash]
+    def get_file(project, file_path, ref)
+      get("/projects/#{project}/repository/files", query: {
+        file_path: file_path,
+        ref: ref,
+      })
+    end
+
     # Creates a new repository file.
     #
     # @example
