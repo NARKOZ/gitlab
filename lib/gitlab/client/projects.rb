@@ -321,5 +321,15 @@ class Gitlab::Client
     def delete_deploy_key(project, id)
       delete("/projects/#{project}/keys/#{id}")
     end
+
+    # Forks a project into the user namespace of the authenticated user.
+    #
+    # @example
+    #   Gitlab.create_fork(42)
+    #
+    # @param  [Integer] project The ID of a project.
+    def create_fork(id)
+        post("/projects/fork/#{id}")
+    end
   end
 end
