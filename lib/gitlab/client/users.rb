@@ -33,10 +33,11 @@ class Gitlab::Client
     # Requires authentication from an admin account.
     #
     # @example
-    #   Gitlab.create_user('joe@foo.org', 'secret', :name => 'Joe Smith')
+    #   Gitlab.create_user('joe@foo.org', 'secret', 'joe', :name => 'Joe Smith')
     #
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
+    # @param  [String] username The username of a user.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :name The name of a user. Defaults to email.
     # @option options [String] :skype The skype of a user.
@@ -44,8 +45,8 @@ class Gitlab::Client
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
-    def create_user(email, password, options={})
-      body = {:email => email, :password => password, :name => email}.merge(options)
+    def create_user(email, password, username, options={})
+      body = {:email => email, :password => password, :username => username, :name => email}.merge(options)
       post("/users", :body => body)
     end
 
