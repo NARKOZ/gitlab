@@ -34,6 +34,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_user('joe@foo.org', 'secret', 'joe', :name => 'Joe Smith')
+    #   or
+    #   Gitlab.create_user('joe@foo.org', 'secret')
     #
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
@@ -45,9 +47,15 @@ class Gitlab::Client
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
-    def create_user(email, password, username, options={})
-      body = {:email => email, :password => password, :username => username, :name => email}.merge(options)
-      post("/users", :body => body)
+    def create_user(*args)
+      options = Hash === args.last ? args.pop : {}
+      if args[2]
+        body = { email: args[0], password: args[1], username: args[2] }
+      else
+        body = { email: args[0], password: args[1], name: args[0] }
+      end
+      body.merge!(options)
+      post('/users', body: body)
     end
 
     # Updates a user.
