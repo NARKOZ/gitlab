@@ -72,5 +72,20 @@ class Gitlab::Client
     def delete_snippet(project, id)
       delete("/projects/#{project}/snippets/#{id}")
     end
+
+    # Returns raw project snippet content as plain text.
+    #
+    # @example
+    #   Gitlab.snippet_content(2, 14)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a snippet.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted snippet.
+    def snippet_content(project, id)
+      get("/projects/#{project}/snippets/#{id}/raw",
+        format: nil,
+        headers: { Accept: 'text/plain' },
+        parser: ::Gitlab::Request::Parser)
+    end
   end
 end

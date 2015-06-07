@@ -82,4 +82,19 @@ describe Gitlab::Client do
       expect(@snippet.author.name).to eq("John Smith")
     end
   end
+
+  describe ".snippet_content" do
+    before do
+      stub_get("/projects/3/snippets/1/raw", "snippet_content")
+      @snippet_content = Gitlab.snippet_content(3, 1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/snippets/1/raw")).to have_been_made
+    end
+
+    it "should return raw content of a snippet" do
+      expect(@snippet_content).to eq("#!/usr/bin/env ruby\n\nputs \"Cool snippet!\"\n")
+    end
+  end
 end
