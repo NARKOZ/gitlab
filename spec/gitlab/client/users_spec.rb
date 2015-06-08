@@ -76,6 +76,33 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_user_with_userame" do
+    context "when successful request" do
+      before do
+        stub_post("/users", "user")
+        @user = Gitlab.create_user("email", "pass", "username")
+      end
+
+      it "should get the correct resource" do
+        body = {:email => "email", :password => "pass", :username => "username"}
+        expect(a_post("/users").with(:body => body)).to have_been_made
+      end
+
+      it "should return information about a created user" do
+        expect(@user.email).to eq("john@example.com")
+      end
+    end
+
+    context "when bad request" do
+      it "should throw an exception" do
+        stub_post("/users", "error_already_exists", 409)
+        expect {
+          Gitlab.create_user("email", "pass", "username")
+        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+      end
+    end
+  end
+
   describe ".edit_user" do
     before do
       @options = { :name => "Roberto" }

@@ -328,6 +328,7 @@ class Gitlab::Client
     #   Gitlab.create_fork(42)
     #
     # @param  [Integer] project The ID of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about the forked project.
     def create_fork(id)
         post("/projects/fork/#{id}")
     end
@@ -343,6 +344,7 @@ class Gitlab::Client
     # @option options [String] :name The name of a project
     # @option options [String] :path The name of a project
     # @option options [String] :description The name of a project
+    # @return [Gitlab::ObjectifiedHash] Information about the edited project.
     def edit_project(id, options={})
         put("/projects/#{id}", :query => options)
     end

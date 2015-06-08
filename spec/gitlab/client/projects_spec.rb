@@ -118,6 +118,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_fork" do
+    before do
+      stub_post("/projects/fork/3", "project_fork")
+      @project = Gitlab.create_fork(3)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/fork/3")).to have_been_made
+    end
+
+    it "should return information about the forked project" do
+      expect(@project.forked_from_project.id).to eq(3)
+      expect(@project.id).to eq(20)
+    end
+  end
+
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")
@@ -274,6 +290,21 @@ describe Gitlab::Client do
 
     it "should return information about an edited hook" do
       expect(@hook.url).to eq("https://api.example.net/v1/webhooks/ci")
+    end
+  end
+
+  describe ".edit_project" do
+    before do
+      stub_put("/projects/3", "project_edit").with(:query => { :name => "Gitlab-edit" })
+      @edited_project =  Gitlab.edit_project(3, :name => "Gitlab-edit")
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/projects/3").with(:query => { :name => "Gitlab-edit" })).to have_been_made
+    end
+
+    it "should return information about an edited project" do
+      expect(@edited_project.name).to eq("Gitlab-edit")
     end
   end
 

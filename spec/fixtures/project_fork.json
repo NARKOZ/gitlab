@@ -1,0 +1,50 @@
+{
+   "id":20,
+   "description":"desc",
+   "default_branch":"master",
+   "tag_list":[
+
+   ],
+   "public":false,
+   "archived":false,
+   "visibility_level":10,
+   "ssh_url_to_repo":"git@git.gitlab.com:root/gitlab.git",
+   "http_url_to_repo":"http://git.gitlab.com/root/gitlab.git",
+   "web_url":"http://git.gitlab.com/root/gitlab",
+   "owner":{
+      "name":"Administrator",
+      "username":"root",
+      "id":1,
+      "state":"active",
+      "avatar_url":"http://git.gitlab.com/uploads/user/avatar/1/12586377.jpeg"
+   },
+   "name":"gitlab",
+   "name_with_namespace":"Administrator / gitlab",
+   "path":"gitlab",
+   "path_with_namespace":"root/gitlab",
+   "issues_enabled":true,
+   "merge_requests_enabled":true,
+   "wiki_enabled":true,
+   "snippets_enabled":false,
+   "created_at":"2015-06-08T01:29:17.190Z",
+   "last_activity_at":"2015-06-08T01:29:17.190Z",
+   "creator_id":1,
+   "namespace":{
+      "id":1,
+      "name":"root",
+      "path":"root",
+      "owner_id":1,
+      "created_at":"2015-05-28T19:23:40.445Z",
+      "updated_at":"2015-05-28T19:23:40.445Z",
+      "description":"",
+      "avatar":null
+   },
+   "forked_from_project":{
+      "id":3,
+      "name":"Gitlab",
+      "name_with_namespace":"Root / gitlab",
+      "path":"gitlab",
+      "path_with_namespace":"root/gitlab"
+   },
+   "avatar_url":null
+}
