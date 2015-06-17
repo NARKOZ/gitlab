@@ -24,7 +24,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository tags" do
-      expect(@tags).to be_an Array
+      expect(@tags).to be_an Gitlab::ArrayResponse
       expect(@tags.first.name).to eq("v2.8.2")
     end
   end
@@ -89,7 +89,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository tree files (root level)" do
-      expect(@tree).to be_an Array
+      expect(@tree).to be_an Gitlab::ArrayResponse
       expect(@tree.first.name).to eq("app")
     end
   end
@@ -107,7 +107,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository commits" do
-      expect(@commits).to be_an Array
+      expect(@commits).to be_an Gitlab::ArrayResponse
       expect(@commits.first.id).to eq("f7dd067490fe57505f7226c3b54d3127d2f7fd46")
     end
   end
@@ -156,7 +156,7 @@ describe Gitlab::Client do
     end
 
     it "should return commit's comments" do
-      expect(@commit_comments).to be_an Array
+      expect(@commit_comments).to be_an Gitlab::ArrayResponse
       expect(@commit_comments.length).to eq(2)
       expect(@commit_comments[0].note).to eq("this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
       expect(@commit_comments[0].author.id).to eq(11)

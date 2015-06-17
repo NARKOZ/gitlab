@@ -12,7 +12,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of project's snippets" do
-      expect(@snippets).to be_an Array
+      expect(@snippets).to be_an Gitlab::ArrayResponse
       expect(@snippets.first.file_name).to eq("mailer_test.rb")
     end
   end

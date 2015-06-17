@@ -18,7 +18,7 @@ module Gitlab
       if body.is_a? Hash
         ObjectifiedHash.new body
       elsif body.is_a? Array
-        body.collect! { |e| ObjectifiedHash.new(e) }
+        ArrayResponse.new(body.collect! { |e| ObjectifiedHash.new(e) })
       elsif body.nil?
         false
       else
@@ -74,7 +74,10 @@ module Gitlab
         when 503; raise Error::ServiceUnavailable.new error_message(response)
       end
 
-      response.parsed_response
+      parsed = response.parsed_response
+      parsed.client = self if parsed.respond_to?(:client=)
+      parsed.parse_headers!(response.headers) if parsed.respond_to?(:parse_headers!)
+      parsed
     end
 
     # Sets a base_uri and default_params for requests.

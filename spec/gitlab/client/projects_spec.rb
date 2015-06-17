@@ -12,7 +12,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of projects" do
-      expect(@projects).to be_an Array
+      expect(@projects).to be_an Gitlab::ArrayResponse
       expect(@projects.first.name).to eq("Brute")
       expect(@projects.first.owner.name).to eq("John Smith")
     end
@@ -29,7 +29,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of projects found" do
-      expect(@project_search).to be_an Array
+      expect(@project_search).to be_an Gitlab::ArrayResponse
       expect(@project_search.first.name).to eq("Gitlab")
       expect(@project_search.first.owner.name).to eq("John Smith")
     end
@@ -63,7 +63,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of events" do
-      expect(@events).to be_an Array
+      expect(@events).to be_an Gitlab::ArrayResponse
       expect(@events.size).to eq(2)
     end
 
@@ -129,7 +129,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of team members" do
-      expect(@team_members).to be_an Array
+      expect(@team_members).to be_an Gitlab::ArrayResponse
       expect(@team_members.first.name).to eq("John Smith")
     end
   end
@@ -207,7 +207,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of hooks" do
-      expect(@hooks).to be_an Array
+      expect(@hooks).to be_an Gitlab::ArrayResponse
       expect(@hooks.first.url).to eq("https://api.example.net/v1/webhooks/ci")
     end
   end
@@ -353,7 +353,7 @@ describe Gitlab::Client do
     end
 
     it "should return project deploy keys" do
-      expect(@deploy_keys).to be_an Array
+      expect(@deploy_keys).to be_an Gitlab::ArrayResponse
       expect(@deploy_keys.first.id).to eq 2
       expect(@deploy_keys.first.title).to eq "Key Title"
       expect(@deploy_keys.first.key).to match(/ssh-rsa/)
