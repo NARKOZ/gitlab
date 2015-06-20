@@ -321,5 +321,32 @@ class Gitlab::Client
     def delete_deploy_key(project, id)
       delete("/projects/#{project}/keys/#{id}")
     end
+
+    # Forks a project into the user namespace.
+    #
+    # @example
+    #   Gitlab.create_fork(42)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about the forked project.
+    def create_fork(id)
+        post("/projects/fork/#{id}")
+    end
+
+    # Updates an existing project.
+    #
+    # @example
+    #   Gitlab.edit_project(42)
+    #   Gitlab.edit_project(42, :name => 'project_name')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :name The name of a project
+    # @option options [String] :path The name of a project
+    # @option options [String] :description The name of a project
+    # @return [Gitlab::ObjectifiedHash] Information about the edited project.
+    def edit_project(id, options={})
+        put("/projects/#{id}", :query => options)
+    end
   end
 end
