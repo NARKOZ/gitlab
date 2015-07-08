@@ -27,6 +27,10 @@ describe Gitlab::Request do
     it "should return ObjectifiedHash" do
       body = JSON.unparse({a: 1, b: 2})
       expect(Gitlab::Request.parse(body)).to be_an Gitlab::ObjectifiedHash
+      expect(Gitlab::Request.parse("true")).to be true
+      expect(Gitlab::Request.parse("false")).to be false
+
+      expect { Gitlab::Request.parse("string") }.to raise_error(Gitlab::Error::Parsing)
     end
   end
 

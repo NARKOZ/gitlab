@@ -19,6 +19,10 @@ module Gitlab
         ObjectifiedHash.new body
       elsif body.is_a? Array
         body.collect! { |e| ObjectifiedHash.new(e) }
+      elsif body
+        true
+      elsif !body
+        false
       elsif body.nil?
         false
       else
