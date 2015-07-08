@@ -134,6 +134,14 @@ gitlab> create_merge_request 4 "New merge request" "{source_branch: 'new_branch'
 Web version is available at https://gitlab-live.herokuapp.com  
 For more information, refer to [website](http://narkoz.github.io/gitlab).
 
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run
+`rake spec` to run the tests. You can also run `bin/console` for an interactive
+prompt that will allow you to experiment.
+
+For more information see [CONTRIBUTING.md](https://github.com/NARKOZ/gitlab/blob/master/CONTRIBUTING.md).
+
 ## License
 
 Released under the BSD 2-clause license. See LICENSE.txt for details.

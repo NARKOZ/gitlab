@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+bundle install &&
+  echo 'NOTE: You may need to set GITLAB_API_ENDPOINT and GITLAB_API_PRIVATE_TOKEN environment variables.'

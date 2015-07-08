@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+# ENV['GITLAB_API_ENDPOINT'] = ''
+# ENV['GITLAB_API_PRIVATE_TOKEN'] = ''
+
+require 'bundler/setup'
+require 'gitlab'
+require 'pry'
+
+Pry.start
