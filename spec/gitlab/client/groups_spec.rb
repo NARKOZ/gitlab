@@ -21,19 +21,40 @@ describe Gitlab::Client do
   end
 
   describe ".create_group" do
-    before do
-      stub_post("/groups", "group_create")
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+    context "without description" do
+      before do
+        stub_post("/groups", "group_create")
+        @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+      end
+
+      it "should get the correct resource" do
+        expect(a_post("/groups").
+            with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'})).to have_been_made
+      end
+
+      it "should return information about a created group" do
+        expect(@group.name).to eq("Gitlab-Group")
+        expect(@group.path).to eq("gitlab-group")
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_post("/groups").
-          with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'})).to have_been_made
-    end
+    context "with description" do
+      before do
+        stub_post("/groups", "group_create_with_description")
+        @group = Gitlab.create_group('GitLab-Group', 'gitlab-path', :description => 'gitlab group description')
+      end
 
-    it "should return information about a created group" do
-      expect(@group.name).to eq("Gitlab-Group")
-      expect(@group.path).to eq("gitlab-group")
+      it "should get the correct resource" do
+        expect(a_post("/groups").
+                 with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group',
+                                :description => 'gitlab group description'})).to have_been_made
+      end
+
+      it "should return information about a created group" do
+        expect(@group.name).to eq("Gitlab-Group")
+        expect(@group.path).to eq("gitlab-group")
+        expect(@group.description).to eq("gitlab group description")
+      end
     end
   end
 
