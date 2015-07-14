@@ -36,8 +36,8 @@ class Gitlab::Client
     # @param  [String] name The name of a group.
     # @param  [String] path The path of a group.
     # @return [Gitlab::ObjectifiedHash] Information about created group.
-    def create_group(name, path)
-      body = {:name => name, :path => path}
+    def create_group(name, path, options={})
+      body = {:name => name, :path => path}.merge(options)
       post("/groups", :body => body)
     end
 
