@@ -6,6 +6,9 @@ require_relative 'shell'
 class Gitlab::CLI
   extend Helpers
 
+  # If set to true, JSON will be rendered as output
+  @render_json = false
+
   # Starts a new CLI session.
   #
   # @example
@@ -43,6 +46,11 @@ class Gitlab::CLI
     when 'shell'
       Gitlab::Shell.start
     else
+      if args.include? '--json'
+        @json_output = true
+        args.delete '--json'
+      end
+
       unless valid_command?(cmd)
         puts "Unknown command. Run `gitlab help` for a list of available commands."
         exit(1)
@@ -64,6 +72,17 @@ class Gitlab::CLI
       confirm_command(cmd)
 
       data = gitlab_helper(cmd, command_args) { exit(1) }
+
+      render_output(cmd, args, data)
+    end
+  end
+
+  # Helper method that checks whether we want to get the output as json
+  # return [nil]
+  def self.render_output(cmd,args,data)
+    if @json_output
+      output_json(cmd, args, data)
+    else
       output_table(cmd, args, data)
     end
   end

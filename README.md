@@ -105,6 +105,9 @@ gitlab user --only=id,username
 
 gitlab user --except=email,bio
 
+# get a user and render result as json
+gitlab user 2 --json
+
 # passing options hash to a command (use YAML)
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 

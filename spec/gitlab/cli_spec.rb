@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'json'
 
 describe Gitlab::CLI do
   describe ".run" do
@@ -58,6 +59,21 @@ describe Gitlab::CLI do
         expect(@output).to include('created_at')
       end
     end
+
+
+    context "when command with json output" do
+      before do
+        stub_get("/user", "user")
+        args = ['user', '--json']
+        @output = capture_output { Gitlab::CLI.start(args) }
+      end
+
+      it "should render output as json" do
+        expect(JSON.parse(@output)['result']).to eq(JSON.parse(File.read(File.dirname(__FILE__) + '/../fixtures/user.json')))
+        expect(JSON.parse(@output)['cmd']).to eq('Gitlab.user')
+      end
+    end
+
 
     context "when command with required fields" do
       before do
