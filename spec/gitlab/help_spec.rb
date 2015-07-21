@@ -13,7 +13,7 @@ describe Gitlab::Help do
     context "ri command NOT found" do
       it "should raise" do
         allow(Gitlab::Help).to receive(:`).with(/which ri/).and_return('')
-        expect{Gitlab::Help.ri_cmd}.to raise_error
+        expect{Gitlab::Help.ri_cmd}.to raise_error RuntimeError
       end
     end
 

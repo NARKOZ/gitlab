@@ -50,7 +50,7 @@ describe Gitlab::CLI::Helpers do
     context "when input is NOT valid YAML" do
       it "should raise" do
         ruby_array = [1, 2, 3, 4]
-        expect { Gitlab::CLI::Helpers.yaml_load ruby_array}.to raise_exception
+        expect { Gitlab::CLI::Helpers.yaml_load ruby_array}.to raise_error TypeError
       end
     end
   end
