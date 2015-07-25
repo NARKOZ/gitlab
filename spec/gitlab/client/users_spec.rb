@@ -130,6 +130,36 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".block_user" do
+    before do
+      stub_put("/users/1/block", "user_block_unblock")
+      @result = Gitlab.block_user(1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/users/1/block")).to have_been_made
+    end
+
+    it "should return boolean" do
+      expect(@result).to eq(true)
+    end
+  end
+
+  describe ".unblock_user" do
+    before do
+      stub_put("/users/1/unblock", "user_block_unblock")
+      @result = Gitlab.unblock_user(1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/users/1/unblock")).to have_been_made
+    end
+
+    it "should return boolean" do
+      expect(@result).to eq(true)
+    end
+  end
+
   describe ".session" do
     after do
       Gitlab.endpoint = 'https://api.example.com'

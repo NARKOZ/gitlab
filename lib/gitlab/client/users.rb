@@ -88,6 +88,28 @@ class Gitlab::Client
       delete("/users/#{user_id}")
     end
 
+    # Blocks the specified user. Available only for admin.
+    #
+    # @example
+    #   Gitlab.block_user(15)
+    #
+    # @param [Integer] user_id The Id of user
+    # @return [Boolean] success or not
+    def block_user(user_id)
+      put("/users/#{user_id}/block")
+    end
+
+    # Unblocks the specified user. Available only for admin.
+    #
+    # @example
+    #   Gitlab.unblock_user(15)
+    #
+    # @param [Integer] user_id The Id of user
+    # @return [Boolean] success or not
+    def unblock_user(user_id)
+      put("/users/#{user_id}/unblock")
+    end
+
     # Creates a new user session.
     #
     # @example
