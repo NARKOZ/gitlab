@@ -73,6 +73,7 @@ module Gitlab
         when 404; raise Error::NotFound.new error_message(response)
         when 405; raise Error::MethodNotAllowed.new error_message(response)
         when 409; raise Error::Conflict.new error_message(response)
+        when 422; raise Error::Unprocessable.new error_message(response)
         when 500; raise Error::InternalServerError.new error_message(response)
         when 502; raise Error::BadGateway.new error_message(response)
         when 503; raise Error::ServiceUnavailable.new error_message(response)
@@ -113,8 +114,11 @@ module Gitlab
     end
 
     def error_message(response)
+      parsed_response = response.parsed_response
+      message = parsed_response.message || parsed_response.error
+
       "Server responded with code #{response.code}, message: " \
-      "#{handle_error(response.parsed_response.message)}. " \
+      "#{handle_error(message)}. " \
       "Request URI: #{response.request.base_uri}#{response.request.path}"
     end
 

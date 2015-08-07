@@ -27,6 +27,9 @@ module Gitlab
     # Raised when API endpoint returns the HTTP status code 409.
     class Conflict < Error; end
 
+    # Raised when API endpoint returns the HTTP status code 422.
+    class Unprocessable < Error; end
+
     # Raised when API endpoint returns the HTTP status code 500.
     class InternalServerError < Error; end
 
