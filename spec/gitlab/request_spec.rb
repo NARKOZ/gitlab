@@ -7,9 +7,6 @@ describe Gitlab::Request do
   it { should respond_to :delete }
   before do
     @request = Gitlab::Request.new
-    @obj_h = Gitlab::ObjectifiedHash.new({user: ['not set'],
-                                          password: ['too short'],
-                                          embed_entity: { foo: ['bar'], sna: ['fu'] }})
   end
 
   describe ".default_options" do
@@ -75,9 +72,21 @@ describe Gitlab::Request do
   end
 
   describe "#handle_error" do
+    before do
+      @array = Array.new(['First message.', 'Second message.'])
+      @obj_h = Gitlab::ObjectifiedHash.new({user: ['not set'],
+                                            password: ['too short'],
+                                            embed_entity: { foo: ['bar'], sna: ['fu'] }})
+    end
     context "when passed an ObjectifiedHash" do
       it "should return a joined string of error messages sorted by key" do
         expect(@request.send(:handle_error, @obj_h)).to eq("'embed_entity' (foo: bar) (sna: fu), 'password' too short, 'user' not set")
+      end
+    end
+
+    context "when passed an Array" do
+      it "should return a joined string of messages" do
+        expect(@request.send(:handle_error, @array)).to eq("First message. Second message.")
       end
     end
 
