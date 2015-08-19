@@ -88,6 +88,14 @@ For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/f
 
 ## CLI
 
+Configuration example:
+
+```sh
+export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v3
+export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
+export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
+```
+
 Usage examples:
 
 ```sh
