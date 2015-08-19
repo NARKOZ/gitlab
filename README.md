@@ -93,6 +93,8 @@ Configuration example:
 ```sh
 export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v3
 export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
+# This one is optional and can be used to set any HTTParty option you may need using YAML hash syntax.
+# For example, this is how you would disable SSL verification (useful if using a self-signed cert).
 export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
 ```
 
