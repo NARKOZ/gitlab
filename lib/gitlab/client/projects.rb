@@ -326,11 +326,14 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_fork(42)
+    #   Gitlab.create_fork(42, :sudo => 'another_username')
     #
     # @param  [Integer] project The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :sudo The username the project will be forked for
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
-    def create_fork(id)
-        post("/projects/fork/#{id}")
+    def create_fork(id, options = {})
+      post("/projects/fork/#{id}", body: options)
     end
 
     # Updates an existing project.

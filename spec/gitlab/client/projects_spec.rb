@@ -119,18 +119,38 @@ describe Gitlab::Client do
   end
 
   describe ".create_fork" do
-    before do
-      stub_post("/projects/fork/3", "project_fork")
-      @project = Gitlab.create_fork(3)
+    context "without sudo option" do
+      before do
+        stub_post("/projects/fork/3", "project_fork")
+        @project = Gitlab.create_fork(3)
+      end
+
+      it "should post to the correct resource" do
+        expect(a_post("/projects/fork/3")).to have_been_made
+      end
+
+      it "should return information about the forked project" do
+        expect(@project.forked_from_project.id).to eq(3)
+        expect(@project.id).to eq(20)
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_post("/projects/fork/3")).to have_been_made
-    end
+    context "with the sudo option" do
+      before do
+        stub_post("/projects/fork/3", "project_forked_for_user")
+        @sudoed_username = 'jack.smith'
+        @project = Gitlab.create_fork(3, {sudo: @sudoed_username})
+      end
 
-    it "should return information about the forked project" do
-      expect(@project.forked_from_project.id).to eq(3)
-      expect(@project.id).to eq(20)
+      it "should post to the correct resource" do
+        expect(a_post("/projects/fork/3")).to have_been_made
+      end
+
+      it "should return information about the forked project" do
+        expect(@project.forked_from_project.id).to eq(3)
+        expect(@project.id).to eq(20)
+        expect(@project.owner.username).to eq(@sudoed_username)
+      end
     end
   end
 
