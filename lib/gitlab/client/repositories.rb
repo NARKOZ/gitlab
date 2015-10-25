@@ -130,6 +130,44 @@ class Gitlab::Client
     end
     alias_method :repo_create_commit_comment, :create_commit_comment
 
+    # Get the status of a commit
+    #
+    # @example
+    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', name: 'jenkins')
+    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', name: 'jenkins', all: true)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] sha The commit hash
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :ref Filter by ref name, it can be branch or tag
+    # @option options [String] :stage Filter by stage
+    # @option options [String] :name Filer by status name, eg. jenkins
+    # @option options [Boolean] :all The flag to return all statuses, not only latest ones
+    def commit_status(id, sha, options = {})
+      get("/projects/#{id}/repository/commits/#{sha}/statuses", query: options)
+    end
+    alias_method :repo_commit_status, :commit_status
+
+    # Adds or updates a status of a commit.
+    #
+    # @example
+    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'success')
+    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'failed', name: 'jenkins')
+    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'canceled', name: 'jenkins', target_url: 'http://example.com/builds/1')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] sha The commit hash
+    # @param  [String] state of the status. Can be: pending, running, success, failed, canceled
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :ref The ref (branch or tag) to which the status refers
+    # @option options [String] :name Filer by status name, eg. jenkins
+    # @option options [String] :target_url The target URL to associate with this status
+    def update_commit_status(id, sha, state, options = {})
+      post("/projects/#{id}/statuses/#{sha}", query: options.merge(state: state))
+    end
+    alias_method :repo_update_commit_status, :update_commit_status
+
     # Get file tree project (root level).
     #
     # @example

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 496,
+    "sha": "7d938cb8ac15788d71f4b67c035515a160ea76d8",
+    "ref": "decreased-spec",
+    "status": "failed",
+    "name": "test",
+    "target_url": null,
+    "description": null,
+    "created_at": "2015-10-23T23:35:48.693+02:00",
+    "started_at": null,
+    "finished_at": "2015-10-23T23:35:48.716+02:00",
+    "author": {
+      "name": "Dominik Sander",
+      "username": "dsander",
+      "id": 1,
+      "state": "active",
+      "avatar_url": "https://secure.gravatar.com/avatar/xxxxx?s=40&d=identicon",
+      "web_url": "https://github.com/u/dsander"
+    }
+  },
+  {
+    "id": 493,
+    "sha": "7d938cb8ac15788d71f4b67c035515a160ea76d8",
+    "ref": "decreased-spec",
+    "status": "success",
+    "name": "specs",
+    "target_url": "https://github.com/dsander/omniauth/builds/493",
+    "description": null,
+    "created_at": "2015-10-23T21:39:19.384+02:00",
+    "started_at": "2015-10-23T21:39:21.900+02:00",
+    "finished_at": "2015-10-23T21:39:35.215+02:00",
+    "author": {
+      "name": "Dominik Sander",
+      "username": "dsander",
+      "id": 1,
+      "state": "active",
+      "avatar_url": "https://secure.gravatar.com/avatar/xxxxx?s=40&d=identicon",
+      "web_url": "https://github.com/u/dsander"
+    }
+  }
+]

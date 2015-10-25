@@ -12,6 +12,8 @@ describe Gitlab::Client do
   it { should respond_to :repo_create_commit_comment }
   it { should respond_to :repo_tree }
   it { should respond_to :repo_compare}
+  it { should respond_to :repo_commit_status }
+  it { should respond_to :repo_update_commit_status }
 
   describe ".tags" do
     before do
@@ -192,6 +194,49 @@ describe Gitlab::Client do
     it "should get diffs of a merge request" do
       expect(@diff.diffs).to be_kind_of Array
       expect(@diff.diffs.last["new_path"]).to eq "files/js/application.js"
+    end
+  end
+
+  describe ".commit_status" do
+    before do
+      stub_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses", 'project_commit_status').
+        with(query: { all: 'true' })
+      @statuses = Gitlab.commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', all: true)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses").
+        with(query: {all: true}))
+    end
+
+    it "should get statuses of a commit" do
+      expect(@statuses).to be_kind_of Array
+      expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
+      expect(@statuses.first.ref).to eq('decreased-spec')
+      expect(@statuses.first.status).to eq('failed')
+      expect(@statuses.last.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
+      expect(@statuses.last.status).to eq('success')
+    end
+  end
+
+  describe ".update_commit_status" do
+    before do
+      stub_post("/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8", 'project_update_commit_status').
+        with(query: {name: 'test', ref: 'decreased-spec', state: 'failed'})
+      @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8').
+        with(query: {name: 'test', ref: 'decreased-spec', state: 'failed'}))
+    end
+
+    it "should information about the newly created status" do
+      expect(@status).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@status.id).to eq(498)
+      expect(@status.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
+      expect(@status.status).to eq('failed')
+      expect(@status.ref).to eq('decreased-spec')
     end
   end
 end
