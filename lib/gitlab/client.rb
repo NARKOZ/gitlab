@@ -10,6 +10,7 @@ module Gitlab
     include Labels
     include MergeRequests
     include Milestones
+    include Namespaces
     include Notes
     include Projects
     include Repositories
