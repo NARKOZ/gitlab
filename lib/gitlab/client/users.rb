@@ -27,7 +27,7 @@ class Gitlab::Client
       list = []
       enum = Enumerator.new do |y|
         loop do
-          if users.empty?
+          if list.empty?
             list = users(:page => page)
             break if list.empty?
             page += 1
