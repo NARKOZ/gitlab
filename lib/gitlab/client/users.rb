@@ -15,6 +15,29 @@ class Gitlab::Client
     def users(options={})
       get("/users", :query => options)
     end
+    
+    # wrap the users call to get an Enumerable of all users
+    #
+    # @example
+    #    Gitlab.all_users
+    #
+    # @return [#<Enumerator:0x0000000270a4c0>]
+    def all_users()
+      page = 1
+      list = []
+      enum = Enumerator.new do |y|
+        loop do
+          if users.empty?
+            list = users(:page => page)
+            break if list.empty?
+            page += 1
+          end
+          y << list.pop
+        end
+      end
+      return enum
+    end
+
 
     # Gets information about a user.
     # Will return information about an authorized user if no ID passed.
