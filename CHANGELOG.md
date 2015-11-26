@@ -1,6 +1,9 @@
 ## Change Log
 
-### upcoming (26/11/2015)
+### upcoming
+- **Your contribution here.**
+
+### 3.5.0 (26/11/2015)
 - [a4f2150](https://github.com/NARKOZ/gitlab/commit/a4f21504a7288caace5b7433b49f49dc31e32b30) Add support for namespaces endpoint
 - [3ad81a1](https://github.com/NARKOZ/gitlab/commit/3ad81a19a10b35ea422c0abcf08e6d03a325f4cd) Add missing "@" in doc. (@asedge)
 - [fc34acb](https://github.com/NARKOZ/gitlab/commit/fc34acb6b475bb2555e4b035c11fdf42b3db4085) Add Gitlab::Client::Commits and rearrange methods and tests related to commits. (@asedge)
