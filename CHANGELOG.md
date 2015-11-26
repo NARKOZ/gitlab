@@ -1,7 +1,35 @@
 ## Change Log
 
-### upcoming
-- **Your contribution here.**
+### upcoming (26/11/2015)
+- [a4f2150](https://github.com/NARKOZ/gitlab/commit/a4f21504a7288caace5b7433b49f49dc31e32b30) Add support for namespaces endpoint
+- [3ad81a1](https://github.com/NARKOZ/gitlab/commit/3ad81a19a10b35ea422c0abcf08e6d03a325f4cd) Add missing "@" in doc. (@asedge)
+- [fc34acb](https://github.com/NARKOZ/gitlab/commit/fc34acb6b475bb2555e4b035c11fdf42b3db4085) Add Gitlab::Client::Commits and rearrange methods and tests related to commits. (@asedge)
+- [527089b](https://github.com/NARKOZ/gitlab/commit/527089b17fa7ed74a39b30dc6e8bb33482c1044b) Add commit status API, was added in Gitlab 8.1 (@dsander)
+- [0a2f1db](https://github.com/NARKOZ/gitlab/commit/0a2f1dbe3efb66511dc836ef0ef884efedd70ef3) Add --json CLI parameter to output results as JSON
+- [3f9cb62](https://github.com/NARKOZ/gitlab/commit/3f9cb625517c7294652139f2748e4bc7b98848cc) Adding sudo option for when forking a project (@gregoriomelo)
+- [8dd964e](https://github.com/NARKOZ/gitlab/commit/8dd964ee743e051fade3137d8fac9bb387770150) Fix CLI configuration example comment line width to <= 80. (@asedge)
+- [bbb8b61](https://github.com/NARKOZ/gitlab/commit/bbb8b61db46b32b8649956cb81d9a41e132493d4) Add comment for CLI configuration example. (@asedge)
+- [30e96b9](https://github.com/NARKOZ/gitlab/commit/30e96b9444f7d60d4c0a56f57202c609497126eb) Update README.md (@raine)
+- [d81f05b](https://github.com/NARKOZ/gitlab/commit/d81f05b80b7aaccef49641acfada3b2181f1633d) Change #handle_error method so it handles errors that are returned as an Array. (@asedge)
+- [4c0395e](https://github.com/NARKOZ/gitlab/commit/4c0395ebc58c5a907489b6dc9dcac151e07b4dc8) Add Unprocessable error handler (@ondra-m)
+- [3179bed](https://github.com/NARKOZ/gitlab/commit/3179bedc498b6c5577cc3c0b04633f67eb286ea9) Add block/unblock user. This API feature was added in GitLab 7.13 (@azomazo)
+- [9946c7d](https://github.com/NARKOZ/gitlab/commit/9946c7d2a2c4261cbfc9c4a492b079c79abc2767) Check for specific exceptions in tests to suppress rspec warnings. (@asedge)
+- [5e1c025](https://github.com/NARKOZ/gitlab/commit/5e1c025b8fdf723770c7c7ac0116acdf5cc9f2d5) Added support description option in create_group method (@azomazo)
+- [46b657e](https://github.com/NARKOZ/gitlab/commit/46b657e47a29bc18f4122fff593a9eb58b73e4f1) deleting a gitlab project returns the string "true" (@tosmi)
+- [cc3b489](https://github.com/NARKOZ/gitlab/commit/cc3b489cdeb3bd18b4ec841f80e76e74ddd0ce37) add development scripts (@NARKOZ)
+- [24ad7fd](https://github.com/NARKOZ/gitlab/commit/24ad7fd2a1bd99eb468f1181d95c75fbec5d8fe0) Added specs edit_project, create_fork, create_user_with_username (@p404)
+- [42e73a2](https://github.com/NARKOZ/gitlab/commit/42e73a2fde3e64dc8e3cf0ec73b8cfad88e43ca8) Added edit_project method to Projects module && updated the create_user method (@p404)
+- [c9822f1](https://github.com/NARKOZ/gitlab/commit/c9822f1b61a8d7a5e855616e80e725730340cd48) Refactor create_user method (@p404)
+- [6d7c4e7](https://github.com/NARKOZ/gitlab/commit/6d7c4e7c3285ee082513b3125346e6ed9c18b24b) Added create_fork method to Projects module (@p404)
+- [54155b6](https://github.com/NARKOZ/gitlab/commit/54155b6c59d6e307744668cb3592ca98cf11d8f2) Add snippet_content method + tests. (@asedge)
+- [cfff385](https://github.com/NARKOZ/gitlab/commit/cfff385b7f528223bf9ddc5f4177883e5ca56492) Remove executable permission on fixture file. (@asedge)
+- [487a372](https://github.com/NARKOZ/gitlab/commit/487a372f7041d104975570747a63c9021881c952) Add RepositoryFiles#get_file method. (@asedge)
+- [c9c05ad](https://github.com/NARKOZ/gitlab/commit/c9c05adee50828cc2e31048006cc95b5f2b9b7ce) Hide auth_token method from CLI/shell. (@asedge)
+- [ef408a7](https://github.com/NARKOZ/gitlab/commit/ef408a7de0e677a568a66dbf212139aafc2e6186) Remove unnecessary require. (@asedge)
+- [a2752d1](https://github.com/NARKOZ/gitlab/commit/a2752d1f5a01759a85d1e2003bb81c8e59cf85d3) Add some missing examples. (@asedge)
+- [ac595af](https://github.com/NARKOZ/gitlab/commit/ac595af15a07601b3b657d4b4c1c479651aaa7d7) Add group_search method. (@asedge)
+- [53a6671](https://github.com/NARKOZ/gitlab/commit/53a667184ed3640aefcb3f67836d37f58a504f24) Added Users#delete_user method (@cthulhu666)
+- [a2360f0](https://github.com/NARKOZ/gitlab/commit/a2360f08019632c2660dbbc6753bd3094286b993) Add httparty ENV variable for CLI. Fixes #127. (@asedge)
 
 ### 3.4.0 (22/04/2015)
 - [9acb83d](https://github.com/NARKOZ/gitlab/commit/9acb83d2d068720b07934f5152313dc22a2f6374) remove check for missing attributes
