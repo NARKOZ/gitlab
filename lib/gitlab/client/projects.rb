@@ -14,7 +14,9 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def projects(options={})
       if (options[:scope])
-        get("/projects/#{options[:scope]}", :query => options)
+        scope = options[:scope]
+        options.delete(:scope)
+        get("/projects/#{scope}", :query => options)
       else
         get("/projects", :query => options)
       end
