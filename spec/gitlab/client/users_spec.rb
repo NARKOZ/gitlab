@@ -11,8 +11,8 @@ describe Gitlab::Client do
       expect(a_get("/users")).to have_been_made
     end
 
-    it "should return an array of users" do
-      expect(@users).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of users" do
+      expect(@users).to be_a Gitlab::PaginatedResponse
       expect(@users.first.email).to eq("john@example.com")
     end
   end
@@ -210,8 +210,8 @@ describe Gitlab::Client do
       expect(a_get("/user/keys")).to have_been_made
     end
 
-    it "should return an array of SSH keys" do
-      expect(@keys).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of SSH keys" do
+      expect(@keys).to be_a Gitlab::PaginatedResponse
       expect(@keys.first.title).to eq("narkoz@helium")
     end
   end

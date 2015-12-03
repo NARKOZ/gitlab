@@ -14,8 +14,8 @@ describe Gitlab::Client do
       expect(a_get("/groups/3")).to have_been_made
     end
 
-    it "should return an array of Groups" do
-      expect(@groups).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of groups" do
+      expect(@groups).to be_a Gitlab::PaginatedResponse
       expect(@groups.first.path).to eq("threegroup")
     end
   end
@@ -91,7 +91,7 @@ describe Gitlab::Client do
     end
 
     it "should return information about a group members" do
-      expect(@members).to be_an Gitlab::ArrayResponse
+      expect(@members).to be_a Gitlab::PaginatedResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq("John Smith")
     end
@@ -108,7 +108,7 @@ describe Gitlab::Client do
         with(:body => {:user_id => '1', :access_level => '40'})).to have_been_made
     end
 
-    it "should return information about an added member" do
+    it "should return information about the added member" do
       expect(@member.name).to eq("John Smith")
     end
   end

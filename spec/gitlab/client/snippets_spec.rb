@@ -11,8 +11,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/snippets")).to have_been_made
     end
 
-    it "should return an array of project's snippets" do
-      expect(@snippets).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of project's snippets" do
+      expect(@snippets).to be_a Gitlab::PaginatedResponse
       expect(@snippets.first.file_name).to eq("mailer_test.rb")
     end
   end

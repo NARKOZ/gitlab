@@ -13,8 +13,8 @@ describe Gitlab::Client do
       expect(a_get("/namespaces")).to have_been_made
     end
 
-    it "should return an array of namespaces" do
-      expect(@namespaces).to be_an Array
+    it "should return a paginated response of namespaces" do
+      expect(@namespaces).to be_a Gitlab::PaginatedResponse
       expect(@namespaces.first.path).to eq("john")
       expect(@namespaces.first.kind).to eq("user")
     end

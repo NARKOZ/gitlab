@@ -12,8 +12,8 @@ describe Gitlab::Client do
         expect(a_get("/projects/3/issues")).to have_been_made
       end
 
-      it "should return an array of project's issues" do
-        expect(@issues).to be_an Gitlab::ArrayResponse
+      it "should return a paginated response of project's issues" do
+        expect(@issues).to be_a Gitlab::PaginatedResponse
         expect(@issues.first.project_id).to eq(3)
       end
     end
@@ -28,8 +28,8 @@ describe Gitlab::Client do
         expect(a_get("/issues")).to have_been_made
       end
 
-      it "should return an array of user's issues" do
-        expect(@issues).to be_an Gitlab::ArrayResponse
+      it "should return a paginated response of user's issues" do
+        expect(@issues).to be_a Gitlab::PaginatedResponse
         expect(@issues.first.closed).to be_falsey
         expect(@issues.first.author.name).to eq("John Smith")
       end

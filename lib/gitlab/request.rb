@@ -18,7 +18,7 @@ module Gitlab
       if body.is_a? Hash
         ObjectifiedHash.new body
       elsif body.is_a? Array
-        ArrayResponse.new(body.collect! { |e| ObjectifiedHash.new(e) })
+        PaginatedResponse.new(body.collect! { |e| ObjectifiedHash.new(e) })
       elsif body
         true
       elsif !body

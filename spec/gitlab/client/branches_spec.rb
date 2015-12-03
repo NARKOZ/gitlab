@@ -16,8 +16,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/repository/branches")).to have_been_made
     end
 
-    it "should return an array of repository branches" do
-      expect(@branches).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of repository branches" do
+      expect(@branches).to be_a Gitlab::PaginatedResponse
       expect(@branches.first.name).to eq("api")
     end
   end

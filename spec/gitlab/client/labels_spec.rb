@@ -11,8 +11,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/labels")).to have_been_made
     end
 
-    it "should return an array of project's labels" do
-      expect(@labels).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of project's labels" do
+      expect(@labels).to be_a Gitlab::PaginatedResponse
       expect(@labels.first.name).to eq("Backlog")
     end
   end

@@ -16,8 +16,8 @@ describe Gitlab::Client do
       expect(a_get("/hooks")).to have_been_made
     end
 
-    it "should return an array of system hooks" do
-      expect(@hooks).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of system hooks" do
+      expect(@hooks).to be_a Gitlab::PaginatedResponse
       expect(@hooks.first.url).to eq("http://example.com/hook")
     end
   end

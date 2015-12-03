@@ -12,8 +12,8 @@ describe Gitlab::Client do
         expect(a_get("/projects/3/notes")).to have_been_made
       end
 
-      it "should return an array of notes" do
-        expect(@notes).to be_an Gitlab::ArrayResponse
+      it "should return a paginated response of notes" do
+        expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
@@ -28,8 +28,8 @@ describe Gitlab::Client do
         expect(a_get("/projects/3/issues/7/notes")).to have_been_made
       end
 
-      it "should return an array of notes" do
-        expect(@notes).to be_an Gitlab::ArrayResponse
+      it "should return a paginated response of notes" do
+        expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
@@ -44,8 +44,8 @@ describe Gitlab::Client do
         expect(a_get("/projects/3/snippets/7/notes")).to have_been_made
       end
 
-      it "should return an array of notes" do
-        expect(@notes).to be_an Gitlab::ArrayResponse
+      it "should return a paginated response of notes" do
+        expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end

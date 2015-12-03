@@ -11,8 +11,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/merge_requests")).to have_been_made
     end
 
-    it "should return an array of project's merge requests" do
-      expect(@merge_requests).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of project's merge requests" do
+      expect(@merge_requests).to be_a Gitlab::PaginatedResponse
       expect(@merge_requests.first.project_id).to eq(3)
     end
   end
@@ -107,7 +107,7 @@ describe Gitlab::Client do
     end
 
     it "should return merge request's comments" do
-      expect(@merge_request).to be_an Gitlab::ArrayResponse
+      expect(@merge_request).to be_an Gitlab::PaginatedResponse
       expect(@merge_request.length).to eq(2)
       expect(@merge_request[0].note).to eq("this is the 1st comment on the 2merge merge request")
       expect(@merge_request[0].author.id).to eq(11)

@@ -1,8 +1,8 @@
 module Gitlab
   # Wrapper class of array response.
-  class ArrayResponse
+  class PaginatedResponse
     attr_accessor :client
-    
+
     def initialize(array)
       @array = array
     end

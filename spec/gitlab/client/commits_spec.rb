@@ -21,8 +21,8 @@ describe Gitlab::Client do
         with(:query => {:ref_name => "api"})).to have_been_made
     end
 
-    it "should return an array of repository commits" do
-      expect(@commits).to be_an Array
+    it "should return a paginated response of repository commits" do
+      expect(@commits).to be_a Gitlab::PaginatedResponse
       expect(@commits.first.id).to eq("f7dd067490fe57505f7226c3b54d3127d2f7fd46")
     end
   end
@@ -71,7 +71,7 @@ describe Gitlab::Client do
     end
 
     it "should return commit's comments" do
-      expect(@commit_comments).to be_an Array
+      expect(@commit_comments).to be_a Gitlab::PaginatedResponse
       expect(@commit_comments.length).to eq(2)
       expect(@commit_comments[0].note).to eq("this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
       expect(@commit_comments[0].author.id).to eq(11)
@@ -105,7 +105,7 @@ describe Gitlab::Client do
     end
 
     it "should get statuses of a commit" do
-      expect(@statuses).to be_kind_of Array
+      expect(@statuses).to be_kind_of Gitlab::PaginatedResponse
       expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@statuses.first.ref).to eq('decreased-spec')
       expect(@statuses.first.status).to eq('failed')

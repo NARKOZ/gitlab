@@ -18,8 +18,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/repository/tags")).to have_been_made
     end
 
-    it "should return an array of repository tags" do
-      expect(@tags).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of repository tags" do
+      expect(@tags).to be_a Gitlab::PaginatedResponse
       expect(@tags.first.name).to eq("v2.8.2")
     end
   end
@@ -83,8 +83,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/repository/tree")).to have_been_made
     end
 
-    it "should return an array of repository tree files (root level)" do
-      expect(@tree).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of repository tree files (root level)" do
+      expect(@tree).to be_a Gitlab::PaginatedResponse
       expect(@tree.first.name).to eq("app")
     end
   end

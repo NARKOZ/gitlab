@@ -11,8 +11,8 @@ describe Gitlab::Client do
       expect(a_get("/projects/3/milestones")).to have_been_made
     end
 
-    it "should return an array of project's milestones" do
-      expect(@milestones).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of project's milestones" do
+      expect(@milestones).to be_a Gitlab::PaginatedResponse
       expect(@milestones.first.project_id).to eq(3)
     end
   end
@@ -31,19 +31,19 @@ describe Gitlab::Client do
       expect(@milestone.project_id).to eq(3)
     end
   end
-  
+
   describe ".milestone_issues" do
     before do
       stub_get("/projects/3/milestones/1/issues", "milestone_issues")
       @milestone_issues = Gitlab.milestone_issues(3, 1)
     end
-    
+
     it "should get the correct resource" do
       expect(a_get("/projects/3/milestones/1/issues")).to have_been_made
     end
 
-    it "should return an array of milestone's issues" do
-      expect(@milestone_issues).to be_an Gitlab::ArrayResponse
+    it "should return a paginated response of milestone's issues" do
+      expect(@milestone_issues).to be_a Gitlab::PaginatedResponse
       expect(@milestone_issues.first.milestone.id).to eq(1)
     end
   end
