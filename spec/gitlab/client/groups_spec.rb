@@ -15,7 +15,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of Groups" do
-      expect(@groups).to be_an Array
+      expect(@groups).to be_an Gitlab::ArrayResponse
       expect(@groups.first.path).to eq("threegroup")
     end
   end
@@ -91,7 +91,7 @@ describe Gitlab::Client do
     end
 
     it "should return information about a group members" do
-      expect(@members).to be_an Array
+      expect(@members).to be_an Gitlab::ArrayResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq("John Smith")
     end

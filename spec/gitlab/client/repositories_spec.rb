@@ -19,7 +19,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository tags" do
-      expect(@tags).to be_an Array
+      expect(@tags).to be_an Gitlab::ArrayResponse
       expect(@tags.first.name).to eq("v2.8.2")
     end
   end
@@ -84,7 +84,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository tree files (root level)" do
-      expect(@tree).to be_an Array
+      expect(@tree).to be_an Gitlab::ArrayResponse
       expect(@tree.first.name).to eq("app")
     end
   end

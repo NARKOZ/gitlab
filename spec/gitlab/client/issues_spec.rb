@@ -13,7 +13,7 @@ describe Gitlab::Client do
       end
 
       it "should return an array of project's issues" do
-        expect(@issues).to be_an Array
+        expect(@issues).to be_an Gitlab::ArrayResponse
         expect(@issues.first.project_id).to eq(3)
       end
     end
@@ -29,7 +29,7 @@ describe Gitlab::Client do
       end
 
       it "should return an array of user's issues" do
-        expect(@issues).to be_an Array
+        expect(@issues).to be_an Gitlab::ArrayResponse
         expect(@issues.first.closed).to be_falsey
         expect(@issues.first.author.name).to eq("John Smith")
       end

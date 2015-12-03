@@ -17,7 +17,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of repository branches" do
-      expect(@branches).to be_an Array
+      expect(@branches).to be_an Gitlab::ArrayResponse
       expect(@branches.first.name).to eq("api")
     end
   end
