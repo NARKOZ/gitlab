@@ -12,7 +12,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of users" do
-      expect(@users).to be_an Array
+      expect(@users).to be_an Gitlab::ArrayResponse
       expect(@users.first.email).to eq("john@example.com")
     end
   end
@@ -211,7 +211,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of SSH keys" do
-      expect(@keys).to be_an Array
+      expect(@keys).to be_an Gitlab::ArrayResponse
       expect(@keys.first.title).to eq("narkoz@helium")
     end
   end

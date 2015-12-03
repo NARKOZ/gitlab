@@ -12,7 +12,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of project's labels" do
-      expect(@labels).to be_an Array
+      expect(@labels).to be_an Gitlab::ArrayResponse
       expect(@labels.first.name).to eq("Backlog")
     end
   end

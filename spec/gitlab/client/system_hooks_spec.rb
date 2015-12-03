@@ -17,7 +17,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of system hooks" do
-      expect(@hooks).to be_an Array
+      expect(@hooks).to be_an Gitlab::ArrayResponse
       expect(@hooks.first.url).to eq("http://example.com/hook")
     end
   end

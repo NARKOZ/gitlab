@@ -12,7 +12,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of project's milestones" do
-      expect(@milestones).to be_an Array
+      expect(@milestones).to be_an Gitlab::ArrayResponse
       expect(@milestones.first.project_id).to eq(3)
     end
   end
@@ -43,7 +43,7 @@ describe Gitlab::Client do
     end
 
     it "should return an array of milestone's issues" do
-      expect(@milestone_issues).to be_an Array
+      expect(@milestone_issues).to be_an Gitlab::ArrayResponse
       expect(@milestone_issues.first.milestone.id).to eq(1)
     end
   end

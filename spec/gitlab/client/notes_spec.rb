@@ -13,7 +13,7 @@ describe Gitlab::Client do
       end
 
       it "should return an array of notes" do
-        expect(@notes).to be_an Array
+        expect(@notes).to be_an Gitlab::ArrayResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
@@ -29,7 +29,7 @@ describe Gitlab::Client do
       end
 
       it "should return an array of notes" do
-        expect(@notes).to be_an Array
+        expect(@notes).to be_an Gitlab::ArrayResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
@@ -45,7 +45,7 @@ describe Gitlab::Client do
       end
 
       it "should return an array of notes" do
-        expect(@notes).to be_an Array
+        expect(@notes).to be_an Gitlab::ArrayResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
