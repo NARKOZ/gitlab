@@ -82,6 +82,23 @@ Gitlab.sudo = 'other_user'
 # disable a sudo mode
 Gitlab.sudo = nil
 # => nil
+
+# a paginated response
+projects = Gitlab.projects(per_page: 5)
+
+# check existence of the next page
+projects.has_next_page?
+
+# retrieve the next page
+projects.next_page
+
+# iterate all projects
+projects.auto_paginate do |project|
+  # do something
+end
+
+# retrieve all projects as an array
+projects.auto_paginate
 ```
 
 For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/frames).
