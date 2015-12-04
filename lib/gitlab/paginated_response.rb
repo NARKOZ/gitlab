@@ -1,5 +1,5 @@
 module Gitlab
-  # Wrapper class of array response.
+  # Wrapper class of paginated response.
   class PaginatedResponse
     attr_accessor :client
 
@@ -34,7 +34,7 @@ module Gitlab
     def each_page
       current = self
       yield current
-      while current.has_next_page
+      while current.has_next_page?
         current = current.next_page
         yield current
       end
@@ -54,42 +54,42 @@ module Gitlab
       response
     end
 
-    def has_last_page
+    def has_last_page?
       !(@links.nil? || @links.last.nil?)
     end
 
     def last_page
-      return nil if @client.nil? || !has_last_page
+      return nil if @client.nil? || !has_last_page?
       path = @links.last.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
 
-    def has_first_page
+    def has_first_page?
       !(@links.nil? || @links.first.nil?)
     end
 
     def first_page
-      return nil if @client.nil? || !has_first_page
+      return nil if @client.nil? || !has_first_page?
       path = @links.first.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
 
-    def has_next_page
+    def has_next_page?
       !(@links.nil? || @links.next.nil?)
     end
 
     def next_page
-      return nil if @client.nil? || !has_next_page
+      return nil if @client.nil? || !has_next_page?
       path = @links.next.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
 
-    def has_prev_page
+    def has_prev_page?
       !(@links.nil? || @links.prev.nil?)
     end
 
     def prev_page
-      return nil if @client.nil? || !has_prev_page
+      return nil if @client.nil? || !has_prev_page?
       path = @links.prev.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
