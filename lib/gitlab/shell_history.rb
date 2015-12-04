@@ -3,7 +3,7 @@ class Gitlab::Shell
     DEFAULT_HISTFILESIZE = 200
     DEFAULT_FILE_PATH = File.join(Dir.home, '.gitlab_shell_history')
 
-    def initialize(options = {})
+    def initialize(options={})
       @file_path = options[:file_path] || DEFAULT_FILE_PATH
       Readline::HISTORY.clear
     end
@@ -47,15 +47,13 @@ class Gitlab::Shell
     def read_from_file
       path = history_file_path
 
-      if File.exist?(path)
-        File.foreach(path) { |line| yield(line) }
-      end
+      File.foreach(path) { |line| yield(line) } if File.exist?(path)
     rescue => error
       warn "History file not loaded: #{error.message}"
     end
 
     def max_lines
-      (ENV['GITLAB_HISTFILESIZE']|| DEFAULT_HISTFILESIZE).to_i
+      (ENV['GITLAB_HISTFILESIZE'] || DEFAULT_HISTFILESIZE).to_i
     end
   end
 end

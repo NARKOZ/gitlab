@@ -1,7 +1,6 @@
 require 'yaml'
 require 'json'
 
-
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
   module Helpers
@@ -75,14 +74,14 @@ class Gitlab::CLI
           puts 'Command aborted.'
           exit(1)
         end
-      end 
+      end
     end
 
     # Gets defined help for a specific command/action.
     #
     # @return [String]
-    def help(cmd = nil, &block)
-      if cmd.nil? or Gitlab::Help.help_map.has_key?(cmd)
+    def help(cmd=nil, &block)
+      if cmd.nil? || Gitlab::Help.help_map.key?(cmd)
         Gitlab::Help.actions_table(cmd)
       else
         Gitlab::Help.get_help(cmd, &block)
@@ -96,7 +95,7 @@ class Gitlab::CLI
         puts record_table([data], cmd, args)
       when Array
         puts record_table(data, cmd, args)
-      else  # probably just an error msg
+      else # probably just an error msg
         puts data
       end
     end
@@ -106,12 +105,12 @@ class Gitlab::CLI
         puts '{}'
       else
         hash_result = case data
-          when Gitlab::ObjectifiedHash
-            record_hash([data], cmd, args, true)
-          when Array
-            record_hash(data, cmd, args)
-          else
-            { :cmd => cmd, :data => data, :args => args }
+                      when Gitlab::ObjectifiedHash
+                        record_hash([data], cmd, args, true)
+                      when Array
+                        record_hash(data, cmd, args)
+                      else
+                        { cmd: cmd, data: data, args: args }
         end
         puts JSON.pretty_generate(hash_result)
       end
@@ -156,7 +155,7 @@ class Gitlab::CLI
     # @param  [Array]  args         Options passed to the API call
     # @param  [bool]   single_value If set to true, a single result should be returned
     # @return [Hash]   Result hash
-    def record_hash(data, cmd, args, single_value = false)
+    def record_hash(data, cmd, args, single_value=false)
       if data.empty?
         result = nil
       else
@@ -167,12 +166,12 @@ class Gitlab::CLI
 
           keys.each do |key|
             case hash[key]
-              when Hash
-                row[key] = 'Hash'
-              when nil
-                row[key] = nil
-              else
-                row[key] = hash[key]
+            when Hash
+              row[key] = 'Hash'
+            when nil
+              row[key] = nil
+            else
+              row[key] = hash[key]
             end
           end
 
@@ -182,23 +181,22 @@ class Gitlab::CLI
       end
 
       {
-        :cmd => "Gitlab.#{cmd} #{args.join(', ')}".strip,
-        :result => result
+        cmd: "Gitlab.#{cmd} #{args.join(', ')}".strip,
+        result: result
       }
-
     end
 
     # Helper function to get rows and keys from data returned from API call
     def get_keys(args, data)
       arr = data.map(&:to_h)
       keys = arr.first.keys.sort { |x, y| x.to_s <=> y.to_s }
-      keys = keys & required_fields(args) if required_fields(args).any?
-      keys = keys - excluded_fields(args)
-      return arr, keys
+      keys &= required_fields(args) if required_fields(args).any?
+      keys -= excluded_fields(args)
+      [arr, keys]
     end
 
     # Helper function to call Gitlab commands with args.
-    def gitlab_helper(cmd, args = [])
+    def gitlab_helper(cmd, args=[])
       begin
         data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
       rescue => e
@@ -228,7 +226,7 @@ class Gitlab::CLI
     # YAML::load on a single argument
     def yaml_load(arg)
       begin
-        yaml = YAML::load(arg)
+        yaml = YAML.load(arg)
       rescue Psych::SyntaxError
         raise "error: Argument is not valid YAML syntax: #{arg}"
       end

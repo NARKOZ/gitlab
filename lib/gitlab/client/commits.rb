@@ -15,7 +15,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def commits(project, options={})
-      get("/projects/#{project}/repository/commits", :query => options)
+      get("/projects/#{project}/repository/commits", query: options)
     end
     alias_method :repo_commits, :commits
 
@@ -58,7 +58,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def commit_comments(project, commit, options={})
-      get("/projects/#{project}/repository/commits/#{commit}/comments", :query => options)
+      get("/projects/#{project}/repository/commits/#{commit}/comments", query: options)
     end
     alias_method :repo_commit_comments, :commit_comments
 
@@ -76,7 +76,7 @@ class Gitlab::Client
     # @option options [String] :line_type The line type (new or old).
     # @return [Gitlab::ObjectifiedHash] Information about created comment.
     def create_commit_comment(project, commit, note, options={})
-      post("/projects/#{project}/repository/commits/#{commit}/comments", :body => options.merge(:note => note))
+      post("/projects/#{project}/repository/commits/#{commit}/comments", body: options.merge(note: note))
     end
     alias_method :repo_create_commit_comment, :create_commit_comment
 
@@ -94,7 +94,7 @@ class Gitlab::Client
     # @option options [String] :stage Filter by stage
     # @option options [String] :name Filer by status name, eg. jenkins
     # @option options [Boolean] :all The flag to return all statuses, not only latest ones
-    def commit_status(id, sha, options = {})
+    def commit_status(id, sha, options={})
       get("/projects/#{id}/repository/commits/#{sha}/statuses", query: options)
     end
     alias_method :repo_commit_status, :commit_status
@@ -113,7 +113,7 @@ class Gitlab::Client
     # @option options [String] :ref The ref (branch or tag) to which the status refers
     # @option options [String] :name Filer by status name, eg. jenkins
     # @option options [String] :target_url The target URL to associate with this status
-    def update_commit_status(id, sha, state, options = {})
+    def update_commit_status(id, sha, state, options={})
       post("/projects/#{id}/statuses/#{sha}", query: options.merge(state: state))
     end
     alias_method :repo_update_commit_status, :update_commit_status

@@ -12,7 +12,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def notes(project, options={})
-      get("/projects/#{project}/notes", :query => options)
+      get("/projects/#{project}/notes", query: options)
     end
 
     # Gets a list of notes for a issue.
@@ -26,7 +26,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def issue_notes(project, issue, options={})
-      get("/projects/#{project}/issues/#{issue}/notes", :query => options)
+      get("/projects/#{project}/issues/#{issue}/notes", query: options)
     end
 
     # Gets a list of notes for a snippet.
@@ -40,7 +40,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def snippet_notes(project, snippet, options={})
-      get("/projects/#{project}/snippets/#{snippet}/notes", :query => options)
+      get("/projects/#{project}/snippets/#{snippet}/notes", query: options)
     end
 
     # Gets a single wall note.
@@ -90,7 +90,7 @@ class Gitlab::Client
     # @param  [String] body The body of a note.
     # @return [Gitlab::ObjectifiedHash] Information about created note.
     def create_note(project, body)
-      post("/projects/#{project}/notes", :body => {:body => body})
+      post("/projects/#{project}/notes", body: { body: body })
     end
 
     # Creates a new issue note.
@@ -103,7 +103,7 @@ class Gitlab::Client
     # @param  [String] body The body of a note.
     # @return [Gitlab::ObjectifiedHash] Information about created note.
     def create_issue_note(project, issue, body)
-      post("/projects/#{project}/issues/#{issue}/notes", :body => {:body => body})
+      post("/projects/#{project}/issues/#{issue}/notes", body: { body: body })
     end
 
     # Creates a new snippet note.
@@ -116,7 +116,7 @@ class Gitlab::Client
     # @param  [String] body The body of a note.
     # @return [Gitlab::ObjectifiedHash] Information about created note.
     def create_snippet_note(project, snippet, body)
-      post("/projects/#{project}/snippets/#{snippet}/notes", :body => {:body => body})
+      post("/projects/#{project}/snippets/#{snippet}/notes", body: { body: body })
     end
 
     # Creates a new note for a single merge request.
@@ -128,7 +128,7 @@ class Gitlab::Client
     # @param [Integer] merge_request The ID of a merge request.
     # @param [String] body The content of a note.
     def create_merge_request_note(project, merge_request, body)
-      post("/projects/#{project}/merge_requests/#{merge_request}/notes", :body => {:body => body})
+      post("/projects/#{project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
   end
 end

@@ -8,7 +8,7 @@ describe Gitlab::Shell do
   describe ".execute" do
     context "invalid command" do
       it "should raise" do
-        expect{Gitlab::Shell.execute 'foobar', []}.to raise_error(RuntimeError)
+        expect { Gitlab::Shell.execute 'foobar', [] }.to raise_error(RuntimeError)
       end
     end
   end
@@ -55,7 +55,7 @@ describe Gitlab::Shell do
       it "should return an Array of matching commands" do
         completed_cmds = @comp.call 'group'
         expect(completed_cmds).to be_a Array
-        expect(completed_cmds.sort).to eq(['group', 'group_members', 'group_search', 'groups'])
+        expect(completed_cmds.sort).to eq(%w(group group_members group_search groups))
       end
     end
   end
@@ -63,15 +63,15 @@ describe Gitlab::Shell do
   describe ".parse_input" do
     context "with arguments" do
       it "should set command & arguments" do
-        Gitlab::Shell.parse_input('create_branch 1 "api" "master"') 
+        Gitlab::Shell.parse_input('create_branch 1 "api" "master"')
         expect(Gitlab::Shell.command).to eq('create_branch')
-        expect(Gitlab::Shell.arguments).to eq(['1', 'api', 'master'])
+        expect(Gitlab::Shell.arguments).to eq(%w(1 api master))
       end
     end
-      
+
     context "without arguments" do
       it 'should set command & empty arguments' do
-        Gitlab::Shell.parse_input('exit') 
+        Gitlab::Shell.parse_input('exit')
         expect(Gitlab::Shell.command).to eq('exit')
         expect(Gitlab::Shell.arguments).to be_empty
       end

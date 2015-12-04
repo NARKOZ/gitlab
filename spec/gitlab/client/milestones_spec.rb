@@ -56,7 +56,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_post("/projects/3/milestones").
-        with(:body => {:title => 'title'})).to have_been_made
+        with(body: { title: 'title' })).to have_been_made
     end
 
     it "should return information about a created milestone" do
@@ -67,12 +67,12 @@ describe Gitlab::Client do
   describe ".edit_milestone" do
     before do
       stub_put("/projects/3/milestones/33", "milestone")
-      @milestone = Gitlab.edit_milestone(3, 33, :title => 'title')
+      @milestone = Gitlab.edit_milestone(3, 33, title: 'title')
     end
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/milestones/33").
-        with(:body => {:title => 'title'})).to have_been_made
+        with(body: { title: 'title' })).to have_been_made
     end
 
     it "should return information about an edited milestone" do

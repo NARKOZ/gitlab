@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Gitlab::ObjectifiedHash do
   before do
-    @hash = {a: 1, b: 2, 'string' => 'string', symbol: :symbol}
+    @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol }
     @oh = Gitlab::ObjectifiedHash.new @hash
   end
 
@@ -23,7 +23,7 @@ describe Gitlab::ObjectifiedHash do
 
   describe "#inspect" do
     it "should return a formatted string" do
-      pretty_string = "#<#{@oh.class.name}:#{@oh.object_id} {hash: #{@hash.to_s}}"
+      pretty_string = "#<#{@oh.class.name}:#{@oh.object_id} {hash: #{@hash}}"
       expect(@oh.inspect).to eq(pretty_string)
     end
   end

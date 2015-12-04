@@ -43,7 +43,7 @@ module Gitlab
     private
 
     # Allows HTTParty config to be specified in ENV using YAML hash.
-    def get_httparty_config options
+    def get_httparty_config(options)
       return options if options.nil?
 
       httparty = Gitlab::CLI::Helpers.yaml_load(options)

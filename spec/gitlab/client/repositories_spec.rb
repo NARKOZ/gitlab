@@ -6,7 +6,7 @@ describe Gitlab::Client do
   it { should respond_to :repo_branches }
   it { should respond_to :repo_branch }
   it { should respond_to :repo_tree }
-  it { should respond_to :repo_compare}
+  it { should respond_to :repo_compare }
 
   describe ".tags" do
     before do
@@ -92,13 +92,13 @@ describe Gitlab::Client do
   describe ".compare" do
     before do
       stub_get("/projects/3/repository/compare", "compare_merge_request_diff").
-        with(:query => {:from => "master", :to => "feature"})
+        with(query: { from: "master", to: "feature" })
       @diff = Gitlab.compare(3, 'master', 'feature')
     end
 
     it "should get the correct resource" do
       expect(a_get("/projects/3/repository/compare").
-        with(:query => {:from => "master", :to => "feature"})).to have_been_made
+        with(query: { from: "master", to: "feature" })).to have_been_made
     end
 
     it "should get diffs of a merge request" do

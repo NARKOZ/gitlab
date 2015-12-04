@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash]
     def snippets(project, options={})
-      get("/projects/#{project}/snippets", :query => options)
+      get("/projects/#{project}/snippets", query: options)
     end
 
     # Gets information about a snippet.
@@ -41,7 +41,7 @@ class Gitlab::Client
     # @option options [String] :lifetime (optional) The expiration date of a snippet.
     # @return [Gitlab::ObjectifiedHash] Information about created snippet.
     def create_snippet(project, options={})
-      post("/projects/#{project}/snippets", :body => options)
+      post("/projects/#{project}/snippets", body: options)
     end
 
     # Updates a snippet.
@@ -58,7 +58,7 @@ class Gitlab::Client
     # @option options [String] :lifetime The expiration date of a snippet.
     # @return [Gitlab::ObjectifiedHash] Information about updated snippet.
     def edit_snippet(project, id, options={})
-      put("/projects/#{project}/snippets/#{id}", :body => options)
+      put("/projects/#{project}/snippets/#{id}", body: options)
     end
 
     # Deletes a snippet.
@@ -83,9 +83,9 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about deleted snippet.
     def snippet_content(project, id)
       get("/projects/#{project}/snippets/#{id}/raw",
-        format: nil,
-        headers: { Accept: 'text/plain' },
-        parser: ::Gitlab::Request::Parser)
+          format: nil,
+          headers: { Accept: 'text/plain' },
+          parser: ::Gitlab::Request::Parser)
     end
   end
 end

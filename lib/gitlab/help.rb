@@ -5,7 +5,6 @@ module Gitlab::Help
   extend Gitlab::CLI::Helpers
 
   class << self
-
     # Returns the (modified) help from the 'ri' command or returns an error.
     #
     # @return [String]
@@ -15,7 +14,7 @@ module Gitlab::Help
       if cmd_namespace
         ri_output = `#{ri_cmd} -T #{cmd_namespace} 2>&1`.chomp
 
-        if $? == 0
+        if $CHILD_STATUS == 0
           change_help_output! cmd, ri_output
           yield ri_output if block_given?
 
@@ -34,7 +33,7 @@ module Gitlab::Help
     def ri_cmd
       which_ri = `which ri`.chomp
       if which_ri.empty?
-        raise "'ri' tool not found in $PATH. Please install it to use the help."
+        fail "'ri' tool not found in $PATH. Please install it to use the help."
       end
 
       which_ri
@@ -47,19 +46,19 @@ module Gitlab::Help
     # @return [Hash<Array>]
     def help_map
       @help_map ||= begin
-          actions.each_with_object({}) do |action, hsh|
-            key = client.method(action).
-                         owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
-            hsh[key] ||= []
-            hsh[key] << action.to_s
-          end
+        actions.each_with_object({}) do |action, hsh|
+          key = client.method(action).
+                owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
+          hsh[key] ||= []
+          hsh[key] << action.to_s
+        end
       end
     end
 
     # Table with available commands.
     #
     # @return [Terminal::Table]
-    def actions_table(topic = nil)
+    def actions_table(topic=nil)
       rows = topic ? help_map[topic] : help_map.keys
       table do |t|
         t.title = topic || "Help Topics"
@@ -75,16 +74,14 @@ module Gitlab::Help
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
     def namespace(cmd)
       method_owners.select { |method| method[:name] === cmd }.
-                    map    { |method| method[:owner] + '.' + method[:name] }.
-                    shift
+        map { |method| method[:owner] + '.' + method[:name] }.
+        shift
     end
 
     # Massage output from 'ri'.
     def change_help_output!(cmd, output_str)
-      output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd+' \1')
+      output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd + ' \1')
       output_str.gsub!(/\,[\s]*/, ' ')
     end
-
   end # class << self
 end
-

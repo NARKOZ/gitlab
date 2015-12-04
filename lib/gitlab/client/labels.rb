@@ -23,7 +23,7 @@ class Gitlab::Client
     # @option [String] color The color of a label.
     # @return [Gitlab::ObjectifiedHash] Information about created label.
     def create_label(project, name, color)
-      post("/projects/#{project}/labels", :body => { :name => name, :color => color})
+      post("/projects/#{project}/labels", body: { name: name, color: color })
     end
 
     # Updates a label.
@@ -39,7 +39,7 @@ class Gitlab::Client
     # @option options [String] :color The color of a label.
     # @return [Gitlab::ObjectifiedHash] Information about updated label.
     def edit_label(project, name, options={})
-      put("/projects/#{project}/labels", :body => options.merge({:name => name}))
+      put("/projects/#{project}/labels", body: options.merge(name: name))
     end
 
     # Deletes a label.
@@ -51,7 +51,7 @@ class Gitlab::Client
     # @param  [String] name The name of a label.
     # @return [Gitlab::ObjectifiedHash] Information about deleted label.
     def delete_label(project, name)
-      delete("/projects/#{project}/labels", :body => {:name => name} )
+      delete("/projects/#{project}/labels", body: { name: name })
     end
   end
 end

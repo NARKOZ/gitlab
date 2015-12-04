@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def tags(project, options={})
-      get("/projects/#{project}/repository/tags", :query => options)
+      get("/projects/#{project}/repository/tags", query: options)
     end
     alias_method :repo_tags, :tags
 
@@ -29,7 +29,7 @@ class Gitlab::Client
     # @param  [String]  message Optional message for tag, creates annotated tag if specified.
     # @return [Gitlab::ObjectifiedHash]
     def create_tag(project, tag_name, ref, message='')
-      post("/projects/#{project}/repository/tags", body: {tag_name: tag_name, ref: ref, message: message})
+      post("/projects/#{project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message })
     end
     alias_method :repo_create_tag, :create_tag
 
@@ -43,12 +43,12 @@ class Gitlab::Client
     # @param  [String] filepath The relative path of the file in the repository
     # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
     # @return [String]
-    def file_contents(project, filepath, ref = 'master')
+    def file_contents(project, filepath, ref='master')
       ref = URI.encode(ref, /\W/)
       get "/projects/#{project}/repository/blobs/#{ref}?filepath=#{filepath}",
-        format: nil,
-        headers: { Accept: 'text/plain' },
-        parser: ::Gitlab::Request::Parser
+          format: nil,
+          headers: { Accept: 'text/plain' },
+          parser: ::Gitlab::Request::Parser
     end
     alias_method :repo_file_contents, :file_contents
 
@@ -79,7 +79,7 @@ class Gitlab::Client
     # @param [String] to The commit SHA or branch name of to branch.
     # @return [Gitlab::ObjectifiedHash]
     def compare(project, from, to)
-      get("/projects/#{project}/repository/compare", :query => {:from => from, :to => to})
+      get("/projects/#{project}/repository/compare", query: { from: from, to: to })
     end
     alias_method :repo_compare, :compare
   end

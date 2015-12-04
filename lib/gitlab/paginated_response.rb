@@ -23,7 +23,7 @@ module Gitlab
       end
     end
 
-    def respond_to?(method, include_all = false)
+    def respond_to?(method, include_all=false)
       super || @array.respond_to?(method, include_all)
     end
 
@@ -55,34 +55,41 @@ module Gitlab
     end
 
     def has_last_page
-      !(@links.nil? or @links.last.nil?)
+      !(@links.nil? || @links.last.nil?)
     end
+
     def last_page
-      return nil if @client.nil? or !has_last_page
+      return nil if @client.nil? || !has_last_page
       path = @links.last.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
+
     def has_first_page
-      !(@links.nil? or @links.first.nil?)
+      !(@links.nil? || @links.first.nil?)
     end
+
     def first_page
-      return nil if @client.nil? or !has_first_page
+      return nil if @client.nil? || !has_first_page
       path = @links.first.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
+
     def has_next_page
-      !(@links.nil? or @links.next.nil?)
+      !(@links.nil? || @links.next.nil?)
     end
+
     def next_page
-      return nil if @client.nil? or !has_next_page
+      return nil if @client.nil? || !has_next_page
       path = @links.next.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end
+
     def has_prev_page
-      !(@links.nil? or @links.prev.nil?)
+      !(@links.nil? || @links.prev.nil?)
     end
+
     def prev_page
-      return nil if @client.nil? or !has_prev_page
+      return nil if @client.nil? || !has_prev_page
       path = @links.prev.sub(/#{@client.endpoint}/, '')
       @client.get(path)
     end

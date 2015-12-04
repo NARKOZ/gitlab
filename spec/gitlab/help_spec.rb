@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Gitlab::Help do
-
   describe ".ri_cmd" do
     context "ri command found" do
       it "should return the path to RI" do
@@ -13,10 +12,9 @@ describe Gitlab::Help do
     context "ri command NOT found" do
       it "should raise" do
         allow(Gitlab::Help).to receive(:`).with(/which ri/).and_return('')
-        expect{Gitlab::Help.ri_cmd}.to raise_error RuntimeError
+        expect { Gitlab::Help.ri_cmd }.to raise_error RuntimeError
       end
     end
-
   end
 
   describe ".change_help_output!" do
@@ -40,5 +38,4 @@ describe Gitlab::Help do
       expect(@namespace).to eq("Gitlab::Client::Repositories.#{@cmd}")
     end
   end
-
 end

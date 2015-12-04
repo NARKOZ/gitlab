@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def groups(options={})
-      get("/groups", :query => options)
+      get("/groups", query: options)
     end
 
     # Gets a single group.
@@ -37,8 +37,8 @@ class Gitlab::Client
     # @param  [String] path The path of a group.
     # @return [Gitlab::ObjectifiedHash] Information about created group.
     def create_group(name, path, options={})
-      body = {:name => name, :path => path}.merge(options)
-      post("/groups", :body => body)
+      body = { name: name, path: path }.merge(options)
+      post("/groups", body: body)
     end
 
     # Get a list of group members.
@@ -53,7 +53,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def group_members(id, options={})
-      get("/groups/#{id}/members", :query => options)
+      get("/groups/#{id}/members", query: options)
     end
 
     # Adds a user to group.
@@ -66,7 +66,7 @@ class Gitlab::Client
     # @param  [Integer] access_level Project access level.
     # @return [Gitlab::ObjectifiedHash] Information about added team member.
     def add_group_member(team_id, user_id, access_level)
-      post("/groups/#{team_id}/members", :body => {:user_id => user_id, :access_level => access_level})
+      post("/groups/#{team_id}/members", body: { user_id: user_id, access_level: access_level })
     end
 
     # Removes user from user group.
@@ -89,8 +89,8 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a group.
     # @param  [Integer] project_id The ID of a project.
     def transfer_project_to_group(id, project_id)
-      body = {:id => id, :project_id => project_id}
-      post("/groups/#{id}/projects/#{project_id}", :body => body)
+      body = { id: id, project_id: project_id }
+      post("/groups/#{id}/projects/#{project_id}", body: body)
     end
 
     # Search for groups by name
@@ -105,8 +105,7 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def group_search(search, options={})
       options[:search] = search
-      get("/groups", :query => options)
+      get("/groups", query: options)
     end
-
   end
 end

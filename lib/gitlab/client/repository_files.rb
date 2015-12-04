@@ -15,9 +15,9 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def get_file(project, file_path, ref)
       get("/projects/#{project}/repository/files", query: {
-        file_path: file_path,
-        ref: ref,
-      })
+            file_path: file_path,
+            ref: ref
+          })
     end
 
     # Creates a new repository file.
@@ -35,7 +35,7 @@ class Gitlab::Client
       post("/projects/#{project}/repository/files", body: {
         file_path: path,
         branch_name: branch,
-        commit_message: commit_message,
+        commit_message: commit_message
       }.merge(encoded_content_attributes(content)))
     end
 
@@ -54,7 +54,7 @@ class Gitlab::Client
       put("/projects/#{project}/repository/files", body: {
         file_path: path,
         branch_name: branch,
-        commit_message: commit_message,
+        commit_message: commit_message
       }.merge(encoded_content_attributes(content)))
     end
 
@@ -70,10 +70,10 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def remove_file(project, path, branch, commit_message)
       delete("/projects/#{project}/repository/files", body: {
-        file_path: path,
-        branch_name: branch,
-        commit_message: commit_message,
-      })
+               file_path: path,
+               branch_name: branch,
+               commit_message: commit_message
+             })
     end
 
     private
@@ -81,7 +81,7 @@ class Gitlab::Client
     def encoded_content_attributes(content)
       {
         encoding: 'base64',
-        content: Base64.encode64(content),
+        content: Base64.encode64(content)
       }
     end
   end

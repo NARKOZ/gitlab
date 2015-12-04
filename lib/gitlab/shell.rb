@@ -62,13 +62,13 @@ class Gitlab::Shell
     end
 
     # Execute a given command with arguements
-    def execute(cmd = command, args = arguments)
+    def execute(cmd=command, args=arguments)
       if actions.include?(cmd.to_sym)
         confirm_command(cmd)
         gitlab_helper(cmd, args)
       else
-        raise "Unknown command: #{cmd}. " +
-              "See the 'help' for a list of valid commands."
+        fail "Unknown command: #{cmd}. " \
+             "See the 'help' for a list of valid commands."
       end
     end
 
@@ -80,6 +80,5 @@ class Gitlab::Shell
     def history
       @history ||= History.new
     end
-
-  end  # class << self
+  end # class << self
 end

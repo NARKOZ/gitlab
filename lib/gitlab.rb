@@ -26,11 +26,11 @@ module Gitlab
 
   # Delegate to Gitlab::Client
   def self.respond_to?(method)
-    return client.respond_to?(method) || super
+    client.respond_to?(method) || super
   end
 
   # Delegate to HTTParty.http_proxy
-  def self.http_proxy(address = nil, port = nil, username = nil, password = nil)
+  def self.http_proxy(address=nil, port=nil, username=nil, password=nil)
     Gitlab::Request.http_proxy(address, port, username, password)
   end
 
@@ -39,6 +39,6 @@ module Gitlab
   # @return [Array<Symbol>]
   def self.actions
     hidden = /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate|set_request_defaults|httparty/
-    (Gitlab::Client.instance_methods - Object.methods).reject {|e| e[hidden]}
+    (Gitlab::Client.instance_methods - Object.methods).reject { |e| e[hidden] }
   end
 end

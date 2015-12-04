@@ -40,9 +40,9 @@ describe Gitlab::Client do
 
     it "should return information about a merge request" do
       @merge_request = Gitlab.create_merge_request(3, 'New feature',
-        :source_branch => 'api',
-        :target_branch => 'master'
-      )
+                                                   source_branch: 'api',
+                                                   target_branch: 'master'
+                                                  )
       expect(@merge_request.project_id).to eq(3)
       expect(@merge_request.assignee.name).to eq("Jack Smith")
     end
@@ -51,25 +51,25 @@ describe Gitlab::Client do
   describe ".update_merge_request" do
     before do
       stub_put("/projects/3/merge_request/2", "merge_request").
-        with(:body => {
-          :assignee_id => '1',
-          :target_branch => 'master',
-          :title => 'A different new feature'
-        })
+        with(body: {
+               assignee_id: '1',
+               target_branch: 'master',
+               title: 'A different new feature'
+             })
       @merge_request = Gitlab.update_merge_request(3, 2,
-        :assignee_id   => '1',
-        :target_branch => 'master',
-        :title         => 'A different new feature'
-      )
+                                                   assignee_id: '1',
+                                                   target_branch: 'master',
+                                                   title: 'A different new feature'
+                                                  )
     end
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/merge_request/2").
-        with(:body => {
-          :assignee_id => '1',
-          :target_branch => 'master',
-          :title => 'A different new feature'
-        })).to have_been_made
+        with(body: {
+               assignee_id: '1',
+               target_branch: 'master',
+               title: 'A different new feature'
+             })).to have_been_made
     end
 
     it "should return information about a merge request" do
@@ -81,13 +81,13 @@ describe Gitlab::Client do
   describe ".accept_merge_request" do
     before do
       stub_put("/projects/5/merge_request/42/merge", "merge_request").
-        with(:body => {:merge_commit_message => 'Nice!'})
-      @merge_request = Gitlab.accept_merge_request(5, 42, :merge_commit_message => 'Nice!')
+        with(body: { merge_commit_message: 'Nice!' })
+      @merge_request = Gitlab.accept_merge_request(5, 42, merge_commit_message: 'Nice!')
     end
 
     it "should get the correct resource" do
       expect(a_put("/projects/5/merge_request/42/merge").
-        with(:body => {:merge_commit_message => 'Nice!'})).to have_been_made
+        with(body: { merge_commit_message: 'Nice!' })).to have_been_made
     end
 
     it "should return information about merged merge request" do

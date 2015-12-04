@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def users(options={})
-      get("/users", :query => options)
+      get("/users", query: options)
     end
 
     # Gets information about a user.
@@ -74,7 +74,7 @@ class Gitlab::Client
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def edit_user(user_id, options={})
-      put("/users/#{user_id}", :body => options)
+      put("/users/#{user_id}", body: options)
     end
 
     # Deletes a user.
@@ -120,7 +120,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     # @note This method doesn't require private_token to be set.
     def session(email, password)
-      post("/session", :body => {:email => email, :password => password})
+      post("/session", body: { email: email, password: password })
     end
 
     # Gets a list of user's SSH keys.
@@ -133,7 +133,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def ssh_keys(options={})
-      get("/user/keys", :query => options)
+      get("/user/keys", query: options)
     end
 
     # Gets information about SSH key.
@@ -156,7 +156,7 @@ class Gitlab::Client
     # @param  [String] key The SSH key body.
     # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
     def create_ssh_key(title, key)
-      post("/user/keys", :body => {:title => title, :key => key})
+      post("/user/keys", body: { title: title, key: key })
     end
 
     # Deletes an SSH key.
@@ -169,6 +169,5 @@ class Gitlab::Client
     def delete_ssh_key(id)
       delete("/user/keys/#{id}")
     end
-
   end
 end

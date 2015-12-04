@@ -17,9 +17,9 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def issues(project=nil, options={})
       if project.to_i.zero?
-        get("/issues", :query => options)
+        get("/issues", query: options)
       else
-        get("/projects/#{project}/issues", :query => options)
+        get("/projects/#{project}/issues", query: options)
       end
     end
 
@@ -50,8 +50,8 @@ class Gitlab::Client
     # @option options [String] :labels Comma-separated label names for an issue.
     # @return [Gitlab::ObjectifiedHash] Information about created issue.
     def create_issue(project, title, options={})
-      body = {:title => title}.merge(options)
-      post("/projects/#{project}/issues", :body => body)
+      body = { title: title }.merge(options)
+      post("/projects/#{project}/issues", body: body)
     end
 
     # Updates an issue.
@@ -70,7 +70,7 @@ class Gitlab::Client
     # @option options [String] :state_event The state event of an issue ('close' or 'reopen').
     # @return [Gitlab::ObjectifiedHash] Information about updated issue.
     def edit_issue(project, id, options={})
-      put("/projects/#{project}/issues/#{id}", :body => options)
+      put("/projects/#{project}/issues/#{id}", body: options)
     end
 
     # Closes an issue.
@@ -82,7 +82,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of an issue.
     # @return [Gitlab::ObjectifiedHash] Information about closed issue.
     def close_issue(project, id)
-      put("/projects/#{project}/issues/#{id}", :body => {:state_event => 'close'})
+      put("/projects/#{project}/issues/#{id}", body: { state_event: 'close' })
     end
 
     # Reopens an issue.
@@ -94,7 +94,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of an issue.
     # @return [Gitlab::ObjectifiedHash] Information about reopened issue.
     def reopen_issue(project, id)
-      put("/projects/#{project}/issues/#{id}", :body => {:state_event => 'reopen'})
+      put("/projects/#{project}/issues/#{id}", body: { state_event: 'reopen' })
     end
   end
 end

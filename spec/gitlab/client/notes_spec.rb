@@ -110,7 +110,7 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         expect(a_post("/projects/3/notes").
-          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
+          with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
       it "should return information about a created note" do
@@ -127,7 +127,7 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         expect(a_post("/projects/3/issues/7/notes").
-          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
+          with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
       it "should return information about a created note" do
@@ -144,7 +144,7 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         expect(a_post("/projects/3/snippets/7/notes").
-          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
+          with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
       it "should return information about a created note" do
@@ -161,7 +161,7 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         expect(a_post("/projects/3/merge_requests/7/notes").
-          with(:body => {:body => 'The solution is rather tricky'})).to have_been_made
+          with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
       it "should return information about a created note" do

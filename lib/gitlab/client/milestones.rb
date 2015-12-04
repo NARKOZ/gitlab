@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def milestones(project, options={})
-      get("/projects/#{project}/milestones", :query => options)
+      get("/projects/#{project}/milestones", query: options)
     end
 
     # Gets a single milestone.
@@ -39,7 +39,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def milestone_issues(project, milestone, options={})
-      get("/projects/#{project}/milestones/#{milestone}/issues", :query => options)
+      get("/projects/#{project}/milestones/#{milestone}/issues", query: options)
     end
 
     # Creates a new milestone.
@@ -54,8 +54,8 @@ class Gitlab::Client
     # @option options [String] :due_date The due date of a milestone.
     # @return [Gitlab::ObjectifiedHash] Information about created milestone.
     def create_milestone(project, title, options={})
-      body = {:title => title}.merge(options)
-      post("/projects/#{project}/milestones", :body => body)
+      body = { title: title }.merge(options)
+      post("/projects/#{project}/milestones", body: body)
     end
 
     # Updates a milestone.
@@ -72,7 +72,7 @@ class Gitlab::Client
     # @option options [String] :state_event The state of a milestone ('close' or 'activate').
     # @return [Gitlab::ObjectifiedHash] Information about updated milestone.
     def edit_milestone(project, id, options={})
-      put("/projects/#{project}/milestones/#{id}", :body => options)
+      put("/projects/#{project}/milestones/#{id}", body: options)
     end
   end
 end

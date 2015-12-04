@@ -19,7 +19,7 @@ describe Gitlab::PaginatedResponse do
 
   context '.parse_headers!' do
     it "should parse headers" do
-      @paginated_response.parse_headers!({ 'Link' => "<http://example.com/api/v3/projects?page=1&per_page=5>; rel=\"first\", <http://example.com/api/v3/projects?page=20&per_page=5>; rel=\"last\"" })
+      @paginated_response.parse_headers!('Link' => "<http://example.com/api/v3/projects?page=1&per_page=5>; rel=\"first\", <http://example.com/api/v3/projects?page=20&per_page=5>; rel=\"last\"")
       client = @paginated_response.client = double('client')
       first_page_response = double('first_page_response')
       last_page_response = double('last_page_response')
@@ -43,7 +43,7 @@ describe Gitlab::PaginatedResponse do
       allow(@paginated_response).to receive(:has_next_page).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)
       allow(next_page).to receive(:has_next_page).and_return(false)
-      expect {|b| @paginated_response.each_page(&b) }.to yield_successive_args(@paginated_response, next_page)
+      expect { |b| @paginated_response.each_page(&b) }.to yield_successive_args(@paginated_response, next_page)
     end
   end
 

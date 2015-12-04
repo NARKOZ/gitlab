@@ -13,10 +13,10 @@ class Gitlab::Client
     # @option options [String] :scope Scope of projects. 'owned' for list of projects owned by the authenticated user, 'all' to get all projects (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>]
     def projects(options={})
-      if (options[:scope])
-        get("/projects/#{options[:scope]}", :query => options)
+      if options[:scope]
+        get("/projects/#{options[:scope]}", query: options)
       else
-        get("/projects", :query => options)
+        get("/projects", query: options)
       end
     end
 
@@ -33,9 +33,8 @@ class Gitlab::Client
     # @option options [String] :sort Return requests sorted in asc or desc order
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_search(query, options={})
-      get("/projects/search/#{query}", :query => options)
+      get("/projects/search/#{query}", query: options)
     end
-
 
     # Gets information about a project.
     #
@@ -61,7 +60,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_events(project, options={})
-      get("/projects/#{project}/events", :query => options)
+      get("/projects/#{project}/events", query: options)
     end
 
     # Creates a new project.
@@ -87,7 +86,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about created project.
     def create_project(name, options={})
       url = options[:user_id] ? "/projects/user/#{options[:user_id]}" : "/projects"
-      post(url, :body => {:name => name}.merge(options))
+      post(url, body: { name: name }.merge(options))
     end
 
     # Deletes a project.
@@ -114,7 +113,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def team_members(project, options={})
-      get("/projects/#{project}/members", :query => options)
+      get("/projects/#{project}/members", query: options)
     end
 
     # Gets a project team member.
@@ -140,7 +139,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @return [Gitlab::ObjectifiedHash] Information about added team member.
     def add_team_member(project, id, access_level)
-      post("/projects/#{project}/members", :body => {:user_id => id, :access_level => access_level})
+      post("/projects/#{project}/members", body: { user_id: id, access_level: access_level })
     end
 
     # Updates a team member's project access level.
@@ -154,7 +153,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @return [Array<Gitlab::ObjectifiedHash>] Information about updated team member.
     def edit_team_member(project, id, access_level)
-      put("/projects/#{project}/members/#{id}", :body => {:access_level => access_level})
+      put("/projects/#{project}/members/#{id}", body: { access_level: access_level })
     end
 
     # Removes a user from project team.
@@ -182,7 +181,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_hooks(project, options={})
-      get("/projects/#{project}/hooks", :query => options)
+      get("/projects/#{project}/hooks", query: options)
     end
 
     # Gets a project hook.
@@ -212,8 +211,8 @@ class Gitlab::Client
     # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
     def add_project_hook(project, url, options={})
-      body = {:url => url}.merge(options)
-      post("/projects/#{project}/hooks", :body => body)
+      body = { url: url }.merge(options)
+      post("/projects/#{project}/hooks", body: body)
     end
 
     # Updates a project hook URL.
@@ -231,8 +230,8 @@ class Gitlab::Client
     # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about updated hook.
     def edit_project_hook(project, id, url, options={})
-      body = {:url => url}.merge(options)
-      put("/projects/#{project}/hooks/#{id}", :body => body)
+      body = { url: url }.merge(options)
+      put("/projects/#{project}/hooks/#{id}", body: body)
     end
 
     # Deletes a hook from project.
@@ -282,7 +281,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def deploy_keys(project, options={})
-      get("/projects/#{project}/keys", :query => options)
+      get("/projects/#{project}/keys", query: options)
     end
 
     # Gets a single project deploy key.
@@ -307,7 +306,7 @@ class Gitlab::Client
     # @param  [String] key The content of a deploy key.
     # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
     def create_deploy_key(project, title, key)
-      post("/projects/#{project}/keys", body: {title: title, key: key})
+      post("/projects/#{project}/keys", body: { title: title, key: key })
     end
 
     # Deletes a deploy key from project.
@@ -332,7 +331,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :sudo The username the project will be forked for
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
-    def create_fork(id, options = {})
+    def create_fork(id, options={})
       post("/projects/fork/#{id}", body: options)
     end
 
@@ -349,7 +348,7 @@ class Gitlab::Client
     # @option options [String] :description The name of a project
     # @return [Gitlab::ObjectifiedHash] Information about the edited project.
     def edit_project(id, options={})
-        put("/projects/#{id}", :query => options)
+      put("/projects/#{id}", query: options)
     end
   end
 end

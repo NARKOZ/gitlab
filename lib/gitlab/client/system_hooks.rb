@@ -26,7 +26,7 @@ class Gitlab::Client
     # @param  [String] url The hook URL.
     # @return [Gitlab::ObjectifiedHash]
     def add_hook(url)
-      post("/hooks", :body => {:url => url})
+      post("/hooks", body: { url: url })
     end
     alias_method :add_system_hook, :add_hook
 

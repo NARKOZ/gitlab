@@ -57,8 +57,8 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        body = {:email => "email", :password => "pass", :name => "email"}
-        expect(a_post("/users").with(:body => body)).to have_been_made
+        body = { email: "email", password: "pass", name: "email" }
+        expect(a_post("/users").with(body: body)).to have_been_made
       end
 
       it "should return information about a created user" do
@@ -69,9 +69,9 @@ describe Gitlab::Client do
     context "when bad request" do
       it "should throw an exception" do
         stub_post("/users", "error_already_exists", 409)
-        expect {
+        expect do
           Gitlab.create_user("email", "pass")
-        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+        end.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
       end
     end
   end
@@ -84,8 +84,8 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        body = {:email => "email", :password => "pass", :username => "username"}
-        expect(a_post("/users").with(:body => body)).to have_been_made
+        body = { email: "email", password: "pass", username: "username" }
+        expect(a_post("/users").with(body: body)).to have_been_made
       end
 
       it "should return information about a created user" do
@@ -96,22 +96,22 @@ describe Gitlab::Client do
     context "when bad request" do
       it "should throw an exception" do
         stub_post("/users", "error_already_exists", 409)
-        expect {
+        expect do
           Gitlab.create_user("email", "pass", "username")
-        }.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+        end.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
       end
     end
   end
 
   describe ".edit_user" do
     before do
-      @options = { :name => "Roberto" }
-      stub_put("/users/1", "user").with(:body => @options)
+      @options = { name: "Roberto" }
+      stub_put("/users/1", "user").with(body: @options)
       @user = Gitlab.edit_user(1, @options)
     end
 
     it "should get the correct resource" do
-      expect(a_put("/users/1").with(:body => @options)).to have_been_made
+      expect(a_put("/users/1").with(body: @options)).to have_been_made
     end
   end
 
@@ -168,16 +168,16 @@ describe Gitlab::Client do
 
     before do
       stub_request(:post, "#{Gitlab.endpoint}/session").
-        to_return(:body => load_fixture('session'), :status => 200)
+        to_return(body: load_fixture('session'), status: 200)
       @session = Gitlab.session("email", "pass")
     end
 
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
         Gitlab.endpoint = nil
-        expect {
+        expect do
           Gitlab.session("email", "pass")
-        }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
+        end.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
@@ -238,8 +238,8 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      body = {:title => "title", :key => "body"}
-      expect(a_post("/user/keys").with(:body => body)).to have_been_made
+      body = { title: "title", key: "body" }
+      expect(a_post("/user/keys").with(body: body)).to have_been_made
     end
 
     it "should return information about a created SSH key" do
@@ -261,5 +261,4 @@ describe Gitlab::Client do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
-
 end

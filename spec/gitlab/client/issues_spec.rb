@@ -60,7 +60,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_post("/projects/3/issues").
-        with(:body => {:title => 'title'})).to have_been_made
+        with(body: { title: 'title' })).to have_been_made
     end
 
     it "should return information about a created issue" do
@@ -72,12 +72,12 @@ describe Gitlab::Client do
   describe ".edit_issue" do
     before do
       stub_put("/projects/3/issues/33", "issue")
-      @issue = Gitlab.edit_issue(3, 33, :title => 'title')
+      @issue = Gitlab.edit_issue(3, 33, title: 'title')
     end
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/issues/33").
-        with(:body => {:title => 'title'})).to have_been_made
+        with(body: { title: 'title' })).to have_been_made
     end
 
     it "should return information about an edited issue" do
@@ -94,7 +94,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/issues/33").
-        with(:body => {:state_event => 'close'})).to have_been_made
+        with(body: { state_event: 'close' })).to have_been_made
     end
 
     it "should return information about an closed issue" do
@@ -111,7 +111,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/issues/33").
-        with(:body => {:state_event => 'reopen'})).to have_been_made
+        with(body: { state_event: 'reopen' })).to have_been_made
     end
 
     it "should return information about an reopened issue" do

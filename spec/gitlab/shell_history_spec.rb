@@ -8,7 +8,7 @@ describe Gitlab::Shell::History do
       @history = Gitlab::Shell::History.new(file_path: @file.path)
     end
 
-    after do @file.close(true) end
+    after { @file.close(true) }
 
     it 'saves the lines' do
       @history << 'party on, dudes'

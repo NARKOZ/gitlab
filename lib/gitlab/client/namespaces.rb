@@ -13,7 +13,7 @@ class Gitlab::Client
     # @options opttion [String]  :search The string to search for.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def namespaces(options={})
-      get("/namespaces", :query => options)
+      get("/namespaces", query: options)
     end
   end
 end

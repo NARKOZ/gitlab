@@ -60,7 +60,6 @@ describe Gitlab::CLI do
       end
     end
 
-
     context "when command with json output" do
       before do
         stub_get("/user", "user")
@@ -73,7 +72,6 @@ describe Gitlab::CLI do
         expect(JSON.parse(@output)['cmd']).to eq('Gitlab.user')
       end
     end
-
 
     context "when command with required fields" do
       before do

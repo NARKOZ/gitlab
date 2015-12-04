@@ -33,7 +33,6 @@ describe Gitlab::Client do
       expect(@project_search.first.name).to eq("Gitlab")
       expect(@project_search.first.owner.name).to eq("John Smith")
     end
-
   end
 
   describe ".project" do
@@ -91,9 +90,9 @@ describe Gitlab::Client do
   describe ".create_project for user" do
     before do
       stub_post("/users", "user")
-      @owner = Gitlab.create_user("john@example.com", "pass", {name: 'John Owner'})
+      @owner = Gitlab.create_user("john@example.com", "pass", name: 'John Owner')
       stub_post("/projects/user/#{@owner.id}", "project_for_user")
-      @project = Gitlab.create_project('Brute', {:user_id => @owner.id})
+      @project = Gitlab.create_project('Brute', user_id: @owner.id)
     end
 
     it "should return information about a created project" do
@@ -139,7 +138,7 @@ describe Gitlab::Client do
       before do
         stub_post("/projects/fork/3", "project_forked_for_user")
         @sudoed_username = 'jack.smith'
-        @project = Gitlab.create_fork(3, {sudo: @sudoed_username})
+        @project = Gitlab.create_fork(3, sudo: @sudoed_username)
       end
 
       it "should post to the correct resource" do
@@ -193,7 +192,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_post("/projects/3/members").
-          with(:body => {:user_id => '1', :access_level => '40'})).to have_been_made
+          with(body: { user_id: '1', access_level: '40' })).to have_been_made
     end
 
     it "should return information about an added team member" do
@@ -209,7 +208,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_put("/projects/3/members/1").
-          with(:body => {:access_level => '40'})).to have_been_made
+          with(body: { access_level: '40' })).to have_been_made
     end
 
     it "should return information about an edited team member" do
@@ -271,8 +270,8 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        body = {:url => "https://api.example.net/v1/webhooks/ci"}
-        expect(a_post("/projects/1/hooks").with(:body => body)).to have_been_made
+        body = { url: "https://api.example.net/v1/webhooks/ci" }
+        expect(a_post("/projects/1/hooks").with(body: body)).to have_been_made
       end
 
       it "should return information about an added hook" do
@@ -287,8 +286,8 @@ describe Gitlab::Client do
       end
 
       it "should get the correct resource" do
-        body = {:url => "https://api.example.net/v1/webhooks/ci", push_events: "true", merge_requests_events: "true"}
-        expect(a_post("/projects/1/hooks").with(:body => body)).to have_been_made
+        body = { url: "https://api.example.net/v1/webhooks/ci", push_events: "true", merge_requests_events: "true" }
+        expect(a_post("/projects/1/hooks").with(body: body)).to have_been_made
       end
 
       it "should return information about an added hook" do
@@ -304,8 +303,8 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      body = {:url => "https://api.example.net/v1/webhooks/ci"}
-      expect(a_put("/projects/1/hooks/1").with(:body => body)).to have_been_made
+      body = { url: "https://api.example.net/v1/webhooks/ci" }
+      expect(a_put("/projects/1/hooks/1").with(body: body)).to have_been_made
     end
 
     it "should return information about an edited hook" do
@@ -315,12 +314,12 @@ describe Gitlab::Client do
 
   describe ".edit_project" do
     before do
-      stub_put("/projects/3", "project_edit").with(:query => { :name => "Gitlab-edit" })
-      @edited_project =  Gitlab.edit_project(3, :name => "Gitlab-edit")
+      stub_put("/projects/3", "project_edit").with(query: { name: "Gitlab-edit" })
+      @edited_project = Gitlab.edit_project(3, name: "Gitlab-edit")
     end
 
     it "should get the correct resource" do
-      expect(a_put("/projects/3").with(:query => { :name => "Gitlab-edit" })).to have_been_made
+      expect(a_put("/projects/3").with(query: { name: "Gitlab-edit" })).to have_been_made
     end
 
     it "should return information about an edited project" do
@@ -332,8 +331,8 @@ describe Gitlab::Client do
     context "when empty response" do
       before do
         stub_request(:delete, "#{Gitlab.endpoint}/projects/1/hooks/1").
-          with(:headers => {'PRIVATE-TOKEN' => Gitlab.private_token}).
-          to_return(:body => '')
+          with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token }).
+          to_return(body: '')
         @hook = Gitlab.delete_project_hook(1, 1)
       end
 

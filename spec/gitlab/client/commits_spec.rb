@@ -12,13 +12,13 @@ describe Gitlab::Client do
   describe ".commits" do
     before do
       stub_get("/projects/3/repository/commits", "project_commits").
-        with(:query => {:ref_name => "api"})
-      @commits = Gitlab.commits(3, :ref_name => "api")
+        with(query: { ref_name: "api" })
+      @commits = Gitlab.commits(3, ref_name: "api")
     end
 
     it "should get the correct resource" do
       expect(a_get("/projects/3/repository/commits").
-        with(:query => {:ref_name => "api"})).to have_been_made
+        with(query: { ref_name: "api" })).to have_been_made
     end
 
     it "should return a paginated response of repository commits" do
@@ -34,8 +34,8 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6"))
-        .to have_been_made
+      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6")).
+        to have_been_made
     end
 
     it "should return a repository commit" do
@@ -50,8 +50,8 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff"))
-        .to have_been_made
+      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff")).
+        to have_been_made
     end
 
     it "should return a diff of a commit" do
@@ -66,8 +66,8 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments"))
-        .to have_been_made
+      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments")).
+        to have_been_made
     end
 
     it "should return commit's comments" do
@@ -101,7 +101,7 @@ describe Gitlab::Client do
 
     it "should get the correct resource" do
       expect(a_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses").
-        with(query: {all: true}))
+        with(query: { all: true }))
     end
 
     it "should get statuses of a commit" do
@@ -117,13 +117,13 @@ describe Gitlab::Client do
   describe ".update_commit_status" do
     before do
       stub_post("/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8", 'project_update_commit_status').
-        with(query: {name: 'test', ref: 'decreased-spec', state: 'failed'})
+        with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' })
       @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
     end
 
     it "should get the correct resource" do
       expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8').
-        with(query: {name: 'test', ref: 'decreased-spec', state: 'failed'}))
+        with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
     end
 
     it "should information about the newly created status" do

@@ -15,14 +15,14 @@ describe Gitlab::Request do
       expect(default_options).to be_a Hash
       expect(default_options[:parser]).to be_a Proc
       expect(default_options[:format]).to eq(:json)
-      expect(default_options[:headers]).to eq({'Accept' => 'application/json'})
+      expect(default_options[:headers]).to eq('Accept' => 'application/json')
       expect(default_options[:default_params]).to be_nil
     end
   end
 
   describe ".parse" do
     it "should return ObjectifiedHash" do
-      body = JSON.unparse({a: 1, b: 2})
+      body = JSON.unparse(a: 1, b: 2)
       expect(Gitlab::Request.parse(body)).to be_an Gitlab::ObjectifiedHash
       expect(Gitlab::Request.parse("true")).to be true
       expect(Gitlab::Request.parse("false")).to be false
@@ -35,9 +35,9 @@ describe Gitlab::Request do
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
         @request.endpoint = nil
-        expect {
+        expect do
           @request.set_request_defaults
-        }.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
+        end.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
@@ -48,35 +48,35 @@ describe Gitlab::Request do
 
       it "should set default_params" do
         @request.set_request_defaults('sudoer')
-        expect(Gitlab::Request.default_params).to eq({:sudo => 'sudoer'})
+        expect(Gitlab::Request.default_params).to eq(sudo: 'sudoer')
       end
     end
   end
 
   describe "#set_authorization_header" do
     it "should raise MissingCredentials when auth_token and private_token are not set" do
-      expect {
+      expect do
         @request.send(:set_authorization_header, {})
-      }.to raise_error(Gitlab::Error::MissingCredentials)
+      end.to raise_error(Gitlab::Error::MissingCredentials)
     end
 
     it "should set the correct header when given a private_token" do
       @request.private_token = 'ys9BtunN3rDKbaJCYXaN'
-      expect(@request.send(:set_authorization_header, {})).to eq({"PRIVATE-TOKEN"=>'ys9BtunN3rDKbaJCYXaN'})
+      expect(@request.send(:set_authorization_header, {})).to eq("PRIVATE-TOKEN" => 'ys9BtunN3rDKbaJCYXaN')
     end
 
     it "should set the correct header when setting an auth_token via the private_token config option" do
       @request.private_token = '3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603'
-      expect(@request.send(:set_authorization_header, {})).to eq({"Authorization"=>"Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603"})
+      expect(@request.send(:set_authorization_header, {})).to eq("Authorization" => "Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603")
     end
   end
 
   describe "#handle_error" do
     before do
       @array = Array.new(['First message.', 'Second message.'])
-      @obj_h = Gitlab::ObjectifiedHash.new({user: ['not set'],
-                                            password: ['too short'],
-                                            embed_entity: { foo: ['bar'], sna: ['fu'] }})
+      @obj_h = Gitlab::ObjectifiedHash.new(user: ['not set'],
+                                           password: ['too short'],
+                                           embed_entity: { foo: ['bar'], sna: ['fu'] })
     end
     context "when passed an ObjectifiedHash" do
       it "should return a joined string of error messages sorted by key" do
@@ -97,5 +97,4 @@ describe Gitlab::Request do
       end
     end
   end
-
 end

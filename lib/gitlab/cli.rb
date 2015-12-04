@@ -79,7 +79,7 @@ class Gitlab::CLI
 
   # Helper method that checks whether we want to get the output as json
   # @return [nil]
-  def self.render_output(cmd,args,data)
+  def self.render_output(cmd, args, data)
     if @json_output
       output_json(cmd, args, data)
     else
