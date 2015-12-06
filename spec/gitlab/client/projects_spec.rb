@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
+  it { should respond_to :search_projects }
+
   describe ".projects" do
     before do
       stub_get("/projects", "projects")

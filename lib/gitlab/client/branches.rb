@@ -29,7 +29,6 @@ class Gitlab::Client
     def branch(project, branch)
       get("/projects/#{project}/repository/branches/#{branch}")
     end
-
     alias_method :repo_branch, :branch
 
     # Protects a repository branch.

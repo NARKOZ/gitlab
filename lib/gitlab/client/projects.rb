@@ -20,11 +20,12 @@ class Gitlab::Client
       end
     end
 
-    # Search for projects by name
+    # Search for projects by name.
     #
     # @example
     #   Gitlab.project_search('gitlab')
-    #   Gitlab.project_search('gitlab', :order_by => 'last_activity_at')
+    #   Gitlab.project_search('gitlab', order_by: 'last_activity_at')
+    #   Gitlab.search_projects('gitlab', order_by: 'name', sort: 'asc')
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :per_page Number of projects to return per page
@@ -35,6 +36,7 @@ class Gitlab::Client
     def project_search(query, options={})
       get("/projects/search/#{query}", query: options)
     end
+    alias_method :search_projects, :project_search
 
     # Gets information about a project.
     #
