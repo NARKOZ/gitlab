@@ -1,7 +1,10 @@
 ## Change Log
 
-### upcoming
-- **Your contribution here.**
+### 3.6.0 (11/12/2015)
+
+- Improved output of the CLI help (@thomasdarimont)
+- Added `search_projects` alias for `project_search` method
+- Added pagination and auto pagination support (@nanofi)
 
 ### 3.5.0 (26/11/2015)
 - [a4f2150](https://github.com/NARKOZ/gitlab/commit/a4f21504a7288caace5b7433b49f49dc31e32b30) Add support for namespaces endpoint
