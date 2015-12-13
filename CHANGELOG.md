@@ -1,5 +1,9 @@
 ## Change Log
 
+### 3.6.1 (13/12/2015)
+
+- Fixed CLI output for collections
+
 ### 3.6.0 (11/12/2015)
 
 - Improved output of the CLI help (@thomasdarimont)
