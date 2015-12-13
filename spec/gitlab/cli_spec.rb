@@ -43,6 +43,23 @@ describe Gitlab::CLI do
         expect(@output).to include('John Smith')
       end
     end
+
+    context "when command is users" do
+      before do
+        stub_get("/users", "users")
+        @output = capture_output { Gitlab::CLI.run('users') }
+      end
+
+      it "should show executed command" do
+        expect(@output).to include('Gitlab.users')
+      end
+
+      it "should show users data" do
+        expect(@output).to include('name')
+        expect(@output).to include('John Smith')
+        expect(@output).to include('Jack Smith')
+      end
+    end
   end
 
   describe ".start" do

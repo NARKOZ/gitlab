@@ -93,7 +93,7 @@ class Gitlab::CLI
       case data
       when Gitlab::ObjectifiedHash
         puts record_table([data], cmd, args)
-      when Array
+      when Gitlab::PaginatedResponse
         puts record_table(data, cmd, args)
       else # probably just an error msg
         puts data
@@ -107,7 +107,7 @@ class Gitlab::CLI
         hash_result = case data
                       when Gitlab::ObjectifiedHash
                         record_hash([data], cmd, args, true)
-                      when Array
+                      when Gitlab::PaginatedResponse
                         record_hash(data, cmd, args)
                       else
                         { cmd: cmd, data: data, args: args }
