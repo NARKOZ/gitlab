@@ -105,8 +105,7 @@ For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/f
 
 ## CLI
 
-Configuration example:
-
+It is possible to use this gem as a command line interface to gitlab. In order to make that work you need to set a few environment variables:
 ```sh
 export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v3
 export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
@@ -116,16 +115,23 @@ export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
 export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
 ```
 
+Usage:
+
+When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
+
 Usage examples:
 
 ```sh
 # list users
+# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#users-instance_method
 gitlab users
 
 # get current user
+# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#user-instance_method
 gitlab user
 
 # get a user
+# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#user-instance_method
 gitlab user 2
 
 # filter output
@@ -137,6 +143,7 @@ gitlab user --except=email,bio
 gitlab user 2 --json
 
 # passing options hash to a command (use YAML)
+# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
