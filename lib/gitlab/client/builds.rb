@@ -6,7 +6,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.builds(5)
-    #   Gitlab.builds(5, :per_page =>10, :page => 2)
+    #   Gitlab.builds(5, { per_page: 10, page:  2 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -34,7 +34,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.commit_builds(5, 'asdf')
-    #   Gitlab.commit_builds(5, 'asdf', :per_page =>10, :page => 2)
+    #   Gitlab.commit_builds(5, 'asdf', { per_page: 10, page: 2 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] sha The SHA checksum of a commit.

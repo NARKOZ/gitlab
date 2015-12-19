@@ -8,7 +8,7 @@ class Gitlab::Client
     # @example
     #   Gitlab.issues
     #   Gitlab.issues(5)
-    #   Gitlab.issues(:per_page => 40)
+    #   Gitlab.issues({ per_page: 40 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -39,7 +39,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_issue(5, 'New issue')
-    #   Gitlab.create_issue(5, 'New issue', :description => "This is a new issue", :assignee_id => 42)
+    #   Gitlab.create_issue(5, 'New issue', { description: 'This is a new issue', assignee_id: 42 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] title The title of an issue.
@@ -57,7 +57,7 @@ class Gitlab::Client
     # Updates an issue.
     #
     # @example
-    #   Gitlab.edit_issue(6, 1, :title => 'Updated title')
+    #   Gitlab.edit_issue(6, 1, { title: 'Updated title' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of an issue.
