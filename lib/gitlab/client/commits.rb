@@ -6,7 +6,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.commits('viking')
-    #   Gitlab.repo_commits('gitlab', :ref_name => 'api')
+    #   Gitlab.repo_commits('gitlab', { ref_name: 'api' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -84,8 +84,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
-    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', name: 'jenkins')
-    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', name: 'jenkins', all: true)
+    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', { name: 'jenkins' })
+    #   Gitlab.commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', { name: 'jenkins', all: true })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] sha The commit hash
@@ -103,8 +103,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'success')
-    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'failed', name: 'jenkins')
-    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'canceled', name: 'jenkins', target_url: 'http://example.com/builds/1')
+    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'failed', { name: 'jenkins' })
+    #   Gitlab.update_commit_status(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'canceled', { name: 'jenkins', target_url: 'http://example.com/builds/1' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] sha The commit hash

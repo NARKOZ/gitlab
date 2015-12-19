@@ -31,7 +31,7 @@ class Gitlab::Client
     # Creates a new snippet.
     #
     # @example
-    #   Gitlab.create_snippet(42, {:title => 'REST', :file_name => 'api.rb', :code => 'some code'})
+    #   Gitlab.create_snippet(42, { title: 'REST', file_name: 'api.rb', code: 'some code' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -47,7 +47,7 @@ class Gitlab::Client
     # Updates a snippet.
     #
     # @example
-    #   Gitlab.edit_snippet(42, 34, :file_name => 'README.txt')
+    #   Gitlab.edit_snippet(42, 34, { file_name: 'README.txt' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a snippet.

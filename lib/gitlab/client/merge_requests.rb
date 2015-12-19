@@ -6,7 +6,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_requests(5)
-    #   Gitlab.merge_requests(:per_page => 40)
+    #   Gitlab.merge_requests({ per_page: 40 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -33,9 +33,9 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_merge_request(5, 'New merge request',
-    #     :source_branch => 'source_branch', :target_branch => 'target_branch')
+    #     { source_branch: 'source_branch', target_branch: 'target_branch' })
     #   Gitlab.create_merge_request(5, 'New merge request',
-    #     :source_branch => 'source_branch', :target_branch => 'target_branch', :assignee_id => 42)
+    #     { source_branch: 'source_branch', target_branch: 'target_branch', assignee_id: 42 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] title The title of a merge request.
@@ -53,7 +53,7 @@ class Gitlab::Client
     # Updates a merge request.
     #
     # @example
-    #   Gitlab.update_merge_request(5, 42, :title => 'New title')
+    #   Gitlab.update_merge_request(5, 42, { title: 'New title' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.
@@ -71,7 +71,7 @@ class Gitlab::Client
     # Accepts a merge request.
     #
     # @example
-    #   Gitlab.accept_merge_request(5, 42, :merge_commit_message => 'Nice!')
+    #   Gitlab.accept_merge_request(5, 42, { merge_commit_message: 'Nice!' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.
@@ -129,7 +129,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_request_comments(5, 1)
-    #   Gitlab.merge_request_comments(5, 1, :per_page =>10, :page => 2)
+    #   Gitlab.merge_request_comments(5, 1, { per_page: 10, page: 2 })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a merge request.

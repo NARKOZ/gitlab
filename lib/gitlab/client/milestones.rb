@@ -61,7 +61,7 @@ class Gitlab::Client
     # Updates a milestone.
     #
     # @example
-    #   Gitlab.edit_milestone(5, 2, :state_event => 'activate')
+    #   Gitlab.edit_milestone(5, 2, { state_event: 'activate' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a milestone.

@@ -29,8 +29,8 @@ class Gitlab::Client
     # Updates a label.
     #
     # @example
-    #   Gitlab.edit_label(42, "Backlog", :new_name => 'TODO')
-    #   Gitlab.edit_label(42, "Backlog", :new_name => 'TODO', :color => '#DD10AA')
+    #   Gitlab.edit_label(42, "Backlog", { new_name: 'TODO' })
+    #   Gitlab.edit_label(42, "Backlog", { new_name: 'TODO', color: '#DD10AA' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] name The name of a label.

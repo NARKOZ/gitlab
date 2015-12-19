@@ -6,7 +6,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.groups
-    #   Gitlab.groups(:per_page => 40)
+    #   Gitlab.groups({ per_page: 40, page: 2 })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
@@ -31,7 +31,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_group('new-group', 'group-path')
-    #   Gitlab.create_group('gitlab', 'gitlab-path', :description => "New Gitlab project")
+    #   Gitlab.create_group('gitlab', 'gitlab-path', { description: 'New Gitlab project' })
     #
     # @param  [String] name The name of a group.
     # @param  [String] path The path of a group.
@@ -55,7 +55,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.group_members(1)
-    #   Gitlab.group_members(1, :per_page => 40)
+    #   Gitlab.group_members(1, { per_page: 40 })
     #
     # @param  [Integer] id The ID of a group.
     # @param  [Hash] options A customizable set of options.

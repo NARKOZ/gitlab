@@ -24,8 +24,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.project_search('gitlab')
-    #   Gitlab.project_search('gitlab', order_by: 'last_activity_at')
-    #   Gitlab.search_projects('gitlab', order_by: 'name', sort: 'asc')
+    #   Gitlab.project_search('gitlab', { order_by: 'last_activity_at' })
+    #   Gitlab.search_projects('gitlab', { order_by: 'name', sort: 'asc' })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :per_page Number of projects to return per page
@@ -69,8 +69,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_project('gitlab')
-    #   Gitlab.create_project('viking', :description => 'Awesome project')
-    #   Gitlab.create_project('Red', :wall_enabled => false)
+    #   Gitlab.create_project('viking', { description: 'Awesome project' })
+    #   Gitlab.create_project('Red', { wall_enabled: false })
     #
     # @param  [String] name The name of a project.
     # @param  [Hash] options A customizable set of options.
@@ -326,7 +326,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_fork(42)
-    #   Gitlab.create_fork(42, :sudo => 'another_username')
+    #   Gitlab.create_fork(42, { sudo: 'another_username' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
@@ -340,7 +340,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.edit_project(42)
-    #   Gitlab.edit_project(42, :name => 'project_name')
+    #   Gitlab.edit_project(42, { name: 'project_name' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.

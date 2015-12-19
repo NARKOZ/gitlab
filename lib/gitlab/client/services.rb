@@ -4,9 +4,9 @@ class Gitlab::Client
     # Full service params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/services.md
     #
     # @example
-    #   Gitlab.change_service(42, :redmine, new_issue_url: 'https://example.com/projects/test_project/issues/new',
-    #                                       project_url: 'https://example.com/projects/test_project/issues',
-    #                                       issues_url: 'https://example.com/issues/:id')
+    #   Gitlab.change_service(42, :redmine, { new_issue_url: 'https://example.com/projects/test_project/issues/new',
+    #                                         project_url: 'https://example.com/projects/test_project/issues',
+    #                                         issues_url: 'https://example.com/issues/:id' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] service A service code name.

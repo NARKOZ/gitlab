@@ -88,6 +88,7 @@ module Gitlab::Help
       output_str.gsub!(/\s(@)/, "\n@")
       output_str.gsub!(/(\])\n(\:)/, '\1 \2')
       output_str.gsub!(/(\:.*)(\n)(.*\.)/, '\1 \3')
+      output_str.gsub!(/\{(.+)\}/, '"{\1}"')
       
     end
   end # class << self

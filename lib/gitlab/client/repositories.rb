@@ -56,7 +56,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.tree(42)
-    #   Gitlab.tree(42, path: "Gemfile")
+    #   Gitlab.tree(42, { path: 'Gemfile' })
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Hash] options A customizable set of options.
