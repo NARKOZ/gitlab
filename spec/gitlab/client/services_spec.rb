@@ -33,7 +33,7 @@ describe Gitlab::Client do
       expect(a_put("/projects/3/services/redmine").with(body: body)).to have_been_made
     end
 
-    it "should return information about a new snippet" do
+    it "should return information about a new service" do
       expect(@service).to be_truthy
     end
   end
@@ -48,7 +48,7 @@ describe Gitlab::Client do
       expect(a_delete("/projects/3/services/redmine")).to have_been_made
     end
 
-    it "should return information about a deleted snippet" do
+    it "should return information about a deleted service" do
       expect(@service).to be_truthy
     end
   end
