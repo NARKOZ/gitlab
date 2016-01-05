@@ -261,4 +261,124 @@ describe Gitlab::Client do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
+
+  describe ".emails" do
+    describe "without user ID" do
+      before do
+        stub_get("/user/emails", "user_emails")
+        @emails = Gitlab.emails
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/user/emails")).to have_been_made
+      end
+
+      it "should return a information about a emails of user" do
+        email = @emails.first
+        expect(email.id).to eq 1
+        expect(email.email).to eq("email@example.com")
+      end
+    end
+
+    describe "with user ID" do
+      before do
+        stub_get("/users/2/emails", "user_emails")
+        @emails = Gitlab.emails(2)
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/users/2/emails")).to have_been_made
+      end
+
+      it "should return a information about a emails of user" do
+        email = @emails.first
+        expect(email.id).to eq 1
+        expect(email.email).to eq("email@example.com")
+      end
+    end
+  end
+
+  describe ".email" do
+    before do
+      stub_get("/user/emails/2", "user_email")
+      @email = Gitlab.email(2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/user/emails/2")).to have_been_made
+    end
+
+    it "should return a information about a email of user" do
+      expect(@email.id).to eq 1
+      expect(@email.email).to eq("email@example.com")
+    end
+  end
+
+  describe ".add_email" do
+    describe "without user ID" do
+      before do
+        stub_post("/user/emails", "user_email")
+        @email = Gitlab.add_email("email@example.com")
+      end
+
+      it "should get the correct resource" do
+        body = { email: "email@example.com" }
+        expect(a_post("/user/emails").with(body: body)).to have_been_made
+      end
+
+      it "should return information about a new email" do
+        expect(@email.id).to eq(1)
+        expect(@email.email).to eq("email@example.com")
+      end
+    end
+
+    describe "with user ID" do
+      before do
+        stub_post("/users/2/emails", "user_email")
+        @email = Gitlab.add_email("email@example.com", 2)
+      end
+
+      it "should get the correct resource" do
+        body = { email: "email@example.com" }
+        expect(a_post("/users/2/emails").with(body: body)).to have_been_made
+      end
+
+      it "should return information about a new email" do
+        expect(@email.id).to eq(1)
+        expect(@email.email).to eq("email@example.com")
+      end
+    end
+  end
+
+  describe ".delete_email" do
+    describe "without user ID" do
+      before do
+        stub_delete("/user/emails/1", "user_email")
+        @email = Gitlab.delete_email(1)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/user/emails/1")).to have_been_made
+      end
+
+      it "should return information about a deleted email" do
+        expect(@email).to be_truthy
+      end
+    end
+
+    describe "with user ID" do
+      before do
+        stub_delete("/users/2/emails/1", "user_email")
+        @email = Gitlab.delete_email(1, 2)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/users/2/emails/1")).to have_been_made
+      end
+
+      it "should return information about a deleted email" do
+        expect(@email).to be_truthy
+      end
+    end
+  end
 end

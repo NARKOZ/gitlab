@@ -169,5 +169,60 @@ class Gitlab::Client
     def delete_ssh_key(id)
       delete("/user/keys/#{id}")
     end
+
+    # Gets user emails.
+    # Will return emails an authorized user if no user ID passed.
+    #
+    # @example
+    #   Gitlab.emails
+    #   Gitlab.emails(2)
+    #
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def emails(user_id=nil)
+      url = user_id.to_i.zero? ? "/user/emails" : "/users/#{user_id}/emails"
+      get(url)
+    end
+
+    # Get a single email.
+    #
+    # @example
+    #   Gitlab.email(3)
+    #
+    # @param  [Integer] id The ID of a email.
+    # @return [Gitlab::ObjectifiedHash]
+    def email(id)
+      get("/user/emails/#{id}")
+    end
+
+    # Creates a new email
+    # Will create a new email an authorized user if no user ID passed.
+    #
+    # @example
+    #   Gitlab.add_email('email@example.com')
+    #   Gitlab.add_email('email@example.com', 2)
+    #
+    # @param  [String] email Email address
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def add_email(email, user_id=nil)
+      url = user_id.to_i.zero? ? "/user/emails" : "/users/#{user_id}/emails"
+      post(url, body: {email: email})
+    end
+
+    # Delete email
+    # Will delete a email an authorized user if no user ID passed.
+    #
+    # @example
+    #   Gitlab.delete_email(2)
+    #   Gitlab.delete_email(3, 2)
+    #
+    # @param  [Integer] id Email address ID
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Boolean]
+    def delete_email(id, user_id=nil)
+      url = user_id.to_i.zero? ? "/user/emails/#{id}" : "/users/#{user_id}/emails/#{id}"
+      delete(url)
+    end
   end
 end
