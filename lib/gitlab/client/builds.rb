@@ -36,7 +36,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Gitlab::ObjectifiedHash] The merge request's comments.
+    # @return [Array<Gitlab::ObjectifiedHash>] The list of builds.
     def commit_builds(project, id, options={})
       get("/projects/#{project}/repository/commits/#{sha}/builds", query: options)
     end
@@ -48,7 +48,7 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a build.
-    # @return [Gitlab::ObjectifiedHash] The merge request's changes.
+    # @return [Gitlab::ObjectifiedHash] The builds changes.
     def build_cancel(project, id)
       post("/projects/#{project}/builds/#{id}/cancel")
     end
@@ -60,7 +60,7 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a build.
-    # @return [Gitlab::ObjectifiedHash] The merge request's changes.
+    # @return [Array<Gitlab::ObjectifiedHash>] The builds changes.
     def build_retry(project, id)
       post("/projects/#{project}/builds/#{id}/retry")
     end
