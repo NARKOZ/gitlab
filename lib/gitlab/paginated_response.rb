@@ -23,8 +23,8 @@ module Gitlab
       end
     end
 
-    def respond_to?(method, include_all=false)
-      super || @array.respond_to?(method, include_all)
+    def respond_to_missing?(method_name, include_private = false)
+      super || @array.respond_to?(method_name, include_private)
     end
 
     def parse_headers!(headers)
