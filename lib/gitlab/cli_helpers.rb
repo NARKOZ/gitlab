@@ -94,7 +94,7 @@ class Gitlab::CLI
       when Gitlab::ObjectifiedHash
         puts record_table([data], cmd, args)
       when Gitlab::PaginatedResponse
-        puts record_table(data, cmd, args)
+        puts record_table(data.auto_paginate, cmd, args)
       else # probably just an error msg
         puts data
       end
@@ -108,7 +108,7 @@ class Gitlab::CLI
                       when Gitlab::ObjectifiedHash
                         record_hash([data], cmd, args, true)
                       when Gitlab::PaginatedResponse
-                        record_hash(data, cmd, args)
+                        record_hash(data.auto_paginate, cmd, args)
                       else
                         { cmd: cmd, data: data, args: args }
         end
