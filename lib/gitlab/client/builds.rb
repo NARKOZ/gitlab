@@ -37,7 +37,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>] The list of builds.
-    def commit_builds(project, id, options={})
+    def commit_builds(project, sha, options={})
       get("/projects/#{project}/repository/commits/#{sha}/builds", query: options)
     end
 
