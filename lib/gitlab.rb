@@ -25,8 +25,8 @@ module Gitlab
   end
 
   # Delegate to Gitlab::Client
-  def self.respond_to?(method)
-    client.respond_to?(method) || super
+  def respond_to_missing?(method_name, include_private = false)
+    client.respond_to?(method_name) || super
   end
 
   # Delegate to HTTParty.http_proxy
