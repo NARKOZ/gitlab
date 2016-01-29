@@ -76,7 +76,6 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :description The description of a project.
     # @option options [String] :default_branch The default branch of a project.
-    # @option options [String] :group_id The group in which to create a project.
     # @option options [String] :namespace_id The namespace in which to create a project.
     # @option options [Boolean] :wiki_enabled The wiki integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
