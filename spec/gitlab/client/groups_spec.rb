@@ -113,6 +113,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".edit_group_member" do
+    before do
+      stub_put("/groups/3/members/1", "group_member_edit")
+      @member = Gitlab.edit_group_member(3, 1, 50)
+    end
+
+    it "should get the correct resource" do
+      expect(a_put("/groups/3/members/1")
+          .with(body: { access_level: '50'})).to have_been_made
+    end
+
+    it "should return information about the edited member" do
+      expect(@member.access_level).to eq(50)
+    end
+  end
+
   describe ".remove_group_member" do
     before do
       stub_delete("/groups/3/members/1", "group_member_delete")
