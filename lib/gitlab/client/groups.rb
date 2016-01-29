@@ -69,6 +69,19 @@ class Gitlab::Client
       post("/groups/#{team_id}/members", body: { user_id: user_id, access_level: access_level })
     end
 
+    # Edit a user of a group.
+    #
+    # @example
+    #   Gitlab.edit_group_member(1, 2, 40)
+    #
+    # @param  [Integer] team_id The group id of member to edit.
+    # @param  [Integer] user_id The user id of the user to edit.
+    # @param  [Integer] access_level Project access level.
+    # @return [Gitlab::ObjectifiedHash] Information about edited team member.
+    def edit_group_member(team_id, user_id, access_level)
+      put("/groups/#{team_id}/members/#{user_id}", body: { access_level: access_level })
+    end
+
     # Removes user from user group.
     #
     # @example
