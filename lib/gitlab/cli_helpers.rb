@@ -230,6 +230,7 @@ class Gitlab::CLI
           arg = File.read(arg)
         end
         yaml = YAML.load(arg)
+				yaml = {} if yaml.is_a?(String)
       rescue Psych::SyntaxError
         raise "error: Argument is not valid YAML syntax: #{arg}"
       end
