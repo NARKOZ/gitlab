@@ -226,6 +226,9 @@ class Gitlab::CLI
     # YAML::load on a single argument
     def yaml_load(arg)
       begin
+        if File.exists?(arg)
+          arg = File.read(arg)
+        end
         yaml = YAML.load(arg)
       rescue Psych::SyntaxError
         raise "error: Argument is not valid YAML syntax: #{arg}"
