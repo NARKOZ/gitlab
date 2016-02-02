@@ -218,8 +218,6 @@ class Gitlab::CLI
             raise "error: cannot convert hash key to symbol: #{key}"
           end
 				end
-			else
-				hash = {}
       end
 
       hash
