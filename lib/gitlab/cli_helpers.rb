@@ -217,7 +217,9 @@ class Gitlab::CLI
           rescue NoMethodError
             raise "error: cannot convert hash key to symbol: #{key}"
           end
-        end
+				end
+			else
+				hash = {}
       end
 
       hash
