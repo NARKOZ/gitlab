@@ -123,5 +123,17 @@ class Gitlab::Client
     def merge_request_changes(project, id)
       get("/projects/#{project}/merge_request/#{id}/changes")
     end
+
+    # Gets the commits of a merge request.
+    #
+    # @example
+    #   Gitlab.merge_request_commits(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Array<Gitlab::ObjectifiedHash>] The merge request's commits.
+    def merge_request_commits(project, id)
+      get("/projects/#{project}/merge_request/#{id}/commits")
+    end
   end
 end

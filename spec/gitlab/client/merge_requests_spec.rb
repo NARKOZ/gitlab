@@ -151,4 +151,27 @@ describe Gitlab::Client do
       expect(@mr_changes.target_branch).to eq('master')
     end
   end
+
+  describe ".merge_request_commits" do
+    before do
+      stub_get("/projects/3/merge_request/2/commits", "merge_request_commits")
+      @mr_commits = Gitlab.merge_request_commits(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/merge_request/2/commits")).to have_been_made
+    end
+
+    it "should return the merge request commits" do
+      expect(@mr_commits).to be_a Gitlab::PaginatedResponse
+      expect(@mr_commits.size).to eq 2
+      expect(@mr_commits.first.id).to eq "a2da7552f26d5b46a6a09bb8b7b066e3a102be7d"
+      expect(@mr_commits.first.short_id).to eq "a2da7552"
+      expect(@mr_commits.first.title).to eq "piyo"
+      expect(@mr_commits.first.author_name).to eq "example"
+      expect(@mr_commits.first.author_email).to eq "example@example.com"
+      expect(@mr_commits[1].short_id).to eq "3ce50959"
+      expect(@mr_commits[1].title).to eq "hoge"
+    end
+  end
 end
