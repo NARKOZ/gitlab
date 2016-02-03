@@ -22,7 +22,7 @@ module Gitlab
   def self.method_missing(method, *args, &block)
     args.flatten!
     if args.last.is_a?(Hash)
-      options = args.pop
+      options = args.last
     else
       options = {}
     end
