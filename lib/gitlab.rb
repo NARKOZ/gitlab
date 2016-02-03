@@ -20,12 +20,7 @@ module Gitlab
 
   # Delegate to Gitlab::Client
   def self.method_missing(method, *args, &block)
-    args.flatten!
-    if args.last.is_a?(Hash)
-      options = args.last
-    else
-      options = {}
-    end
+    options = args.flatten.last.is_a?(Hash) ? args.flatten.last : {}
     return super unless client(options).respond_to?(method)
     client(options).send(method, *args, &block)
   end

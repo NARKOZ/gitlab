@@ -138,13 +138,15 @@ describe Gitlab::Client do
 
     context "with the sudo option" do
       before do
-        stub_post("/projects/fork/3", "project_forked_for_user")
         @sudoed_username = 'jack.smith'
+        stub_post("/projects/fork/3?sudo=#{@sudoed_username}", "project_forked_for_user").
+            with(body: { sudo: @sudoed_username })
         @project = Gitlab.create_fork(3, sudo: @sudoed_username)
       end
 
       it "should post to the correct resource" do
-        expect(a_post("/projects/fork/3")).to have_been_made
+        expect(a_post("/projects/fork/3?sudo=#{@sudoed_username}").
+            with(body: { sudo: @sudoed_username })).to have_been_made
       end
 
       it "should return information about the forked project" do
