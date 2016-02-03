@@ -6,7 +6,7 @@ require 'gitlab/page_links'
 require 'gitlab/paginated_response'
 require 'gitlab/request'
 require 'gitlab/api'
-require 'gitlab/ci/client'
+require 'gitlab/client'
 
 module Gitlab
   extend Configuration
