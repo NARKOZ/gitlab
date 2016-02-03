@@ -6,7 +6,7 @@ require 'gitlab/page_links'
 require 'gitlab/paginated_response'
 require 'gitlab/request'
 require 'gitlab/api'
-require 'gitlab/client'
+require 'gitlab/ci/client'
 
 module Gitlab
   extend Configuration
@@ -15,13 +15,19 @@ module Gitlab
   #
   # @return [Gitlab::Client]
   def self.client(options={})
-    Gitlab::Client.new(options)
+    Gitlab::CI::Client.new(options)
   end
 
   # Delegate to Gitlab::Client
   def self.method_missing(method, *args, &block)
-    return super unless client(*args).respond_to?(method)
-    client(*args).send(method, *args, &block)
+    args.flatten!
+    if args.last.is_a?(Hash)
+      options = args.pop
+    else
+      options = {}
+    end
+    return super unless client(options).respond_to?(method)
+    client(options).send(method, *args, &block)
   end
 
   # Delegate to Gitlab::Client
