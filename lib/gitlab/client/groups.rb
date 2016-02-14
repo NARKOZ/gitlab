@@ -120,5 +120,15 @@ class Gitlab::Client
       options[:search] = search
       get("/groups", query: options)
     end
+
+    # Get a list of projects under a group
+    # @example
+    #   Gitlab.group_projects(1)
+    #
+    # @param [Integer] id The ID of a group
+    # @return [Array<Gitlab::ObjectifiedHash>] List of projects under a group
+    def group_projects(id)
+      get("/groups/#{id}/projects")
+    end
   end
 end
