@@ -144,6 +144,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".group_projects" do
+    before do
+      stub_get("/groups/4/projects", "group_projects")
+      @projects = Gitlab.group_projects(4)
+    end
+
+    it "should get the list of projects" do
+      expect(a_get("/groups/4/projects")).to have_been_made
+    end
+
+    it "should return a list of of projects under a group" do
+      expect(@projects).to be_a Gitlab::PaginatedResponse
+      expect(@projects.size).to eq(1)
+      expect(@projects[0].name).to eq("Diaspora Client")
+    end
+  end
+
   describe ".group_search" do
     before do
       stub_get("/groups?search=Group", "group_search")
