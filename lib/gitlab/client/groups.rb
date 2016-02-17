@@ -127,8 +127,8 @@ class Gitlab::Client
     #
     # @param [Integer] id The ID of a group
     # @return [Array<Gitlab::ObjectifiedHash>] List of projects under a group
-    def group_projects(id)
-      get("/groups/#{id}/projects")
+    def group_projects(id, options={})
+      get("/groups/#{id}/projects", query: options)
     end
   end
 end
