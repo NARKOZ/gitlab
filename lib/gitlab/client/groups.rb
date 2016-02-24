@@ -41,6 +41,16 @@ class Gitlab::Client
       post("/groups", body: body)
     end
 
+    # Delete's a group.
+    #
+    # @example
+    #   Gitlab.delete_group(42)
+    # @param  [Integer] id The ID of a group
+    # @return [Gitlab::ObjectifiedHash] Information about the deleted group.
+    def delete_group(id)
+      delete("/groups/#{id}")
+    end
+
     # Get a list of group members.
     #
     # @example
