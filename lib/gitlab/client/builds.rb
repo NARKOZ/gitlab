@@ -9,8 +9,8 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def builds(project)
-      get("/projects/#{project}/builds")
+    def builds(project, options={})
+      get("/projects/#{project}/builds", query: options)
     end
 
     # Gets a single build.
