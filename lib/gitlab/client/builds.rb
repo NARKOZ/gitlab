@@ -6,11 +6,16 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.builds(5)
+    #   Gitlab.builds(5, :per_page =>10, :page => 2)
     #
     # @param  [Integer] project The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @param  [Integer] project The ID of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def builds(project)
-      get("/projects/#{project}/builds")
+    def builds(project, options={})
+      get("/projects/#{project}/builds", query: options)
     end
 
     # Gets a single build.
