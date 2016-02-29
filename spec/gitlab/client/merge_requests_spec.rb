@@ -98,12 +98,12 @@ describe Gitlab::Client do
 
   describe ".merge_request_comments" do
     before do
-      stub_get("/projects/3/merge_request/2/comments", "merge_request_comments")
+      stub_get("/projects/3/merge_requests/2/notes", "merge_request_comments")
       @merge_request = Gitlab.merge_request_comments(3, 2)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/merge_request/2/comments")).to have_been_made
+      expect(a_get("/projects/3/merge_requests/2/notes")).to have_been_made
     end
 
     it "should return merge request's comments" do
@@ -118,12 +118,12 @@ describe Gitlab::Client do
 
   describe ".create_merge_request_comment" do
     before do
-      stub_post("/projects/3/merge_request/2/comments", "merge_request_comment")
+      stub_post("/projects/3/merge_requests/2/notes", "merge_request_comment")
       @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
     end
 
     it "should get the correct resource" do
-      expect(a_post("/projects/3/merge_request/2/comments")).to have_been_made
+      expect(a_post("/projects/3/merge_requests/2/notes")).to have_been_made
     end
 
     it "should return information about a merge request" do

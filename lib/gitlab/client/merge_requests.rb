@@ -93,9 +93,38 @@ class Gitlab::Client
     # @param  [String] note The content of a comment.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
     def create_merge_request_comment(project, id, note)
-      post("/projects/#{project}/merge_request/#{id}/comments", body: { note: note })
+      post("/projects/#{project}/merge_requests/#{id}/notes", body: { body: note })
     end
 
+    # Adds a comment to a merge request.
+    #
+    # @example
+    #   Gitlab.edit_merge_request_comment(5, 1,2, "Awesome merge!")
+    #   Gitlab.edit_merge_request_comment('gitlab', 1, 2, "Awesome merge!")
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] id The ID of the merge-request comment
+    # @param  [String] note The content of a comment.
+    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
+    def edit_merge_request_comment(project, id, note_id , note)
+      put("/projects/#{project}/merge_requests/#{id}/notes/#{note_id}", body: { body: note })
+    end
+
+    # Deletes a comment from a merge request.
+    #
+    # @example
+    #   Gitlab.delete_merge_request_comment(5, 1,2)
+    #   Gitlab.delete_merge_request_comment('gitlab', 1, 2)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] id The ID of the merge-request comment
+    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
+    def delete_merge_request_comment(project, id, note_id)
+      delete("/projects/#{project}/merge_requests/#{id}/notes/#{note_id}")
+    end
+    
     # Gets the comments on a merge request.
     #
     # @example
@@ -109,7 +138,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash] The merge request's comments.
     def merge_request_comments(project, id, options={})
-      get("/projects/#{project}/merge_request/#{id}/comments", query: options)
+      get("/projects/#{project}/merge_requests/#{id}/notes", query: options)
     end
 
     # Gets the changes of a merge request.
