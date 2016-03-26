@@ -21,10 +21,15 @@ describe Gitlab::Help do
     before do
       @cmd = "create_branch"
       @help_output = "Gitlab.#{@cmd}(4, 'new-branch', 'master')"
+      @help_output_with_options = "Gitlab.groups({ per_page: 3 })"
     end
     it "should return a String of modified output" do
       Gitlab::Help.change_help_output! @cmd, @help_output
       expect(@help_output).to eq("Gitlab.create_branch 4 'new-branch' 'master'")
+    end
+    it "should format options hash and return a String of modified output" do
+      Gitlab::Help.change_help_output! 'groups', @help_output_with_options
+      expect(@help_output_with_options).to eq("Gitlab.groups \"{ per_page: 3 }\"")
     end
   end
 
