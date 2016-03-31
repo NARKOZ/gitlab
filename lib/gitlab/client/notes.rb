@@ -43,6 +43,20 @@ class Gitlab::Client
       get("/projects/#{project}/snippets/#{snippet}/notes", query: options)
     end
 
+    # Gets a list of notes for a merge request.
+    #
+    # @example
+    #   Gitlab.merge_request_notes(5, 1)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge request.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def merge_request_notes(project, merge_request, options={})
+      get("/projects/#{project}/merge_requests/#{merge_request}/notes", query: options)
+    end
+
     # Gets a single wall note.
     #
     # @example
@@ -75,10 +89,23 @@ class Gitlab::Client
     #
     # @param [Integer] project The ID of a project.
     # @param [Integer] snippet The ID of a snippet.
-    # @param [Integer] id The ID of an note.
+    # @param [Integer] id The ID of a note.
     # @return [Gitlab::ObjectifiedHash]
     def snippet_note(project, snippet, id)
       get("/projects/#{project}/snippets/#{snippet}/notes/#{id}")
+    end
+
+    # Gets a single merge_request note.
+    #
+    # @example
+    #   Gitlab.merge_request_note(5, 11, 3)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge_request.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def merge_request_note(project, merge_request, id)
+      get("/projects/#{project}/merge_requests/#{merge_request}/notes/#{id}")
     end
 
     # Creates a new wall note.
