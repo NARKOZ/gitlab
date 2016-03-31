@@ -134,7 +134,7 @@ class Gitlab::CLI
           keys.each do |key|
             case value = hash[key]
             when Hash
-              value = 'Hash'
+              value = value.has_key?('id') ? value['id'] : 'Hash'
             when nil
               value = 'null'
             end
