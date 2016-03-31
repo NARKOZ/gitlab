@@ -49,6 +49,22 @@ describe Gitlab::Client do
         expect(@notes.first.author.name).to eq("John Smith")
       end
     end
+
+    context "when merge_request notes" do
+      before do
+        stub_get("/projects/3/merge_requests/7/notes", "notes")
+        @notes = Gitlab.merge_request_notes(3, 7)
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/projects/3/merge_requests/7/notes")).to have_been_made
+      end
+
+      it "should return a paginated response of notes" do
+        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes.first.author.name).to eq("John Smith")
+      end
+    end
   end
 
   describe "note" do
@@ -92,6 +108,22 @@ describe Gitlab::Client do
 
       it "should get the correct resource" do
         expect(a_get("/projects/3/snippets/7/notes/1201")).to have_been_made
+      end
+
+      it "should return information about a note" do
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
+      end
+    end
+
+    context "when merge request note" do
+      before do
+        stub_get("/projects/3/merge_requests/7/notes/1201", "note")
+        @note = Gitlab.merge_request_note(3, 7, 1201)
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/projects/3/merge_requests/7/notes/1201")).to have_been_made
       end
 
       it "should return information about a note" do
