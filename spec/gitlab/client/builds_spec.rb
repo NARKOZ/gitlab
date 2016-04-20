@@ -18,12 +18,12 @@ describe Gitlab::Client do
   
   describe ".build" do
     before do
-      stub_get("/projects/3/build/8", "build")
+      stub_get("/projects/3/builds/8", "build")
       @build = Gitlab.build(3, 8)
     end
     
     it "should get the correct resource" do
-      expect(a_get("/projects/3/build/8")).to have_been_made
+      expect(a_get("/projects/3/builds/8")).to have_been_made
     end
 
     it "should return a single build" do

@@ -25,9 +25,9 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a build.
-    # @return <Gitlab::ObjectifiedHash]
+    # @return [Gitlab::ObjectifiedHash]
     def build(project, id)
-      get("/projects/#{project}/build/#{id}")
+      get("/projects/#{project}/builds/#{id}")
     end
 
     # Gets a list of builds for specific commit in a project.
