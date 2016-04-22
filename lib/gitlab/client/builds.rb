@@ -69,5 +69,17 @@ class Gitlab::Client
     def build_retry(project, id)
       post("/projects/#{project}/builds/#{id}/retry")
     end
+
+    # Erase a single build of a project (remove build artifacts and a build trace)
+    #
+    # @example
+    #   Gitlab.build_erase(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a build.
+    # @return [Gitlab::ObjectifiedHash] The build's changes.
+    def build_erase(project, id)
+      post("/projects/#{project}/builds/#{id}/erase")
+    end
   end
 end
