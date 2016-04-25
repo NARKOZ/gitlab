@@ -119,4 +119,20 @@ describe Gitlab::Client do
       expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
+
+  describe ".delete_issue" do
+    before do
+      stub_delete("/projects/3/issues/33", "issue")
+      @issue = Gitlab.delete_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_delete("/projects/3/issues/33")).to have_been_made
+    end
+
+    it "should return information about a deleted issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.id).to eq(33)
+    end
+  end
 end

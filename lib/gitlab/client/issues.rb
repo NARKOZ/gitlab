@@ -96,5 +96,18 @@ class Gitlab::Client
     def reopen_issue(project, id)
       put("/projects/#{project}/issues/#{id}", body: { state_event: 'reopen' })
     end
+
+    # Deletes  an issue.
+    # Only for admins and project owners
+    #
+    # @example
+    #   Gitlab.delete_issue(3, 42)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted issue.
+    def delete_issue(project, id)
+      delete("/projects/#{project}/issues/#{id}")
+    end
   end
 end
