@@ -18,12 +18,12 @@ describe Gitlab::Client do
   
   describe ".build" do
     before do
-      stub_get("/projects/3/build/8", "build")
+      stub_get("/projects/3/builds/8", "build")
       @build = Gitlab.build(3, 8)
     end
     
     it "should get the correct resource" do
-      expect(a_get("/projects/3/build/8")).to have_been_made
+      expect(a_get("/projects/3/builds/8")).to have_been_made
     end
 
     it "should return a single build" do
@@ -54,6 +54,8 @@ describe Gitlab::Client do
       expect(@builds_commits.count).to eq(2)
     end
   end
+
+
 
   describe ".build_cancel" do
     before do
@@ -93,4 +95,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".build_erase" do
+    before do
+      stub_post("/projects/3/builds/69/erase", "build_erase")
+      @build_retry = Gitlab.build_erase(3, 69)
+    end
+    
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/builds/69/erase")).to have_been_made
+    end
+
+    it "should return a single build" do
+      expect(@build_retry).to be_a Gitlab::ObjectifiedHash
+    end
+    
+    it "should return information about a build" do
+      expect(@build_retry.commit.author_name).to eq("John Smith")
+    end
+  end
 end

@@ -5,6 +5,8 @@ module Gitlab
 
     include Branches
     include Builds
+    include BuildTriggers
+    include BuildVariables
     include Commits
     include Groups
     include Issues

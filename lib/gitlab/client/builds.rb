@@ -25,9 +25,9 @@ class Gitlab::Client
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a build.
-    # @return <Gitlab::ObjectifiedHash]
+    # @return [Gitlab::ObjectifiedHash]
     def build(project, id)
-      get("/projects/#{project}/build/#{id}")
+      get("/projects/#{project}/builds/#{id}")
     end
 
     # Gets a list of builds for specific commit in a project.
@@ -68,6 +68,18 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>] The builds changes.
     def build_retry(project, id)
       post("/projects/#{project}/builds/#{id}/retry")
+    end
+
+    # Erase a single build of a project (remove build artifacts and a build trace)
+    #
+    # @example
+    #   Gitlab.build_erase(5, 1)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a build.
+    # @return [Gitlab::ObjectifiedHash] The build's changes.
+    def build_erase(project, id)
+      post("/projects/#{project}/builds/#{id}/erase")
     end
   end
 end
