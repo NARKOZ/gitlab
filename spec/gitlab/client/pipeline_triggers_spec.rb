@@ -95,4 +95,63 @@ describe Gitlab::Client do
       expect(a_delete("/projects/3/triggers/10")).to have_been_made
     end
   end
+
+  describe ".run_trigger" do
+    before do
+      stub_request(:post, "#{Gitlab.endpoint}/projects/3/trigger/pipeline").
+        to_return(body: load_fixture("run_trigger"), status: 200)
+    end
+
+    context "when private_token is not set" do
+      before do
+        Gitlab.private_token = nil
+      end
+
+      it "should not raise Error::MissingCredentials" do
+        expect { Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master", {a: 10}) }.to_not raise_error
+      end
+
+      after do
+        Gitlab.private_token = 'secret'
+      end
+    end
+
+    context "without variables" do
+      before do
+        @trigger = Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master")
+      end
+
+      it "should get the correct resource" do
+        expect(a_request(:post, "#{Gitlab.endpoint}/projects/3/trigger/pipeline").
+          with(body: {
+            token: "7b9148c158980bbd9bcea92c17522d",
+            ref: "master"
+          })).to have_been_made
+      end
+
+      it "should return information about the triggered build" do
+        expect(@trigger.id).to eq(8)
+      end
+    end
+
+    context "with variables" do
+      before do
+        @trigger = Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master", {a: 10})
+      end
+
+      it "should get the correct resource" do
+        expect(a_request(:post, "#{Gitlab.endpoint}/projects/3/trigger/pipeline").
+          with(body: {
+            token: "7b9148c158980bbd9bcea92c17522d",
+            ref: "master",
+            variables: {a: "10"}
+          })).to have_been_made
+      end
+
+      it "should return information about the triggered build" do
+        expect(@trigger.id).to eq(8)
+        expect(@trigger.variables.a).to eq("10")
+      end
+    end
+  end
 end

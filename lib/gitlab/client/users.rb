@@ -120,7 +120,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     # @note This method doesn't require private_token to be set.
     def session(email, password)
-      post("/session", body: { email: email, password: password })
+      post("/session", body: { email: email, password: password }, unauthenticated: true)
     end
 
     # Gets a list of user's SSH keys.

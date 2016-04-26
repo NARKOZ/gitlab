@@ -1,6 +1,7 @@
 class Gitlab::Client
   # Defines methods related to pipelines.
   # @see https://docs.gitlab.com/ce/api/pipeline_triggers.html
+  # @see https://docs.gitlab.com/ce/ci/triggers/README.html
   module PipelineTriggers
     # Gets a list of the project's pipeline triggers
     #
@@ -75,5 +76,26 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/triggers/#{trigger_id}")
     end
     alias_method :delete_trigger, :remove_trigger
+
+    # Run the given project pipeline trigger.
+    #
+    # @example
+    #   Gitlab.trigger_build(5, '7b9148c158980bbd9bcea92c17522d', 'master')
+    #   Gitlab.trigger_build(5, '7b9148c158980bbd9bcea92c17522d', 'master', { variable1: "value", variable2: "value2" })
+    #
+    # @see https://docs.gitlab.com/ce/ci/triggers/README.html
+    #
+    # @param  [Integer, String] project The ID or name of the project.
+    # @param  [String] token The token of a trigger.
+    # @param  [String] ref Branch or tag name to build.
+    # @param  [Hash] variables A set of build variables to use for the build. (optional)
+    # @return [Gitlab::ObjectifiedHash] The trigger.
+    def run_trigger(project, token, ref, variables={})
+      post("/projects/#{url_encode project}/trigger/pipeline", unauthenticated: true, body: {
+        token: token,
+        ref: ref,
+        variables: variables
+      })
+    end
   end
 end

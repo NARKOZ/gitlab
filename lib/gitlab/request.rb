@@ -45,7 +45,7 @@ module Gitlab
 
     def post(path, options={})
       set_httparty_config(options)
-      set_authorization_header(options, path)
+      set_authorization_header(options)
       validate self.class.post(@endpoint + path, options)
     end
 
@@ -96,9 +96,12 @@ module Gitlab
     private
 
     # Sets a PRIVATE-TOKEN or Authorization header for requests.
+    #
+    # @param [Hash] options A customizable set of options.
+    # @option options [Boolean] :unauthenticated true if the API call does not require user authentication.
     # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
-    def set_authorization_header(options, path=nil)
-      unless path == '/session'
+    def set_authorization_header(options)
+      unless options[:unauthenticated]
         raise Error::MissingCredentials.new("Please provide a private_token or auth_token for user") unless @private_token
         if @private_token.length <= 20
           options[:headers] = { 'PRIVATE-TOKEN' => @private_token }
