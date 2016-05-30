@@ -224,5 +224,20 @@ class Gitlab::Client
       url = user_id.to_i.zero? ? "/user/emails/#{id}" : "/users/#{user_id}/emails/#{id}"
       delete(url)
     end
+
+    # Search for groups by name
+    #
+    # @example
+    #   Gitlab.user_search('gitlab')
+    #
+    # @param  [String] search A string to search for in user names and paths.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :per_page Number of user to return per page
+    # @option options [String] :page The page to retrieve
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_search(search, options={})
+      options[:search] = search
+      get("/users", query: options)
+    end
   end
 end
