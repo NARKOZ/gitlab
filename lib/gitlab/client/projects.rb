@@ -247,6 +247,60 @@ class Gitlab::Client
       delete("/projects/#{project}/hooks/#{id}")
     end
 
+    # Gets a project git hook.
+    # See: http://docs.gitlab.com/ee/api/projects.html#show-project-git-hooks
+    #
+    # @example
+    #   Gitlab.git_hook(42)
+    #
+    # @param  [Integer] id The ID of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def git_hook(id)
+      get("/projects/#{id}/git_hook")
+    end
+
+    # Adds a project git hook.
+    # See: http://docs.gitlab.com/ee/api/projects.html#add-project-git-hook
+    #
+    # @example
+    #   Gitlab.add_git_hook(42, { deny_delete_tag: false, commit_message_regex: '\\b[A-Z]{3}-[0-9]+\\b' })
+    #
+    # @param  [Integer] id The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @param  option [Boolean] :deny_delete_tag Do not allow users to remove git tags with git push (0 = false, 1 = true)
+    # @param  option [String] :commit_message_regex Commit message regex
+    # @return [Gitlab::ObjectifiedHash] Information about added git hook.
+    def add_git_hook(id, options={})
+      post("/projects/#{id}/git_hook", body: options)
+    end
+
+    # Updates a project git hook.
+    # See: http://docs.gitlab.com/ee/api/projects.html#edit-project-git-hook
+    #
+    # @example
+    #   Gitlab.edit_git_hook(42, { deny_delete_tag: false, commit_message_regex: '\\b[A-Z]{3}-[0-9]+\\b' })
+    #
+    # @param  [Integer] id The ID of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @param  option [Boolean] :deny_delete_tag Do not allow users to remove git tags with git push (0 = false, 1 = true)
+    # @param  option [String] :commit_message_regex Commit message regex
+    # @return [Gitlab::ObjectifiedHash] Information about updated git hook.
+    def edit_git_hook(id, options={})
+      put("/projects/#{id}/git_hook", body: options)
+    end
+
+    # Deletes a git hook from a project.
+    # See: http://docs.gitlab.com/ee/api/projects.html#delete-project-git-hook
+    #
+    # @example
+    #   Gitlab.delete_git_hook(42)
+    #
+    # @param  [Integer] id The ID of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about deleted git hook.
+    def delete_git_hook(id, options={})
+      delete("/projects/#{id}/git_hook")
+    end
+
     # Mark this project as forked from the other
     #
     # @example
