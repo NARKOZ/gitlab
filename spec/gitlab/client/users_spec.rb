@@ -381,4 +381,20 @@ describe Gitlab::Client do
       end
     end
   end
+
+  describe ".user_search" do
+    before do
+      stub_get("/users?search=User", "user_search")
+      @users = Gitlab.user_search('User')
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/users?search=User")).to have_been_made
+    end
+
+    it "should return an array of users found" do
+      expect(@users.first.id).to eq(1)
+      expect(@users.last.id).to eq(2)
+    end
+  end
 end
