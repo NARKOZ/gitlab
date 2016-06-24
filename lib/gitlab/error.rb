@@ -9,34 +9,77 @@ module Gitlab
     # Raised when impossible to parse response body.
     class Parsing < Error; end
 
+    # Custom error class for rescuing from HTTP response errors.
+    class ResponseError < Error
+      def initialize(response)
+        @response = response
+        super(build_error_message)
+      end
+
+      # Status code returned in the http response.
+      #
+      # @return [Integer]
+      def response_status
+        @response.code
+      end
+
+      private
+
+      # Human friendly message.
+      #
+      # @return [String]
+      def build_error_message
+        parsed_response = @response.parsed_response
+        message = parsed_response.message || parsed_response.error
+
+        "Server responded with code #{@response.code}, message: " \
+        "#{handle_message(message)}. " \
+        "Request URI: #{@response.request.base_uri}#{@response.request.path}"
+      end
+
+      # Handle error response message in case of nested hashes
+      def handle_message(message)
+        case message
+        when Gitlab::ObjectifiedHash
+          message.to_h.sort.map do |key, val|
+            "'#{key}' #{(val.is_a?(Hash) ? val.sort.map { |k, v| "(#{k}: #{v.join(' ')})" } : val).join(' ')}"
+          end.join(', ')
+        when Array
+          message.join(' ')
+        else
+          message
+        end
+      end
+    end
+
     # Raised when API endpoint returns the HTTP status code 400.
-    class BadRequest < Error; end
+    class BadRequest < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 401.
-    class Unauthorized < Error; end
+    class Unauthorized < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 403.
-    class Forbidden < Error; end
+    class Forbidden < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 404.
-    class NotFound < Error; end
+    class NotFound < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 405.
-    class MethodNotAllowed < Error; end
+    class MethodNotAllowed < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 409.
-    class Conflict < Error; end
+    class Conflict < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 422.
-    class Unprocessable < Error; end
+    class Unprocessable < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 500.
-    class InternalServerError < Error; end
+    class InternalServerError < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 502.
-    class BadGateway < Error; end
+    class BadGateway < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 503.
-    class ServiceUnavailable < Error; end
+    class ServiceUnavailable < ResponseError; end
   end
 end
