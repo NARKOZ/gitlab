@@ -9,6 +9,17 @@ module Gitlab
       @file = file
     end
 
+    # @return [bool] Always false
+    def empty?
+      false
+    end
+
+    # @return [Hash] A hash consisting of filename and io object
+    def to_hash
+      { filename: @filename, data: @file }
+    end
+    alias_method :to_h, :to_hash
+
     # @return [String] Formatted string with the class name, object id and filename.
     def inspect
       "#<#{self.class}:#{object_id} {filename: #{filename.inspect}}>"

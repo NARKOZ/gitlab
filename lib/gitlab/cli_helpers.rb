@@ -1,5 +1,6 @@
 require 'yaml'
 require 'json'
+require 'base64'
 
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
@@ -91,7 +92,7 @@ class Gitlab::CLI
     # Outputs a nicely formatted table or error msg.
     def output_table(cmd, args, data)
       case data
-      when Gitlab::ObjectifiedHash
+      when Gitlab::ObjectifiedHash, Gitlab::FileResponse
         puts record_table([data], cmd, args)
       when Gitlab::PaginatedResponse
         puts record_table(data, cmd, args)
@@ -105,7 +106,7 @@ class Gitlab::CLI
         puts '{}'
       else
         hash_result = case data
-                      when Gitlab::ObjectifiedHash
+                      when Gitlab::ObjectifiedHash,Gitlab::FileResponse
                         record_hash([data], cmd, args, true)
                       when Gitlab::PaginatedResponse
                         record_hash(data, cmd, args)
@@ -135,6 +136,8 @@ class Gitlab::CLI
             case value = hash[key]
             when Hash
               value = value.has_key?('id') ? value['id'] : 'Hash'
+            when StringIO
+              value = 'File'
             when nil
               value = 'null'
             end
@@ -168,6 +171,8 @@ class Gitlab::CLI
             case hash[key]
             when Hash
               row[key] = 'Hash'
+            when StringIO
+              row[key] = Base64.encode64(hash[key].read)
             when nil
               row[key] = nil
             else
