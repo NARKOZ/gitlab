@@ -40,7 +40,7 @@ describe Gitlab::Client do
     context "when successful request" do
       before do
         fixture = load_fixture('build_artifacts')
-        fixture.set_encoding(Encoding::ASCII_8BIT, Encoding::ASCII_8BIT)
+        fixture.set_encoding(Encoding::ASCII_8BIT)
         stub_request(:get, "#{Gitlab.endpoint}/projects/3/builds/8/artifacts").
           with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token }).
           to_return(body: fixture.read, headers: { 'Content-Disposition' => "attachment; filename=artifacts.zip" })
