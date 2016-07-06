@@ -64,18 +64,20 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
-      case response.code
-      when 400 then fail Error::BadRequest.new error_message(response)
-      when 401 then fail Error::Unauthorized.new error_message(response)
-      when 403 then fail Error::Forbidden.new error_message(response)
-      when 404 then fail Error::NotFound.new error_message(response)
-      when 405 then fail Error::MethodNotAllowed.new error_message(response)
-      when 409 then fail Error::Conflict.new error_message(response)
-      when 422 then fail Error::Unprocessable.new error_message(response)
-      when 500 then fail Error::InternalServerError.new error_message(response)
-      when 502 then fail Error::BadGateway.new error_message(response)
-      when 503 then fail Error::ServiceUnavailable.new error_message(response)
+      error_klass = case response.code
+      when 400 then Error::BadRequest
+      when 401 then Error::Unauthorized
+      when 403 then Error::Forbidden
+      when 404 then Error::NotFound
+      when 405 then Error::MethodNotAllowed
+      when 409 then Error::Conflict
+      when 422 then Error::Unprocessable
+      when 500 then Error::InternalServerError
+      when 502 then Error::BadGateway
+      when 503 then Error::ServiceUnavailable
       end
+
+      fail error_klass.new(response) if error_klass
 
       parsed = response.parsed_response
       parsed.client = self if parsed.respond_to?(:client=)
@@ -110,29 +112,6 @@ module Gitlab
     # @see https://github.com/jnunemaker/httparty
     def set_httparty_config(options)
       options.merge!(httparty) if httparty
-    end
-
-    def error_message(response)
-      parsed_response = response.parsed_response
-      message = parsed_response.message || parsed_response.error
-
-      "Server responded with code #{response.code}, message: " \
-      "#{handle_error(message)}. " \
-      "Request URI: #{response.request.base_uri}#{response.request.path}"
-    end
-
-    # Handle error response message in case of nested hashes
-    def handle_error(message)
-      case message
-      when Gitlab::ObjectifiedHash
-        message.to_h.sort.map do |key, val|
-          "'#{key}' #{(val.is_a?(Hash) ? val.sort.map { |k, v| "(#{k}: #{v.join(' ')})" } : val).join(' ')}"
-        end.join(', ')
-      when Array
-        message.join(' ')
-      else
-        message
-      end
     end
   end
 end

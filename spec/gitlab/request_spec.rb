@@ -70,31 +70,4 @@ describe Gitlab::Request do
       expect(@request.send(:set_authorization_header, {})).to eq("Authorization" => "Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603")
     end
   end
-
-  describe "#handle_error" do
-    before do
-      @array = Array.new(['First message.', 'Second message.'])
-      @obj_h = Gitlab::ObjectifiedHash.new(user: ['not set'],
-                                           password: ['too short'],
-                                           embed_entity: { foo: ['bar'], sna: ['fu'] })
-    end
-    context "when passed an ObjectifiedHash" do
-      it "should return a joined string of error messages sorted by key" do
-        expect(@request.send(:handle_error, @obj_h)).to eq("'embed_entity' (foo: bar) (sna: fu), 'password' too short, 'user' not set")
-      end
-    end
-
-    context "when passed an Array" do
-      it "should return a joined string of messages" do
-        expect(@request.send(:handle_error, @array)).to eq("First message. Second message.")
-      end
-    end
-
-    context "when passed a String" do
-      it "should return the String untouched" do
-        error = 'this is an error string'
-        expect(@request.send(:handle_error, error)).to eq('this is an error string')
-      end
-    end
-  end
 end
