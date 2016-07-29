@@ -26,10 +26,10 @@ RSpec.configure do |config|
 end
 
 # GET
-def stub_get(path, fixture)
+def stub_get(path, fixture, status_code=200)
   stub_request(:get, "#{Gitlab.endpoint}#{path}").
     with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token }).
-    to_return(body: load_fixture(fixture))
+    to_return(body: load_fixture(fixture), status: status_code)
 end
 
 def a_get(path)

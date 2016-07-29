@@ -30,6 +30,27 @@ class Gitlab::Client
       get("/projects/#{project}/builds/#{id}")
     end
 
+    # Gets build artifacts.
+    #
+    # @example
+    #   Gitlab.build_artifacts(1, 8)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] id The ID of a build.
+    # @return [Gitlab::FileResponse]
+    def build_artifacts(project, id)
+      get("/projects/#{project}/builds/#{id}/artifacts",
+           format: nil,
+           headers: { Accept: 'application/octet-stream' },
+           parser: proc { |body, _|
+            if body.encoding == Encoding::ASCII_8BIT # binary response
+              ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+            else # error with json response
+              ::Gitlab::Request.parse(body)
+            end
+          })
+    end
+
     # Gets a list of builds for specific commit in a project.
     #
     # @example
