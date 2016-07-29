@@ -44,7 +44,7 @@ class Gitlab::Client
     # @param  [String] tag The name of the tag.
     # @return [Gitlab::ObjectifiedHash]
     def tag(project, tag)
-      get("/projects/#{project}/repository/tags/#{tag}", query: {})
+      get("/projects/#{project}/repository/tags/#{tag}")
     end
     alias_method :repo_tag, :tag
 
