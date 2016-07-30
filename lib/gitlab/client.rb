@@ -21,6 +21,7 @@ module Gitlab
     include Services
     include Snippets
     include SystemHooks
+    include Tags
     include Users
   end
 end

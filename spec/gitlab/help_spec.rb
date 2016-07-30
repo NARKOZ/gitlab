@@ -40,7 +40,7 @@ describe Gitlab::Help do
     end
     it "should return the full namespace for a command" do
       expect(@namespace).to be_a String
-      expect(@namespace).to eq("Gitlab::Client::Repositories.#{@cmd}")
+      expect(@namespace).to eq("Gitlab::Client::Tags.#{@cmd}")
     end
   end
 end
