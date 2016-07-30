@@ -19,7 +19,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.license       = "BSD"
 
-  gem.add_runtime_dependency 'httparty'
+  if RUBY_VERSION < '2.0'
+    gem.add_runtime_dependency 'httparty', '~> 0.13.0'
+  else
+    gem.add_runtime_dependency 'httparty'
+  end
   gem.add_runtime_dependency 'terminal-table'
 
   gem.add_development_dependency 'pry'
