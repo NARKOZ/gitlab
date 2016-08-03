@@ -1,0 +1,16 @@
+[
+    {
+        "active": true,
+        "description": "test-2-20150125",
+        "id": 8,
+        "is_shared": false,
+        "name": null
+    },
+    {
+        "active": true,
+        "description": "development_runner",
+        "id": 5,
+        "is_shared": true,
+        "name": null
+    }
+]
