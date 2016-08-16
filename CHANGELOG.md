@@ -1,5 +1,30 @@
 ## Change Log
 
+### 3.7.0 (16/08/2016)
+
+- Add in GitlabCI Runner support (@davidcollum)
+- Implemented tags API methods (@jblackman)
+- Expose response status when Gitlab raises an error. (@calavera)
+- Add `build_artifacts` method (@nanofi)
+- Add `user_search` method (@Dreeg)
+- Added project git hook support (@liger1978)
+- Add the ability to delete an issue (@dandunckelman)
+- Add missing Build APIs (@edgemaster)
+- Improve record table output to use Hash `id` field if it exists. (@asedge)
+- Support for listing merge request notes (@dlukman)
+- Update YARD so it can be formatted easier for the CLI. (@asedge)
+- Add `options` to `build` method (@sanderhahn)
+- Add `delete_group` method (@shadeslayer)
+- Add `group_projects` method (@shadeslayer)
+- Add `edit_merge_request_comment` (@hjanuschka)
+- Add `merge_request_commits` method (@nomeaning777)
+- Add method `edit_group_member` (@coder-hugo)
+- New builds endpoints (@kmarcisz)
+- Use `respond_to_missing?` instead of `respond_to?` (@tsigo)
+- Added possibility to change emails of user (@azomazo)
+- Added possibility to change services in the project (@azomazo)
+- Update README.md (@walterheck)
+
 ### 3.6.1 (13/12/2015)
 
 - Fixed CLI output for collections
