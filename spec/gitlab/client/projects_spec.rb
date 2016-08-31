@@ -522,4 +522,20 @@ describe Gitlab::Client do
       expect(@deploy_key.id).to eq(2)
     end
   end
+
+  describe ".share_project_with_group" do
+    before do
+      stub_post("/projects/3/share", "group")
+      @group = Gitlab.share_project_with_group(3, 10, 40)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/share").
+          with(body: { group_id: '10', group_access: '40' })).to have_been_made
+    end
+
+    it "should return information about an added group" do
+      expect(@group.id).to eq(10)
+    end
+  end
 end
