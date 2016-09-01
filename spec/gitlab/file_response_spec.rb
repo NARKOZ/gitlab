@@ -21,7 +21,12 @@ describe Gitlab::FileResponse do
 
   context '.parse_headers!' do
     it "should parse headers" do
-      @file_response.parse_headers!('Content-Disposition' => "attachment; filename=artifacts.zip")
+      @file_response.parse_headers!('Content-Disposition' => 'attachment; filename=artifacts.zip')
+      expect(@file_response.filename).to eq "artifacts.zip"
+    end
+
+    it "should handle quoted filenames" do
+      @file_response.parse_headers!('Content-Disposition' => 'attachment; filename="artifacts.zip"')
       expect(@file_response.filename).to eq "artifacts.zip"
     end
   end
