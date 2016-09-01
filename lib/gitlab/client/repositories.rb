@@ -37,6 +37,29 @@ class Gitlab::Client
     end
     alias_method :repo_tree, :tree
 
+    # Get project repository archive
+    #
+    # @example
+    #   Gitlab.repo_archive(42)
+    #   Gitlab.repo_archive(42, 'deadbeef')
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [String] ref The commit sha, branch, or tag to download.
+    # @return [Gitlab::FileResponse]
+    def repo_archive(project, ref = 'master')
+      get("/projects/#{project}/repository/archive",
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          query: { sha: ref },
+          parser: proc { |body, _|
+            if body.encoding == Encoding::ASCII_8BIT # binary response
+              ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+            else # error with json response
+              ::Gitlab::Request.parse(body)
+            end
+          })
+    end
+
     # Compares branches, tags or commits.
     #
     # @example
