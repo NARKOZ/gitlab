@@ -86,22 +86,10 @@ module Gitlab
     end
 
     # Sets a base_uri and default_params for requests.
-    # If login and password provided, get GitLab session and extract private_token from it.
     # @raise [Error::MissingCredentials] if endpoint not set.
-    # @raise [Error::MissingCredentials] if
-    #        private_token OR (login AND password) not set.
     def set_request_defaults(sudo=nil)
       self.class.default_params sudo: sudo
       raise Error::MissingCredentials.new("Please set an endpoint to API") unless @endpoint
-
-      unless @private_token
-        unless @login and @password
-          raise Error::MissingCredentials.new("Please set a private_token or login and password for user")
-        end
-        response = post("/session", :body => { login: @login, password: @password })
-        @private_token = response.private_token
-        @password = nil #security?
-      end
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
 
@@ -111,7 +99,12 @@ module Gitlab
     # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
     def set_authorization_header(options, path=nil)
       unless path == '/session'
-        raise Error::MissingCredentials.new("Please provide a private_token or auth_token for user") unless @private_token
+        unless @private_token
+          raise Error::MissingCredentials.new("Please provide a private_token, auth_token or login and password for user") unless @login and @password
+          response = post("/session", :body => { login: @login, password: @password })
+          @private_token = response.private_token
+        end
+        raise Error::Error.new("Bad credencials, provide a private_token, auth_token or login and password for user") unless @private_token
         if @private_token.length <= 20
           options[:headers] = { 'PRIVATE-TOKEN' => @private_token }
         else
