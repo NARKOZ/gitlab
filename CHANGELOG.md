@@ -1,5 +1,9 @@
 ## Change Log
 
+### Unreleased
+
+- Lock terminal-table to prevent build failures on Ruby 1.9/2.0. (@connorshea)
+
 ### 3.7.0 (16/08/2016)
 
 - Add in GitlabCI Runner support (@davidcollum)
