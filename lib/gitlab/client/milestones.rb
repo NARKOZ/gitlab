@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to milestones.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/milestones.md
+  # @see https://docs.gitlab.com/ce/api/milestones.html
   module Milestones
     # Gets a list of project's milestones.
     #

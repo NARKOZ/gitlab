@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to repository commits.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/commits.md
+  # @see https://docs.gitlab.com/ce/api/commits.html
   module Commits
     # Gets a list of project commits.
     #

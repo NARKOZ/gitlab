@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to tags.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/tags.md
+  # @see https://docs.gitlab.com/ce/api/tags.html
   module Tags
     # Gets a list of project repository tags.
     #

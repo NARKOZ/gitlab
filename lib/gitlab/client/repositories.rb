@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to repositories.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/repositories.md
+  # @see https://docs.gitlab.com/ce/api/repositories.html
   module Repositories
     # Get the contents of a file
     #

@@ -10,7 +10,7 @@
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api#gitlab-api).
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).
 
 ## Installation
 
@@ -41,7 +41,7 @@ Gitlab.configure do |config|
 end
 ```
 
-(Note: If you are using Gitlab.com's hosted service, your endpoint will be `https://gitlab.com/api/v3`)
+(Note: If you are using GitLab.com's hosted service, your endpoint will be `https://gitlab.com/api/v3`)
 
 Usage examples:
 

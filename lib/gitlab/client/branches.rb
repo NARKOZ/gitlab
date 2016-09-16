@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to repositories.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/branches.md
+  # @see https://docs.gitlab.com/ce/api/branches.html
   module Branches
     # Gets a list of project repositiory branches.
     #

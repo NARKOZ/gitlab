@@ -3,6 +3,7 @@
 ### Unreleased
 
 - Lock terminal-table to prevent build failures on Ruby 1.9/2.0. (@connorshea)
+- Update documentation to link to docs.gitlab.com instead of the GitHub mirror for GitLab CE. (@connorshea)
 
 ### 3.7.0 (16/08/2016)
 

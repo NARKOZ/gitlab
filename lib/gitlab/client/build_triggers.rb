@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to builds.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/build_triggers.md
+  # @see https://docs.gitlab.com/ce/api/build_triggers.html
   module BuildTriggers
     # Gets a list of the project's build triggers
     #

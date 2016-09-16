@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to builds.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/builds.md
+  # @see https://docs.gitlab.com/ce/api/builds.html
   module Builds
     # Gets a list of project builds.
     #
