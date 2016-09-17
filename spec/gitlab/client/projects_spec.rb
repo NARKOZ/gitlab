@@ -538,4 +538,34 @@ describe Gitlab::Client do
       expect(@group.id).to eq(10)
     end
   end
+
+  describe ".star_project" do
+    before do
+      stub_post("/projects/3/star", "project_star")
+      @starred_project = Gitlab.star_project(3)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/star")).to have_been_made
+    end
+
+    it "should return information about the starred project" do
+      expect(@starred_project.id).to eq(3)
+    end
+  end
+
+  describe ".unstar_project" do
+    before do
+      stub_delete("/projects/3/star", "project_unstar")
+      @unstarred_project = Gitlab.unstar_project(3)
+    end
+
+    it "should get the correct resource" do
+      expect(a_delete("/projects/3/star")).to have_been_made
+    end
+
+    it "should return information about the unstarred project" do
+      expect(@unstarred_project.id).to eq(3)
+    end
+  end
 end

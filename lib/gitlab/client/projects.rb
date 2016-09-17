@@ -418,5 +418,30 @@ class Gitlab::Client
       post("/projects/#{project}/share", body: { group_id: id, group_access: group_access })
     end
 
+    # Stars a project.
+    # @see https://docs.gitlab.com/ce/api/projects.html#star-a-project
+    # 
+    # @example
+    #   Gitlab.star_project(42)
+    #   Gitlab.star_project('gitlab-org/gitlab-ce')
+    # 
+    # @param  [Integer, String] id The ID or name of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about starred project.
+    def star_project(id)
+      post("/projects/#{id}/star")
+    end
+
+    # Unstars a project.
+    # @see https://docs.gitlab.com/ce/api/projects.html#unstar-a-project
+    # 
+    # @example
+    #   Gitlab.unstar_project(42)
+    #   Gitlab.unstar_project('gitlab-org/gitlab-ce')
+    # 
+    # @param  [Integer, String] id The ID or name of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about unstarred project.
+    def unstar_project(id)
+      delete("/projects/#{id}/star")
+    end
   end
 end
