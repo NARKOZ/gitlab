@@ -405,5 +405,18 @@ class Gitlab::Client
     def edit_project(id, options={})
       put("/projects/#{id}", query: options)
     end
+
+    # Share project with group.
+    #
+    # @example
+    #   Gitlab.share_project_with_group('gitlab', 2, 40)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a group.
+    # @param  [Integer] group_access The access level to project.
+    def share_project_with_group(project, id, group_access)
+      post("/projects/#{project}/share", body: { group_id: id, group_access: group_access })
+    end
+
   end
 end

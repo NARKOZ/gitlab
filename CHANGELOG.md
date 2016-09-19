@@ -28,6 +28,7 @@
 - Added possibility to change emails of user (@azomazo)
 - Added possibility to change services in the project (@azomazo)
 - Update README.md (@walterheck)
+- Add method `share_project_with_group` (@danhalligan)
 
 ### 3.6.1 (13/12/2015)
 
