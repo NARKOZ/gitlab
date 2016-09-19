@@ -92,7 +92,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :ref Filter by ref name, it can be branch or tag
     # @option options [String] :stage Filter by stage
-    # @option options [String] :name Filer by status name, eg. jenkins
+    # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [Boolean] :all The flag to return all statuses, not only latest ones
     def commit_status(id, sha, options={})
       get("/projects/#{id}/repository/commits/#{sha}/statuses", query: options)
@@ -111,7 +111,7 @@ class Gitlab::Client
     # @param  [String] state of the status. Can be: pending, running, success, failed, canceled
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :ref The ref (branch or tag) to which the status refers
-    # @option options [String] :name Filer by status name, eg. jenkins
+    # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [String] :target_url The target URL to associate with this status
     def update_commit_status(id, sha, state, options={})
       post("/projects/#{id}/statuses/#{sha}", query: options.merge(state: state))
