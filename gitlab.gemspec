@@ -24,7 +24,8 @@ Gem::Specification.new do |gem|
   else
     gem.add_runtime_dependency 'httparty'
   end
-  gem.add_runtime_dependency 'terminal-table'
+
+  gem.add_runtime_dependency 'terminal-table', '1.7.1'
 
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
