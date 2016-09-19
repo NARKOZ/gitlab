@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to projects.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/projects.md
+  # @see https://docs.gitlab.com/ce/api/projects.html
   module Projects
     # Gets a list of projects owned by the authenticated user.
     #
@@ -248,7 +248,7 @@ class Gitlab::Client
     end
 
     # Gets a project git hook.
-    # See: http://docs.gitlab.com/ee/api/projects.html#show-project-git-hooks
+    # @see https://docs.gitlab.com/ee/api/projects.html#show-project-git-hooks
     #
     # @example
     #   Gitlab.git_hook(42)
@@ -260,7 +260,7 @@ class Gitlab::Client
     end
 
     # Adds a project git hook.
-    # See: http://docs.gitlab.com/ee/api/projects.html#add-project-git-hook
+    # @see https://docs.gitlab.com/ee/api/projects.html#add-project-git-hook
     #
     # @example
     #   Gitlab.add_git_hook(42, { deny_delete_tag: false, commit_message_regex: '\\b[A-Z]{3}-[0-9]+\\b' })
@@ -275,7 +275,7 @@ class Gitlab::Client
     end
 
     # Updates a project git hook.
-    # See: http://docs.gitlab.com/ee/api/projects.html#edit-project-git-hook
+    # @see https://docs.gitlab.com/ee/api/projects.html#edit-project-git-hook
     #
     # @example
     #   Gitlab.edit_git_hook(42, { deny_delete_tag: false, commit_message_regex: '\\b[A-Z]{3}-[0-9]+\\b' })
@@ -290,7 +290,7 @@ class Gitlab::Client
     end
 
     # Deletes a git hook from a project.
-    # See: http://docs.gitlab.com/ee/api/projects.html#delete-project-git-hook
+    # @see https://docs.gitlab.com/ee/api/projects.html#delete-project-git-hook
     #
     # @example
     #   Gitlab.delete_git_hook(42)

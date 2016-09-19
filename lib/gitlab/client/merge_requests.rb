@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to merge requests.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/merge_requests.md
+  # @see https://docs.gitlab.com/ce/api/merge_requests.html
   module MergeRequests
     # Gets a list of project merge requests.
     #

@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to groups.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/groups.md
+  # @see https://docs.gitlab.com/ce/api/groups.html
   module Groups
     # Gets a list of groups.
     #

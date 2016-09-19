@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to builds.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/build_variables.md
+  # @see https://docs.gitlab.com/ce/api/build_variables.html
   module BuildVariables
     # Gets a list of the project's build variables
     #

@@ -1,4 +1,6 @@
 class Gitlab::Client
+  # Third party services connected to a project.
+  # @see https://docs.gitlab.com/ce/api/services.html
   module Services
     # Create/Edit service
     # Full service params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/services.md

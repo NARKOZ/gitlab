@@ -1,8 +1,9 @@
 class Gitlab::Client
   # Defines methods related to namespaces
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/namespaces.md
+  # @see https://docs.gitlab.com/ce/api/namespaces.html
   module Namespaces
     # Gets a list of namespaces.
+    # @see https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
     #
     # @example
     #   Gitlab.namespaces

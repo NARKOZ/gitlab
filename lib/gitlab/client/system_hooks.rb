@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to system hooks.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/system_hooks.md
+  # @see https://docs.gitlab.com/ce/api/system_hooks.html
   module SystemHooks
     # Gets a list of system hooks.
     #

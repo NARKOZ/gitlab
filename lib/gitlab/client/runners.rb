@@ -1,10 +1,10 @@
 class Gitlab::Client
   # Defines methods related to runners.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+  # @see https://docs.gitlab.com/ce/api/runners.html
   module Runners
 
     # Get a list of specific runners available to the user.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
     #
     # @example
     #   Gitlab.runners
@@ -19,7 +19,7 @@ class Gitlab::Client
     end
 
     # Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#list-all-runners
     #
     # @example
     #   Gitlab.all_runners
@@ -32,7 +32,7 @@ class Gitlab::Client
     end
 
     # Get details of a runner..
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#get-runners-details
     #
     # @example
     #   Gitlab.runner(42)
@@ -44,7 +44,7 @@ class Gitlab::Client
     end
 
     # Update details of a runner.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#update-runners-details
     #
     # @example
     #   Gitlab.update_runner(42, { description: 'Awesome runner' })
@@ -61,7 +61,7 @@ class Gitlab::Client
     end
 
     # Remove a runner.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#remove-a-runner
     #
     # @example
     #   Gitlab.delete_runner(42)
@@ -73,7 +73,7 @@ class Gitlab::Client
     end
 
     # List all runners (specific and shared) available in the project. Shared runners are listed if at least one shared runner is defined and shared runners usage is enabled in the project's settings.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#list-projects-runners
     #
     # @example
     #   Gitlab.project_runners(42)
@@ -85,7 +85,7 @@ class Gitlab::Client
     end
 
     # Enable an available specific runner in the project.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#enable-a-runner-in-project
     #
     # @example
     #   Gitlab.project_enable_runner(2, 42)
@@ -99,7 +99,7 @@ class Gitlab::Client
     end
 
     # Disable a specific runner from the project. It works only if the project isn't the only project associated with the specified runner.
-    # Full runner params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/runners.md
+    # @see https://docs.gitlab.com/ce/api/runners.html#disable-a-runner-from-project
     #
     # @example
     #   Gitlab.project_disable_runner(2, 42)

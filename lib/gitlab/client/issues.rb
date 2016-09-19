@@ -1,6 +1,6 @@
 class Gitlab::Client
   # Defines methods related to issues.
-  # @see https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/issues.md
+  # @see https://docs.gitlab.com/ce/api/issues.html
   module Issues
     # Gets a list of user's issues.
     # Will return a list of project's issues if project ID passed.
