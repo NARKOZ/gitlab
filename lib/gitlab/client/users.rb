@@ -127,13 +127,20 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.ssh_keys
+    #   Gitlab.ssh_keys({ user_id: 2 })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
+    # @option options [Integer] :user_id The ID of the user to retrieve the keys for.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def ssh_keys(options={})
-      get("/user/keys", query: options)
+      user_id = options.delete :user_id
+      if user_id.to_i.zero?
+        get("/user/keys", query: options)
+      else
+        get("/users/#{user_id}/keys", query: options)
+      end
     end
 
     # Gets information about SSH key.

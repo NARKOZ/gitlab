@@ -201,18 +201,36 @@ describe Gitlab::Client do
   end
 
   describe ".ssh_keys" do
-    before do
-      stub_get("/user/keys", "keys")
-      @keys = Gitlab.ssh_keys
+    context "with user ID passed" do
+      before do
+        stub_get("/users/1/keys", "keys")
+        @keys = Gitlab.ssh_keys({ user_id: 1 })
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/users/1/keys")).to have_been_made
+      end
+
+      it "should return a paginated response of SSH keys" do
+        expect(@keys).to be_a Gitlab::PaginatedResponse
+        expect(@keys.first.title).to eq("narkoz@helium")
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_get("/user/keys")).to have_been_made
-    end
+    context "without user ID passed" do
+      before do
+        stub_get("/user/keys", "keys")
+        @keys = Gitlab.ssh_keys
+      end
 
-    it "should return a paginated response of SSH keys" do
-      expect(@keys).to be_a Gitlab::PaginatedResponse
-      expect(@keys.first.title).to eq("narkoz@helium")
+      it "should get the correct resource" do
+        expect(a_get("/user/keys")).to have_been_made
+      end
+
+      it "should return a paginated response of SSH keys" do
+        expect(@keys).to be_a Gitlab::PaginatedResponse
+        expect(@keys.first.title).to eq("narkoz@helium")
+      end
     end
   end
 
