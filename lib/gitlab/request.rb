@@ -100,11 +100,11 @@ module Gitlab
     def set_authorization_header(options, path=nil)
       unless path == '/session'
         unless @private_token
-          raise Error::MissingCredentials.new("Please provide a private_token, auth_token or login and password for user") unless @login and @password
+          raise Error::MissingCredentials.new("Please provide a private_token, auth_token, or login and password for user") unless @login and @password
           response = post("/session", :body => { login: @login, password: @password })
           @private_token = response.private_token
         end
-        raise Error::Error.new("Bad credencials, provide a private_token, auth_token or login and password for user") unless @private_token
+        raise Error::Error.new("Bad credentials, provide a private_token, auth_token, or login and password for user") unless @private_token
         if @private_token.length <= 20
           options[:headers] = { 'PRIVATE-TOKEN' => @private_token }
         else
