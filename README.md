@@ -10,7 +10,7 @@
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html) for Ruby 2.0+.
 
 ## Installation
 
