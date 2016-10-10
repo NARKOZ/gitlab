@@ -24,5 +24,24 @@ module Gitlab
     include SystemHooks
     include Tags
     include Users
+
+    # Text representation of the client, masking private token.
+    #
+    # @return [String]
+    def inspect
+      inspected = super
+
+      if @private_token
+        inspected = inspected.sub! @private_token, only_show_last_four_chars(@private_token)
+      end
+
+      inspected
+    end
+
+    private
+
+    def only_show_last_four_chars(token)
+      "#{'*'*(token.size - 4)}#{token[-4..-1]}"
+    end
   end
 end
