@@ -364,6 +364,30 @@ class Gitlab::Client
       post("/projects/#{project}/keys", body: { title: title, key: key })
     end
 
+    # Enables a deploy key at the project.
+    #
+    # @example
+    #   Gitlab.enable_deploy_key(42, 66)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] key The ID of a deploy key.
+    # @return [Gitlab::ObjectifiedHash] Information about the enabled deploy key.
+    def enable_deploy_key(project, key)
+      post("/projects/#{project}/deploy_keys/#{key}/enable", body: { id: project, key_id: key })
+    end
+
+    # Disables a deploy key at the project.
+    #
+    # @example
+    #   Gitlab.disable_deploy_key(42, 66)
+    #
+    # @param  [Integer] project The ID of a project.
+    # @param  [Integer] key The ID of a deploy key.
+    # @return [Gitlab::ObjectifiedHash] Information about the disabled deploy key.
+    def disable_deploy_key(project, key)
+      post("/projects/#{project}/deploy_keys/#{key}/disable", body: { id: project, key_id: key })
+    end
+
     # Deletes a deploy key from project.
     #
     # @example

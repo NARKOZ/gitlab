@@ -523,6 +523,38 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".enable_deploy_key" do
+    before do
+      stub_post("/projects/42/deploy_keys/2/enable", "project_key")
+      @deploy_key = Gitlab.enable_deploy_key(42, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/42/deploy_keys/2/enable").
+          with(body: { id: '42', key_id: '2' })).to have_been_made
+    end
+
+    it "should return information about an enabled key" do
+      expect(@deploy_key.id).to eq(2)
+    end
+  end
+
+  describe ".disable_deploy_key" do
+    before do
+      stub_post("/projects/42/deploy_keys/2/disable", "project_key")
+      @deploy_key = Gitlab.disable_deploy_key(42, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/42/deploy_keys/2/disable").
+          with(body: { id: '42', key_id: '2' })).to have_been_made
+    end
+
+    it "should return information about a disabled key" do
+      expect(@deploy_key.id).to eq(2)
+    end
+  end
+
   describe ".share_project_with_group" do
     before do
       stub_post("/projects/3/share", "group")
