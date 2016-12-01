@@ -46,10 +46,7 @@ class Gitlab::CLI
     when 'shell'
       Gitlab::Shell.start
     else
-      if args.include? '--json'
-        @json_output = true
-        args.delete '--json'
-      end
+      @output_format = extract_output_format(args)
 
       unless valid_command?(cmd)
         puts "Unknown command. Run `gitlab help` for a list of available commands."
@@ -80,8 +77,13 @@ class Gitlab::CLI
   # Helper method that checks whether we want to get the output as json
   # @return [nil]
   def self.render_output(cmd, args, data)
-    if @json_output
+    case @output_format
+    when :json
       output_json(cmd, args, data)
+    when :list
+      output_list(cmd, args, data)
+    when :simple
+      output_simple(cmd, args, data)
     else
       output_table(cmd, args, data)
     end

@@ -90,6 +90,43 @@ describe Gitlab::CLI do
       end
     end
 
+    context "when command with list output" do
+      before do
+        stub_get("/users", "users")
+        args = ['users', '--list']
+        @output = capture_output { Gitlab::CLI.start(args) }
+      end
+
+      it "should render output as list" do
+        expect(@output).to match(/\|\sid\s+\|\s1\s+\|/)
+        expect(@output).to match(/\|\semail\s+\|\sjohn@example.com\s+\|/)
+        expect(@output).to match(/\|\semail\s+\|\sjack@example.com\s+\|/)
+      end
+    end
+
+    context "when command with simple output" do
+      it "should render output as list" do
+        stub_get("/users", "users")
+        args = ['users', '--simple']
+        @output = capture_output { Gitlab::CLI.start(args) }
+
+        expect(@output).to include('id=1')
+        expect(@output).to include('email=john@example.com')
+        expect(@output).to include('email=jack@example.com')
+      end
+
+      it "should render output only value" do
+        stub_get('/users', 'users')
+        args = ['users', '--simple', '--only=email']
+        @output = capture_output { Gitlab::CLI.start(args) }
+
+        expect(@output).to_not include('id=1')
+        expect(@output).to_not include('email=john@example.com')
+        expect(@output).to include('john@example.com')
+        expect(@output).to include('jack@example.com')
+      end
+    end
+
     context "when command with required fields" do
       before do
         stub_get("/user", "user")

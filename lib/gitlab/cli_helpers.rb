@@ -101,6 +101,26 @@ class Gitlab::CLI
       end
     end
 
+    # Outputs a nicely formatted list or error msg.
+    def output_list(cmd, args, data)
+      case data
+        when Gitlab::ObjectifiedHash, Gitlab::FileResponse, Gitlab::PaginatedResponse
+          puts record_list(Array(data), cmd, args)
+        else # probably just an error msg
+          puts data
+      end
+    end
+
+    # Outputs a nicely formatted list or error msg.
+    def output_simple(cmd, args, data)
+      case data
+        when Gitlab::ObjectifiedHash, Gitlab::FileResponse, Gitlab::PaginatedResponse
+          puts record_simple(Array(data), cmd, args)
+        else # probably just an error msg
+          puts data
+      end
+    end
+
     def output_json(cmd, args, data)
       if data.empty?
         puts '{}'
@@ -149,6 +169,48 @@ class Gitlab::CLI
           t.add_separator unless arr.size - 1 == index
         end
       end
+
+    end
+
+    # Display records as key value list.
+    #
+    # @return [Terminal::Table]
+    def record_list(data, cmd, args)
+      return 'No data' if data.empty?
+
+      arr = record_hash(Array(data), cmd, args)
+      table do |t|
+        t.title = arr[:cmd]
+        arr[:result].each_with_index do |hash, index|
+          hash.each do |key, value|
+            t.add_row [key, value]
+          end
+          t.add_separator unless arr.size - 1 == index
+        end
+      end
+    end
+
+    # Display records in format that's easy to parse
+    #
+    # @return [Terminal::Table]
+    def record_simple(data, cmd, args)
+      return [] if data.empty?
+
+      arr = record_hash(Array(data), cmd, args)[:result]
+      single_key = arr.first.keys.size == 1
+
+      result = []
+      arr.each_with_index do |hash, index|
+        hash.each do |key, value|
+          if single_key
+            result << value
+          else
+            result << "#{key}=#{value}"
+          end
+        end
+        result << '' unless arr.size - 1 == index || single_key
+      end
+      result
     end
 
     # Renders the result of given commands and arguments into a Hash
@@ -236,6 +298,13 @@ class Gitlab::CLI
         raise "error: Argument is not valid YAML syntax: #{arg}"
       end
       yaml
+    end
+
+    def extract_output_format(args)
+      return :json if args.delete '--json'
+      return :list if args.delete '--list'
+      return :simple if args.delete '--simple'
+      :table
     end
   end
 end
