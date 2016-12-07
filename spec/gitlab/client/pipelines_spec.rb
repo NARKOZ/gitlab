@@ -36,6 +36,25 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_pipeline" do
+    before do
+      stub_post("/projects/3/pipeline?ref=master", "pipeline_create")
+      @pipeline_create = Gitlab.create_pipeline(3, 'master')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/pipeline?ref=master")).to have_been_made
+    end
+
+    it "should return a single pipeline" do
+      expect(@pipeline_create).to be_a Gitlab::ObjectifiedHash
+    end
+
+    it "should return information about a pipeline" do
+      expect(@pipeline_create.user.name).to eq("Administrator")
+    end
+  end
+
   describe ".cancel_pipeline" do
     before do
       stub_post("/projects/3/pipelines/46/cancel", "pipeline_cancel")
