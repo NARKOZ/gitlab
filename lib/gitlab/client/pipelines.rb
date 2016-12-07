@@ -32,36 +32,36 @@ class Gitlab::Client
     # Create a pipeline.
     #
     # @example
-    #   Gitlab.pipeline_create(5, 'master')
+    #   Gitlab.create_pipeline(5, 'master')
     #
     # @param  [Integer] project The ID of a project.
     # @param  [String] ref Reference to commit.
     # @return [Gitlab::ObjectifiedHash] The pipelines changes.
-    def pipeline_create(project, ref)
+    def create_pipeline(project, ref)
       post("/projects/#{project}/pipeline?ref=#{ref}")
     end
 
     # Cancels a pipeline.
     #
     # @example
-    #   Gitlab.pipeline_cancel(5, 1)
+    #   Gitlab.cancel_pipeline(5, 1)
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a pipeline.
     # @return [Gitlab::ObjectifiedHash] The pipelines changes.
-    def pipeline_cancel(project, id)
+    def cancel_pipeline(project, id)
       post("/projects/#{project}/pipelines/#{id}/cancel")
     end
 
     # Retry a pipeline.
     #
     # @example
-    #   Gitlab.pipeline_retry(5, 1)
+    #   Gitlab.retry_pipeline(5, 1)
     #
     # @param  [Integer] project The ID of a project.
     # @param  [Integer] id The ID of a pipeline.
     # @return [Array<Gitlab::ObjectifiedHash>] The pipelines changes.
-    def pipeline_retry(project, id)
+    def retry_pipeline(project, id)
       post("/projects/#{project}/pipelines/#{id}/retry")
     end
   end

@@ -36,10 +36,10 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".pipeline_cancel" do
+  describe ".cancel_pipeline" do
     before do
       stub_post("/projects/3/pipelines/46/cancel", "pipeline_cancel")
-      @pipeline_cancel = Gitlab.pipeline_cancel(3, 46)
+      @pipeline_cancel = Gitlab.cancel_pipeline(3, 46)
     end
     
     it "should get the correct resource" do
@@ -55,10 +55,10 @@ describe Gitlab::Client do
     end
   end
   
-  describe ".pipeline_retry" do
+  describe ".retry_pipeline" do
     before do
       stub_post("/projects/3/pipelines/46/retry", "pipeline_retry")
-      @pipeline_retry = Gitlab.pipeline_retry(3, 46)
+      @pipeline_retry = Gitlab.retry_pipeline(3, 46)
     end
     
     it "should get the correct resource" do
