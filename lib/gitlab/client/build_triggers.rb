@@ -7,10 +7,10 @@ class Gitlab::Client
     # @example
     #   Gitlab.triggers(5)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>] The list of triggers.
     def triggers(project)
-      get("/projects/#{project}/triggers")
+      get("/projects/#{url_encode project}/triggers")
     end
 
     # Gets details of project's build trigger.
@@ -18,11 +18,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.trigger(5, '7b9148c158980bbd9bcea92c17522d')
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] token The token of a trigger.
     # @return [Gitlab::ObjectifiedHash] The trigger.
     def trigger(project, token)
-      get("/projects/#{project}/triggers/#{token}")
+      get("/projects/#{url_encode project}/triggers/#{token}")
     end
 
     # Create a build trigger for a project.
@@ -30,10 +30,10 @@ class Gitlab::Client
     # @example
     #   Gitlab.create_trigger(5)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @return [Gitlab::ObjectifiedHash] The trigger.
     def create_trigger(project)
-      post("/projects/#{project}/triggers")
+      post("/projects/#{url_encode project}/triggers")
     end
 
     # Remove a project's build trigger.
@@ -41,11 +41,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.remove_trigger(5, '7b9148c158980bbd9bcea92c17522d')
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] token The token of a trigger.
     # @return [Gitlab::ObjectifiedHash] The trigger.
     def remove_trigger(project, token)
-      delete("/projects/#{project}/triggers/#{token}")
+      delete("/projects/#{url_encode project}/triggers/#{token}")
     end
   end
 end

@@ -10,12 +10,12 @@ class Gitlab::Client
     #                                         project_url: 'https://example.com/projects/test_project/issues',
     #                                         issues_url: 'https://example.com/issues/:id' })
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] service A service code name.
     # @param  [Hash] params A service parameters.
     # @return [Boolean]
     def change_service(project, service, params)
-      put("/projects/#{project}/services/#{correct_service_name(service)}", body: params)
+      put("/projects/#{url_encode project}/services/#{correct_service_name(service)}", body: params)
     end
 
     # Delete service
@@ -23,11 +23,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.delete_service(42, :redmine)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] service A service code name.
     # @return [Boolean]
     def delete_service(project, service)
-      delete("/projects/#{project}/services/#{correct_service_name(service)}")
+      delete("/projects/#{url_encode project}/services/#{correct_service_name(service)}")
     end
 
     # Get service
@@ -35,11 +35,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.service(42, :redmine)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] service A service code name.
     # @return [Gitlab::ObjectifiedHash]
     def service(project, service)
-      get("/projects/#{project}/services/#{correct_service_name(service)}")
+      get("/projects/#{url_encode project}/services/#{correct_service_name(service)}")
     end
 
     private

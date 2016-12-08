@@ -8,13 +8,13 @@ class Gitlab::Client
     #   Gitlab.file_contents(42, 'Gemfile')
     #   Gitlab.repo_file_contents(3, 'Gemfile', 'ed899a2f4b50b4370feeea94676502b42383c746')
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] filepath The relative path of the file in the repository
     # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
     # @return [String]
     def file_contents(project, filepath, ref='master')
       ref = URI.encode(ref, /\W/)
-      get "/projects/#{project}/repository/blobs/#{ref}?filepath=#{filepath}",
+      get "/projects/#{url_encode project}/repository/blobs/#{ref}?filepath=#{filepath}",
           format: nil,
           headers: { Accept: 'text/plain' },
           parser: ::Gitlab::Request::Parser
@@ -27,13 +27,13 @@ class Gitlab::Client
     #   Gitlab.tree(42)
     #   Gitlab.tree(42, { path: 'Gemfile' })
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :path The path inside repository.
     # @option options [String] :ref_name The name of a repository branch or tag.
     # @return [Gitlab::ObjectifiedHash]
     def tree(project, options={})
-      get("/projects/#{project}/repository/tree", query: options)
+      get("/projects/#{url_encode project}/repository/tree", query: options)
     end
     alias_method :repo_tree, :tree
 
@@ -43,11 +43,11 @@ class Gitlab::Client
     #   Gitlab.repo_archive(42)
     #   Gitlab.repo_archive(42, 'deadbeef')
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref The commit sha, branch, or tag to download.
     # @return [Gitlab::FileResponse]
     def repo_archive(project, ref = 'master')
-      get("/projects/#{project}/repository/archive",
+      get("/projects/#{url_encode project}/repository/archive",
           format: nil,
           headers: { Accept: 'application/octet-stream' },
           query: { sha: ref },
@@ -71,7 +71,7 @@ class Gitlab::Client
     # @param [String] to The commit SHA or branch name of to branch.
     # @return [Gitlab::ObjectifiedHash]
     def compare(project, from, to)
-      get("/projects/#{project}/repository/compare", query: { from: from, to: to })
+      get("/projects/#{url_encode project}/repository/compare", query: { from: from, to: to })
     end
     alias_method :repo_compare, :compare
   end

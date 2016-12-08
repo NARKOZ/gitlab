@@ -8,14 +8,14 @@ class Gitlab::Client
     #   Gitlab.builds(5)
     #   Gitlab.builds(5, { per_page: 10, page:  2 })
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def builds(project, options={})
-      get("/projects/#{project}/builds", query: options)
+      get("/projects/#{url_encode project}/builds", query: options)
     end
 
     # Gets a single build.
@@ -23,11 +23,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.build(5, 36)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a build.
     # @return [Gitlab::ObjectifiedHash]
     def build(project, id)
-      get("/projects/#{project}/builds/#{id}")
+      get("/projects/#{url_encode project}/builds/#{id}")
     end
 
     # Gets build artifacts.
@@ -35,11 +35,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.build_artifacts(1, 8)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a build.
     # @return [Gitlab::FileResponse]
     def build_artifacts(project, id)
-      get("/projects/#{project}/builds/#{id}/artifacts",
+      get("/projects/#{url_encode project}/builds/#{id}/artifacts",
            format: nil,
            headers: { Accept: 'application/octet-stream' },
            parser: proc { |body, _|
@@ -57,14 +57,14 @@ class Gitlab::Client
     #   Gitlab.commit_builds(5, 'asdf')
     #   Gitlab.commit_builds(5, 'asdf', { per_page: 10, page: 2 })
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] sha The SHA checksum of a commit.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>] The list of builds.
     def commit_builds(project, sha, options={})
-      get("/projects/#{project}/repository/commits/#{sha}/builds", query: options)
+      get("/projects/#{url_encode project}/repository/commits/#{sha}/builds", query: options)
     end
 
     # Cancels a build.
@@ -72,11 +72,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.build_cancel(5, 1)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a build.
     # @return [Gitlab::ObjectifiedHash] The builds changes.
     def build_cancel(project, id)
-      post("/projects/#{project}/builds/#{id}/cancel")
+      post("/projects/#{url_encode project}/builds/#{id}/cancel")
     end
 
     # Retry a build.
@@ -84,11 +84,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.build_retry(5, 1)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a build.
     # @return [Array<Gitlab::ObjectifiedHash>] The builds changes.
     def build_retry(project, id)
-      post("/projects/#{project}/builds/#{id}/retry")
+      post("/projects/#{url_encode project}/builds/#{id}/retry")
     end
 
     # Erase a single build of a project (remove build artifacts and a build trace)
@@ -96,11 +96,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.build_erase(5, 1)
     #
-    # @param  [Integer] project The ID of a project.
+    # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a build.
     # @return [Gitlab::ObjectifiedHash] The build's changes.
     def build_erase(project, id)
-      post("/projects/#{project}/builds/#{id}/erase")
+      post("/projects/#{url_encode project}/builds/#{id}/erase")
     end
   end
 end
