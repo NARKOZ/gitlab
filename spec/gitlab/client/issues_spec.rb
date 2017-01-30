@@ -18,6 +18,22 @@ describe Gitlab::Client do
       end
     end
 
+    context 'with literal project ID passed' do
+      before do
+        stub_get("/projects/gitlab-org%2Fgitlab-ce/issues", "project_issues")
+        @issues = Gitlab.issues('gitlab-org%2Fgitlab-ce')
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/projects/gitlab-org%2Fgitlab-ce/issues")).to have_been_made
+      end
+
+      it "should return a paginated response of project's issues" do
+        expect(@issues).to be_a Gitlab::PaginatedResponse
+        expect(@issues.first.project_id).to eq(3)
+      end
+    end
+
     context "without project ID passed" do
       before do
         stub_get("/issues", "issues")

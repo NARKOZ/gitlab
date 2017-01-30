@@ -8,6 +8,7 @@
 - Update documentation to link to docs.gitlab.com instead of the GitHub mirror for GitLab CE. (@connorshea)
 - Add method `share_project_with_group` (@danhalligan)
 - Allow to retrieve `ssh_keys` for a specific user(@dirker)
+- Allow issues to use NAMESPACE/REPO identifier (@brodock)
 
 ### 3.7.0 (16/08/2016)
 

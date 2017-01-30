@@ -16,7 +16,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def issues(project=nil, options={})
-      if project.to_i.zero?
+      if project.to_s.empty? && project.to_i.zero?
         get("/issues", query: options)
       else
         get("/projects/#{project}/issues", query: options)
