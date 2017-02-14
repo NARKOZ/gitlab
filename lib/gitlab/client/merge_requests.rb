@@ -26,7 +26,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return <Gitlab::ObjectifiedHash]
     def merge_request(project, id)
-      get("/projects/#{url_encode project}/merge_request/#{id}")
+      get("/projects/#{url_encode project}/merge_requests/#{id}")
     end
 
     # Creates a merge request.
@@ -65,7 +65,7 @@ class Gitlab::Client
     # @option options [String] :state_event New state (close|reopen|merge).
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def update_merge_request(project, id, options={})
-      put("/projects/#{url_encode project}/merge_request/#{id}", body: options)
+      put("/projects/#{url_encode project}/merge_requests/#{id}", body: options)
     end
 
     # Accepts a merge request.
@@ -79,7 +79,7 @@ class Gitlab::Client
     # @option options [String] :merge_commit_message Custom merge commit message
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def accept_merge_request(project, id, options={})
-      put("/projects/#{url_encode project}/merge_request/#{id}/merge", body: options)
+      put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
     end
 
     # Adds a comment to a merge request.
@@ -124,7 +124,7 @@ class Gitlab::Client
     def delete_merge_request_comment(project, id, note_id)
       delete("/projects/#{url_encode project}/merge_requests/#{id}/notes/#{note_id}")
     end
-    
+
     # Gets the comments on a merge request.
     #
     # @example
@@ -150,7 +150,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Gitlab::ObjectifiedHash] The merge request's changes.
     def merge_request_changes(project, id)
-      get("/projects/#{url_encode project}/merge_request/#{id}/changes")
+      get("/projects/#{url_encode project}/merge_requests/#{id}/changes")
     end
 
     # Gets the commits of a merge request.
@@ -162,7 +162,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a merge request.
     # @return [Array<Gitlab::ObjectifiedHash>] The merge request's commits.
     def merge_request_commits(project, id)
-      get("/projects/#{url_encode project}/merge_request/#{id}/commits")
+      get("/projects/#{url_encode project}/merge_requests/#{id}/commits")
     end
   end
 end

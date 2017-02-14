@@ -19,12 +19,12 @@ describe Gitlab::Client do
 
   describe ".merge_request" do
     before do
-      stub_get("/projects/3/merge_request/1", "merge_request")
+      stub_get("/projects/3/merge_requests/1", "merge_request")
       @merge_request = Gitlab.merge_request(3, 1)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/merge_request/1")).to have_been_made
+      expect(a_get("/projects/3/merge_requests/1")).to have_been_made
     end
 
     it "should return information about a merge request" do
@@ -50,7 +50,7 @@ describe Gitlab::Client do
 
   describe ".update_merge_request" do
     before do
-      stub_put("/projects/3/merge_request/2", "merge_request").
+      stub_put("/projects/3/merge_requests/2", "merge_request").
         with(body: {
                assignee_id: '1',
                target_branch: 'master',
@@ -64,7 +64,7 @@ describe Gitlab::Client do
     end
 
     it "should get the correct resource" do
-      expect(a_put("/projects/3/merge_request/2").
+      expect(a_put("/projects/3/merge_requests/2").
         with(body: {
                assignee_id: '1',
                target_branch: 'master',
@@ -80,13 +80,13 @@ describe Gitlab::Client do
 
   describe ".accept_merge_request" do
     before do
-      stub_put("/projects/5/merge_request/42/merge", "merge_request").
+      stub_put("/projects/5/merge_requests/42/merge", "merge_request").
         with(body: { merge_commit_message: 'Nice!' })
       @merge_request = Gitlab.accept_merge_request(5, 42, merge_commit_message: 'Nice!')
     end
 
     it "should get the correct resource" do
-      expect(a_put("/projects/5/merge_request/42/merge").
+      expect(a_put("/projects/5/merge_requests/42/merge").
         with(body: { merge_commit_message: 'Nice!' })).to have_been_made
     end
 
@@ -134,12 +134,12 @@ describe Gitlab::Client do
 
   describe ".merge_request_changes" do
     before do
-      stub_get("/projects/3/merge_request/2/changes", "merge_request_changes")
+      stub_get("/projects/3/merge_requests/2/changes", "merge_request_changes")
       @mr_changes = Gitlab.merge_request_changes(3, 2)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/merge_request/2/changes")).to have_been_made
+      expect(a_get("/projects/3/merge_requests/2/changes")).to have_been_made
     end
 
     it "should return the merge request changes" do
@@ -154,12 +154,12 @@ describe Gitlab::Client do
 
   describe ".merge_request_commits" do
     before do
-      stub_get("/projects/3/merge_request/2/commits", "merge_request_commits")
+      stub_get("/projects/3/merge_requests/2/commits", "merge_request_commits")
       @mr_commits = Gitlab.merge_request_commits(3, 2)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/3/merge_request/2/commits")).to have_been_made
+      expect(a_get("/projects/3/merge_requests/2/commits")).to have_been_made
     end
 
     it "should return the merge request commits" do
