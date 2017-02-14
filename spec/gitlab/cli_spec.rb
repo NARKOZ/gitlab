@@ -106,5 +106,14 @@ describe Gitlab::CLI do
         expect(@output).to_not include('created_at')
       end
     end
+
+    context "fetch project with namespace/repo" do
+      it "should encode delimiter" do
+        stub_get("/projects/gitlab-org%2Fgitlab-ce", "project")
+        args = ['project', 'gitlab-org/gitlab-ce']
+        @output = capture_output { Gitlab::CLI.start(args) }
+        expect(@output).to include('id')
+      end
+    end
   end
 end

@@ -39,6 +39,10 @@ module Gitlab
       inspected
     end
 
+    def url_encode(s)
+      ERB::Util.url_encode(s)
+    end
+
     private
 
     def only_show_last_four_chars(token)

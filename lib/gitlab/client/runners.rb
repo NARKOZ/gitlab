@@ -78,10 +78,10 @@ class Gitlab::Client
     # @example
     #   Gitlab.project_runners(42)
     #
-    # @param  [Integer, String] id The ID of a project.
+    # @param  [Integer, String] id The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_runners(project_id)
-      get("/projects/#{project_id}/runners")
+      get("/projects/#{url_encode project_id}/runners")
     end
 
     # Enable an available specific runner in the project.
@@ -90,12 +90,12 @@ class Gitlab::Client
     # @example
     #   Gitlab.project_enable_runner(2, 42)
     #
-    # @param  [Integer, String] id The ID of a project.
+    # @param  [Integer, String] id The ID or name of a project.
     # @param  [Integer, String] id The ID of a runner.
     # @return <Gitlab::ObjectifiedHash>
     def project_enable_runner(project_id, id)
       body = { runner_id: id }
-      post("/projects/#{project_id}/runners", body: body)
+      post("/projects/#{url_encode project_id}/runners", body: body)
     end
 
     # Disable a specific runner from the project. It works only if the project isn't the only project associated with the specified runner.
@@ -104,11 +104,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.project_disable_runner(2, 42)
     #
-    # @param  [Integer, String] id The ID of a project.
+    # @param  [Integer, String] id The ID or name of a project.
     # @param  [Integer, String] runner_id The ID of a runner.
     # @return <Gitlab::ObjectifiedHash>
     def project_disable_runner(id, runner_id)
-      delete("/projects/#{id}/runners/#{runner_id}")
+      delete("/projects/#{url_encode id}/runners/#{runner_id}")
     end
 
   end
