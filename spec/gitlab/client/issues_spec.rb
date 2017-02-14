@@ -21,7 +21,7 @@ describe Gitlab::Client do
     context 'with literal project ID passed' do
       before do
         stub_get("/projects/gitlab-org%2Fgitlab-ce/issues", "project_issues")
-        @issues = Gitlab.issues('gitlab-org%2Fgitlab-ce')
+        @issues = Gitlab.issues('gitlab-org/gitlab-ce')
       end
 
       it "should get the correct resource" do
