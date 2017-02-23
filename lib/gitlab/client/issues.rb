@@ -97,6 +97,30 @@ class Gitlab::Client
       put("/projects/#{url_encode project}/issues/#{id}", body: { state_event: 'reopen' })
     end
 
+    # Subscribe to an issue.
+    #
+    # @example
+    #   Gitlab.subscribe_to_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @return [Gitlab::ObjectifiedHash] Information about subscribed issue.
+    def subscribe_to_issue(project, id)
+      post("/projects/#{url_encode project}/issues/#{id}/subscribe")
+    end
+
+    # Unsubscribe from an issue.
+    #
+    # @example
+    #   Gitlab.unsubscribe_from_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @return [Gitlab::ObjectifiedHash] Information about unsubscribed issue.
+    def unsubscribe_from_issue(project, id)
+      post("/projects/#{url_encode project}/issues/#{id}/unsubscribe")
+    end
+
     # Deletes  an issue.
     # Only for admins and project owners
     #

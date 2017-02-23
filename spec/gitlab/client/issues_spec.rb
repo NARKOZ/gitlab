@@ -136,6 +136,38 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".subscribe_to_issue" do
+    before do
+      stub_post("/projects/3/issues/33/subscribe", "issue")
+      @issue = Gitlab.subscribe_to_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/subscribe")).to have_been_made
+    end
+
+    it "should return information about the subscribed issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+
+  describe ".unsubscribe_from_issue" do
+    before do
+      stub_post("/projects/3/issues/33/unsubscribe", "issue")
+      @issue = Gitlab.unsubscribe_from_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/unsubscribe")).to have_been_made
+    end
+
+    it "should return information about the unsubscribed issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+
   describe ".delete_issue" do
     before do
       stub_delete("/projects/3/issues/33", "issue")

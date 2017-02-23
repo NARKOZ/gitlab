@@ -164,5 +164,31 @@ class Gitlab::Client
     def merge_request_commits(project, id)
       get("/projects/#{url_encode project}/merge_requests/#{id}/commits")
     end
+
+    # Subscribes to a merge request.
+    #
+    # @example
+    #   Gitlab.subscribe_to_merge_request(5, 1)
+    #   Gitlab.subscribe_to_merge_request('gitlab', 1)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] Information about subscribed merge request.
+    def subscribe_to_merge_request(project, id)
+      post("/projects/#{url_encode project}/merge_requests/#{id}/subscribe")
+    end
+
+    # Unsubscribes from a merge request.
+    #
+    # @example
+    #   Gitlab.unsubscribe_from_merge_request(5, 1)
+    #   Gitlab.unsubscribe_from_merge_request('gitlab', 1)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] Information about unsubscribed merge request.
+    def unsubscribe_from_merge_request(project, id)
+      post("/projects/#{url_encode project}/merge_requests/#{id}/unsubscribe")
+    end
   end
 end

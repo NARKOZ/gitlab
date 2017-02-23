@@ -174,4 +174,34 @@ describe Gitlab::Client do
       expect(@mr_commits[1].title).to eq "hoge"
     end
   end
+
+  describe ".subscribe_to_merge_request" do
+    before do
+      stub_post("/projects/3/merge_requests/2/subscribe", "merge_request")
+      @merge_request = Gitlab.subscribe_to_merge_request(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/merge_requests/2/subscribe")).to have_been_made
+    end
+
+    it "should return information about a merge request" do
+      expect(@merge_request.project_id).to eq(3)
+    end
+  end
+
+  describe ".unsubscribe_from_merge_request" do
+    before do
+      stub_post("/projects/3/merge_requests/2/unsubscribe", "merge_request")
+      @merge_request = Gitlab.unsubscribe_from_merge_request(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/merge_requests/2/unsubscribe")).to have_been_made
+    end
+
+    it "should return information about a merge request" do
+      expect(@merge_request.project_id).to eq(3)
+    end
+  end
 end
