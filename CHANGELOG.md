@@ -9,6 +9,8 @@
 - Add method `share_project_with_group` (@danhalligan)
 - Allow to retrieve `ssh_keys` for a specific user(@dirker)
 - Allow issues to use NAMESPACE/REPO identifier (@brodock)
+- Add issues subscribe/unsubscribe (@newellista)
+- Add merge_requests subscribe/unsubscribe (@newellista)
 
 ### 3.7.0 (16/08/2016)
 
