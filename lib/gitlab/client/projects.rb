@@ -336,7 +336,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def deploy_keys(project, options={})
-      get("/projects/#{url_encode project}/keys", query: options)
+      get("/projects/#{url_encode project}/deploy_keys", query: options)
     end
 
     # Gets a single project deploy key.
@@ -348,7 +348,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a deploy key.
     # @return [Gitlab::ObjectifiedHash]
     def deploy_key(project, id)
-      get("/projects/#{url_encode project}/keys/#{id}")
+      get("/projects/#{url_encode project}/deploy_keys/#{id}")
     end
 
     # Creates a new deploy key.
@@ -361,7 +361,7 @@ class Gitlab::Client
     # @param  [String] key The content of a deploy key.
     # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
     def create_deploy_key(project, title, key)
-      post("/projects/#{url_encode project}/keys", body: { title: title, key: key })
+      post("/projects/#{url_encode project}/deploy_keys", body: { title: title, key: key })
     end
 
     # Enables a deploy key at the project.
@@ -397,7 +397,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a deploy key.
     # @return [Gitlab::ObjectifiedHash] Information about deleted deploy key.
     def delete_deploy_key(project, id)
-      delete("/projects/#{url_encode project}/keys/#{id}")
+      delete("/projects/#{url_encode project}/deploy_keys/#{id}")
     end
 
     # Forks a project into the user namespace.
