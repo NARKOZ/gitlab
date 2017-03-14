@@ -11,6 +11,7 @@
 - Allow issues to use NAMESPACE/REPO identifier (@brodock)
 - Add issues subscribe/unsubscribe (@newellista)
 - Add merge_requests subscribe/unsubscribe (@newellista)
+- Updated `deploy_key` endpoints (@epintozzi)
 
 ### 3.7.0 (16/08/2016)
 

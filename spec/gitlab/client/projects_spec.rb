@@ -475,12 +475,12 @@ describe Gitlab::Client do
 
   describe ".deploy_keys" do
     before do
-      stub_get("/projects/42/keys", "project_keys")
+      stub_get("/projects/42/deploy_keys", "project_keys")
       @deploy_keys = Gitlab.deploy_keys(42)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/42/keys")).to have_been_made
+      expect(a_get("/projects/42/deploy_keys")).to have_been_made
     end
 
     it "should return project deploy keys" do
@@ -493,12 +493,12 @@ describe Gitlab::Client do
 
   describe ".deploy_key" do
     before do
-      stub_get("/projects/42/keys/2", "project_key")
+      stub_get("/projects/42/deploy_keys/2", "project_key")
       @deploy_key = Gitlab.deploy_key(42, 2)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/42/keys/2")).to have_been_made
+      expect(a_get("/projects/42/deploy_keys/2")).to have_been_made
     end
 
     it "should return project deploy key" do
@@ -510,12 +510,12 @@ describe Gitlab::Client do
 
   describe ".delete_deploy_key" do
     before do
-      stub_delete("/projects/42/keys/2", "project_key")
+      stub_delete("/projects/42/deploy_keys/2", "project_key")
       @deploy_key = Gitlab.delete_deploy_key(42, 2)
     end
 
     it "should get the correct resource" do
-      expect(a_delete("/projects/42/keys/2")).to have_been_made
+      expect(a_delete("/projects/42/deploy_keys/2")).to have_been_made
     end
 
     it "should return information about a deleted key" do
