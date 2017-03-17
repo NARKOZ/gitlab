@@ -134,4 +134,35 @@ describe Gitlab::Client do
       expect(@status.ref).to eq('decreased-spec')
     end
   end
+
+  describe ".create_commit" do
+    let(:actions) do
+      [
+        {
+          action: "create",
+          file_path: "foo/bar",
+          content: "some content"
+        }
+      ]
+    end
+
+    let(:query) do
+      {
+        branch_name: 'dev',
+        commit_message: 'refactors everything',
+        actions: actions,
+        author_email: 'joe@sample.org',
+        author_name: 'Joe Sample'
+      }
+    end
+
+    before do
+      stub_post("/projects/6/repository/commits", 'project_commit_create').with(query: query)
+      @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, {author_email: 'joe@sample.org', author_name: 'Joe Sample'})
+    end
+
+    it "should return id of a created commit" do
+      expect(@commit.id).to eq('ed899a2f4b50b4370feeea94676502b42383c746')
+    end
+  end
 end
