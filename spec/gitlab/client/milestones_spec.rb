@@ -48,6 +48,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".milestone_merge_requests" do
+    before do
+      stub_get("/projects/3/milestones/1/merge_requests", "milestone_merge_requests")
+      @milestone_merge_requests = Gitlab.milestone_merge_requests(3, 1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/milestones/1/merge_requests")).to have_been_made
+    end
+
+    it "should return a paginated response of milestone's merge_requests" do
+      expect(@milestone_merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@milestone_merge_requests.first.milestone.id).to eq(1)
+    end
+  end
+
   describe ".create_milestone" do
     before do
       stub_post("/projects/3/milestones", "milestone")

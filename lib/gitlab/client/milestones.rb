@@ -42,6 +42,20 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/milestones/#{milestone}/issues", query: options)
     end
 
+    # Gets the merge_requests of a given milestone.
+    #
+    # @example
+    #   Gitlab.milestone_merge_requests(5, 2)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer, String] milestone The ID of a milestone.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def milestone_merge_requests(project, milestone, options={})
+      get("/projects/#{url_encode project}/milestones/#{milestone}/merge_requests", query: options)
+    end
+
     # Creates a new milestone.
     #
     # @example
