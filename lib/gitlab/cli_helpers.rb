@@ -95,7 +95,7 @@ class Gitlab::CLI
       when Gitlab::ObjectifiedHash, Gitlab::FileResponse
         puts record_table([data], cmd, args)
       when Gitlab::PaginatedResponse
-        puts record_table(data, cmd, args)
+        puts record_table(data.auto_paginate, cmd, args)
       else # probably just an error msg
         puts data
       end
@@ -109,7 +109,7 @@ class Gitlab::CLI
                       when Gitlab::ObjectifiedHash,Gitlab::FileResponse
                         record_hash([data], cmd, args, true)
                       when Gitlab::PaginatedResponse
-                        record_hash(data, cmd, args)
+                        record_hash(data.auto_paginate, cmd, args)
                       else
                         { cmd: cmd, data: data, args: args }
         end
@@ -231,6 +231,9 @@ class Gitlab::CLI
     # YAML::load on a single argument
     def yaml_load(arg)
       begin
+        if File.exists?(arg)
+          arg = File.read(arg)
+        end
         yaml = YAML.load(arg)
       rescue Psych::SyntaxError
         raise "error: Argument is not valid YAML syntax: #{arg}"
