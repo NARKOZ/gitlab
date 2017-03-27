@@ -13,6 +13,7 @@
 - Add merge_requests subscribe/unsubscribe (@newellista)
 - Updated `deploy_key` endpoints (@epintozzi)
 - Add milestone/merge_requests (API V4 only) (@joren)
+- Change project fork endpoint for v4 API. (@asedge)
 
 ### 3.7.0 (16/08/2016)
 

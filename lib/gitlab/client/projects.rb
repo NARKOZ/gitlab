@@ -411,7 +411,7 @@ class Gitlab::Client
     # @option options [String] :sudo The username the project will be forked for
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
     def create_fork(id, options={})
-      post("/projects/fork/#{id}", body: options)
+      post("/projects/#{id}/fork", body: options)
     end
 
     # Updates an existing project.
