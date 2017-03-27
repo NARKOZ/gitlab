@@ -363,81 +363,81 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".git_hook" do
+  describe ".push_rule" do
     before do
-      stub_get("/projects/1/git_hook", "git_hook")
-      @git_hook = Gitlab.git_hook(1)
+      stub_get("/projects/1/push_rule", "push_rule")
+      @push_rule = Gitlab.push_rule(1)
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/1/git_hook")).to have_been_made
+      expect(a_get("/projects/1/push_rule")).to have_been_made
     end
 
-    it "should return information about a git hook" do
-      expect(@git_hook.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
+    it "should return information about a push rule" do
+      expect(@push_rule.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
     end
   end
 
-  describe ".add_git_hook" do
+  describe ".add_push_rule" do
     before do
-      stub_post("/projects/1/git_hook", "git_hook")
-      @git_hook = Gitlab.add_git_hook(1, { deny_delete_tag: false, commit_message_regex: "\\b[A-Z]{3}-[0-9]+\\b" })
+      stub_post("/projects/1/push_rule", "push_rule")
+      @push_rule = Gitlab.add_push_rule(1, { deny_delete_tag: false, commit_message_regex: "\\b[A-Z]{3}-[0-9]+\\b" })
     end
 
     it "should get the correct resource" do
-      expect(a_post("/projects/1/git_hook")).to have_been_made
+      expect(a_post("/projects/1/push_rule")).to have_been_made
     end
 
-    it "should return information about an added git hook" do
-      expect(@git_hook.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
+    it "should return information about an added push rule" do
+      expect(@push_rule.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
     end
   end
 
-  describe ".edit_git_hook" do
+  describe ".edit_push_rule" do
     before do
-      stub_put("/projects/1/git_hook", "git_hook")
-      @git_hook = Gitlab.edit_git_hook(1, { deny_delete_tag: false, commit_message_regex: "\\b[A-Z]{3}-[0-9]+\\b" })
+      stub_put("/projects/1/push_rule", "push_rule")
+      @push_rule = Gitlab.edit_push_rule(1, { deny_delete_tag: false, commit_message_regex: "\\b[A-Z]{3}-[0-9]+\\b" })
     end
 
     it "should get the correct resource" do
-      expect(a_put("/projects/1/git_hook")).to have_been_made
+      expect(a_put("/projects/1/push_rule")).to have_been_made
     end
 
-    it "should return information about an edited git hook" do
-      expect(@git_hook.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
+    it "should return information about an edited push rule" do
+      expect(@push_rule.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
     end
   end
 
-  describe ".delete_git_hook" do
+  describe ".delete_push_rule" do
     context "when empty response" do
       before do
-        stub_request(:delete, "#{Gitlab.endpoint}/projects/1/git_hook").
+        stub_request(:delete, "#{Gitlab.endpoint}/projects/1/push_rule").
           with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token }).
           to_return(body: '')
-        @git_hook = Gitlab.delete_git_hook(1)
+        @push_rule = Gitlab.delete_push_rule(1)
       end
 
       it "should get the correct resource" do
-        expect(a_delete("/projects/1/git_hook")).to have_been_made
+        expect(a_delete("/projects/1/push_rule")).to have_been_made
       end
 
       it "should return false" do
-        expect(@git_hook).to be(false)
+        expect(@push_rule).to be(false)
       end
     end
 
     context "when JSON response" do
       before do
-        stub_delete("/projects/1/git_hook", "git_hook")
-        @git_hook = Gitlab.delete_git_hook(1)
+        stub_delete("/projects/1/push_rule", "push_rule")
+        @push_rule = Gitlab.delete_push_rule(1)
       end
 
       it "should get the correct resource" do
-        expect(a_delete("/projects/1/git_hook")).to have_been_made
+        expect(a_delete("/projects/1/push_rule")).to have_been_made
       end
 
-      it "should return information about a deleted git hook" do
-        expect(@git_hook.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
+      it "should return information about a deleted push rule" do
+        expect(@push_rule.commit_message_regex).to eq("\\b[A-Z]{3}-[0-9]+\\b")
       end
     end
   end
