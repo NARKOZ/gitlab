@@ -1,7 +1,7 @@
 ## Change Log
 
 ### Unreleased
-
+- Adds ability to create commits in a repository - (@logicminds)
 - Remove Ruby 1.x support from the project - (@orta)
 - Add `star_project` and `unstar_project` methods. (@connorshea)
 - Lock terminal-table to prevent build failures on Ruby 1.9/2.0. (@connorshea)

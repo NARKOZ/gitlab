@@ -117,5 +117,30 @@ class Gitlab::Client
       post("/projects/#{id}/statuses/#{sha}", query: options.merge(state: state))
     end
     alias_method :repo_update_commit_status, :update_commit_status
+
+    # Creates a single commit with one or more changes
+    #
+    # @see https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
+    # Introduced in Gitlab 8.13
+    #
+    # @example
+    # Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'create', file_path: '/foo.txt', content: 'bar'}])
+    # Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'delete', file_path: '/foo.txt'}])
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param [String] branch the branch name you wish to commit to
+    # @param [String] message the commit message
+    # @param [Array[Hash]] An array of action hashes to commit as a batch. See the next table for what attributes it can take.
+    # @option options [String] :author_email the email address of the author
+    # @option options [String] :author_name the name of the author
+    # @return [Gitlab::ObjectifiedHash] hash of commit related data
+    def create_commit(project, branch, message, actions, options={})
+      payload = {
+          branch_name: branch,
+          commit_message: message,
+          actions: actions,
+      }.merge(options)
+      post("/projects/#{url_encode project}/repository/commits", query: payload)
+    end
   end
 end
