@@ -132,12 +132,12 @@ describe Gitlab::Client do
 
   describe ".block_user" do
     before do
-      stub_put("/users/1/block", "user_block_unblock")
+      stub_post("/users/1/block", "user_block_unblock")
       @result = Gitlab.block_user(1)
     end
 
     it "should get the correct resource" do
-      expect(a_put("/users/1/block")).to have_been_made
+      expect(a_post("/users/1/block")).to have_been_made
     end
 
     it "should return boolean" do
@@ -147,12 +147,12 @@ describe Gitlab::Client do
 
   describe ".unblock_user" do
     before do
-      stub_put("/users/1/unblock", "user_block_unblock")
+      stub_post("/users/1/unblock", "user_block_unblock")
       @result = Gitlab.unblock_user(1)
     end
 
     it "should get the correct resource" do
-      expect(a_put("/users/1/unblock")).to have_been_made
+      expect(a_post("/users/1/unblock")).to have_been_made
     end
 
     it "should return boolean" do

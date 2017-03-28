@@ -96,7 +96,7 @@ class Gitlab::Client
     # @param [Integer] user_id The Id of user
     # @return [Boolean] success or not
     def block_user(user_id)
-      put("/users/#{user_id}/block")
+      post("/users/#{user_id}/block")
     end
 
     # Unblocks the specified user. Available only for admin.
@@ -107,7 +107,7 @@ class Gitlab::Client
     # @param [Integer] user_id The Id of user
     # @return [Boolean] success or not
     def unblock_user(user_id)
-      put("/users/#{user_id}/unblock")
+      post("/users/#{user_id}/unblock")
     end
 
     # Creates a new user session.
