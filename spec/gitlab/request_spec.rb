@@ -15,7 +15,7 @@ describe Gitlab::Request do
       expect(default_options).to be_a Hash
       expect(default_options[:parser]).to be_a Proc
       expect(default_options[:format]).to eq(:json)
-      expect(default_options[:headers]).to eq('Accept' => 'application/json')
+      expect(default_options[:headers]).to eq('Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded')
       expect(default_options[:default_params]).to be_nil
     end
   end
