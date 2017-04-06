@@ -165,6 +165,17 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/merge_requests/#{id}/commits")
     end
 
+    # List issues that will close on merge
+    #
+    # @example
+    #   Gitlab.merge_request_closes_issues(5, 1)
+    #
+    # @param [Integer] project The ID of a project
+    # @param [Integer] iid The internal ID of a merge request
+    def merge_request_closes_issues(project_id, merge_request_iid)
+      get("/projects/#{project_id}/merge_requests/#{merge_request_iid}/closes_issues")
+    end
+
     # Subscribes to a merge request.
     #
     # @example
