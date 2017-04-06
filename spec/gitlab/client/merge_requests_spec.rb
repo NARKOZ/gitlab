@@ -175,6 +175,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".merge_request_closes_issues" do
+    before do
+      stub_get("/projects/5/merge_requests/1/closes_issues", "merge_request_closes_issues")
+      @issues = Gitlab.merge_request_closes_issues(5, 1)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/5/merge_requests/1/closes_issues")).to have_been_made
+    end
+
+    it "should return a paginated response of the issues the merge_request will close" do
+      expect(@issues).to be_a(Gitlab::PaginatedResponse)
+      expect(@issues.first.title).to eq("Merge request 1 issue 1")
+      expect(@issues.size).to eq(2)
+    end
+  end
+
   describe ".subscribe_to_merge_request" do
     before do
       stub_post("/projects/3/merge_requests/2/subscribe", "merge_request")

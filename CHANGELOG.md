@@ -19,6 +19,7 @@
 - Project ID can also be a string (namespace/project_name). (@bergholdt)
 - Support pipeline. (@bergholdt)
 - Add methods to disable and enable deploy keys on projects. (@buzzdeee)
+- Add method to fetch issues a merge request will close. (@joren)
 
 ### 3.7.0 (16/08/2016)
 
