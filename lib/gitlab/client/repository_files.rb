@@ -4,6 +4,26 @@ class Gitlab::Client
   # Defines methods related to repository files.
   # @see https://docs.gitlab.com/ce/api/repository_files.html
   module RepositoryFiles
+    # Get the contents of a file
+    #
+    # @example
+    #   Gitlab.file_contents(42, 'Gemfile')
+    #   Gitlab.repo_file_contents(3, 'Gemfile', 'ed899a2f4b50b4370feeea94676502b42383c746')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] filepath The relative path of the file in the repository
+    # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
+    # @return [String]
+    def file_contents(project, filepath, ref='master')
+      ref = URI.encode(ref, /\W/)
+      get "/projects/#{url_encode project}/repository/files/#{url_encode filepath}/raw",
+          query: { ref: ref},
+          format: nil,
+          headers: { Accept: 'text/plain' },
+          parser: ::Gitlab::Request::Parser
+    end
+    alias_method :repo_file_contents, :file_contents
+
     # Gets a repository file.
     #
     # @example
