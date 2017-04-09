@@ -1,5 +1,6 @@
 *.gem
 *.rbc
+*.swp
 .bundle
 .config
 .yardoc
@@ -15,6 +16,7 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+vendor/bundle
 .idea
 .ruby-version
 .ruby-gemset
