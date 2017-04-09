@@ -14,8 +14,7 @@ class Gitlab::Client
     # @param  [String] ref The name of branch, tag or commit.
     # @return [Gitlab::ObjectifiedHash]
     def get_file(project, file_path, ref)
-      get("/projects/#{url_encode project}/repository/files", query: {
-            file_path: file_path,
+      get("/projects/#{url_encode project}/repository/files/#{url_encode file_path}", query: {
             ref: ref
           })
     end
