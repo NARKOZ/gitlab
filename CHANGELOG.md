@@ -1,6 +1,8 @@
 ## Change Log
 
 ### Unreleased
+
+### 4.0.0 (10/04/2017)
 - Adds ability to create commits in a repository - (@logicminds)
 - Remove Ruby 1.x support from the project - (@orta)
 - Add `star_project` and `unstar_project` methods. (@connorshea)
@@ -20,6 +22,7 @@
 - Support pipeline. (@bergholdt)
 - Add methods to disable and enable deploy keys on projects. (@buzzdeee)
 - Add method to fetch issues a merge request will close. (@joren)
+- Fix `get_file` and `file_contents` methods to work with APIv4. (@asedge)
 
 ### 3.7.0 (16/08/2016)
 

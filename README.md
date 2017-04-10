@@ -10,7 +10,8 @@
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html) for Ruby 2.0+.
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).
+As of version `4.0.0` this gem will only support Ruby 2.0+ and Gitlab API v4.
 
 ## Installation
 
@@ -33,7 +34,7 @@ Configuration example:
 
 ```ruby
 Gitlab.configure do |config|
-  config.endpoint       = 'https://example.net/api/v3' # API endpoint URL, default: ENV['GITLAB_API_ENDPOINT']
+  config.endpoint       = 'https://example.net/api/v4' # API endpoint URL, default: ENV['GITLAB_API_ENDPOINT']
   config.private_token  = 'qEsq1pt6HJPaNciie3MG'       # user's private token or OAuth2 access token, default: ENV['GITLAB_API_PRIVATE_TOKEN']
   # Optional
   # config.user_agent   = 'Custom User Agent'          # user agent, default: 'Gitlab Ruby Gem [version]'
@@ -41,14 +42,14 @@ Gitlab.configure do |config|
 end
 ```
 
-(Note: If you are using GitLab.com's hosted service, your endpoint will be `https://gitlab.com/api/v3`)
+(Note: If you are using GitLab.com's hosted service, your endpoint will be `https://gitlab.com/api/v4`)
 
 Usage examples:
 
 ```ruby
 # set an API endpoint
-Gitlab.endpoint = 'http://example.net/api/v3'
-# => "http://example.net/api/v3"
+Gitlab.endpoint = 'http://example.net/api/v4'
+# => "http://example.net/api/v4"
 
 # set a user private token
 Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
@@ -107,7 +108,7 @@ For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/f
 
 It is possible to use this gem as a command line interface to gitlab. In order to make that work you need to set a few environment variables:
 ```sh
-export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v3
+export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v4
 export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
 # This one is optional and can be used to set any HTTParty option you may need
 # using YAML hash syntax. For example, this is how you would disable SSL
