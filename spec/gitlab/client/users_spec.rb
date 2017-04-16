@@ -160,6 +160,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe "#session" do
+    before do
+      stub_post("/session", "session")
+      client = Gitlab.client(private_token: Gitlab.private_token, endpoint: Gitlab.endpoint)
+      @session = client.session("email", "pass")
+    end
+
+    it "should get the correct resource" do
+      a_post("/session").should have_been_made
+    end
+
+    it "should return information about a created session" do
+      @session.email.should == "john@example.com"
+      @session.private_token.should == "qEsq1pt6HJPaNciie3MG"
+    end
+  end
+
   describe ".session" do
     after do
       Gitlab.endpoint = 'https://api.example.com'
