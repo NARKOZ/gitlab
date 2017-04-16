@@ -20,3 +20,4 @@ vendor/bundle
 .idea
 .ruby-version
 .ruby-gemset
+/tags
