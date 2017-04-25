@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = ">= 2.0.0"
 
   gem.add_runtime_dependency 'httparty'
-  gem.add_runtime_dependency 'terminal-table', '1.7.1'
+  gem.add_runtime_dependency 'terminal-table'
 
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
