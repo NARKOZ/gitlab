@@ -10,6 +10,7 @@ module Gitlab
     include Commits
     include Groups
     include Issues
+    include Keys
     include Labels
     include MergeRequests
     include Milestones
