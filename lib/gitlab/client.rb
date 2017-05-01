@@ -5,7 +5,6 @@ module Gitlab
 
     include Branches
     include Builds
-    include BuildTriggers
     include BuildVariables
     include Commits
     include Groups
@@ -17,6 +16,7 @@ module Gitlab
     include Namespaces
     include Notes
     include Pipelines
+    include PipelineTriggers
     include Projects
     include Repositories
     include RepositoryFiles
