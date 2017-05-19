@@ -12,10 +12,10 @@ describe Gitlab::Client do
     end
   end
 
-  describe '.pipline_jobs' do
+  describe '.pipeline_jobs' do
     before do
-      stub_get('/projects/1/pipelines/1/jobs', 'pipline_jobs')
-      @projects = Gitlab.pipline_jobs(1, 1)
+      stub_get('/projects/1/pipelines/1/jobs', 'pipeline_jobs')
+      @projects = Gitlab.pipeline_jobs(1, 1)
     end
     it 'should get the correct resource' do
       expect(a_get('/projects/1/pipelines/1/jobs')).to have_been_made

@@ -18,13 +18,13 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.pipeline_jobs(1, 2)
-    #   Gitlab.pipline_jobs("project", 2)
+    #   Gitlab.pipeline_jobs("project", 2)
     #
     # @param  [Integer, String] The ID or name of a project.
     # @param  [Integer]  the id of the pipeline
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def pipline_jobs(project_id, pipline_id)
-      get("/projects/#{url_encode project_id}/pipelines/#{pipline_id}/jobs")
+    def pipeline_jobs(project_id, pipeline_id)
+      get("/projects/#{url_encode project_id}/pipelines/#{pipeline_id}/jobs")
     end
 
     # Gets a single job
