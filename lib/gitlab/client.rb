@@ -26,6 +26,7 @@ module Gitlab
     include SystemHooks
     include Tags
     include Users
+    include Jobs
 
     # Text representation of the client, masking private token.
     #
