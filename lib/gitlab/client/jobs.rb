@@ -10,8 +10,8 @@ class Gitlab::Client
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def jobs(project_id)
-      get("/projects/#{url_encode project_id}/jobs")
+    def jobs(project_id, scope='created')
+      get("/projects/#{url_encode project_id}/jobs", query: {scope: scope})
     end
 
     # Gets a list of Jobs from a pipeline
@@ -66,7 +66,8 @@ class Gitlab::Client
     # @param  [String]  job, jobname
     # @return [Array<Gitlab::ObjectifiedHash>]
     def job_artifacts_download(project_id, ref_name, job_name)
-      get("/projects/#{url_encode project_id}/jobs/artifacts/#{ref_name}/download", query: { job: job_name },
+      get("/projects/#{url_encode project_id}/jobs/artifacts/#{ref_name}/download", 
+        : { job: job_name },
                                                                                     format: nil,
                                                                                     headers: { Accept: 'text/plain' },
                                                                                     parser: ::Gitlab::Request::Parser)
