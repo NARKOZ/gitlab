@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Gitlab::Client do
   describe '.jobs' do
     before do
-      stub_get('/projects/1/jobs', 'jobs')
+      stub_get('/projects/1/jobs?scope=created', 'jobs')
       @projects = Gitlab.jobs(1)
     end
 
     it 'should get the correct resource' do
-      expect(a_get('/projects/1/jobs')).to have_been_made
+      expect(a_get('/projects/1/jobs?scope=created')).to have_been_made
     end
   end
 
