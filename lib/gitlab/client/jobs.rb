@@ -9,9 +9,11 @@ class Gitlab::Client
     #   Gitlab.jobs("project")
     #
     # @param  [Integer, String] id The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Array] :scope The scope of jobs to show, one or array of: created, pending, running, failed, success, canceled, skipped, manual; showing all jobs if none provided.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def jobs(project_id, scope='created')
-      get("/projects/#{url_encode project_id}/jobs", query: {scope: scope})
+    def jobs(project_id, options = {})
+      get("/projects/#{url_encode project_id}/jobs", query: options)
     end
 
     # Gets a list of Jobs from a pipeline
@@ -22,9 +24,11 @@ class Gitlab::Client
     #
     # @param  [Integer, String] The ID or name of a project.
     # @param  [Integer]  the id of the pipeline
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Array] :scope The scope of jobs to show, one or array of: created, pending, running, failed, success, canceled, skipped, manual; showing all jobs if none provided.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def pipeline_jobs(project_id, pipeline_id)
-      get("/projects/#{url_encode project_id}/pipelines/#{pipeline_id}/jobs")
+    def pipeline_jobs(project_id, pipeline_id, options = {})
+      get("/projects/#{url_encode project_id}/pipelines/#{pipeline_id}/jobs", query: options)
     end
 
     # Gets a single job
