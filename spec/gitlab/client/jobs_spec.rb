@@ -3,12 +3,23 @@ require 'spec_helper'
 describe Gitlab::Client do
   describe '.jobs' do
     before do
-      stub_get('/projects/1/jobs?scope=created', 'jobs')
+      stub_get('/projects/1/jobs', 'jobs')
       @projects = Gitlab.jobs(1)
     end
 
     it 'should get the correct resource' do
-      expect(a_get('/projects/1/jobs?scope=created')).to have_been_made
+      expect(a_get('/projects/1/jobs')).to have_been_made
+    end
+  end
+
+  describe '.jobs - with scopes' do
+    before do
+      stub_get('/projects/1/jobs?scope[]=created&scope[]=running', 'jobs')
+      @projects = Gitlab.jobs(1, scope: %w[created running])
+    end
+
+    it 'should get the correct resource' do
+      expect(a_get('/projects/1/jobs?scope[]=created&scope[]=running')).to have_been_made
     end
   end
 
@@ -19,6 +30,16 @@ describe Gitlab::Client do
     end
     it 'should get the correct resource' do
       expect(a_get('/projects/1/pipelines/1/jobs')).to have_been_made
+    end
+  end
+
+  describe '.pipeline_jobs - with scope' do
+    before do
+      stub_get('/projects/1/pipelines/1/jobs?scope[]=running&scope[]=created', 'pipeline_jobs')
+      @projects = Gitlab.pipeline_jobs(1, 1, scope: %w[running created])
+    end
+    it 'should get the correct resource' do
+      expect(a_get('/projects/1/pipelines/1/jobs?scope[]=running&scope[]=created')).to have_been_made
     end
   end
 
