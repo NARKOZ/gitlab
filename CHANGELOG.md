@@ -2,6 +2,13 @@
 
 ### Unreleased
 
+### 4.1.0 (26/05/2017)
+- Add appropriate Content-Type header (@mltsy)
+- Add `Jobs` endpoint methods (@hjanuschka)
+- Update `BuildTriggers` to v4 API and rename to `PipelineTriggers`. (@IgnoredAmbience)
+- Add support for `keys` resource (@dirker)
+- Remove version-lock for terminal-table (@SuperTux88)
+
 ### 4.0.0 (10/04/2017)
 - Adds ability to create commits in a repository - (@logicminds)
 - Remove Ruby 1.x support from the project - (@orta)
