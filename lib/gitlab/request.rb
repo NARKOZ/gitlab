@@ -6,7 +6,7 @@ module Gitlab
   class Request
     include HTTParty
     format :json
-    headers 'Accept' => 'application/json'
+    headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
     parser proc { |body, _| parse(body) }
 
     attr_accessor :private_token, :endpoint
