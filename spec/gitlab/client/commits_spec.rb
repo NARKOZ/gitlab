@@ -148,7 +148,7 @@ describe Gitlab::Client do
 
     let(:query) do
       {
-        branch_name: 'dev',
+        branch: 'dev',
         commit_message: 'refactors everything',
         actions: actions,
         author_email: 'joe@sample.org',

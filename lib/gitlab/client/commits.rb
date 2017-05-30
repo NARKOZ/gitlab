@@ -136,7 +136,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] hash of commit related data
     def create_commit(project, branch, message, actions, options={})
       payload = {
-          branch_name: branch,
+          branch: branch,
           commit_message: message,
           actions: actions,
       }.merge(options)
