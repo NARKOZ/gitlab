@@ -70,7 +70,7 @@ class Gitlab::Client
     # @param  [String] ref Create branch from commit sha or existing branch
     # @return [Gitlab::ObjectifiedHash]
     def create_branch(project, branch, ref)
-      post("/projects/#{url_encode project}/repository/branches", body: { branch_name: branch, ref: ref })
+      post("/projects/#{url_encode project}/repository/branches", body: { branch: branch, ref: ref })
     end
     alias_method :repo_create_branch, :create_branch
 
