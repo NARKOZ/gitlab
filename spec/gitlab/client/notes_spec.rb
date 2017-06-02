@@ -202,4 +202,42 @@ describe Gitlab::Client do
       end
     end
   end
+
+  describe 'modify existing note' do
+    context 'when merge request note' do
+      before do
+        stub_put("/projects/3/merge_requests/7/notes/1", "note")
+        @note = Gitlab.modify_merge_request_note(3, 7, 1, "The solution is rather tricky")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3/merge_requests/7/notes/1").
+          with(body: { body: 'The solution is rather tricky' })).to have_been_made
+      end
+
+      it "should return information about a created note" do
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
+      end
+    end
+  end
+
+  describe 'delete existing note' do
+    context 'when merge request note' do
+      before do
+        stub_delete("/projects/3/merge_requests/7/notes/1", "note")
+        @note = Gitlab.delete_merge_request_note(3, 7, 1)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/3/merge_requests/7/notes/1").
+          with(body: nil)).to have_been_made
+      end
+
+      it "should return information about a created note" do
+        expect(@note.body).to eq("The solution is rather tricky")
+        expect(@note.author.name).to eq("John Smith")
+      end
+    end
+  end
 end

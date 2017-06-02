@@ -157,5 +157,30 @@ class Gitlab::Client
     def create_merge_request_note(project, merge_request, body)
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
+
+    # Modify existing note for a single merge request.
+    #
+    # @example
+    #   Gitlab.modify_merge_request_note(5, 3, 1, 'This MR is ready for review.')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge request.
+    # @param [Integer] note The ID of existing note.
+    # @param [String] body The content of a note.
+    def modify_merge_request_note(project, merge_request, note, body)
+      put("/projects/#{project}/merge_requests/#{merge_request}/notes/#{note}", body: { body: body })
+    end
+
+    # Delete existing note for a single merge request.
+    #
+    # @example
+    #   Gitlab.delete_merge_request_note(5, 3, 1)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge request.
+    # @param [Integer] note The ID of existing note.
+    def delete_merge_request_note(project, merge_request, note)
+      delete("/projects/#{project}/merge_requests/#{merge_request}/notes/#{note}")
+    end
   end
 end
