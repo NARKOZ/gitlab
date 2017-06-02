@@ -157,5 +157,107 @@ class Gitlab::Client
     def create_merge_request_note(project, merge_request, body)
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
+
+    # Deletes a wall note.
+    #
+    # @example
+    #   Gitlab.delete_note(5, 15)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_note(project, id)
+      delete("/projects/#{url_encode project}/notes/#{id}")
+    end
+
+    # Deletes an issue note.
+    #
+    # @example
+    #   Gitlab.delete_issue_note(5, 10, 1)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] issue The ID of an issue.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_issue_note(project, issue, id)
+      delete("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}")
+    end
+
+    # Deletes a snippet note.
+    #
+    # @example
+    #   Gitlab.delete_snippet_note(5, 11, 3)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] snippet The ID of a snippet.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_snippet_note(project, snippet, id)
+      delete("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}")
+    end
+
+    # Deletes a merge_request note.
+    #
+    # @example
+    #   Gitlab.delete_merge_request_note(5, 11, 3)
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge_request.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_merge_request_note(project, merge_request, id)
+      delete("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}")
+    end
+
+    # Modifies a wall note.
+    #
+    # @example
+    #   Gitlab.edit_note(5, 15, 'This is an edited note')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def edit_note(project, id, body)
+      put("/projects/#{url_encode project}/notes/#{id}", body: body)
+    end
+
+    # Modifies an issue note.
+    #
+    # @example
+    #   Gitlab.edit_issue_note(5, 10, 1, 'This is an edited issue note')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] issue The ID of an issue.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def edit_issue_note(project, issue, id, body)
+      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: body)
+    end
+
+    # Modifies a snippet note.
+    #
+    # @example
+    #   Gitlab.edit_snippet_note(5, 11, 3, 'This is an edited snippet note')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] snippet The ID of a snippet.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def edit_snippet_note(project, snippet, id, body)
+      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: body)
+    end
+
+    # Modifies a merge_request note.
+    #
+    # @example
+    #   Gitlab.edit_merge_request_note(5, 11, 3, 'This is an edited merge request note')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [Integer] merge_request The ID of a merge_request.
+    # @param [Integer] id The ID of a note.
+    # @return [Gitlab::ObjectifiedHash]
+    def edit_merge_request_note(project, merge_request, id, body)
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: body)
+    end
   end
 end
