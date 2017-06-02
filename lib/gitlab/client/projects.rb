@@ -467,5 +467,32 @@ class Gitlab::Client
     def unstar_project(id)
       delete("/projects/#{id}/star")
     end
+
+    # Protect single branch
+    # @see https://docs.gitlab.com/ce/api/projects.html#protect-single-branch
+    #
+    # @example
+    #   Gitlab.protect_branch(8, 'master')
+    #   Gitlab.protect_branch(8, 'develope')
+    # @param  [Integer, String] id The ID or NAMESPACE/PROJECT_NAME of a project.
+    # @param  [String] branch The name of the branch.
+    # @return [Gitlab::ObjectifiedHash] Information about protected branch.
+    def protect_branch(id, branch)
+      put("/projects/#{id}/repository/branches/#{branch}/project")
+    end
+
+    # Unprotect single branch
+    # @see https://docs.gitlab.com/ce/api/projects.html#unprotect-single-branch
+    #
+    # @example
+    #   Gitlab.unprotect_branch(8, 'master')
+    #   Gitlab.unprotect_branch(8, 'develope')
+    # @param  [Integer, String] id The ID or NAMESPACE/PROJECT_NAME of a project.
+    # @param  [String] branch The name of the branch.
+    # @return [Gitlab::ObjectifiedHash] Information about unprotected branch.
+    def unprotect_branch(id, branch)
+      put("/projects/#{id}/repository/branches/#{branch}/project")
+    end
+
   end
 end
