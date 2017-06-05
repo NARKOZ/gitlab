@@ -82,65 +82,6 @@ class Gitlab::Client
       put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
     end
 
-    # Adds a comment to a merge request.
-    #
-    # @example
-    #   Gitlab.create_merge_request_comment(5, 1, "Awesome merge!")
-    #   Gitlab.create_merge_request_comment('gitlab', 1, "Awesome merge!")
-    #
-    # @param  [Integer, String] project The ID or name of a project.
-    # @param  [Integer] id The ID of a merge request.
-    # @param  [String] note The content of a comment.
-    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
-    def create_merge_request_comment(project, id, note)
-      post("/projects/#{url_encode project}/merge_requests/#{id}/notes", body: { body: note })
-    end
-
-    # Adds a comment to a merge request.
-    #
-    # @example
-    #   Gitlab.edit_merge_request_comment(5, 1,2, "Awesome merge!")
-    #   Gitlab.edit_merge_request_comment('gitlab', 1, 2, "Awesome merge!")
-    #
-    # @param  [Integer, String] project The ID or name of a project.
-    # @param  [Integer] id The ID of a merge request.
-    # @param  [Integer] id The ID of the merge-request comment
-    # @param  [String] note The content of a comment.
-    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
-    def edit_merge_request_comment(project, id, note_id , note)
-      put("/projects/#{url_encode project}/merge_requests/#{id}/notes/#{note_id}", body: { body: note })
-    end
-
-    # Deletes a comment from a merge request.
-    #
-    # @example
-    #   Gitlab.delete_merge_request_comment(5, 1,2)
-    #   Gitlab.delete_merge_request_comment('gitlab', 1, 2)
-    #
-    # @param  [Integer, String] project The ID or name of a project.
-    # @param  [Integer] id The ID of a merge request.
-    # @param  [Integer] id The ID of the merge-request comment
-    # @return [Gitlab::ObjectifiedHash] Information about created merge request comment.
-    def delete_merge_request_comment(project, id, note_id)
-      delete("/projects/#{url_encode project}/merge_requests/#{id}/notes/#{note_id}")
-    end
-
-    # Gets the comments on a merge request.
-    #
-    # @example
-    #   Gitlab.merge_request_comments(5, 1)
-    #   Gitlab.merge_request_comments(5, 1, { per_page: 10, page: 2 })
-    #
-    # @param  [Integer, String] project The ID or name of a project.
-    # @param  [Integer] id The ID of a merge request.
-    # @param  [Hash] options A customizable set of options.
-    # @option options [Integer] :page The page number.
-    # @option options [Integer] :per_page The number of results per page.
-    # @return [Gitlab::ObjectifiedHash] The merge request's comments.
-    def merge_request_comments(project, id, options={})
-      get("/projects/#{url_encode project}/merge_requests/#{id}/notes", query: options)
-    end
-
     # Gets the changes of a merge request.
     #
     # @example

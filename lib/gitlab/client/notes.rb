@@ -56,6 +56,7 @@ class Gitlab::Client
     def merge_request_notes(project, merge_request, options={})
       get("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", query: options)
     end
+    alias_method :merge_request_comments, :merge_request_notes
 
     # Gets a single wall note.
     #
@@ -157,6 +158,7 @@ class Gitlab::Client
     def create_merge_request_note(project, merge_request, body)
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
+    alias_method :create_merge_request_comment, :create_merge_request_note
 
     # Deletes a wall note.
     #
@@ -208,6 +210,7 @@ class Gitlab::Client
     def delete_merge_request_note(project, merge_request, id)
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}")
     end
+    alias_method :delete_merge_request_comment, :delete_merge_request_note
 
     # Modifies a wall note.
     #
@@ -259,5 +262,6 @@ class Gitlab::Client
     def edit_merge_request_note(project, merge_request, id, body)
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: body)
     end
+    alias_method :edit_merge_request_comment, :edit_merge_request_note
   end
 end
