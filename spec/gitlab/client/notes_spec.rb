@@ -202,4 +202,132 @@ describe Gitlab::Client do
       end
     end
   end
+
+  describe "delete note" do
+    context "when wall note" do
+      before do
+        stub_delete("/projects/3/notes/1201", "note")
+        @note = Gitlab.delete_note(3, 1201)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/3/notes/1201")).to have_been_made
+      end
+
+      it "should return information about a deleted note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when issue note" do
+      before do
+        stub_delete("/projects/3/issues/7/notes/1201", "note")
+        @note = Gitlab.delete_issue_note(3, 7, 1201)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/3/issues/7/notes/1201")).to have_been_made
+      end
+
+      it "should return information about a deleted issue note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when snippet note" do
+      before do
+        stub_delete("/projects/3/snippets/7/notes/1201", "note")
+        @note = Gitlab.delete_snippet_note(3, 7, 1201)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/3/snippets/7/notes/1201")).to have_been_made
+      end
+
+      it "should return information about a deleted snippet note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when merge request note" do
+      before do
+        stub_delete("/projects/3/merge_requests/7/notes/1201", "note")
+        @note = Gitlab.delete_merge_request_note(3, 7, 1201)
+      end
+
+      it "should get the correct resource" do
+        expect(a_delete("/projects/3/merge_requests/7/notes/1201")).to have_been_made
+      end
+
+      it "should return information about a deleted merge request note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+  end
+
+  describe "modify note" do
+    context "when wall note" do
+      before do
+        stub_put("/projects/3/notes/1201", "note")
+        @note = Gitlab.edit_note(3, 1201, body: "edited wall note content")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3/notes/1201").
+          with(body: {body: 'edited wall note content'})).to have_been_made
+      end
+
+      it "should return information about a modified note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when issue note" do
+      before do
+        stub_put("/projects/3/issues/7/notes/1201", "note")
+        @note = Gitlab.edit_issue_note(3, 7, 1201, body: "edited issue note content")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3/issues/7/notes/1201").
+          with(body: {body: 'edited issue note content'})).to have_been_made
+      end
+
+      it "should return information about a modified issue note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when snippet note" do
+      before do
+        stub_put("/projects/3/snippets/7/notes/1201", "note")
+        @note = Gitlab.edit_snippet_note(3, 7, 1201, body: "edited snippet note content")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3/snippets/7/notes/1201").
+          with(body: {body: 'edited snippet note content'})).to have_been_made
+      end
+
+      it "should return information about a modified snippet note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+
+    context "when merge request note" do
+      before do
+        stub_put("/projects/3/merge_requests/7/notes/1201", "note")
+        @note = Gitlab.edit_merge_request_note(3, 7, 1201, body: "edited merge request note content")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3/merge_requests/7/notes/1201").
+          with(body: {body: 'edited merge request note content'})).to have_been_made
+      end
+
+      it "should return information about a modified request note" do
+        expect(@note.id).to eq(1201)
+      end
+    end
+  end
 end
