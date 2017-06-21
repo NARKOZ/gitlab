@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "review/fix-foo",
+    "slug": "review-fix-foo-dfjre3",
+    "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com"
+  },
+  {
+    "id": 12,
+    "name": "review/fix-bar",
+    "slug": "review-fix-bar-dbwr18",
+    "external_url": "https://review-fix-bar-dbwr18.example.gitlab.com"
+  }
+]

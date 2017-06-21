@@ -59,20 +59,18 @@ describe Gitlab::Client do
   end
 
   describe ".delete_group" do
-    context "without description" do
-      before do
-        stub_delete("/groups/42", "group_delete")
-        @group = Gitlab.delete_group(42)
-      end
+    before do
+      stub_delete("/groups/42", "group_delete")
+      @group = Gitlab.delete_group(42)
+    end
 
-      it "should get the correct resource" do
-        expect(a_delete("/groups/42")).to have_been_made
-      end
+    it "should get the correct resource" do
+      expect(a_delete("/groups/42")).to have_been_made
+    end
 
-      it "should return information about a deleted group" do
-        expect(@group.name).to eq("Gitlab-Group")
-        expect(@group.path).to eq("gitlab-group")
-      end
+    it "should return information about a deleted group" do
+      expect(@group.name).to eq("Gitlab-Group")
+      expect(@group.path).to eq("gitlab-group")
     end
   end
 
