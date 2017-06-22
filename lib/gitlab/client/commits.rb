@@ -140,7 +140,7 @@ class Gitlab::Client
           commit_message: message,
           actions: actions,
       }.merge(options)
-      post("/projects/#{url_encode project}/repository/commits", query: payload)
+      post("/projects/#{url_encode project}/repository/commits", body: payload)
     end
   end
 end
