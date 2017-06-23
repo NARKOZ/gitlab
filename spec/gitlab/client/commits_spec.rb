@@ -157,7 +157,7 @@ describe Gitlab::Client do
     end
 
     before do
-      stub_post("/projects/6/repository/commits", 'project_commit_create').with(query: query)
+      stub_post("/projects/6/repository/commits", 'project_commit_create').with(body: query)
       @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, {author_email: 'joe@sample.org', author_name: 'Joe Sample'})
     end
 
