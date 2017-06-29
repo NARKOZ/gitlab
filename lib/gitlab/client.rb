@@ -7,6 +7,7 @@ module Gitlab
     include Builds
     include BuildVariables
     include Commits
+    include Environments
     include Groups
     include Issues
     include Keys
