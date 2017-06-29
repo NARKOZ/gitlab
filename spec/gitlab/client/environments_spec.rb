@@ -59,7 +59,7 @@ describe Gitlab::Client do
     context "with external_url" do
       before do
         stub_post("/projects/3/environments", "environment")
-        @environment = Gitlab.create_environment(3, 'staging', "https://staging.example.gitlab.com")
+        @environment = Gitlab.create_environment(3, 'staging', external_url: "https://staging.example.gitlab.com")
       end
 
       it "should get the correct resource" do

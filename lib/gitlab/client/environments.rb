@@ -32,16 +32,15 @@ class Gitlab::Client
     # Create an environment.
     #
     # @examples
-    #   Gitlab.create_pipeline(5, 'test-branch')
-    #   Gitlab.create_pipeline(5, 'test-branch', 'https://test-branch.example.host.com')
+    #   Gitlab.create_environment(5, 'test-branch')
+    #   Gitlab.create_environment(5, 'test-branch', 'https://test-branch.example.host.com')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] env_name Name for the environment
-    # @param  [String] external_url Optional URL for viewing the deployed project in this environment
+    # @option options [String] :external_url Optional URL for viewing the deployed project in this environment
     # @return [Gitlab::ObjectifiedHash] The updated environment.
-    def create_environment(project, env_name, external_url=nil)
-      body = {name: env_name}
-      body[:external_url] = external_url if external_url
+    def create_environment(project, env_name, options = {})
+      body = {name: env_name}.merge(options)
       post("/projects/#{url_encode project}/environments", body: body)
     end
 
@@ -49,7 +48,7 @@ class Gitlab::Client
     #
     # @examples
     #   Gitlab.edit_environment(5, 36, name: 'test-branch')
-    #   Gitlab.create_pipeline(5, 36, external_url: 'https://test-branch.example.host.com')
+    #   Gitlab.edit_environment(5, 36, external_url: 'https://test-branch.example.host.com')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of an environment.
