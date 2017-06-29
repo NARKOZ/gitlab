@@ -33,7 +33,7 @@ class Gitlab::Client
     #
     # @examples
     #   Gitlab.create_environment(5, 'test-branch')
-    #   Gitlab.create_environment(5, 'test-branch', 'https://test-branch.example.host.com')
+    #   Gitlab.create_environment(5, 'test-branch', external_url: 'https://test-branch.example.host.com')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] env_name Name for the environment
