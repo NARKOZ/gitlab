@@ -52,7 +52,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def create_file(project, path, branch, content, commit_message)
       post("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
-        branch_name: branch,
+        branch: branch,
         commit_message: commit_message
       }.merge(encoded_content_attributes(content)))
     end
@@ -70,7 +70,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def edit_file(project, path, branch, content, commit_message)
       put("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
-        branch_name: branch,
+        branch: branch,
         commit_message: commit_message
       }.merge(encoded_content_attributes(content)))
     end
@@ -87,7 +87,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def remove_file(project, path, branch, commit_message)
       delete("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
-               branch_name: branch,
+               branch: branch,
                commit_message: commit_message
              })
     end
