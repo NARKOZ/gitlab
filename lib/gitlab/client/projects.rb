@@ -421,10 +421,12 @@ class Gitlab::Client
     #   Gitlab.edit_project(42, { name: 'project_name' })
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @param  [Hash] options A customizable set of options.
+    # @param  [Hash] options A customizable set of options
     # @option options [String] :name The name of a project
-    # @option options [String] :path The name of a project
-    # @option options [String] :description The name of a project
+    # @option options [String] :path The URL-safe path of the project (used in Gitlab URLs)
+    # @option options [String] :description The description to show in Gitlab
+    # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ce/api/projects.html#edit-project Gitlab docs} for all valid options)
+    #
     # @return [Gitlab::ObjectifiedHash] Information about the edited project.
     def edit_project(id, options={})
       put("/projects/#{id}", query: options)
@@ -444,11 +446,11 @@ class Gitlab::Client
 
     # Stars a project.
     # @see https://docs.gitlab.com/ce/api/projects.html#star-a-project
-    # 
+    #
     # @example
     #   Gitlab.star_project(42)
     #   Gitlab.star_project('gitlab-org/gitlab-ce')
-    # 
+    #
     # @param  [Integer, String] id The ID or name of a project.
     # @return [Gitlab::ObjectifiedHash] Information about starred project.
     def star_project(id)
@@ -457,11 +459,11 @@ class Gitlab::Client
 
     # Unstars a project.
     # @see https://docs.gitlab.com/ce/api/projects.html#unstar-a-project
-    # 
+    #
     # @example
     #   Gitlab.unstar_project(42)
     #   Gitlab.unstar_project('gitlab-org/gitlab-ce')
-    # 
+    #
     # @param  [Integer, String] id The ID or name of a project.
     # @return [Gitlab::ObjectifiedHash] Information about unstarred project.
     def unstar_project(id)
