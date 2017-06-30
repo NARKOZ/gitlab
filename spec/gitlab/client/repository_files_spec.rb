@@ -22,7 +22,7 @@ describe Gitlab::Client do
       @file = Gitlab.get_file(3, 'README.md', 'master')
     end
 
-    it "should create the correct resource" do
+    it "should get the correct resource" do
       expect(a_get("/projects/3/repository/files/README%2Emd?ref=master")).to have_been_made
     end
 
@@ -34,7 +34,7 @@ describe Gitlab::Client do
   end
 
   describe ".create_file" do
-    let!(:request_stub) { stub_post("/projects/3/repository/files", "repository_file") }
+    let!(:request_stub) { stub_post("/projects/3/repository/files/path", "repository_file") }
     let!(:file) { Gitlab.create_file(3, "path", "branch", "content", "commit message") }
 
     it "should create the correct resource" do
@@ -48,10 +48,10 @@ describe Gitlab::Client do
   end
 
   describe ".edit_file" do
-    let!(:request_stub) { stub_put("/projects/3/repository/files", "repository_file") }
+    let!(:request_stub) { stub_put("/projects/3/repository/files/path", "repository_file") }
     let!(:file) { Gitlab.edit_file(3, "path", "branch", "content", "commit message") }
 
-    it "should create the correct resource" do
+    it "should update the correct resource" do
       expect(request_stub).to have_been_made
     end
 
@@ -62,10 +62,10 @@ describe Gitlab::Client do
   end
 
   describe ".remove_file" do
-    let!(:request_stub) { stub_delete("/projects/3/repository/files", "repository_file") }
+    let!(:request_stub) { stub_delete("/projects/3/repository/files/path", "repository_file") }
     let!(:file) { Gitlab.remove_file(3, "path", "branch", "commit message") }
 
-    it "should create the correct resource" do
+    it "should update the correct resource" do
       expect(request_stub).to have_been_made
     end
 
