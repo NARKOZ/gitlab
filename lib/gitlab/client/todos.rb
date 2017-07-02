@@ -6,8 +6,8 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.todos
-    #   Gitlab.todos(action: 'assigned')
-    #   Gitlab.todos(state: 'pending')
+    #   Gitlab.todos({ action: 'assigned' })
+    #   Gitlab.todos({ state: 'pending' })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :action The action to be filtered. Can be `assigned`, `mentioned`, `build_failed`, `marked`, or `approval_required`.
@@ -36,7 +36,7 @@ class Gitlab::Client
     # @example
     #   Gitlab.mark_all_todos_as_done
     #
-    # @return [void]    This API call returns an empty response body.
+    # @return [void] This API call returns an empty response body.
     def mark_all_todos_as_done
       post("/todos/mark_as_done")
     end
