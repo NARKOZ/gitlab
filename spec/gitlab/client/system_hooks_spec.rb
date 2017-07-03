@@ -25,11 +25,11 @@ describe Gitlab::Client do
   describe ".add_hook" do
     before do
       stub_post("/hooks", "system_hook")
-      @hook = Gitlab.add_hook("http://example.com/hook")
+      @hook = Gitlab.add_hook("http://example.com/hook", token: 'secret-token')
     end
 
     it "should get the correct resource" do
-      expect(a_post("/hooks")).to have_been_made
+      expect(a_post("/hooks").with(body: hash_including(token: 'secret-token'))).to have_been_made
     end
 
     it "should return information about a added system hook" do
