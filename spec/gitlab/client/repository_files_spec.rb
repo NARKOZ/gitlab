@@ -34,11 +34,17 @@ describe Gitlab::Client do
   end
 
   describe ".create_file" do
-    let!(:request_stub) { stub_post("/projects/3/repository/files/path", "repository_file") }
-    let!(:file) { Gitlab.create_file(3, "path", "branch", "content", "commit message") }
+    let(:api_path) { "/projects/3/repository/files/path" }
+    let!(:request_stub) { stub_post(api_path, "repository_file") }
+    let!(:file) { Gitlab.create_file(3, "path", "branch", "content", "commit message", author_name: "joe") }
 
     it "should create the correct resource" do
-      expect(request_stub).to have_been_made
+      expected_parameters = {
+        author_name: "joe",
+        branch: "branch",
+        commit_message: "commit message"
+      }
+      expect(a_post(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
     it "should return information about the new file" do
@@ -48,11 +54,17 @@ describe Gitlab::Client do
   end
 
   describe ".edit_file" do
-    let!(:request_stub) { stub_put("/projects/3/repository/files/path", "repository_file") }
-    let!(:file) { Gitlab.edit_file(3, "path", "branch", "content", "commit message") }
+    let(:api_path) { "/projects/3/repository/files/path" }
+    let!(:request_stub) { stub_put(api_path, "repository_file") }
+    let!(:file) { Gitlab.edit_file(3, "path", "branch", "content", "commit message", author_name: "joe") }
 
     it "should update the correct resource" do
-      expect(request_stub).to have_been_made
+      expected_parameters = {
+        author_name: "joe",
+        branch: "branch",
+        commit_message: "commit message"
+      }
+      expect(a_put(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
     it "should return information about the new file" do
@@ -62,11 +74,17 @@ describe Gitlab::Client do
   end
 
   describe ".remove_file" do
-    let!(:request_stub) { stub_delete("/projects/3/repository/files/path", "repository_file") }
-    let!(:file) { Gitlab.remove_file(3, "path", "branch", "commit message") }
+    let(:api_path) { "/projects/3/repository/files/path" }
+    let!(:request_stub) { stub_delete(api_path, "repository_file") }
+    let!(:file) { Gitlab.remove_file(3, "path", "branch", "commit message", author_name: "joe") }
 
     it "should update the correct resource" do
-      expect(request_stub).to have_been_made
+      expected_parameters = {
+        author_name: "joe",
+        branch: "branch",
+        commit_message: "commit message"
+      }
+      expect(a_delete(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
     it "should return information about the new file" do
