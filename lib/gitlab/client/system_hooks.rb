@@ -28,7 +28,7 @@ class Gitlab::Client
     # @option options [String] :token A secret token for Gitlab to send in the `X-Gitlab-Token` header for authentication.
     # @option options [boolean] :enable_ssl_verification `false` will cause Gitlab to ignore invalid/unsigned certificate errors (default is `true`)
     # @return [Gitlab::ObjectifiedHash]
-    def add_hook(url, options)
+    def add_hook(url, options = {})
       post("/hooks", body: options.merge(url: url))
     end
     alias_method :add_system_hook, :add_hook
