@@ -76,6 +76,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :description The description of a project.
     # @option options [String] :default_branch The default branch of a project.
+    # @option options [String] :path URL-safe repository name for new project. (Default is lowercase name with dashes)
     # @option options [String] :namespace_id The namespace in which to create a project.
     # @option options [Boolean] :wiki_enabled The wiki integration for a project (0 = false, 1 = true).
     # @option options [Boolean] :wall_enabled The wall functionality for a project (0 = false, 1 = true).
@@ -423,7 +424,7 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options
     # @option options [String] :name The name of a project
-    # @option options [String] :path The URL-safe path of the project (used in Gitlab URLs)
+    # @option options [String] :path The project's repository name, also used in Gitlab's URL path (letters, digits, `_`, `-` and `.` only)
     # @option options [String] :description The description to show in Gitlab
     # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ce/api/projects.html#edit-project Gitlab docs} for all valid options)
     #
