@@ -53,5 +53,29 @@ class Gitlab::Client
     def delete_label(project, name)
       delete("/projects/#{url_encode project}/labels", body: { name: name })
     end
+
+    # Subscribes the user to a label to receive notifications
+    #
+    # @example
+    #   Gitlab.subscribe_to_label(2, 'Backlog')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] name The name of a label.
+    # @return [Gitlab::ObjectifiedHash] Information about the label subscribed to. 
+    def subscribe_to_label(project, name)
+      post("/projects/#{url_encode project}/labels/#{url_encode name}/subscribe")
+    end
+
+    # Unsubscribes the user from a label to not receive notifications from it
+    #
+    # @example
+    #   Gitlab.unsubscribe_from_label(2, 'Backlog')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] name The name of a label.
+    # @return [Gitlab::ObjectifiedHash] Information about the label unsubscribed from. 
+    def unsubscribe_from_label(project, name)
+      post("/projects/#{url_encode project}/labels/#{url_encode name}/unsubscribe")
+    end
   end
 end

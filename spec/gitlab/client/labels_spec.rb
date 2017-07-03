@@ -65,4 +65,36 @@ describe Gitlab::Client do
       expect(@label.color).to eq('#DD10AA')
     end
   end
+
+  describe ".subscribe_to_label" do
+    before do
+      stub_post("/projects/3/labels/Backlog/subscribe", "label")
+      @label = Gitlab.subscribe_to_label(3, 'Backlog')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/labels/Backlog/subscribe")).to have_been_made
+    end
+
+    it "should return information about the label subscribed to" do
+      expect(@label.name).to eq('Backlog')
+      expect(@label.subscribed).to eq(true)
+    end
+  end
+
+  describe ".unsubscribe_from_label" do
+    before do
+      stub_post("/projects/3/labels/Backlog/unsubscribe", "label_unsubscribe")
+      @label = Gitlab.unsubscribe_from_label(3, 'Backlog')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/labels/Backlog/unsubscribe")).to have_been_made
+    end
+
+    it "should return information about the label subscribed to" do
+      expect(@label.name).to eq('Backlog')
+      expect(@label.subscribed).to eq(false)
+    end
+  end
 end
