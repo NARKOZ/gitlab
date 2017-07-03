@@ -26,6 +26,7 @@ module Gitlab
     include Snippets
     include SystemHooks
     include Tags
+    include Todos
     include Users
     include Jobs
 
