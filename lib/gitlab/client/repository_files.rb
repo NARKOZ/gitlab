@@ -45,17 +45,19 @@ class Gitlab::Client
     #   Gitlab.create_file(42, "path", "branch", "content", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @param  [String] full path to new file.
-    # @param  [String] the name of the branch.
-    # @param  [String] file content.
-    # @param  [String] commit message.
+    # @param  [String] path full path to new file.
+    # @param  [String] branch the name of the branch.
+    # @param  [String] content file content.
+    # @param  [String] commit_message ...commit message.
+    # @param  [Hash] options Optional additional details for commit
+    # @option options [String] :author_name Commit author's name
+    # @option options [String] :author_email Commit author's email address
     # @return [Gitlab::ObjectifiedHash]
-    def create_file(project, path, branch, content, commit_message)
-      post("/projects/#{url_encode project}/repository/files", body: {
-        file_path: path,
-        branch_name: branch,
+    def create_file(project, path, branch, content, commit_message, options = {})
+      post("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
+        branch: branch,
         commit_message: commit_message
-      }.merge(encoded_content_attributes(content)))
+      }.merge(options).merge(encoded_content_attributes(content)))
     end
 
     # Edits an existing repository file.
@@ -64,17 +66,19 @@ class Gitlab::Client
     #   Gitlab.edit_file(42, "path", "branch", "content", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @param  [String] full path to new file.
-    # @param  [String] the name of the branch.
-    # @param  [String] file content.
-    # @param  [String] commit message.
+    # @param  [String] path full path of file to update.
+    # @param  [String] branch the name of the branch to commit changes to.
+    # @param  [String] content new file content.
+    # @param  [String] commit_message ...commit message.
+    # @param  [Hash] options Optional additional details for commit
+    # @option options [String] :author_name Commit author's name
+    # @option options [String] :author_email Commit author's email address
     # @return [Gitlab::ObjectifiedHash]
-    def edit_file(project, path, branch, content, commit_message)
-      put("/projects/#{url_encode project}/repository/files", body: {
-        file_path: path,
-        branch_name: branch,
+    def edit_file(project, path, branch, content, commit_message, options = {})
+      put("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
+        branch: branch,
         commit_message: commit_message
-      }.merge(encoded_content_attributes(content)))
+      }.merge(options).merge(encoded_content_attributes(content)))
     end
 
     # Removes an existing repository file.
@@ -83,16 +87,18 @@ class Gitlab::Client
     #   Gitlab.remove_file(42, "path", "branch", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @param  [String] full path to new file.
-    # @param  [String] the name of the branch.
-    # @param  [String] commit message.
+    # @param  [String] path full path of file to delete.
+    # @param  [String] branch the name of the branch to commit the deletion to.
+    # @param  [String] commit_message ...a commit message ;)
+    # @param  [Hash] options Optional additional details for commit
+    # @option options [String] :author_name Commit author's name
+    # @option options [String] :author_email Commit author's email address
     # @return [Gitlab::ObjectifiedHash]
-    def remove_file(project, path, branch, commit_message)
-      delete("/projects/#{url_encode project}/repository/files", body: {
-               file_path: path,
-               branch_name: branch,
+    def remove_file(project, path, branch, commit_message, options = {})
+      delete("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
+               branch: branch,
                commit_message: commit_message
-             })
+             }.merge(options))
     end
 
     private
