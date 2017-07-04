@@ -3,6 +3,7 @@ module Gitlab
   class Client < API
     Dir[File.expand_path('../client/*.rb', __FILE__)].each { |f| require f }
 
+    include AwardEmojis
     include Branches
     include Builds
     include BuildVariables
