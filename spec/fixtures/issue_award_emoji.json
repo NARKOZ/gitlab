@@ -1,0 +1,16 @@
+{
+  "id": 4,
+  "name": "blowfish",
+  "user": {
+    "name": "Administrator",
+    "username": "root",
+    "id": 1,
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+    "web_url": "http://gitlab.example.com/root"
+  },
+  "created_at": "2016-06-15T10:09:34.206Z",
+  "updated_at": "2016-06-15T10:09:34.206Z",
+  "awardable_id": 80,
+  "awardable_type": "Issue"
+}
