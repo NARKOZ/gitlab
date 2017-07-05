@@ -4,6 +4,7 @@ module Gitlab
     Dir[File.expand_path('../client/*.rb', __FILE__)].each { |f| require f }
 
     include AwardEmojis
+    include Boards
     include Branches
     include Builds
     include BuildVariables
