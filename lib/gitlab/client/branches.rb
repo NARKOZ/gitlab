@@ -36,12 +36,18 @@ class Gitlab::Client
     # @example
     #   Gitlab.protect_branch(3, 'api')
     #   Gitlab.repo_protect_branch(5, 'master')
+    #   Gitlab.protect_branch(5, 'api', developers_can_push: true)
+    #
+    # To update options, call `protect_branch` again with new options (i.e. `developers_can_push: false`)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch.
-    # @return [Gitlab::ObjectifiedHash]
-    def protect_branch(project, branch)
-      put("/projects/#{url_encode project}/repository/branches/#{branch}/protect")
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :developers_can_push True to allow developers to push to the branch (default = false)
+    # @option options [Boolean] :developers_can_merge True to allow developers to merge into the branch (default = false)
+    # @return [Gitlab::ObjectifiedHash] Details about the branch
+    def protect_branch(project, branch, options = {})
+      put("/projects/#{url_encode project}/repository/branches/#{branch}/protect", body: options)
     end
     alias_method :repo_protect_branch, :protect_branch
 
@@ -53,7 +59,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::ObjectifiedHash] Details about the branch
     def unprotect_branch(project, branch)
       put("/projects/#{url_encode project}/repository/branches/#{branch}/unprotect")
     end
@@ -68,7 +74,7 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the new branch.
     # @param  [String] ref Create branch from commit sha or existing branch
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::ObjectifiedHash] Details about the branch
     def create_branch(project, branch, ref)
       post("/projects/#{url_encode project}/repository/branches", body: { branch: branch, ref: ref })
     end
@@ -82,7 +88,6 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch to delete
-    # @return [Gitlab::ObjectifiedHash]
     def delete_branch(project, branch)
       delete("/projects/#{url_encode project}/repository/branches/#{branch}")
     end

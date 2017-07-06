@@ -40,15 +40,32 @@ describe Gitlab::Client do
   describe ".protect_branch" do
     before do
       stub_put("/projects/3/repository/branches/api/protect", "branch")
-      @branch = Gitlab.protect_branch(3, "api")
     end
 
-    it "should get the correct resource" do
-      expect(a_put("/projects/3/repository/branches/api/protect")).to have_been_made
+    context "without options" do
+      before do
+        @branch = Gitlab.protect_branch(3, "api")
+      end
+
+      it "should update the correct resource" do
+        expect(a_put("/projects/3/repository/branches/api/protect")).to have_been_made
+      end
+
+      it "should return information about a protected repository branch" do
+        expect(@branch.name).to eq("api")
+      end
     end
 
-    it "should return information about a protected repository branch" do
-      expect(@branch.name).to eq("api")
+    context "with options" do
+      before do
+        @branch = Gitlab.protect_branch(3, "api", developers_can_push: true)
+      end
+
+      it "should update the correct resource with the correct options" do
+        expect(
+          a_put("/projects/3/repository/branches/api/protect").with(body: { developers_can_push: 'true' })
+        ).to have_been_made
+      end
     end
   end
 
