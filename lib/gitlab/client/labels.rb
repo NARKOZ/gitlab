@@ -19,11 +19,14 @@ class Gitlab::Client
     #   Gitlab.create_label(42, "Backlog", '#DD10AA')
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @option [String] name The name of a label.
-    # @option [String] color The color of a label.
+    # @param  [String] name The name of a label.
+    # @param  [String] color The color of a label.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :description The description of the label.
+    # @option options [String] :priority The priority of the label. Must be greater or equal than zero or null to remove the priority.
     # @return [Gitlab::ObjectifiedHash] Information about created label.
-    def create_label(project, name, color)
-      post("/projects/#{url_encode project}/labels", body: { name: name, color: color })
+    def create_label(project, name, color, options = {})
+      post("/projects/#{url_encode project}/labels", body: options.merge(name: name, color: color))
     end
 
     # Updates a label.
@@ -37,6 +40,8 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :new_name The new name of a label.
     # @option options [String] :color The color of a label.
+    # @option options [String] :description The description of the label.
+    # @option options [String] :priority The priority of the label. Must be greater or equal than zero or null to remove the priority.
     # @return [Gitlab::ObjectifiedHash] Information about updated label.
     def edit_label(project, name, options={})
       put("/projects/#{url_encode project}/labels", body: options.merge(name: name))
@@ -61,7 +66,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] name The name of a label.
-    # @return [Gitlab::ObjectifiedHash] Information about the label subscribed to. 
+    # @return [Gitlab::ObjectifiedHash] Information about the label subscribed to.
     def subscribe_to_label(project, name)
       post("/projects/#{url_encode project}/labels/#{url_encode name}/subscribe")
     end
@@ -73,7 +78,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] name The name of a label.
-    # @return [Gitlab::ObjectifiedHash] Information about the label unsubscribed from. 
+    # @return [Gitlab::ObjectifiedHash] Information about the label unsubscribed from.
     def unsubscribe_from_label(project, name)
       post("/projects/#{url_encode project}/labels/#{url_encode name}/unsubscribe")
     end
