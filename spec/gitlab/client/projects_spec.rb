@@ -315,17 +315,27 @@ describe Gitlab::Client do
   end
 
   describe ".edit_project" do
-    before do
-      stub_put("/projects/3", "project_edit").with(query: { name: "Gitlab-edit" })
-      @edited_project = Gitlab.edit_project(3, name: "Gitlab-edit")
+    context "using project ID" do
+      before do
+        stub_put("/projects/3", "project_edit").with(body: { name: "Gitlab-edit" })
+        @edited_project = Gitlab.edit_project(3, name: "Gitlab-edit")
+      end
+
+      it "should get the correct resource" do
+        expect(a_put("/projects/3").with(body: { name: "Gitlab-edit" })).to have_been_made
+      end
+
+      it "should return information about an edited project" do
+        expect(@edited_project.name).to eq("Gitlab-edit")
+      end
     end
 
-    it "should get the correct resource" do
-      expect(a_put("/projects/3").with(query: { name: "Gitlab-edit" })).to have_been_made
-    end
-
-    it "should return information about an edited project" do
-      expect(@edited_project.name).to eq("Gitlab-edit")
+    context "using namespaced project path" do
+      it "encodes the path properly" do
+        stub = stub_put("/projects/namespace%2Fpath", "project_edit").with(body: { name: "Gitlab-edit" })
+        Gitlab.edit_project('namespace/path', name: "Gitlab-edit")
+        expect(stub).to have_been_requested
+      end
     end
   end
 
