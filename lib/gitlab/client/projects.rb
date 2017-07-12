@@ -34,7 +34,7 @@ class Gitlab::Client
     # @option options [String] :sort Return requests sorted in asc or desc order
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_search(query, options={})
-      get("/projects/search/#{query}", query: options)
+      get("/projects", query: options.merge(search:query))
     end
     alias_method :search_projects, :project_search
 

@@ -22,12 +22,12 @@ describe Gitlab::Client do
 
   describe ".project_search" do
     before do
-      stub_get("/projects/search/Gitlab", "project_search")
+      stub_get("/projects?search=Gitlab", "project_search")
       @project_search = Gitlab.project_search("Gitlab")
     end
 
     it "should get the correct resource" do
-      expect(a_get("/projects/search/Gitlab")).to have_been_made
+      expect(a_get("/projects?search=Gitlab")).to have_been_made
     end
 
     it "should return a paginated response of projects found" do
