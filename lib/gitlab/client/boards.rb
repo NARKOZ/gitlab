@@ -13,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def boards(project=nil, options={})
+    def boards(project, options={})
       get("/projects/#{url_encode project}/boards", query: options)
     end
 
