@@ -94,8 +94,8 @@ class Gitlab::Client
     # @option options [String] :stage Filter by stage
     # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [Boolean] :all The flag to return all statuses, not only latest ones
-    def commit_status(id, sha, options={})
-      get("/projects/#{id}/repository/commits/#{sha}/statuses", query: options)
+    def commit_status(project, sha, options={})
+      get("/projects/#{url_encode project}/repository/commits/#{sha}/statuses", query: options)
     end
     alias_method :repo_commit_status, :commit_status
 
@@ -113,8 +113,8 @@ class Gitlab::Client
     # @option options [String] :ref The ref (branch or tag) to which the status refers
     # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [String] :target_url The target URL to associate with this status
-    def update_commit_status(id, sha, state, options={})
-      post("/projects/#{id}/statuses/#{sha}", query: options.merge(state: state))
+    def update_commit_status(project, sha, state, options={})
+      post("/projects/#{url_encode project}/statuses/#{sha}", query: options.merge(state: state))
     end
     alias_method :repo_update_commit_status, :update_commit_status
 
