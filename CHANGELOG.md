@@ -2,6 +2,23 @@
 
 ### Unreleased
 
+### 4.2.0 (13/07/2017)
+- Use `url_encode` in all `Commit` resources (@grodowski)
+- Fix `project_search` path for APIv4 (@edaubert)
+- Add options to `Labels#create_label` (@hlidotbe)
+- Add `Board` API support (@hlidotbe)
+- `Award Emoji` API (@akkee)
+- Subscribe and unsubscribe actions for labels (@akkee)
+- Add `options` hash to `add_hook` method (@mltsy)
+- Update repository files endpoint APIv4 (@mltsy)
+- Update `Branch` docs and add `options` param to `protect_branch` (@mltsy)
+- Fix and clarify `edit_project` option docs (@mltsy)
+- Add `TODO` API (@akkee)
+- Use `body` parameter to send POST data (@sr189)
+- Add `Environments` module (@mltsy)
+- Edit and Delete methods for `Notes` API (@akkee)
+- Rename `branch_name` parameter to `branch` in `create_branch` & `create_commit` methods (@sr189)
+
 ### 4.1.0 (26/05/2017)
 - Add appropriate Content-Type header (@mltsy)
 - Add `Jobs` endpoint methods (@hjanuschka)
