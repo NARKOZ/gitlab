@@ -106,10 +106,27 @@ describe Gitlab::Client do
       expect(a_get("/groups/3/members")).to have_been_made
     end
 
-    it "should return information about a group members" do
+    it "should return information about a group's members" do
       expect(@members).to be_a Gitlab::PaginatedResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq("John Smith")
+    end
+  end
+
+  describe ".group_member" do
+    before do
+      stub_get("/groups/3/members/2", "group_member")
+      @member = Gitlab.group_member(3, 2)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/groups/3/members/2")).to have_been_made
+    end
+
+    it "should return information about a group member" do
+      expect(@member).to be_a Gitlab::ObjectifiedHash
+      expect(@member.access_level).to eq(10)
+      expect(@member.name).to eq("John Smith")
     end
   end
 

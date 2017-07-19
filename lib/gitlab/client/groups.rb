@@ -66,6 +66,18 @@ class Gitlab::Client
       get("/groups/#{id}/members", query: options)
     end
 
+    # Get details of a single group member.
+    #
+    # @example
+    #   Gitlab.group_member(1, 10)
+    #
+    # @param  [Integer] team_id The ID of the group to find a member in.
+    # @param  [Integer] user_id The user id of the member to find.
+    # @return [Gitlab::ObjectifiedHash] (id, username, name, email, state, access_level ...)
+    def group_member(team_id, user_id)
+      get("/groups/#{team_id}/members/#{user_id}")
+    end
+
     # Adds a user to group.
     #
     # @example
