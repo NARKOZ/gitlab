@@ -183,4 +183,21 @@ describe Gitlab::Client do
       expect(@issue.id).to eq(33)
     end
   end
+
+  describe ".move_issue" do
+    before do
+      stub_post("/projects/3/issues/33/move", "issue")
+      @issue = Gitlab.move_issue(3, 33, to_project_id: '4')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/move").
+        with(body: { to_project_id: '4' })).to have_been_made
+      end
+
+    it "should return information about the moved issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
 end

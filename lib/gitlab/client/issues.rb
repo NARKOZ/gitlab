@@ -133,5 +133,18 @@ class Gitlab::Client
     def delete_issue(project, id)
       delete("/projects/#{url_encode project}/issues/#{id}")
     end
+
+    # Move an issue.
+    #
+    # @example
+    #   Gitlab.move_issue(3, 42, { to_project_id: '4' })
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @option options [String] :to_project_id The ID of the new project.
+    # @return [Gitlab::ObjectifiedHash] Information about moved issue.
+    def move_issue(project, id, options={})
+      post("/projects/#{url_encode project}/issues/#{id}/move", body: options)
+    end
   end
 end
