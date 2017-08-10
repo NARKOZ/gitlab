@@ -15,7 +15,6 @@ class Gitlab::Client
     # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
     # @return [String]
     def file_contents(project, filepath, ref='master')
-      ref = URI.encode(ref, /\W/)
       get "/projects/#{url_encode project}/repository/files/#{url_encode filepath}/raw",
           query: { ref: ref},
           format: nil,
