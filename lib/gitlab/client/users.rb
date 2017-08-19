@@ -169,7 +169,7 @@ class Gitlab::Client
       if user_id.to_i.zero?
         post("/user/keys", body: { title: title, key: key })
       else
-        post("/user/#{user_id}/keys", body: { title: title, key: key })
+        post("/users/#{user_id}/keys", body: { title: title, key: key })
       end
     end
 
