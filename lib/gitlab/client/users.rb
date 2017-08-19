@@ -184,8 +184,9 @@ class Gitlab::Client
       user_id = options.delete :user_id
       if user_id.to_i.zero?
         delete("/users/#{user_id}/keys/#{id}")
+      else
+        delete("/user/keys/#{id}")
       end
-      delete("/user/keys/#{id}")
     end
 
     # Gets user emails.
