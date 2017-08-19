@@ -161,9 +161,11 @@ class Gitlab::Client
     #
     # @param  [String] title The title of an SSH key.
     # @param  [String] key The SSH key body.
-    # @param  [Integer] id optional id of the user to associate the key with
+    # @param  [Hash] options A customizable set of options.
+    # @option options  [Integer] :user_id id of the user to associate the key with
     # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
-    def create_ssh_key(title, key, user_id)
+    def create_ssh_key(title, key, options={})
+      user_id = options.delete :user_id
       if user_id.to_i.zero?
         post("/user/keys", body: { title: title, key: key })
       else
