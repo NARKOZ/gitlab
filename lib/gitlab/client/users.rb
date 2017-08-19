@@ -180,7 +180,11 @@ class Gitlab::Client
     #
     # @param  [Integer] id The ID of a user's SSH key.
     # @return [Gitlab::ObjectifiedHash] Information about deleted SSH key.
-    def delete_ssh_key(id)
+    def delete_ssh_key(id, options={})
+      user_id = options.delete :user_id
+      if user_id.to_i.zero?
+        delete("/users/#{user_id}/keys/#{id}")
+      end
       delete("/user/keys/#{id}")
     end
 
