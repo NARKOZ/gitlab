@@ -183,9 +183,9 @@ class Gitlab::Client
     def delete_ssh_key(id, options={})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
-        delete("/users/#{user_id}/keys/#{id}")
-      else
         delete("/user/keys/#{id}")
+      else
+        delete("/users/#{user_id}/keys/#{id}")
       end
     end
 
