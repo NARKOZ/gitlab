@@ -258,5 +258,21 @@ class Gitlab::Client
       options[:search] = search
       get("/users", query: options)
     end
+
+
+    # Search for user by username
+    #
+    # @example
+    #   Gitlab.user_search_username('gitlab')
+    #
+    # @param  [String] search A username to search
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :per_page Number of user to return per page
+    # @option options [String] :page The page to retrieve
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_search(username, options={})
+      options[:username] = username
+      get("/users", query: options)
+    end
   end
 end
