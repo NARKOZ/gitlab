@@ -270,7 +270,7 @@ class Gitlab::Client
     # @option options [String] :per_page Number of user to return per page
     # @option options [String] :page The page to retrieve
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def user_search(username, options={})
+    def user_search_username(username, options={})
       options[:username] = username
       get("/users", query: options)
     end
