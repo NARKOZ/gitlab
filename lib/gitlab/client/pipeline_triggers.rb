@@ -80,8 +80,8 @@ class Gitlab::Client
     # Run the given project pipeline trigger.
     #
     # @example
-    #   Gitlab.trigger_build(5, '7b9148c158980bbd9bcea92c17522d', 'master')
-    #   Gitlab.trigger_build(5, '7b9148c158980bbd9bcea92c17522d', 'master', { variable1: "value", variable2: "value2" })
+    #   Gitlab.run_trigger(5, '7b9148c158980bbd9bcea92c17522d', 'master')
+    #   Gitlab.run_trigger(5, '7b9148c158980bbd9bcea92c17522d', 'master', { variable1: "value", variable2: "value2" })
     #
     # @see https://docs.gitlab.com/ce/ci/triggers/README.html
     #
