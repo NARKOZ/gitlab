@@ -200,4 +200,86 @@ describe Gitlab::Client do
       expect(@issue.assignee.name).to eq("Jack Smith")
     end
   end
+
+  describe ".estimate_time_of_issue" do
+    before do
+      stub_post("/projects/3/issues/33/time_estimate", "issue")
+      @issue = Gitlab.estimate_time_of_issue(3, 33, '3h30m')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/time_estimate").
+        with(body: { duration: '3h30m' })).to have_been_made
+      end
+
+    it "should return information about the estimated issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+  
+  describe ".reset_time_estimate_of_issue" do
+    before do
+      stub_post("/projects/3/issues/33/reset_time_estimate", "issue")
+      @issue = Gitlab.reset_time_estimate_of_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/reset_time_estimate")).to have_been_made
+    end
+
+    it "should return information about the estimated issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+  
+  describe ".add_time_spent_on_issue" do
+    before do
+      stub_post("/projects/3/issues/33/add_spent_time", "issue")
+      @issue = Gitlab.add_time_spent_on_issue(3, 33, '3h30m')
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/add_spent_time").
+        with(body: { duration: '3h30m' })).to have_been_made
+      end
+
+    it "should return information about the estimated issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+  
+  describe ".reset_time_spent_on_issue" do
+    before do
+      stub_post("/projects/3/issues/33/reset_spent_time", "issue")
+      @issue = Gitlab.reset_time_spent_on_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/reset_spent_time")).to have_been_made
+    end
+
+    it "should return information about the estimated issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+  
+  describe ".time_stats_for_issue" do
+    before do
+      stub_get("/projects/3/issues/33/time_stats", "issue")
+      @issue = Gitlab.time_stats_for_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/issues/33/time_stats")).to have_been_made
+    end
+
+    it "should return information about the issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
 end
