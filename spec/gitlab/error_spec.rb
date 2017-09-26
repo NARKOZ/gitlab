@@ -42,4 +42,33 @@ describe Gitlab::Error do
       end
     end
   end
+
+  describe "#response_message" do
+    let(:request_object) { HTTParty::Request.new(Net::HTTP::Get, '/') }
+    let(:response_object) { Net::HTTPOK.new('1.1', 200, 'OK') }
+    let(:body) { StringIO.new("{foo:'bar'}") }
+    let(:parsed_response) { lambda { body } }
+
+    let(:response) {
+      HTTParty::Response.new(
+        request_object,
+        response_object,
+        parsed_response,
+        body: body,
+      )
+    }
+
+    let(:error){ Gitlab::Error::ResponseError.new(response) }
+
+    before do
+      def body.message; self.string; end
+
+      response_object['last-modified'] = Date.new(2010, 1, 15).to_s
+      response_object['content-length'] = "1024"
+    end
+
+    it "should return the message of the parsed_response" do
+      expect(error.response_message).to eq(body.string)
+    end
+  end
 end

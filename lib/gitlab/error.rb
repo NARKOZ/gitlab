@@ -23,6 +23,13 @@ module Gitlab
         @response.code
       end
 
+      # Body content returned in the HTTP response
+      #
+      # @return [String]
+      def response_message
+        @response.parsed_response.message
+      end
+
       private
 
       # Human friendly message.
