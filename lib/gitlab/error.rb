@@ -16,7 +16,7 @@ module Gitlab
         super(build_error_message)
       end
 
-      # Status code returned in the http response.
+      # Status code returned in the HTTP response.
       #
       # @return [Integer]
       def response_status
