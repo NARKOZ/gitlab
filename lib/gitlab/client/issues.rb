@@ -146,5 +146,63 @@ class Gitlab::Client
     def move_issue(project, id, options={})
       post("/projects/#{url_encode project}/issues/#{id}/move", body: options)
     end
+    
+    # Sets an estimated time of work for an issue.
+    #
+    # @example
+    #   Gitlab.estimate_time_of_issue(3, 42, '3h30m')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @param  [String] duration The duration in human format. e.g: 3h30m
+    def estimate_time_of_issue(project, id, duration)
+      post("/projects/#{url_encode project}/issues/#{id}/time_estimate", body: { duration: url_encode(duration) })
+    end
+    
+    # Resets the estimated time for an issue to 0 seconds.  
+    #
+    # @example
+    #   Gitlab.reset_time_estimate_of_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    def reset_time_estimate_of_issue(project, id)
+      post("/projects/#{url_encode project}/issues/#{id}/reset_time_estimate")
+    end
+    
+    # Adds spent time for an issue
+    #
+    # @example
+    #   Gitlab.estimate_time_of_issue(3, 42, '3h30m')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    # @param  [String] duration The time spent in human format. e.g: 3h30m
+    def add_time_spent_on_issue(project, id, duration)
+      post("/projects/#{url_encode project}/issues/#{id}/add_spent_time", body: { duration: url_encode(duration) })
+    end
+    
+    # Resets the total spent time for this issue to 0 seconds.
+    #
+    # @example
+    #   Gitlab.reset_time_spent_on_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    def reset_time_spent_on_issue(project, id)
+      post("/projects/#{url_encode project}/issues/#{id}/reset_spent_time")
+    end
+    
+    # Get time tracking stats for an issue
+    #
+    # @example
+    #   @gitlab.time_stats_for_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    def time_stats_for_issue(project, id)
+      get("/projects/#{url_encode project}/issues/#{id}/time_stats")
+    end
+    
   end
 end
