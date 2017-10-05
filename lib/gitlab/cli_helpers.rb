@@ -102,7 +102,7 @@ class Gitlab::CLI
     end
 
     def output_json(cmd, args, data)
-      if data.empty?
+      if data.respond_to? :empty? and data.empty?
         puts '{}'
       else
         hash_result = case data
