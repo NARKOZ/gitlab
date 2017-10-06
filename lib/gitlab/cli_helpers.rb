@@ -67,7 +67,7 @@ class Gitlab::CLI
     #
     # @return [String]
     def confirm_command(cmd)
-      if cmd.start_with?('remove_') || cmd.start_with?('delete_')
+      if cmd.start_with?('remove_', 'delete_')
         puts "Are you sure? (y/n)"
         if %w(y yes).include?($stdin.gets.to_s.strip.downcase)
           puts 'Proceeding..'

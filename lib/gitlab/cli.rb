@@ -56,7 +56,7 @@ class Gitlab::CLI
         exit(1)
       end
 
-      if args.any? && (args.last.start_with?('--only=') || args.last.start_with?('--except='))
+      if args.any? && args.last.start_with?('--only=', '--except=')
         command_args = args[0..-2]
       else
         command_args = args

@@ -37,28 +37,12 @@ module Gitlab
       raise Error::Parsing.new "The response is not a valid JSON"
     end
 
-    def get(path, options={})
-      set_httparty_config(options)
-      set_authorization_header(options)
-      validate self.class.get(@endpoint + path, options)
-    end
-
-    def post(path, options={})
-      set_httparty_config(options)
-      set_authorization_header(options)
-      validate self.class.post(@endpoint + path, options)
-    end
-
-    def put(path, options={})
-      set_httparty_config(options)
-      set_authorization_header(options)
-      validate self.class.put(@endpoint + path, options)
-    end
-
-    def delete(path, options={})
-      set_httparty_config(options)
-      set_authorization_header(options)
-      validate self.class.delete(@endpoint + path, options)
+    %w(get post put delete).each do |method|
+      define_method method do |path, options={}|
+        set_httparty_config(options)
+        set_authorization_header(options)
+        validate self.class.send(method, @endpoint + path, options)
+      end
     end
 
     # Checks the response code for common errors.
