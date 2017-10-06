@@ -5,8 +5,9 @@ rvm:
   - 2.4
 before_install: gem update bundler
 
-jobs:
+matrix:
+  include:
+    - rvm: 2.4
+      env: "TRAVIS_CI_RUBOCOP=true"
   allow_failures:
-    - stage: styleguide
-      script: rubocop -D --parallel
-      before_script: gem install rubocop
+    - env: "TRAVIS_CI_RUBOCOP=true"
