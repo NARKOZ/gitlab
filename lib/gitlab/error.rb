@@ -16,11 +16,18 @@ module Gitlab
         super(build_error_message)
       end
 
-      # Status code returned in the http response.
+      # Status code returned in the HTTP response.
       #
       # @return [Integer]
       def response_status
         @response.code
+      end
+
+      # Body content returned in the HTTP response
+      #
+      # @return [String]
+      def response_message
+        @response.parsed_response.message
       end
 
       private
