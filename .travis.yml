@@ -4,3 +4,9 @@ rvm:
   - 2.3
   - 2.4
 before_install: gem update bundler
+
+jobs:
+  allow_failures:
+    - stage: styleguide
+      script: rubocop -D --parallel
+      before_script: gem install rubocop
