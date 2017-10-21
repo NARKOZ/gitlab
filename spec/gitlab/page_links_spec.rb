@@ -6,7 +6,7 @@ describe Gitlab::PageLinks do
   end
 
   context '.extract_links' do
-    it 'should extract link header appropriately' do
+    it 'extracts link header appropriately' do
       expect(@page_links.last).to eql 'http://example.com/api/v3/projects?page=20&per_page=5'
       expect(@page_links.first).to eql 'http://example.com/api/v3/projects?page=1&per_page=5'
       expect(@page_links.next).to eql 'http://example.com/api/v3/projects?page=9&per_page=5'

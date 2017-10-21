@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @environments = Gitlab.environments(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/environments")).to have_been_made
     end
 
-    it "should return a paginated response of project's environments" do
+    it "returns a paginated response of project's environments" do
       expect(@environments).to be_a Gitlab::PaginatedResponse
     end
   end
@@ -22,15 +22,15 @@ describe Gitlab::Client do
       @environment = Gitlab.environment(3, 12)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/environments/12")).to have_been_made
     end
 
-    it "should return a single environment" do
+    it "returns a single environment" do
       expect(@environment).to be_a Gitlab::ObjectifiedHash
     end
 
-    it "should return information about an environment" do
+    it "returns information about an environment" do
       expect(@environment.id).to eq(12)
       expect(@environment.name).to eq("staging")
     end
@@ -43,15 +43,15 @@ describe Gitlab::Client do
         @environment = Gitlab.create_environment(3, 'staging')
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/environments").with(body: { name: 'staging' })).to have_been_made
       end
 
-      it "should return a single environment" do
+      it "returns a single environment" do
         expect(@environment).to be_a Gitlab::ObjectifiedHash
       end
 
-      it "should return information about an environment" do
+      it "returns information about an environment" do
         expect(@environment.name).to eq("staging")
       end
     end
@@ -62,7 +62,7 @@ describe Gitlab::Client do
         @environment = Gitlab.create_environment(3, 'staging', external_url: "https://staging.example.gitlab.com")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/environments")
                  .with(body: { name: 'staging', external_url: "https://staging.example.gitlab.com" })).to have_been_made
       end
@@ -78,16 +78,16 @@ describe Gitlab::Client do
       })
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/projects/3/environments/12")
                .with(body: { name: 'staging', external_url: "https://staging.example.gitlab.com" })).to have_been_made
     end
 
-    it "should return a single environment" do
+    it "returns a single environment" do
       expect(@environment).to be_a Gitlab::ObjectifiedHash
     end
 
-    it "should return information about an environment" do
+    it "returns information about an environment" do
       expect(@environment.name).to eq("staging")
     end
   end
@@ -98,15 +98,15 @@ describe Gitlab::Client do
       @environment = Gitlab.delete_environment(3, 12)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/environments/12")).to have_been_made
     end
 
-    it "should return a single pipeline" do
+    it "returns a single pipeline" do
       expect(@environment).to be_a Gitlab::ObjectifiedHash
     end
 
-    it "should return information about a pipeline" do
+    it "returns information about a pipeline" do
       expect(@environment.name).to eq("staging")
     end
   end
@@ -117,15 +117,15 @@ describe Gitlab::Client do
       @environment = Gitlab.stop_environment(3, 12)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/3/environments/12/stop")).to have_been_made
     end
 
-    it "should return a single pipeline" do
+    it "returns a single pipeline" do
       expect(@environment).to be_a Gitlab::ObjectifiedHash
     end
 
-    it "should return information about a pipeline" do
+    it "returns information about a pipeline" do
       expect(@environment.name).to eq("staging")
     end
   end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
-  it { should respond_to :namespaces }
+  it { is_expected.to respond_to :namespaces }
 
   describe ".namespaces" do
     before do
@@ -9,11 +9,11 @@ describe Gitlab::Client do
       @namespaces = Gitlab.namespaces
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/namespaces")).to have_been_made
     end
 
-    it "should return a paginated response of namespaces" do
+    it "returns a paginated response of namespaces" do
       expect(@namespaces).to be_a Gitlab::PaginatedResponse
       expect(@namespaces.first.path).to eq("john")
       expect(@namespaces.first.kind).to eq("user")

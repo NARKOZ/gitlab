@@ -6,7 +6,7 @@ describe Gitlab::PaginatedResponse do
     @paginated_response = Gitlab::PaginatedResponse.new array
   end
 
-  it "should respond to *_page and has_*_page methods" do
+  it "responds to *_page and has_*_page methods" do
     expect(@paginated_response).to respond_to :first_page
     expect(@paginated_response).to respond_to :last_page
     expect(@paginated_response).to respond_to :next_page
@@ -18,7 +18,7 @@ describe Gitlab::PaginatedResponse do
   end
 
   context '.parse_headers!' do
-    it "should parse headers" do
+    it "parses headers" do
       @paginated_response.parse_headers!('Link' => "<http://example.com/api/v3/projects?page=1&per_page=5>; rel=\"first\", <http://example.com/api/v3/projects?page=20&per_page=5>; rel=\"last\"")
       client = @paginated_response.client = double('client')
       first_page_response = double('first_page_response')
@@ -38,7 +38,7 @@ describe Gitlab::PaginatedResponse do
   end
 
   context '.each_page' do
-    it "should iterate pages" do
+    it "iterates pages" do
       next_page = double('next_page')
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)
@@ -48,7 +48,7 @@ describe Gitlab::PaginatedResponse do
   end
 
   context '.auto_paginate' do
-    it "should returns an array if block is not given" do
+    it "returns an array if block is not given" do
       next_page = double('next_page')
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)

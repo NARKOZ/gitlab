@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @key = Gitlab.key(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/keys/1")).to have_been_made
     end
 
-    it "should return information about a key" do
+    it "returns information about a key" do
       expect(@key.id).to eq(1)
       expect(@key.title).to eq("narkoz@helium")
     end

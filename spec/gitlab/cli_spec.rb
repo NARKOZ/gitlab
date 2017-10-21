@@ -4,14 +4,14 @@ require 'json'
 describe Gitlab::CLI do
   describe ".run" do
     context "when command is version" do
-      it "should show gem version" do
+      it "shows gem version" do
         output = capture_output { Gitlab::CLI.run('-v') }
         expect(output).to eq("Gitlab Ruby Gem #{Gitlab::VERSION}\n")
       end
     end
 
     context "when command is info" do
-      it "should show environment info" do
+      it "shows environment info" do
         output = capture_output { Gitlab::CLI.run('info') }
         expect(output).to include("Gitlab endpoint is")
         expect(output).to include("Gitlab private token is")
@@ -21,7 +21,7 @@ describe Gitlab::CLI do
     end
 
     context "when command is help" do
-      it "should show available actions" do
+      it "shows available actions" do
         output = capture_output { Gitlab::CLI.run('help') }
         expect(output).to include('Help Topics')
         expect(output).to include('MergeRequests')
@@ -34,11 +34,11 @@ describe Gitlab::CLI do
         @output = capture_output { Gitlab::CLI.run('user') }
       end
 
-      it "should show executed command" do
+      it "shows executed command" do
         expect(@output).to include('Gitlab.user')
       end
 
-      it "should show user data" do
+      it "shows user data" do
         expect(@output).to include('name')
         expect(@output).to include('John Smith')
       end
@@ -50,11 +50,11 @@ describe Gitlab::CLI do
         @output = capture_output { Gitlab::CLI.run('users') }
       end
 
-      it "should show executed command" do
+      it "shows executed command" do
         expect(@output).to include('Gitlab.users')
       end
 
-      it "should show users data" do
+      it "shows users data" do
         expect(@output).to include('name')
         expect(@output).to include('John Smith')
         expect(@output).to include('Jack Smith')
@@ -70,7 +70,7 @@ describe Gitlab::CLI do
         @output = capture_output { Gitlab::CLI.start(args) }
       end
 
-      it "should show user data with excluded fields" do
+      it "shows user data with excluded fields" do
         expect(@output).to_not include('John Smith')
         expect(@output).to include('bio')
         expect(@output).to include('created_at')
@@ -84,7 +84,7 @@ describe Gitlab::CLI do
         @output = capture_output { Gitlab::CLI.start(args) }
       end
 
-      it "should render output as json" do
+      it "renders output as json" do
         expect(JSON.parse(@output)['result']).to eq(JSON.parse(File.read(File.dirname(__FILE__) + '/../fixtures/user.json')))
         expect(JSON.parse(@output)['cmd']).to eq('Gitlab.user')
       end
@@ -97,7 +97,7 @@ describe Gitlab::CLI do
         @output = capture_output { Gitlab::CLI.start(args) }
       end
 
-      it "should show user data with required fields" do
+      it "shows user data with required fields" do
         expect(@output).to include('id')
         expect(@output).to include('name')
         expect(@output).to include('email')
@@ -108,7 +108,7 @@ describe Gitlab::CLI do
     end
 
     context "fetch project with namespace/repo" do
-      it "should encode delimiter" do
+      it "encodes delimiter" do
         stub_get("/projects/gitlab-org%2Fgitlab-ce", "project")
         args = ['project', 'gitlab-org/gitlab-ce']
         @output = capture_output { Gitlab::CLI.start(args) }

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
-  it { should respond_to :delete_trigger }
+  it { is_expected.to respond_to :delete_trigger }
 
   describe ".triggers" do
     before do
@@ -9,11 +9,11 @@ describe Gitlab::Client do
       @triggers = Gitlab.triggers(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/triggers")).to have_been_made
     end
 
-    it "should return an array of project's triggers" do
+    it "returns an array of project's triggers" do
       expect(@triggers).to be_a Gitlab::PaginatedResponse
       expect(@triggers.first.token).to eq("6d056f63e50fe6f8c5f8f4aa10edb7")
     end
@@ -25,11 +25,11 @@ describe Gitlab::Client do
       @trigger = Gitlab.trigger(3, 10)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/triggers/10")).to have_been_made
     end
 
-    it "should return information about a trigger" do
+    it "returns information about a trigger" do
       expect(@trigger.created_at).to eq("2016-01-07T09:53:58.235Z")
       expect(@trigger.token).to eq("6d056f63e50fe6f8c5f8f4aa10edb7")
     end
@@ -41,12 +41,12 @@ describe Gitlab::Client do
       @trigger = Gitlab.create_trigger(3, "my description")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/3/triggers").
           with(body: { description: "my description" })).to have_been_made
     end
 
-    it "should return information about a new trigger" do
+    it "returns information about a new trigger" do
       expect(@trigger.created_at).to eq("2016-01-07T09:53:58.235Z")
       expect(@trigger.token).to eq("6d056f63e50fe6f8c5f8f4aa10edb7")
     end
@@ -58,12 +58,12 @@ describe Gitlab::Client do
       @trigger = Gitlab.update_trigger(3, 1, description: "my description")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/projects/3/triggers/1").
           with(body: { description: "my description" })).to have_been_made
     end
 
-    it "should return information about the trigger" do
+    it "returns information about the trigger" do
       expect(@trigger.created_at).to eq("2016-01-07T09:53:58.235Z")
       expect(@trigger.token).to eq("6d056f63e50fe6f8c5f8f4aa10edb7")
     end
@@ -75,11 +75,11 @@ describe Gitlab::Client do
       @trigger = Gitlab.trigger_take_ownership(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/3/triggers/1/take_ownership")).to have_been_made
     end
 
-    it "should return information about the trigger" do
+    it "returns information about the trigger" do
       expect(@trigger.created_at).to eq("2016-01-07T09:53:58.235Z")
       expect(@trigger.token).to eq("6d056f63e50fe6f8c5f8f4aa10edb7")
     end
@@ -91,7 +91,7 @@ describe Gitlab::Client do
       @trigger = Gitlab.remove_trigger(3, 10)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/triggers/10")).to have_been_made
     end
   end
@@ -107,7 +107,7 @@ describe Gitlab::Client do
         Gitlab.private_token = nil
       end
 
-      it "should not raise Error::MissingCredentials" do
+      it "does not raise Error::MissingCredentials" do
         expect { Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master", {a: 10}) }.to_not raise_error
       end
 
@@ -121,7 +121,7 @@ describe Gitlab::Client do
         @trigger = Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_request(:post, "#{Gitlab.endpoint}/projects/3/trigger/pipeline").
           with(body: {
             token: "7b9148c158980bbd9bcea92c17522d",
@@ -129,7 +129,7 @@ describe Gitlab::Client do
           })).to have_been_made
       end
 
-      it "should return information about the triggered build" do
+      it "returns information about the triggered build" do
         expect(@trigger.id).to eq(8)
       end
     end
@@ -139,7 +139,7 @@ describe Gitlab::Client do
         @trigger = Gitlab.run_trigger(3, "7b9148c158980bbd9bcea92c17522d", "master", {a: 10})
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_request(:post, "#{Gitlab.endpoint}/projects/3/trigger/pipeline").
           with(body: {
             token: "7b9148c158980bbd9bcea92c17522d",
@@ -148,7 +148,7 @@ describe Gitlab::Client do
           })).to have_been_made
       end
 
-      it "should return information about the triggered build" do
+      it "returns information about the triggered build" do
         expect(@trigger.id).to eq(8)
         expect(@trigger.variables.a).to eq("10")
       end

@@ -8,11 +8,11 @@ describe Gitlab::Client do
         @notes = Gitlab.notes(3)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/notes")).to have_been_made
       end
 
-      it "should return a paginated response of notes" do
+      it "returns a paginated response of notes" do
         expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
@@ -24,11 +24,11 @@ describe Gitlab::Client do
         @notes = Gitlab.issue_notes(3, 7)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/issues/7/notes")).to have_been_made
       end
 
-      it "should return a paginated response of notes" do
+      it "returns a paginated response of notes" do
         expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
@@ -40,11 +40,11 @@ describe Gitlab::Client do
         @notes = Gitlab.snippet_notes(3, 7)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/snippets/7/notes")).to have_been_made
       end
 
-      it "should return a paginated response of notes" do
+      it "returns a paginated response of notes" do
         expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
@@ -56,11 +56,11 @@ describe Gitlab::Client do
         @notes = Gitlab.merge_request_notes(3, 7)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/merge_requests/7/notes")).to have_been_made
       end
 
-      it "should return a paginated response of notes" do
+      it "returns a paginated response of notes" do
         expect(@notes).to be_a Gitlab::PaginatedResponse
         expect(@notes.first.author.name).to eq("John Smith")
       end
@@ -74,11 +74,11 @@ describe Gitlab::Client do
         @note = Gitlab.note(3, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/notes/1201")).to have_been_made
       end
 
-      it "should return information about a note" do
+      it "returns information about a note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -90,11 +90,11 @@ describe Gitlab::Client do
         @note = Gitlab.issue_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/issues/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a note" do
+      it "returns information about a note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -106,11 +106,11 @@ describe Gitlab::Client do
         @note = Gitlab.snippet_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/snippets/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a note" do
+      it "returns information about a note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -122,11 +122,11 @@ describe Gitlab::Client do
         @note = Gitlab.merge_request_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/projects/3/merge_requests/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a note" do
+      it "returns information about a note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -140,12 +140,12 @@ describe Gitlab::Client do
         @note = Gitlab.create_note(3, "The solution is rather tricky")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/notes").
           with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
-      it "should return information about a created note" do
+      it "returns information about a created note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -157,12 +157,12 @@ describe Gitlab::Client do
         @note = Gitlab.create_issue_note(3, 7, "The solution is rather tricky")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/issues/7/notes").
           with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
-      it "should return information about a created note" do
+      it "returns information about a created note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -174,12 +174,12 @@ describe Gitlab::Client do
         @note = Gitlab.create_snippet_note(3, 7, "The solution is rather tricky")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/snippets/7/notes").
           with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
-      it "should return information about a created note" do
+      it "returns information about a created note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -191,12 +191,12 @@ describe Gitlab::Client do
         @note = Gitlab.create_merge_request_note(3, 7, "The solution is rather tricky")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/projects/3/merge_requests/7/notes").
           with(body: { body: 'The solution is rather tricky' })).to have_been_made
       end
 
-      it "should return information about a created note" do
+      it "returns information about a created note" do
         expect(@note.body).to eq("The solution is rather tricky")
         expect(@note.author.name).to eq("John Smith")
       end
@@ -210,11 +210,11 @@ describe Gitlab::Client do
         @note = Gitlab.delete_note(3, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/projects/3/notes/1201")).to have_been_made
       end
 
-      it "should return information about a deleted note" do
+      it "returns information about a deleted note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -225,11 +225,11 @@ describe Gitlab::Client do
         @note = Gitlab.delete_issue_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/projects/3/issues/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a deleted issue note" do
+      it "returns information about a deleted issue note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -240,11 +240,11 @@ describe Gitlab::Client do
         @note = Gitlab.delete_snippet_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/projects/3/snippets/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a deleted snippet note" do
+      it "returns information about a deleted snippet note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -255,11 +255,11 @@ describe Gitlab::Client do
         @note = Gitlab.delete_merge_request_note(3, 7, 1201)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/projects/3/merge_requests/7/notes/1201")).to have_been_made
       end
 
-      it "should return information about a deleted merge request note" do
+      it "returns information about a deleted merge request note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -272,12 +272,12 @@ describe Gitlab::Client do
         @note = Gitlab.edit_note(3, 1201, body: "edited wall note content")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_put("/projects/3/notes/1201").
           with(body: {body: 'edited wall note content'})).to have_been_made
       end
 
-      it "should return information about a modified note" do
+      it "returns information about a modified note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -288,12 +288,12 @@ describe Gitlab::Client do
         @note = Gitlab.edit_issue_note(3, 7, 1201, body: "edited issue note content")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_put("/projects/3/issues/7/notes/1201").
           with(body: {body: 'edited issue note content'})).to have_been_made
       end
 
-      it "should return information about a modified issue note" do
+      it "returns information about a modified issue note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -304,12 +304,12 @@ describe Gitlab::Client do
         @note = Gitlab.edit_snippet_note(3, 7, 1201, body: "edited snippet note content")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_put("/projects/3/snippets/7/notes/1201").
           with(body: {body: 'edited snippet note content'})).to have_been_made
       end
 
-      it "should return information about a modified snippet note" do
+      it "returns information about a modified snippet note" do
         expect(@note.id).to eq(1201)
       end
     end
@@ -320,12 +320,12 @@ describe Gitlab::Client do
         @note = Gitlab.edit_merge_request_note(3, 7, 1201, body: "edited merge request note content")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_put("/projects/3/merge_requests/7/notes/1201").
           with(body: {body: 'edited merge request note content'})).to have_been_made
       end
 
-      it "should return information about a modified request note" do
+      it "returns information about a modified request note" do
         expect(@note.id).to eq(1201)
       end
     end

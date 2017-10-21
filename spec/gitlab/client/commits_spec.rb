@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
-  it { should respond_to :repo_commits }
-  it { should respond_to :repo_commit }
-  it { should respond_to :repo_commit_diff }
-  it { should respond_to :repo_commit_comments }
-  it { should respond_to :repo_create_commit_comment }
-  it { should respond_to :repo_commit_status }
-  it { should respond_to :repo_update_commit_status }
+  it { is_expected.to respond_to :repo_commits }
+  it { is_expected.to respond_to :repo_commit }
+  it { is_expected.to respond_to :repo_commit_diff }
+  it { is_expected.to respond_to :repo_commit_comments }
+  it { is_expected.to respond_to :repo_create_commit_comment }
+  it { is_expected.to respond_to :repo_commit_status }
+  it { is_expected.to respond_to :repo_update_commit_status }
 
   describe ".commits" do
     before do
@@ -16,12 +16,12 @@ describe Gitlab::Client do
       @commits = Gitlab.commits(3, ref_name: "api")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/commits").
         with(query: { ref_name: "api" })).to have_been_made
     end
 
-    it "should return a paginated response of repository commits" do
+    it "returns a paginated response of repository commits" do
       expect(@commits).to be_a Gitlab::PaginatedResponse
       expect(@commits.first.id).to eq("f7dd067490fe57505f7226c3b54d3127d2f7fd46")
     end
@@ -33,12 +33,12 @@ describe Gitlab::Client do
       @commit = Gitlab.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6")).
         to have_been_made
     end
 
-    it "should return a repository commit" do
+    it "returns a repository commit" do
       expect(@commit.id).to eq("6104942438c14ec7bd21c6cd5bd995272b3faff6")
     end
   end
@@ -49,12 +49,12 @@ describe Gitlab::Client do
       @diff = Gitlab.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff")).
         to have_been_made
     end
 
-    it "should return a diff of a commit" do
+    it "returns a diff of a commit" do
       expect(@diff.new_path).to eq("doc/update/5.4-to-6.0.md")
     end
   end
@@ -65,12 +65,12 @@ describe Gitlab::Client do
       @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments")).
         to have_been_made
     end
 
-    it "should return commit's comments" do
+    it "returns commit's comments" do
       expect(@commit_comments).to be_a Gitlab::PaginatedResponse
       expect(@commit_comments.length).to eq(2)
       expect(@commit_comments[0].note).to eq("this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
@@ -86,7 +86,7 @@ describe Gitlab::Client do
       @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
     end
 
-    it "should return information about the newly created comment" do
+    it "returns information about the newly created comment" do
       expect(@merge_request.note).to eq('Nice code!')
       expect(@merge_request.author.id).to eq(1)
     end
@@ -99,12 +99,12 @@ describe Gitlab::Client do
       @statuses = Gitlab.commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', all: true)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses").
         with(query: { all: true }))
     end
 
-    it "should get statuses of a commit" do
+    it "gets statuses of a commit" do
       expect(@statuses).to be_kind_of Gitlab::PaginatedResponse
       expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@statuses.first.ref).to eq('decreased-spec')
@@ -121,12 +121,12 @@ describe Gitlab::Client do
       @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8').
         with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
     end
 
-    it "should information about the newly created status" do
+    it "returns information about the newly created status" do
       expect(@status).to be_kind_of Gitlab::ObjectifiedHash
       expect(@status.id).to eq(498)
       expect(@status.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
@@ -161,7 +161,7 @@ describe Gitlab::Client do
       @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, {author_email: 'joe@sample.org', author_name: 'Joe Sample'})
     end
 
-    it "should return id of a created commit" do
+    it "returns id of a created commit" do
       expect(@commit.id).to eq('ed899a2f4b50b4370feeea94676502b42383c746')
     end
   end

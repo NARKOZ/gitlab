@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @service = Gitlab.service(3, :redmine)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/services/redmine")).to have_been_made
     end
 
-    it "should return a information about a service of project" do
+    it "returns a information about a service of project" do
       expect(@service.id).to eq 38
       expect(@service.title).to eq("Redmine")
       expect(@service.properties.project_url).to eq("https://example.com/projects/test_project/issue")
@@ -26,14 +26,14 @@ describe Gitlab::Client do
                                                     issues_url: 'https://example.com/issues/:id')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       body = {new_issue_url: 'https://example.com/projects/test_project/issues/new',
               project_url: 'https://example.com/projects/test_project/issues',
               issues_url: 'https://example.com/issues/:id'}
       expect(a_put("/projects/3/services/redmine").with(body: body)).to have_been_made
     end
 
-    it "should return information about a new service" do
+    it "returns information about a new service" do
       expect(@service).to be_truthy
     end
   end
@@ -44,11 +44,11 @@ describe Gitlab::Client do
       @service = Gitlab.delete_service(3, :redmine)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/services/redmine")).to have_been_made
     end
 
-    it "should return information about a deleted service" do
+    it "returns information about a deleted service" do
       expect(@service).to be_truthy
     end
   end

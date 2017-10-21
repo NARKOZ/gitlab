@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @snippets = Gitlab.snippets(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/snippets")).to have_been_made
     end
 
-    it "should return a paginated response of project's snippets" do
+    it "returns a paginated response of project's snippets" do
       expect(@snippets).to be_a Gitlab::PaginatedResponse
       expect(@snippets.first.file_name).to eq("mailer_test.rb")
     end
@@ -23,11 +23,11 @@ describe Gitlab::Client do
       @snippet = Gitlab.snippet(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/snippets/1")).to have_been_made
     end
 
-    it "should return information about a snippet" do
+    it "returns information about a snippet" do
       expect(@snippet.file_name).to eq("mailer_test.rb")
       expect(@snippet.author.name).to eq("John Smith")
     end
@@ -39,12 +39,12 @@ describe Gitlab::Client do
       @snippet = Gitlab.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       body = { title: 'API', file_name: 'api.rb', code: 'code' }
       expect(a_post("/projects/3/snippets").with(body: body)).to have_been_made
     end
 
-    it "should return information about a new snippet" do
+    it "returns information about a new snippet" do
       expect(@snippet.file_name).to eq("mailer_test.rb")
       expect(@snippet.author.name).to eq("John Smith")
     end
@@ -56,12 +56,12 @@ describe Gitlab::Client do
       @snippet = Gitlab.edit_snippet(3, 1, file_name: 'mailer_test.rb')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/projects/3/snippets/1").
         with(body: { file_name: 'mailer_test.rb' })).to have_been_made
     end
 
-    it "should return information about an edited snippet" do
+    it "returns information about an edited snippet" do
       expect(@snippet.file_name).to eq("mailer_test.rb")
       expect(@snippet.author.name).to eq("John Smith")
     end
@@ -73,11 +73,11 @@ describe Gitlab::Client do
       @snippet = Gitlab.delete_snippet(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/snippets/1")).to have_been_made
     end
 
-    it "should return information about a deleted snippet" do
+    it "returns information about a deleted snippet" do
       expect(@snippet.file_name).to eq("mailer_test.rb")
       expect(@snippet.author.name).to eq("John Smith")
     end
@@ -89,11 +89,11 @@ describe Gitlab::Client do
       @snippet_content = Gitlab.snippet_content(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/snippets/1/raw")).to have_been_made
     end
 
-    it "should return raw content of a snippet" do
+    it "returns raw content of a snippet" do
       expect(@snippet_content).to eq("#!/usr/bin/env ruby\n\nputs \"Cool snippet!\"\n")
     end
   end

@@ -12,11 +12,11 @@ describe Gitlab::Client do
         @runner = Gitlab.runners
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/runners")).to have_been_made
       end
 
-      it "should return a paginated response of runners" do
+      it "returns a paginated response of runners" do
         expect(@runner).to be_a Gitlab::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
@@ -29,11 +29,11 @@ describe Gitlab::Client do
         @runner = Gitlab.runners({scope: :online})
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/runners").with(query: { scope: :online })).to have_been_made
       end
 
-      it "should return a paginated response of runners" do
+      it "returns a paginated response of runners" do
         expect(@runner).to be_a Gitlab::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
@@ -52,11 +52,11 @@ describe Gitlab::Client do
         @runner = Gitlab.all_runners
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/runners/all")).to have_been_made
       end
 
-      it "should return a paginated response of runners" do
+      it "returns a paginated response of runners" do
         expect(@runner).to be_a Gitlab::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
@@ -69,11 +69,11 @@ describe Gitlab::Client do
         @runner = Gitlab.all_runners({scope: :online})
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/runners/all").with(query: { scope: :online })).to have_been_made
       end
 
-      it "should return a paginated response of runners" do
+      it "returns a paginated response of runners" do
         expect(@runner).to be_a Gitlab::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
@@ -87,11 +87,11 @@ describe Gitlab::Client do
       @runners = Gitlab.runner(6)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/runners/6")).to have_been_made
     end
 
-    it "should return a response of a runner" do
+    it "returns a response of a runner" do
       expect(@runners).to be_a Gitlab::ObjectifiedHash
       expect(@runners.id).to eq(6)
       expect(@runners.description).to eq('test-1-20150125')
@@ -104,11 +104,11 @@ describe Gitlab::Client do
       @runner = Gitlab.update_runner(6, description: "abcefg" )
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/runners/6").with(query: { description: "abcefg" })).to have_been_made
     end
 
-    it "should return an updated response of a runner" do
+    it "returns an updated response of a runner" do
       expect(@runner).to be_a Gitlab::ObjectifiedHash
       expect(@runner.description).to eq('abcefg')
     end
@@ -120,11 +120,11 @@ describe Gitlab::Client do
       @runner = Gitlab.delete_runner(6)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/runners/6")).to have_been_made
     end
 
-    it "should return a response of the deleted runner" do
+    it "returns a response of the deleted runner" do
       expect(@runner).to be_a Gitlab::ObjectifiedHash
       expect(@runner.id).to eq(6)
     end
@@ -136,11 +136,11 @@ describe Gitlab::Client do
       @runners = Gitlab.project_runners(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/1/runners")).to have_been_made
     end
 
-    it "should return a paginated response of runners" do
+    it "returns a paginated response of runners" do
       expect(@runners).to be_a Gitlab::PaginatedResponse
       expect(@runners.first.id).to eq(8)
       expect(@runners.first.description).to eq('test-2-20150125')
@@ -153,11 +153,11 @@ describe Gitlab::Client do
       @runner = Gitlab.project_enable_runner(1, 6)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/1/runners")).to have_been_made
     end
 
-    it "should return a response of the enabled runner" do
+    it "returns a response of the enabled runner" do
       expect(@runner).to be_a Gitlab::ObjectifiedHash
       expect(@runner.id).to eq(6)
       expect(@runner.description).to eq('test-1-20150125')
@@ -170,16 +170,14 @@ describe Gitlab::Client do
       @runner = Gitlab.project_disable_runner(1, 6)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/1/runners/6")).to have_been_made
     end
 
-    it "should return a response of the disabled runner" do
+    it "returns a response of the disabled runner" do
       expect(@runner).to be_a Gitlab::ObjectifiedHash
       expect(@runner.id).to eq(6)
       expect(@runner.description).to eq('test-1-20150125')
     end
   end
-
-
 end

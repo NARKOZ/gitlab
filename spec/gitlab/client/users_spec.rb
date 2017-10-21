@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @users = Gitlab.users
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/users")).to have_been_made
     end
 
-    it "should return a paginated response of users" do
+    it "returns a paginated response of users" do
       expect(@users).to be_a Gitlab::PaginatedResponse
       expect(@users.first.email).to eq("john@example.com")
     end
@@ -24,11 +24,11 @@ describe Gitlab::Client do
         @user = Gitlab.user(1)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/users/1")).to have_been_made
       end
 
-      it "should return information about a user" do
+      it "returns information about a user" do
         expect(@user.email).to eq("john@example.com")
       end
     end
@@ -39,11 +39,11 @@ describe Gitlab::Client do
         @user = Gitlab.user
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/user")).to have_been_made
       end
 
-      it "should return information about an authorized user" do
+      it "returns information about an authorized user" do
         expect(@user.email).to eq("john@example.com")
       end
     end
@@ -56,18 +56,18 @@ describe Gitlab::Client do
         @user = Gitlab.create_user("email", "pass")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         body = { email: "email", password: "pass", name: "email" }
         expect(a_post("/users").with(body: body)).to have_been_made
       end
 
-      it "should return information about a created user" do
+      it "returns information about a created user" do
         expect(@user.email).to eq("john@example.com")
       end
     end
 
     context "when bad request" do
-      it "should throw an exception" do
+      it "throws an exception" do
         stub_post("/users", "error_already_exists", 409)
         expect do
           Gitlab.create_user("email", "pass")
@@ -83,18 +83,18 @@ describe Gitlab::Client do
         @user = Gitlab.create_user("email", "pass", "username")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         body = { email: "email", password: "pass", username: "username" }
         expect(a_post("/users").with(body: body)).to have_been_made
       end
 
-      it "should return information about a created user" do
+      it "returns information about a created user" do
         expect(@user.email).to eq("john@example.com")
       end
     end
 
     context "when bad request" do
-      it "should throw an exception" do
+      it "throws an exception" do
         stub_post("/users", "error_already_exists", 409)
         expect do
           Gitlab.create_user("email", "pass", "username")
@@ -110,7 +110,7 @@ describe Gitlab::Client do
       @user = Gitlab.edit_user(1, @options)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/users/1").with(body: @options)).to have_been_made
     end
   end
@@ -121,11 +121,11 @@ describe Gitlab::Client do
       @user = Gitlab.delete_user(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/users/1")).to have_been_made
     end
 
-    it "should return information about a deleted user" do
+    it "returns information about a deleted user" do
       expect(@user.email).to eq("john@example.com")
     end
   end
@@ -136,11 +136,11 @@ describe Gitlab::Client do
       @result = Gitlab.block_user(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/users/1/block")).to have_been_made
     end
 
-    it "should return boolean" do
+    it "returns boolean" do
       expect(@result).to eq(true)
     end
   end
@@ -151,11 +151,11 @@ describe Gitlab::Client do
       @result = Gitlab.unblock_user(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/users/1/unblock")).to have_been_made
     end
 
-    it "should return boolean" do
+    it "returns boolean" do
       expect(@result).to eq(true)
     end
   end
@@ -173,7 +173,7 @@ describe Gitlab::Client do
     end
 
     context "when endpoint is not set" do
-      it "should raise Error::MissingCredentials" do
+      it "raises Error::MissingCredentials" do
         Gitlab.endpoint = nil
         expect do
           Gitlab.session("email", "pass")
@@ -182,18 +182,18 @@ describe Gitlab::Client do
     end
 
     context "when private_token is not set" do
-      it "should not raise Error::MissingCredentials" do
+      it "does not raise Error::MissingCredentials" do
         Gitlab.private_token = nil
         expect { Gitlab.session("email", "pass") }.to_not raise_error
       end
     end
 
     context "when endpoint is set" do
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_request(:post, "#{Gitlab.endpoint}/session")).to have_been_made
       end
 
-      it "should return information about a created session" do
+      it "returns information about a created session" do
         expect(@session.email).to eq("john@example.com")
         expect(@session.private_token).to eq("qEsq1pt6HJPaNciie3MG")
       end
@@ -207,11 +207,11 @@ describe Gitlab::Client do
         @keys = Gitlab.ssh_keys({ user_id: 1 })
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/users/1/keys")).to have_been_made
       end
 
-      it "should return a paginated response of SSH keys" do
+      it "returns a paginated response of SSH keys" do
         expect(@keys).to be_a Gitlab::PaginatedResponse
         expect(@keys.first.title).to eq("narkoz@helium")
       end
@@ -223,11 +223,11 @@ describe Gitlab::Client do
         @keys = Gitlab.ssh_keys
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/user/keys")).to have_been_made
       end
 
-      it "should return a paginated response of SSH keys" do
+      it "returns a paginated response of SSH keys" do
         expect(@keys).to be_a Gitlab::PaginatedResponse
         expect(@keys.first.title).to eq("narkoz@helium")
       end
@@ -240,11 +240,11 @@ describe Gitlab::Client do
       @key = Gitlab.ssh_key(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/user/keys/1")).to have_been_made
     end
 
-    it "should return information about an SSH key" do
+    it "returns information about an SSH key" do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
@@ -255,12 +255,12 @@ describe Gitlab::Client do
       @key = Gitlab.create_ssh_key("title", "body")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       body = { title: "title", key: "body" }
       expect(a_post("/user/keys").with(body: body)).to have_been_made
     end
 
-    it "should return information about a created SSH key" do
+    it "returns information about a created SSH key" do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
@@ -271,11 +271,11 @@ describe Gitlab::Client do
       @key = Gitlab.delete_ssh_key(1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/user/keys/1")).to have_been_made
     end
 
-    it "should return information about a deleted SSH key" do
+    it "returns information about a deleted SSH key" do
       expect(@key.title).to eq("narkoz@helium")
     end
   end
@@ -287,11 +287,11 @@ describe Gitlab::Client do
         @emails = Gitlab.emails
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/user/emails")).to have_been_made
       end
 
-      it "should return a information about a emails of user" do
+      it "returns a information about a emails of user" do
         email = @emails.first
         expect(email.id).to eq 1
         expect(email.email).to eq("email@example.com")
@@ -304,11 +304,11 @@ describe Gitlab::Client do
         @emails = Gitlab.emails(2)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_get("/users/2/emails")).to have_been_made
       end
 
-      it "should return a information about a emails of user" do
+      it "returns a information about a emails of user" do
         email = @emails.first
         expect(email.id).to eq 1
         expect(email.email).to eq("email@example.com")
@@ -322,11 +322,11 @@ describe Gitlab::Client do
       @email = Gitlab.email(2)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/user/emails/2")).to have_been_made
     end
 
-    it "should return a information about a email of user" do
+    it "returns a information about a email of user" do
       expect(@email.id).to eq 1
       expect(@email.email).to eq("email@example.com")
     end
@@ -339,12 +339,12 @@ describe Gitlab::Client do
         @email = Gitlab.add_email("email@example.com")
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         body = { email: "email@example.com" }
         expect(a_post("/user/emails").with(body: body)).to have_been_made
       end
 
-      it "should return information about a new email" do
+      it "returns information about a new email" do
         expect(@email.id).to eq(1)
         expect(@email.email).to eq("email@example.com")
       end
@@ -356,12 +356,12 @@ describe Gitlab::Client do
         @email = Gitlab.add_email("email@example.com", 2)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         body = { email: "email@example.com" }
         expect(a_post("/users/2/emails").with(body: body)).to have_been_made
       end
 
-      it "should return information about a new email" do
+      it "returns information about a new email" do
         expect(@email.id).to eq(1)
         expect(@email.email).to eq("email@example.com")
       end
@@ -375,11 +375,11 @@ describe Gitlab::Client do
         @email = Gitlab.delete_email(1)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/user/emails/1")).to have_been_made
       end
 
-      it "should return information about a deleted email" do
+      it "returns information about a deleted email" do
         expect(@email).to be_truthy
       end
     end
@@ -390,11 +390,11 @@ describe Gitlab::Client do
         @email = Gitlab.delete_email(1, 2)
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_delete("/users/2/emails/1")).to have_been_made
       end
 
-      it "should return information about a deleted email" do
+      it "returns information about a deleted email" do
         expect(@email).to be_truthy
       end
     end
@@ -406,11 +406,11 @@ describe Gitlab::Client do
       @users = Gitlab.user_search('User')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/users?search=User")).to have_been_made
     end
 
-    it "should return an array of users found" do
+    it "returns an array of users found" do
       expect(@users.first.id).to eq(1)
       expect(@users.last.id).to eq(2)
     end

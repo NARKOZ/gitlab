@@ -39,7 +39,7 @@ describe Gitlab::Error do
     end
 
     context "when passed an ObjectifiedHash" do
-      it "should return a joined string of error messages sorted by key" do
+      it "returns a joined string of error messages sorted by key" do
         expect(error.send(:handle_message, obj_h)).
           to eq(
             "'embed_entity' (foo: bar) (sna: fu), 'password' too short, 'user' not set"
@@ -48,14 +48,14 @@ describe Gitlab::Error do
     end
 
     context "when passed an Array" do
-      it "should return a joined string of messages" do
+      it "returns a joined string of messages" do
         expect(error.send(:handle_message, array)).
           to eq("First message. Second message.")
       end
     end
 
     context "when passed a String" do
-      it "should return the String untouched" do
+      it "returns the String untouched" do
         error_str = 'this is an error string'
 
         expect(error.send(:handle_message, error_str)).
@@ -65,7 +65,7 @@ describe Gitlab::Error do
   end
 
   describe "#response_message" do
-    it "should return the message of the parsed_response" do
+    it "returns the message of the parsed_response" do
       expect(error.response_message).to eq(body.string)
     end
   end

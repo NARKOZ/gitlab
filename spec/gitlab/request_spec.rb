@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe Gitlab::Request do
-  it { should respond_to :get }
-  it { should respond_to :post }
-  it { should respond_to :put }
-  it { should respond_to :delete }
+  it { is_expected.to respond_to :get }
+  it { is_expected.to respond_to :post }
+  it { is_expected.to respond_to :put }
+  it { is_expected.to respond_to :delete }
   before do
     @request = Gitlab::Request.new
   end
 
   describe ".default_options" do
-    it "should have default values" do
+    it "has default values" do
       default_options = Gitlab::Request.default_options
       expect(default_options).to be_a Hash
       expect(default_options[:parser]).to be_a Proc
@@ -21,7 +21,7 @@ describe Gitlab::Request do
   end
 
   describe ".parse" do
-    it "should return ObjectifiedHash" do
+    it "returns ObjectifiedHash" do
       body = JSON.unparse(a: 1, b: 2)
       expect(Gitlab::Request.parse(body)).to be_an Gitlab::ObjectifiedHash
       expect(Gitlab::Request.parse("true")).to be true
@@ -33,7 +33,7 @@ describe Gitlab::Request do
 
   describe "#request_defaults" do
     context "when endpoint is not set" do
-      it "should raise Error::MissingCredentials" do
+      it "raises Error::MissingCredentials" do
         @request.endpoint = nil
         expect do
           @request.request_defaults
@@ -46,7 +46,7 @@ describe Gitlab::Request do
         @request.endpoint = 'http://rabbit-hole.example.com'
       end
 
-      it "should set default_params" do
+      it "sets default_params" do
         @request.request_defaults('sudoer')
         expect(Gitlab::Request.default_params).to eq(sudo: 'sudoer')
       end
@@ -54,18 +54,18 @@ describe Gitlab::Request do
   end
 
   describe "#authorization_header" do
-    it "should raise MissingCredentials when auth_token and private_token are not set" do
+    it "raises MissingCredentials when auth_token and private_token are not set" do
       expect do
         @request.send(:authorization_header, {})
       end.to raise_error(Gitlab::Error::MissingCredentials)
     end
 
-    it "should set the correct header when given a private_token" do
+    it "sets the correct header when given a private_token" do
       @request.private_token = 'ys9BtunN3rDKbaJCYXaN'
       expect(@request.send(:authorization_header, {})).to eq("PRIVATE-TOKEN" => 'ys9BtunN3rDKbaJCYXaN')
     end
 
-    it "should set the correct header when setting an auth_token via the private_token config option" do
+    it "sets the correct header when setting an auth_token via the private_token config option" do
       @request.private_token = '3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603'
       expect(@request.send(:authorization_header, {})).to eq("Authorization" => "Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603")
     end

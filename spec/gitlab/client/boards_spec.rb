@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @boards = Gitlab.boards(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/boards")).to have_been_made
     end
 
-    it "should return a paginated response of project's boards" do
+    it "returns a paginated response of project's boards" do
       expect(@boards).to be_a Gitlab::PaginatedResponse
     end
   end
@@ -22,11 +22,11 @@ describe Gitlab::Client do
       @board_lists = Gitlab.board_lists(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/boards/1/lists")).to have_been_made
     end
 
-    it "should return a paginated response of board's lists" do
+    it "returns a paginated response of board's lists" do
       expect(@board_lists).to be_a Gitlab::PaginatedResponse
       expect(@board_lists.first.id).to eq(1)
     end
@@ -38,11 +38,11 @@ describe Gitlab::Client do
       @board_list = Gitlab.board_list(3, 1, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/boards/1/lists/1")).to have_been_made
     end
 
-    it "should return information about the list" do
+    it "returns information about the list" do
       expect(@board_list.id).to eq(1)
     end
   end
@@ -53,11 +53,11 @@ describe Gitlab::Client do
       @board_list = Gitlab.create_board_list(3, 1, 4)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/3/boards/1/lists")).to have_been_made
     end
 
-    it "should return information about a created board" do
+    it "returns information about a created board" do
       expect(@board_list.position).to eq(1)
     end
   end
@@ -68,11 +68,11 @@ describe Gitlab::Client do
       @board_list = Gitlab.edit_board_list(3, 1, 1, 3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/projects/3/boards/1/lists/1")).to have_been_made
     end
 
-    it "should return information about an edited board" do
+    it "returns information about an edited board" do
       expect(@board_list.id).to eq(1)
     end
   end
@@ -83,11 +83,11 @@ describe Gitlab::Client do
       @board_list = Gitlab.delete_board_list(3, 1, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/boards/1/lists/1")).to have_been_made
     end
 
-    it "should return information about the deleted board list" do
+    it "returns information about the deleted board list" do
       expect(@board_list.id).to eq(1)
     end
   end

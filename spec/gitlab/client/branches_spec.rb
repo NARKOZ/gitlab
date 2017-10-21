@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
-  it { should respond_to :repo_branches }
-  it { should respond_to :repo_branch }
-  it { should respond_to :repo_protect_branch }
-  it { should respond_to :repo_unprotect_branch }
+  it { is_expected.to respond_to :repo_branches }
+  it { is_expected.to respond_to :repo_branch }
+  it { is_expected.to respond_to :repo_protect_branch }
+  it { is_expected.to respond_to :repo_unprotect_branch }
 
   describe ".branches" do
     before do
@@ -12,11 +12,11 @@ describe Gitlab::Client do
       @branches = Gitlab.branches(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/branches")).to have_been_made
     end
 
-    it "should return a paginated response of repository branches" do
+    it "returns a paginated response of repository branches" do
       expect(@branches).to be_a Gitlab::PaginatedResponse
       expect(@branches.first.name).to eq("api")
     end
@@ -28,11 +28,11 @@ describe Gitlab::Client do
       @branch = Gitlab.branch(3, "api")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/branches/api")).to have_been_made
     end
 
-    it "should return information about a repository branch" do
+    it "returns information about a repository branch" do
       expect(@branch.name).to eq("api")
     end
   end
@@ -47,11 +47,11 @@ describe Gitlab::Client do
         @branch = Gitlab.protect_branch(3, "api")
       end
 
-      it "should update the correct resource" do
+      it "updates the correct resource" do
         expect(a_put("/projects/3/repository/branches/api/protect")).to have_been_made
       end
 
-      it "should return information about a protected repository branch" do
+      it "returns information about a protected repository branch" do
         expect(@branch.name).to eq("api")
       end
     end
@@ -61,7 +61,7 @@ describe Gitlab::Client do
         @branch = Gitlab.protect_branch(3, "api", developers_can_push: true)
       end
 
-      it "should update the correct resource with the correct options" do
+      it "updates the correct resource with the correct options" do
         expect(
           a_put("/projects/3/repository/branches/api/protect").with(body: { developers_can_push: 'true' })
         ).to have_been_made
@@ -75,11 +75,11 @@ describe Gitlab::Client do
       @branch = Gitlab.unprotect_branch(3, "api")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/projects/3/repository/branches/api/unprotect")).to have_been_made
     end
 
-    it "should return information about an unprotected repository branch" do
+    it "returns information about an unprotected repository branch" do
       expect(@branch.name).to eq("api")
     end
   end
@@ -90,11 +90,11 @@ describe Gitlab::Client do
       @branch = Gitlab.create_branch(3, "api", "master")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/projects/3/repository/branches")).to have_been_made
     end
 
-    it "should return information about a new repository branch" do
+    it "returns information about a new repository branch" do
       expect(@branch.name).to eq("api")
     end
   end
@@ -105,11 +105,11 @@ describe Gitlab::Client do
       @branch = Gitlab.delete_branch(3, "api")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/projects/3/repository/branches/api")).to have_been_made
     end
 
-    it "should return information about the deleted repository branch" do
+    it "returns information about the deleted repository branch" do
       expect(@branch.branch_name).to eq("api")
     end
   end

@@ -9,12 +9,12 @@ describe Gitlab::Client do
       @groups = Gitlab.groups
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/groups")).to have_been_made
       expect(a_get("/groups/3")).to have_been_made
     end
 
-    it "should return a paginated response of groups" do
+    it "returns a paginated response of groups" do
       expect(@groups).to be_a Gitlab::PaginatedResponse
       expect(@groups.first.path).to eq("threegroup")
     end
@@ -27,12 +27,12 @@ describe Gitlab::Client do
         @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/groups").
             with(body: { path: 'gitlab-path', name: 'GitLab-Group' })).to have_been_made
       end
 
-      it "should return information about a created group" do
+      it "returns information about a created group" do
         expect(@group.name).to eq("Gitlab-Group")
         expect(@group.path).to eq("gitlab-group")
       end
@@ -44,13 +44,13 @@ describe Gitlab::Client do
         @group = Gitlab.create_group('GitLab-Group', 'gitlab-path', description: 'gitlab group description')
       end
 
-      it "should get the correct resource" do
+      it "gets the correct resource" do
         expect(a_post("/groups").
                  with(body: { path: 'gitlab-path', name: 'GitLab-Group',
                               description: 'gitlab group description' })).to have_been_made
       end
 
-      it "should return information about a created group" do
+      it "returns information about a created group" do
         expect(@group.name).to eq("Gitlab-Group")
         expect(@group.path).to eq("gitlab-group")
         expect(@group.description).to eq("gitlab group description")
@@ -64,11 +64,11 @@ describe Gitlab::Client do
       @group = Gitlab.delete_group(42)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/groups/42")).to have_been_made
     end
 
-    it "should return information about a deleted group" do
+    it "returns information about a deleted group" do
       expect(@group.name).to eq("Gitlab-Group")
       expect(@group.path).to eq("gitlab-group")
     end
@@ -85,11 +85,11 @@ describe Gitlab::Client do
       @group_transfer = Gitlab.transfer_project_to_group(@group.id, @project.id)
     end
 
-    it "should post to the correct resource" do
+    it "posts to the correct resource" do
       expect(a_post("/groups/#{@group.id}/projects/#{@project.id}").with(body: { id: @group.id.to_s, project_id: @project.id.to_s })).to have_been_made
     end
 
-    it "should return information about the group" do
+    it "returns information about the group" do
       expect(@group_transfer.name).to eq(@group.name)
       expect(@group_transfer.path).to eq(@group.path)
       expect(@group_transfer.id).to eq(@group.id)
@@ -102,11 +102,11 @@ describe Gitlab::Client do
       @members = Gitlab.group_members(3)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/groups/3/members")).to have_been_made
     end
 
-    it "should return information about a group's members" do
+    it "returns information about a group's members" do
       expect(@members).to be_a Gitlab::PaginatedResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq("John Smith")
@@ -119,11 +119,11 @@ describe Gitlab::Client do
       @member = Gitlab.group_member(3, 2)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/groups/3/members/2")).to have_been_made
     end
 
-    it "should return information about a group member" do
+    it "returns information about a group member" do
       expect(@member).to be_a Gitlab::ObjectifiedHash
       expect(@member.access_level).to eq(10)
       expect(@member.name).to eq("John Smith")
@@ -136,12 +136,12 @@ describe Gitlab::Client do
       @member = Gitlab.add_group_member(3, 1, 40)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_post("/groups/3/members").
         with(body: { user_id: '1', access_level: '40' })).to have_been_made
     end
 
-    it "should return information about the added member" do
+    it "returns information about the added member" do
       expect(@member.name).to eq("John Smith")
     end
   end
@@ -152,12 +152,12 @@ describe Gitlab::Client do
       @member = Gitlab.edit_group_member(3, 1, 50)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_put("/groups/3/members/1")
           .with(body: { access_level: '50'})).to have_been_made
     end
 
-    it "should return information about the edited member" do
+    it "returns information about the edited member" do
       expect(@member.access_level).to eq(50)
     end
   end
@@ -168,11 +168,11 @@ describe Gitlab::Client do
       @group = Gitlab.remove_group_member(3, 1)
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_delete("/groups/3/members/1")).to have_been_made
     end
 
-    it "should return information about the group the member was removed from" do
+    it "returns information about the group the member was removed from" do
       expect(@group.group_id).to eq(3)
     end
   end
@@ -183,11 +183,11 @@ describe Gitlab::Client do
       @projects = Gitlab.group_projects(4)
     end
 
-    it "should get the list of projects" do
+    it "gets the list of projects" do
       expect(a_get("/groups/4/projects")).to have_been_made
     end
 
-    it "should return a list of of projects under a group" do
+    it "returns a list of of projects under a group" do
       expect(@projects).to be_a Gitlab::PaginatedResponse
       expect(@projects.size).to eq(1)
       expect(@projects[0].name).to eq("Diaspora Client")
@@ -200,11 +200,11 @@ describe Gitlab::Client do
       @groups = Gitlab.group_search('Group')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/groups?search=Group")).to have_been_made
     end
 
-    it "should return an array of groups found" do
+    it "returns an array of groups found" do
       expect(@groups.first.id).to eq(5)
       expect(@groups.last.id).to eq(8)
     end

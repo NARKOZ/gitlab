@@ -7,11 +7,11 @@ describe Gitlab::Client do
       @file_contents = Gitlab.file_contents(3, "Gemfile")
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/files/Gemfile/raw?ref=master")).to have_been_made
     end
 
-    it "should return file contents" do
+    it "returns file contents" do
       expect(@file_contents).to eq("source 'https://rubygems.org'\ngem 'rails', '4.1.2'\n")
     end
   end
@@ -22,11 +22,11 @@ describe Gitlab::Client do
       @file = Gitlab.get_file(3, 'README.md', 'master')
     end
 
-    it "should get the correct resource" do
+    it "gets the correct resource" do
       expect(a_get("/projects/3/repository/files/README%2Emd?ref=master")).to have_been_made
     end
 
-    it "should return the base64 encoded file" do
+    it "returns the base64 encoded file" do
       expect(@file.file_path).to eq "README.md"
       expect(@file.ref).to eq "master"
       expect(@file.content).to eq "VGhpcyBpcyBhICpSRUFETUUqIQ==\n"
@@ -38,7 +38,7 @@ describe Gitlab::Client do
     let!(:request_stub) { stub_post(api_path, "repository_file") }
     let!(:file) { Gitlab.create_file(3, "path", "branch", "content", "commit message", author_name: "joe") }
 
-    it "should create the correct resource" do
+    it "creates the correct resource" do
       expected_parameters = {
         author_name: "joe",
         branch: "branch",
@@ -47,7 +47,7 @@ describe Gitlab::Client do
       expect(a_post(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
-    it "should return information about the new file" do
+    it "returns information about the new file" do
       expect(file.file_path).to eq "path"
       expect(file.branch_name).to eq "branch"
     end
@@ -58,7 +58,7 @@ describe Gitlab::Client do
     let!(:request_stub) { stub_put(api_path, "repository_file") }
     let!(:file) { Gitlab.edit_file(3, "path", "branch", "content", "commit message", author_name: "joe") }
 
-    it "should update the correct resource" do
+    it "updates the correct resource" do
       expected_parameters = {
         author_name: "joe",
         branch: "branch",
@@ -67,7 +67,7 @@ describe Gitlab::Client do
       expect(a_put(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
-    it "should return information about the new file" do
+    it "returns information about the new file" do
       expect(file.file_path).to eq "path"
       expect(file.branch_name).to eq "branch"
     end
@@ -78,7 +78,7 @@ describe Gitlab::Client do
     let!(:request_stub) { stub_delete(api_path, "repository_file") }
     let!(:file) { Gitlab.remove_file(3, "path", "branch", "commit message", author_name: "joe") }
 
-    it "should update the correct resource" do
+    it "updates the correct resource" do
       expected_parameters = {
         author_name: "joe",
         branch: "branch",
@@ -87,7 +87,7 @@ describe Gitlab::Client do
       expect(a_delete(api_path).with(body: hash_including(expected_parameters))).to have_been_made
     end
 
-    it "should return information about the new file" do
+    it "returns information about the new file" do
       expect(file.file_path).to eq "path"
       expect(file.branch_name).to eq "branch"
     end
