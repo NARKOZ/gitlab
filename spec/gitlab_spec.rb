@@ -89,9 +89,8 @@ describe Gitlab do
       Gitlab.endpoint = 'https://api.example.com'
       request = class_spy(Gitlab::Request).as_stubbed_const
 
-      Gitlab.http_proxy('fazbearentertainment.com', 1987, 'ffazbear', 'itsme')
-      expect(request).to have_received(:http_proxy).
-        with('fazbearentertainment.com', 1987, 'ffazbear', 'itsme')
+      Gitlab.http_proxy('proxy.example.net', 1987, 'user', 'pass')
+      expect(request).to have_received(:http_proxy).with('proxy.example.net', 1987, 'user', 'pass')
     end
   end
 end

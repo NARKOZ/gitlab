@@ -8,7 +8,7 @@ describe Gitlab::CLI::Helpers do
     it "should return Array of Hashes containing method names and owners" do
       expect(@methods).to be_a Array
       expect(@methods.all? { |m| m.is_a? Hash }).to be true
-      expect(@methods.all? { |m| m.keys.sort === [:name, :owner] }).to be true
+      expect(@methods.all? { |m| m.keys.sort == %i(name owner) }).to be true
     end
   end
 

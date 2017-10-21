@@ -67,14 +67,15 @@ class Gitlab::CLI
     #
     # @return [String]
     def confirm_command(cmd)
-      if cmd.start_with?('remove_', 'delete_')
-        puts "Are you sure? (y/n)"
-        if %w(y yes).include?($stdin.gets.to_s.strip.downcase)
-          puts 'Proceeding..'
-        else
-          puts 'Command aborted.'
-          exit(1)
-        end
+      return unless cmd.start_with?('remove_', 'delete_')
+
+      puts 'Are you sure? (y/n)'
+
+      if %w(y yes).include?($stdin.gets.to_s.strip.downcase)
+        puts 'Proceeding..'
+      else
+        puts 'Command aborted.'
+        exit(1)
       end
     end
 
@@ -102,17 +103,17 @@ class Gitlab::CLI
     end
 
     def output_json(cmd, args, data)
-      if data.respond_to? :empty? and data.empty?
+      if data.respond_to?(:empty?) && data.empty?
         puts '{}'
       else
         hash_result = case data
-                      when Gitlab::ObjectifiedHash,Gitlab::FileResponse
+                      when Gitlab::ObjectifiedHash, Gitlab::FileResponse
                         record_hash([data], cmd, args, true)
                       when Gitlab::PaginatedResponse
                         record_hash(data, cmd, args)
                       else
                         { cmd: cmd, data: data, args: args }
-        end
+                      end
         puts JSON.pretty_generate(hash_result)
       end
     end
@@ -135,7 +136,7 @@ class Gitlab::CLI
           keys.each do |key|
             case value = hash[key]
             when Hash
-              value = value.has_key?('id') ? value['id'] : 'Hash'
+              value = value.key?('id') ? value['id'] : 'Hash'
             when StringIO
               value = 'File'
             when nil
@@ -194,7 +195,7 @@ class Gitlab::CLI
     # Helper function to get rows and keys from data returned from API call
     def get_keys(args, data)
       arr = data.map(&:to_h)
-      keys = arr.first.keys.sort { |x, y| x.to_s <=> y.to_s }
+      keys = arr.first.keys.sort_by(&:to_s)
       keys &= required_fields(args) if required_fields(args).any?
       keys -= excluded_fields(args)
       [arr, keys]
@@ -220,7 +221,7 @@ class Gitlab::CLI
           begin
             newhash[key.to_sym] = symbolize_keys(value)
           rescue NoMethodError
-            raise "error: cannot convert hash key to symbol: #{key}"
+            raise "Error: cannot convert hash key to symbol: #{key}"
           end
         end
       end
@@ -231,9 +232,9 @@ class Gitlab::CLI
     # YAML::load on a single argument
     def yaml_load(arg)
       begin
-        yaml = YAML.load(arg)
+        yaml = YAML.safe_load(arg)
       rescue Psych::SyntaxError
-        raise "error: Argument is not valid YAML syntax: #{arg}"
+        raise "Error: Argument is not valid YAML syntax: #{arg}"
       end
       yaml
     end

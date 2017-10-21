@@ -6,7 +6,7 @@ module Gitlab
     HEADER_LINK = 'Link'.freeze
     DELIM_LINKS = ','.freeze
     LINK_REGEX = /<([^>]+)>; rel=\"([^\"]+)\"/
-    METAS = %w(last next first prev)
+    METAS = %w(last next first prev).freeze
 
     attr_accessor(*METAS)
 
@@ -25,7 +25,7 @@ module Gitlab
         LINK_REGEX.match(link.strip) do |match|
           url, meta = match[1], match[2]
           next if !url || !meta || METAS.index(meta).nil?
-          self.send("#{meta}=", url)
+          send("#{meta}=", url)
         end
       end
     end

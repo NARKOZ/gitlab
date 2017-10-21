@@ -3,23 +3,25 @@ module Gitlab
   class Client < API
     Dir[File.expand_path('../client/*.rb', __FILE__)].each { |f| require f }
 
+    # Please keep in alphabetical order
     include AwardEmojis
     include Boards
     include Branches
-    include Builds
     include BuildVariables
+    include Builds
     include Commits
     include Environments
     include Groups
     include Issues
+    include Jobs
     include Keys
     include Labels
     include MergeRequests
     include Milestones
     include Namespaces
     include Notes
-    include Pipelines
     include PipelineTriggers
+    include Pipelines
     include Projects
     include Repositories
     include RepositoryFiles
@@ -30,7 +32,6 @@ module Gitlab
     include Tags
     include Todos
     include Users
-    include Jobs
 
     # Text representation of the client, masking private token.
     #
@@ -52,7 +53,7 @@ module Gitlab
     private
 
     def only_show_last_four_chars(token)
-      "#{'*'*(token.size - 4)}#{token[-4..-1]}"
+      "#{'*' * (token.size - 4)}#{token[-4..-1]}"
     end
   end
 end

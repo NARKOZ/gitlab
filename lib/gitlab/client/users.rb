@@ -49,11 +49,11 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def create_user(*args)
       options = Hash === args.last ? args.pop : {}
-      if args[2]
-        body = { email: args[0], password: args[1], username: args[2] }
-      else
-        body = { email: args[0], password: args[1], name: args[0] }
-      end
+      body = if args[2]
+               { email: args[0], password: args[1], username: args[2] }
+             else
+               { email: args[0], password: args[1], name: args[0] }
+             end
       body.merge!(options)
       post('/users', body: body)
     end

@@ -14,8 +14,8 @@ describe Gitlab::FileResponse do
   context '.to_hash' do
     it "should have `filename` key and `data` key" do
       h = @file_response.to_hash
-      expect(h.has_key?(:filename)).to be_truthy
-      expect(h.has_key?(:data)).to be_truthy
+      expect(h.key?(:filename)).to be_truthy
+      expect(h.key?(:data)).to be_truthy
     end
   end
 

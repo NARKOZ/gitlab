@@ -5,22 +5,24 @@ describe Gitlab::Error do
   let(:request_object)  { HTTParty::Request.new(Net::HTTP::Get, '/') }
   let(:response_object) { Net::HTTPOK.new('1.1', 200, 'OK') }
   let(:body)            { StringIO.new("{foo:'bar'}") }
-  let(:parsed_response) { lambda { body } }
+  let(:parsed_response) { -> { body } }
 
-  let(:response) {
+  let(:response) do
     HTTParty::Response.new(
       request_object,
       response_object,
       parsed_response,
-      body: body,
+      body: body
     )
-  }
+  end
 
   let(:error) { Gitlab::Error::ResponseError.new(response) }
   let(:date)  { Date.new(2010, 1, 15).to_s }
 
   before do
-    def body.message; self.string; end
+    def body.message
+      string
+    end
 
     response_object['last-modified']  = date
     response_object['content-length'] = "1024"
@@ -28,13 +30,13 @@ describe Gitlab::Error do
 
   describe "#handle_message" do
     let(:array) { Array.new(['First message.', 'Second message.']) }
-    let(:obj_h) {
+    let(:obj_h) do
       Gitlab::ObjectifiedHash.new(
         user:         ['not set'],
         password:     ['too short'],
-        embed_entity: { foo: ['bar'], sna: ['fu'] },
+        embed_entity: { foo: ['bar'], sna: ['fu'] }
       )
-    }
+    end
 
     context "when passed an ObjectifiedHash" do
       it "should return a joined string of error messages sorted by key" do

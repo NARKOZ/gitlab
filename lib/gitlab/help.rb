@@ -33,7 +33,7 @@ module Gitlab::Help
     def ri_cmd
       which_ri = `which ri`.chomp
       if which_ri.empty?
-        fail "'ri' tool not found in $PATH. Please install it to use the help."
+        raise "'ri' tool not found in $PATH. Please install it to use the help."
       end
 
       which_ri
@@ -61,7 +61,7 @@ module Gitlab::Help
     def actions_table(topic=nil)
       rows = topic ? help_map[topic] : help_map.keys
       table do |t|
-        t.title = topic || "Help Topics"
+        t.title = topic || 'Help Topics'
 
         # add_row expects an array and we have strings hence the map.
         rows.sort.map { |r| [r] }.each_with_index do |row, index|
@@ -73,7 +73,7 @@ module Gitlab::Help
 
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
     def namespace(cmd)
-      method_owners.select { |method| method[:name] === cmd }.
+      method_owners.select { |method| method[:name] == cmd }.
         map { |method| method[:owner] + '.' + method[:name] }.
         shift
     end
@@ -82,14 +82,13 @@ module Gitlab::Help
     def change_help_output!(cmd, output_str)
       output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd + ' \1')
       output_str.gsub!(/\,[\s]*/, ' ')
-      
+
       # Ensure @option descriptions are on a single line
       output_str.gsub!(/\n\[/, " \[")
       output_str.gsub!(/\s(@)/, "\n@")
       output_str.gsub!(/(\])\n(\:)/, '\1 \2')
       output_str.gsub!(/(\:.*)(\n)(.*\.)/, '\1 \3')
       output_str.gsub!(/\{(.+)\}/, '"{\1}"')
-      
     end
-  end # class << self
+  end
 end

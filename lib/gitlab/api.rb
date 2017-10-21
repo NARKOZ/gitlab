@@ -13,7 +13,7 @@ module Gitlab
       (Configuration::VALID_OPTIONS_KEYS + [:auth_token]).each do |key|
         send("#{key}=", options[key]) if options[key]
       end
-      set_request_defaults(@sudo)
+      request_defaults(@sudo)
     end
   end
 end

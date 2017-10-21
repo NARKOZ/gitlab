@@ -31,43 +31,43 @@ describe Gitlab::Request do
     end
   end
 
-  describe "#set_request_defaults" do
+  describe "#request_defaults" do
     context "when endpoint is not set" do
       it "should raise Error::MissingCredentials" do
         @request.endpoint = nil
         expect do
-          @request.set_request_defaults
+          @request.request_defaults
         end.to raise_error(Gitlab::Error::MissingCredentials, 'Please set an endpoint to API')
       end
     end
 
     context "when endpoint is set" do
       before(:each) do
-        @request.endpoint = 'http://rabbit-hole.example.org'
+        @request.endpoint = 'http://rabbit-hole.example.com'
       end
 
       it "should set default_params" do
-        @request.set_request_defaults('sudoer')
+        @request.request_defaults('sudoer')
         expect(Gitlab::Request.default_params).to eq(sudo: 'sudoer')
       end
     end
   end
 
-  describe "#set_authorization_header" do
+  describe "#authorization_header" do
     it "should raise MissingCredentials when auth_token and private_token are not set" do
       expect do
-        @request.send(:set_authorization_header, {})
+        @request.send(:authorization_header, {})
       end.to raise_error(Gitlab::Error::MissingCredentials)
     end
 
     it "should set the correct header when given a private_token" do
       @request.private_token = 'ys9BtunN3rDKbaJCYXaN'
-      expect(@request.send(:set_authorization_header, {})).to eq("PRIVATE-TOKEN" => 'ys9BtunN3rDKbaJCYXaN')
+      expect(@request.send(:authorization_header, {})).to eq("PRIVATE-TOKEN" => 'ys9BtunN3rDKbaJCYXaN')
     end
 
     it "should set the correct header when setting an auth_token via the private_token config option" do
       @request.private_token = '3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603'
-      expect(@request.send(:set_authorization_header, {})).to eq("Authorization" => "Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603")
+      expect(@request.send(:authorization_header, {})).to eq("Authorization" => "Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603")
     end
   end
 end

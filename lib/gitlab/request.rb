@@ -26,7 +26,7 @@ module Gitlab
       elsif body.nil?
         false
       else
-        raise Error::Parsing.new "Couldn't parse a response body"
+        raise Error::Parsing, "Couldn't parse a response body"
       end
     end
 
@@ -34,13 +34,13 @@ module Gitlab
     def self.decode(response)
       JSON.load response
     rescue JSON::ParserError
-      raise Error::Parsing.new "The response is not a valid JSON"
+      raise Error::Parsing, 'The response is not a valid JSON'
     end
 
     %w(get post put delete).each do |method|
       define_method method do |path, options={}|
-        set_httparty_config(options)
-        set_authorization_header(options)
+        httparty_config(options)
+        authorization_header(options)
         validate self.class.send(method, @endpoint + path, options)
       end
     end
@@ -49,19 +49,19 @@ module Gitlab
     # Returns parsed response for successful requests.
     def validate(response)
       error_klass = case response.code
-      when 400 then Error::BadRequest
-      when 401 then Error::Unauthorized
-      when 403 then Error::Forbidden
-      when 404 then Error::NotFound
-      when 405 then Error::MethodNotAllowed
-      when 409 then Error::Conflict
-      when 422 then Error::Unprocessable
-      when 500 then Error::InternalServerError
-      when 502 then Error::BadGateway
-      when 503 then Error::ServiceUnavailable
-      end
+                    when 400 then Error::BadRequest
+                    when 401 then Error::Unauthorized
+                    when 403 then Error::Forbidden
+                    when 404 then Error::NotFound
+                    when 405 then Error::MethodNotAllowed
+                    when 409 then Error::Conflict
+                    when 422 then Error::Unprocessable
+                    when 500 then Error::InternalServerError
+                    when 502 then Error::BadGateway
+                    when 503 then Error::ServiceUnavailable
+                    end
 
-      fail error_klass.new(response) if error_klass
+      raise error_klass, response if error_klass
 
       parsed = response.parsed_response
       parsed.client = self if parsed.respond_to?(:client=)
@@ -71,9 +71,9 @@ module Gitlab
 
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
-    def set_request_defaults(sudo=nil)
+    def request_defaults(sudo=nil)
       self.class.default_params sudo: sudo
-      raise Error::MissingCredentials.new("Please set an endpoint to API") unless @endpoint
+      raise Error::MissingCredentials, 'Please set an endpoint to API' unless @endpoint
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
 
@@ -84,20 +84,20 @@ module Gitlab
     # @param [Hash] options A customizable set of options.
     # @option options [Boolean] :unauthenticated true if the API call does not require user authentication.
     # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
-    def set_authorization_header(options)
-      unless options[:unauthenticated]
-        raise Error::MissingCredentials.new("Please provide a private_token or auth_token for user") unless @private_token
-        if @private_token.length <= 20
-          options[:headers] = { 'PRIVATE-TOKEN' => @private_token }
-        else
-          options[:headers] = { 'Authorization' => "Bearer #{@private_token}" }
-        end
-      end
+    def authorization_header(options)
+      return if options[:unauthenticated]
+      raise Error::MissingCredentials, 'Please provide a private_token or auth_token for user' unless @private_token
+
+      options[:headers] = if @private_token.size < 21
+                            { 'PRIVATE-TOKEN' => @private_token }
+                          else
+                            { 'Authorization' => "Bearer #{@private_token}" }
+                          end
     end
 
     # Set HTTParty configuration
     # @see https://github.com/jnunemaker/httparty
-    def set_httparty_config(options)
+    def httparty_config(options)
       options.merge!(httparty) if httparty
     end
   end

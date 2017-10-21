@@ -16,6 +16,10 @@ Metrics/LineLength:
     - 'lib/gitlab/client/*'
     - 'spec/**/*'
 
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'lib/gitlab/client/*'
+
 Layout/SpaceInsideHashLiteralBraces:
   Exclude:
     - 'lib/gitlab/client/*'

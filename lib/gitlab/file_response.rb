@@ -39,7 +39,7 @@ module Gitlab
 
     # Parse filename from the 'Content Disposition' header.
     def parse_headers!(headers)
-      @filename = headers[HEADER_CONTENT_DISPOSITION].split("filename=")[1]
+      @filename = headers[HEADER_CONTENT_DISPOSITION].split('filename=')[1]
       @filename = @filename[1...-1] if @filename[0] == '"' # Unquote filenames
     end
   end

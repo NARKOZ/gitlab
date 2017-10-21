@@ -26,7 +26,7 @@ module Gitlab
   end
 
   # Delegate to Gitlab::Client
-  def respond_to_missing?(method_name, include_private = false)
+  def self.respond_to_missing?(method_name, include_private=false)
     client.respond_to?(method_name) || super
   end
 
@@ -39,7 +39,7 @@ module Gitlab
   #
   # @return [Array<Symbol>]
   def self.actions
-    hidden = /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate|set_request_defaults|httparty/
+    hidden = /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate|request_defaults|httparty/
     (Gitlab::Client.instance_methods - Object.methods).reject { |e| e[hidden] }
   end
 end

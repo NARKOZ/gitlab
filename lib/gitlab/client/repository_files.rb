@@ -94,7 +94,8 @@ class Gitlab::Client
     # @option options [String] :author_email Commit author's email address
     # @return [Gitlab::ObjectifiedHash]
     def remove_file(project, path, branch, commit_message, options = {})
-      delete("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
+      delete("/projects/#{url_encode project}/repository/files/#{url_encode path}",
+             body: {
                branch: branch,
                commit_message: commit_message
              }.merge(options))

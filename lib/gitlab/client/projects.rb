@@ -298,7 +298,7 @@ class Gitlab::Client
     #
     # @param  [Integer] id The ID of a project.
     # @return [Gitlab::ObjectifiedHash] Information about deleted push rule.
-    def delete_push_rule(id, options={})
+    def delete_push_rule(id)
       delete("/projects/#{url_encode id}/push_rule")
     end
 

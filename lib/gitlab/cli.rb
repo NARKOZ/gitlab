@@ -52,15 +52,11 @@ class Gitlab::CLI
       end
 
       unless valid_command?(cmd)
-        puts "Unknown command. Run `gitlab help` for a list of available commands."
+        puts 'Unknown command. Run `gitlab help` for a list of available commands.'
         exit(1)
       end
 
-      if args.any? && args.last.start_with?('--only=', '--except=')
-        command_args = args[0..-2]
-      else
-        command_args = args
-      end
+      command_args = args.any? && args.last.start_with?('--only=', '--except=') ? args[0..-2] : args
 
       begin
         command_args.map! { |arg| symbolize_keys(yaml_load(arg)) }
