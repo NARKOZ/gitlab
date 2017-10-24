@@ -37,7 +37,8 @@ module Gitlab
       # @return [String]
       def build_error_message
         parsed_response = @response.parsed_response
-        message = parsed_response.message || parsed_response.error
+        message = parsed_response.respond_to?(:message) ? parsed_response.message : parsed_response['message']
+        message = parsed_response.respond_to?(:error) ? parsed_response.error : parsed_response['error'] unless message
 
         "Server responded with code #{@response.code}, message: " \
         "#{handle_message(message)}. " \
