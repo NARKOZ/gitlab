@@ -47,7 +47,7 @@ module Gitlab
     end
 
     def url_encode(s)
-      ERB::Util.url_encode(s)
+      URI.encode(s.to_s, /\W/)
     end
 
     private
