@@ -47,7 +47,7 @@ class Gitlab::Client
     # @option options [Boolean] :developers_can_merge True to allow developers to merge into the branch (default = false)
     # @return [Gitlab::ObjectifiedHash] Details about the branch
     def protect_branch(project, branch, options = {})
-      put("/projects/#{url_encode project}/repository/branches/#{url_encode branch}/protect", body: options)
+      post("/projects/#{url_encode project}/protected_branches", body: {name: branch}.merge(options))
     end
     alias_method :repo_protect_branch, :protect_branch
 
@@ -61,7 +61,7 @@ class Gitlab::Client
     # @param  [String] branch The name of the branch.
     # @return [Gitlab::ObjectifiedHash] Details about the branch
     def unprotect_branch(project, branch)
-      put("/projects/#{url_encode project}/repository/branches/#{url_encode branch}/unprotect")
+      delete("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
     end
     alias_method :repo_unprotect_branch, :unprotect_branch
 
