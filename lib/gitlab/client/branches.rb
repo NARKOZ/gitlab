@@ -61,9 +61,7 @@ class Gitlab::Client
     # @param  [String] branch The name of the branch.
     # @return [Gitlab::ObjectifiedHash] Details about the branch
     def unprotect_branch(project, branch)
-      res = delete("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
-      puts res
-      res
+      delete("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
     end
     alias_method :repo_unprotect_branch, :unprotect_branch
 
