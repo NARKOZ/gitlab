@@ -39,7 +39,7 @@ describe Gitlab::Client do
 
   describe ".protect_branch" do
     before do
-      stub_put("/projects/3/repository/branches/api/protect", "branch")
+      stub_post("/projects/3/protected_branches", "branch")
     end
 
     context "without options" do
@@ -48,7 +48,7 @@ describe Gitlab::Client do
       end
 
       it "updates the correct resource" do
-        expect(a_put("/projects/3/repository/branches/api/protect")).to have_been_made
+        expect(a_post("/projects/3/protected_branches")).to have_been_made
       end
 
       it "returns information about a protected repository branch" do
@@ -63,7 +63,7 @@ describe Gitlab::Client do
 
       it "updates the correct resource with the correct options" do
         expect(
-          a_put("/projects/3/repository/branches/api/protect").with(body: { developers_can_push: 'true' })
+          a_post("/projects/3/protected_branches").with(body: { name: "api", developers_can_push: 'true' })
         ).to have_been_made
       end
     end
@@ -71,12 +71,12 @@ describe Gitlab::Client do
 
   describe ".unprotect_branch" do
     before do
-      stub_put("/projects/3/repository/branches/api/unprotect", "branch")
+      stub_delete("/projects/3/protected_branches/api","branch")
       @branch = Gitlab.unprotect_branch(3, "api")
     end
 
     it "gets the correct resource" do
-      expect(a_put("/projects/3/repository/branches/api/unprotect")).to have_been_made
+      expect(a_delete("/projects/3/protected_branches/api")).to have_been_made
     end
 
     it "returns information about an unprotected repository branch" do
