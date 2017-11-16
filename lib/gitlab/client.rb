@@ -16,6 +16,7 @@ module Gitlab
     include Jobs
     include Keys
     include Labels
+    include Licenses
     include MergeRequests
     include Milestones
     include Namespaces
