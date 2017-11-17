@@ -14,6 +14,7 @@ module Gitlab
         send("#{key}=", options[key]) if options[key]
       end
       request_defaults(@sudo)
+      self.class.headers 'User-Agent' => user_agent
     end
   end
 end
