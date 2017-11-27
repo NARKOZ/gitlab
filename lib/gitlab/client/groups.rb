@@ -175,7 +175,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options
     # @return [Gitlab::ObjectifiedHash] Information about the edited group.
     def edit_group(id, options={})
-      put("/groups/#{url_encode id}", body: options)
+      put("/groups/#{id}", body: options)
     end
 
 
