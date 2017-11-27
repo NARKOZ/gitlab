@@ -152,5 +152,32 @@ class Gitlab::Client
     def group_projects(id, options={})
       get("/groups/#{id}/projects", query: options)
     end
+
+    # Get a list of subgroups under a group
+    # @example
+    #   Gitlab.group_projects(1)
+    #
+    # @param [Integer] id the ID of a group
+    # @param [Hash] options A customizable set of options.
+    # @return [Array<Gitlab::ObjectifiedHash>] List of subgroups under a group
+    def group_subgroups(id, options={})
+      get("/groups/#{id}/subgroups", query: options)
+    end
+
+    # Updates an existing group.
+    #
+    # @example
+    #   Gitlab.edit_group(42)
+    #   Gitlab.edit_group(42, { name: 'Project Name' })
+    #   Gitlab.edit_group('group-name', { name: 'New Group Name', path: 'new-group-patth' })
+    #
+    # @param  [Integer, String] group The ID or path of a group.
+    # @param  [Hash] options A customizable set of options
+    # @return [Gitlab::ObjectifiedHash] Information about the edited group.
+    def edit_group(id, options={})
+      put("/groups/#{url_encode id}", body: options)
+    end
+
+
   end
 end
