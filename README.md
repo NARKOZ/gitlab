@@ -1,17 +1,17 @@
 # Gitlab
 
-[![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg?style=flat)](https://travis-ci.org/NARKOZ/gitlab)
-[![Code Climate](https://img.shields.io/codeclimate/github/NARKOZ/gitlab.svg?style=flat)](https://codeclimate.com/github/NARKOZ/gitlab)
-[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg?style=flat)](https://inch-ci.org/github/NARKOZ/gitlab)
-[![Gem version](https://img.shields.io/gem/v/gitlab.svg?style=flat)](https://rubygems.org/gems/gitlab)
-[![License](https://img.shields.io/badge/license-BSD-red.svg?style=flat)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
+[![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg)](https://travis-ci.org/NARKOZ/gitlab)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/NARKOZ/gitlab.svg)](https://codeclimate.com/github/NARKOZ/gitlab)
+[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
+[![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
+[![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](http://narkoz.github.io/gitlab) |
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).
-As of version `4.0.0` this gem will only support Ruby 2.0+ and Gitlab API v4.
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
+As of version `4.0.0` this gem only supports Ruby 2.0+ and Gitlab API v4.
 
 ## Installation
 
