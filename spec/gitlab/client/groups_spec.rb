@@ -225,6 +225,22 @@ describe Gitlab::Client do
       expect(@subgroups.size).to eq(1)
       expect(@subgroups[0].name).to eq("Foobar Group")
     end
+  end
 
+  describe ".edit_group" do
+    context "using group ID" do
+      before do
+        stub_put("/groups/1", "group_edit").with(body: { description: "An interesting group" })
+        @edited_project = Gitlab.edit_group(1, description: "An interesting group")
+      end
+
+      it "gets the correct resource" do
+        expect(a_put("/groups/1").with(body: { description: "An interesting group" })).to have_been_made
+      end
+
+      it "returns information about an edited group" do
+        expect(@edited_project.description).to eq("An interesting group")
+      end
+    end
   end
 end

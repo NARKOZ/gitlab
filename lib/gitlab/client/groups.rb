@@ -168,16 +168,14 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.edit_group(42)
-    #   Gitlab.edit_group(42, { name: 'Project Name' })
+    #   Gitlab.edit_group(42, { name: 'Group Name' })
     #   Gitlab.edit_group('group-name', { name: 'New Group Name', path: 'new-group-patth' })
     #
-    # @param  [Integer, String] group The ID or path of a group.
+    # @param  [Integer] group The ID or path of a group.
     # @param  [Hash] options A customizable set of options
     # @return [Gitlab::ObjectifiedHash] Information about the edited group.
     def edit_group(id, options={})
       put("/groups/#{id}", body: options)
     end
-
-
   end
 end
