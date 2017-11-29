@@ -159,6 +159,13 @@ class Gitlab::Client
     #
     # @param [Integer] id the ID of a group
     # @param [Hash] options A customizable set of options.
+    # @option options [String] :skip_groups Skip the group IDs passed.
+    # @option options [String] :all_available Show all the groups you have access to (defaults to false for authenticated users).
+    # @option options [String] :search Return the list of authorized groups matching the search criteria.
+    # @option options [String] :order_by Order groups by name or path. Default is name.
+    # @option options [String] :sort Order groups in asc or desc order. Default is asc.
+    # @option options [String] :statistics Include group statistics (admins only).
+    # @option options [String] :owned Limit to groups owned by the current user.
     # @return [Array<Gitlab::ObjectifiedHash>] List of subgroups under a group
     def group_subgroups(id, options={})
       get("/groups/#{id}/subgroups", query: options)
@@ -169,10 +176,15 @@ class Gitlab::Client
     # @example
     #   Gitlab.edit_group(42)
     #   Gitlab.edit_group(42, { name: 'Group Name' })
-    #   Gitlab.edit_group('group-name', { name: 'New Group Name', path: 'new-group-patth' })
     #
-    # @param  [Integer] group The ID or path of a group.
+    # @param  [Integer] group The ID.
     # @param  [Hash] options A customizable set of options
+    # @option options [String] :name The name of the group.
+    # @option options [String] :path The path of the group.
+    # @option options [String] :description The description of the group.
+    # @option options [String] :visibility The visibility level of the group. Can be private, internal, or public
+    # @option options [String] :lfs_enabled Enable/disable Large File Storage (LFS) for the projects in this groupr.
+    # @option options [String] :request_access_enabled Allow users to request member access.
     # @return [Gitlab::ObjectifiedHash] Information about the edited group.
     def edit_group(id, options={})
       put("/groups/#{id}", body: options)
