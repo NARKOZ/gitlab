@@ -209,4 +209,22 @@ describe Gitlab::Client do
       expect(@groups.last.id).to eq(8)
     end
   end
+
+  describe ".group_subgroups" do
+    before do
+      stub_get("/groups/4/subgroups", "group_subgroups")
+      @subgroups = Gitlab.group_subgroups(4)
+    end
+
+    it "gets the list of subroups" do
+      expect(a_get("/groups/4/subgroups")).to have_been_made
+    end
+
+    it "returns an array of subgroups under a group" do
+      expect(@subgroups).to be_a Gitlab::PaginatedResponse
+      expect(@subgroups.size).to eq(1)
+      expect(@subgroups[0].name).to eq("Foobar Group")
+    end
+
+  end
 end
