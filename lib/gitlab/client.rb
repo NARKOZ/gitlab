@@ -21,6 +21,7 @@ module Gitlab
     include Milestones
     include Namespaces
     include Notes
+    include PipelineSchedules
     include PipelineTriggers
     include Pipelines
     include Projects

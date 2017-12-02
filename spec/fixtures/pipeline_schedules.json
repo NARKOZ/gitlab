@@ -1,0 +1,22 @@
+[
+  {
+    "id": 13,
+    "description": "Test schedule pipeline",
+    "ref": "master",
+    "cron": "* * * * *",
+    "cron_timezone": "Asia/Tokyo",
+    "next_run_at": "2017-05-19T13:41:00.000Z",
+    "active": true,
+    "created_at": "2017-05-19T13:31:08.849Z",
+    "updated_at": "2017-05-19T13:40:17.727Z",
+    "owner": {
+      "name": "Administrator",
+      "username": "root",
+      "id": 1,
+      "state": "active",
+      "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "https://gitlab.example.com/root"
+    }
+  }
+]
+
