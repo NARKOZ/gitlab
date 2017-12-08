@@ -155,7 +155,7 @@ class Gitlab::Client
 
     # Get a list of subgroups under a group
     # @example
-    #   Gitlab.group_projects(1)
+    #   Gitlab.group_subgroups(1)
     #
     # @param [Integer] id the ID of a group
     # @param [Hash] options A customizable set of options.
