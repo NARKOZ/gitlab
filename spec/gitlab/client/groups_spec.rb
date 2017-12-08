@@ -209,4 +209,38 @@ describe Gitlab::Client do
       expect(@groups.last.id).to eq(8)
     end
   end
+
+  describe ".group_subgroups" do
+    before do
+      stub_get("/groups/4/subgroups", "group_subgroups")
+      @subgroups = Gitlab.group_subgroups(4)
+    end
+
+    it "gets the list of subroups" do
+      expect(a_get("/groups/4/subgroups")).to have_been_made
+    end
+
+    it "returns an array of subgroups under a group" do
+      expect(@subgroups).to be_a Gitlab::PaginatedResponse
+      expect(@subgroups.size).to eq(1)
+      expect(@subgroups[0].name).to eq("Foobar Group")
+    end
+  end
+
+  describe ".edit_group" do
+    context "using group ID" do
+      before do
+        stub_put("/groups/1", "group_edit").with(body: { description: "An interesting group" })
+        @edited_project = Gitlab.edit_group(1, description: "An interesting group")
+      end
+
+      it "gets the correct resource" do
+        expect(a_put("/groups/1").with(body: { description: "An interesting group" })).to have_been_made
+      end
+
+      it "returns information about an edited group" do
+        expect(@edited_project.description).to eq("An interesting group")
+      end
+    end
+  end
 end
