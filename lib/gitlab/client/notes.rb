@@ -221,7 +221,7 @@ class Gitlab::Client
     # @param [Integer] id The ID of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_note(project, id, body)
-      put("/projects/#{url_encode project}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/notes/#{id}", body: { body: body })
     end
 
     # Modifies an issue note.
@@ -234,7 +234,7 @@ class Gitlab::Client
     # @param [Integer] id The ID of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_issue_note(project, issue, id, body)
-      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: { body: body })
     end
 
     # Modifies a snippet note.
@@ -247,7 +247,7 @@ class Gitlab::Client
     # @param [Integer] id The ID of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_snippet_note(project, snippet, id, body)
-      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: { body: body })
     end
 
     # Modifies a merge_request note.
@@ -260,7 +260,7 @@ class Gitlab::Client
     # @param [Integer] id The ID of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_merge_request_note(project, merge_request, id, body)
-      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: { body: body })
     end
     alias_method :edit_merge_request_comment, :edit_merge_request_note
   end
