@@ -36,6 +36,8 @@ class Gitlab::Client
     #     { source_branch: 'source_branch', target_branch: 'target_branch' })
     #   Gitlab.create_merge_request(5, 'New merge request',
     #     { source_branch: 'source_branch', target_branch: 'target_branch', assignee_id: 42 })
+    #   Gitlab.create_merge_request(5, 'New mergee request',
+    #     { source_branch: 'forked_repo:source_branch',target_branch: 'target_branch' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] title The title of a merge request.
@@ -43,8 +45,13 @@ class Gitlab::Client
     # @option options [String] :source_branch (required) The source branch name.
     # @option options [String] :target_branch (required) The target branch name.
     # @option options [Integer] :assignee_id (optional) The ID of a user to assign merge request.
+    # @option options [String] :description (optional) Description of MR
     # @option options [Integer] :target_project_id (optional) The target project ID.
     # @option options [String] :labels (optional) Labels as a comma-separated list.
+    # @option options [Integer] :milestone_id (optional) The ID of a milestone
+    # @option options [Boolean] :remove_source_branch (optional) Flag indicating if a merge request should remove the source branch when merging.
+    # @option options [Integer] :approvals_before_merge (optional) Number of approvals required before this can be merged
+    # @option options [Boolean] :squash (optional) Squash commits into a single commit when merging.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
     def create_merge_request(project, title, options={})
       body = { title: title }.merge(options)
