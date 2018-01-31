@@ -87,9 +87,25 @@ class Gitlab::Client
     # @option options [Integer] :user_id The user/owner id of a project.
     # @return [Gitlab::ObjectifiedHash] Information about created project.
     def create_project(name, options={})
+      if options.key?(:namespace_id) && options[:namespace_id].is_a?(String)
+        resp =
+            eval(get("/namespaces?search=#{options[:namespace_id]}"
+            ).instance_variable_get(
+            :@array).inspect().match(/{.*/)[0].partition(']').first)
+        if resp.empty?
+        options[:namespace_id] = nil
+        else
+        id=resp[:hash]["id"]
+        if resp[:hash]["id"] != nil
+          options[:namespace_id] = id
+        else
+          options[:namespace_id] = nil
+        end
+        end
+      end
       url = options[:user_id] ? "/projects/user/#{options[:user_id]}" : "/projects"
       post(url, body: { name: name }.merge(options))
-    end
+    end   
 
     # Deletes a project.
     #
