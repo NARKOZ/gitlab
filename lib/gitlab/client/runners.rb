@@ -72,6 +72,17 @@ class Gitlab::Client
       delete("/runners/#{id}")
     end
 
+    # Gets a list of Jobs for a Runner
+    #
+    # @example
+    #   Gitlab.runner_jobs(1)
+    #
+    # @param  [Integer] id The ID of a runner.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def runner_jobs(runner_id)
+      get("/runners/#{url_encode runner_id}/jobs")
+    end
+
     # List all runners (specific and shared) available in the project. Shared runners are listed if at least one shared runner is defined and shared runners usage is enabled in the project's settings.
     # @see https://docs.gitlab.com/ce/api/runners.html#list-projects-runners
     #
