@@ -86,12 +86,14 @@ describe Gitlab::Client do
 
   describe ".create_branch" do
     before do
-      stub_post("/projects/3/repository/branches", "branch")
+      stub_post("/projects/3/repository/branches", "branch").with(query: { branch: 'api', ref: "master"})
       @branch = Gitlab.create_branch(3, "api", "master")
     end
 
     it "gets the correct resource" do
-      expect(a_post("/projects/3/repository/branches")).to have_been_made
+      expect(
+        a_post("/projects/3/repository/branches").with(query: { branch: 'api', ref: "master"})
+      ).to have_been_made
     end
 
     it "returns information about a new repository branch" do

@@ -68,15 +68,15 @@ class Gitlab::Client
     # Creates a repository branch.  Requires Gitlab >= 6.8.x
     #
     # @example
-    #   Gitlab.create_branch(3, 'api')
-    #   Gitlab.repo_create_branch(5, 'master')
+    #   Gitlab.create_branch(3, 'api', 'feat/new-api')
+    #   Gitlab.repo_create_branch(5, 'master', 'develop')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the new branch.
     # @param  [String] ref Create branch from commit sha or existing branch
     # @return [Gitlab::ObjectifiedHash] Details about the branch
     def create_branch(project, branch, ref)
-      post("/projects/#{url_encode project}/repository/branches", body: { branch: branch, ref: ref })
+      post("/projects/#{url_encode project}/repository/branches", query: { branch: branch, ref: ref })
     end
     alias_method :repo_create_branch, :create_branch
 
