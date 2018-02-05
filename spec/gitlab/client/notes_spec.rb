@@ -269,7 +269,7 @@ describe Gitlab::Client do
     context "when wall note" do
       before do
         stub_put("/projects/3/notes/1201", "note")
-        @note = Gitlab.edit_note(3, 1201, body: "edited wall note content")
+        @note = Gitlab.edit_note(3, 1201, "edited wall note content")
       end
 
       it "gets the correct resource" do
@@ -285,7 +285,7 @@ describe Gitlab::Client do
     context "when issue note" do
       before do
         stub_put("/projects/3/issues/7/notes/1201", "note")
-        @note = Gitlab.edit_issue_note(3, 7, 1201, body: "edited issue note content")
+        @note = Gitlab.edit_issue_note(3, 7, 1201, "edited issue note content")
       end
 
       it "gets the correct resource" do
@@ -301,7 +301,7 @@ describe Gitlab::Client do
     context "when snippet note" do
       before do
         stub_put("/projects/3/snippets/7/notes/1201", "note")
-        @note = Gitlab.edit_snippet_note(3, 7, 1201, body: "edited snippet note content")
+        @note = Gitlab.edit_snippet_note(3, 7, 1201, "edited snippet note content")
       end
 
       it "gets the correct resource" do
@@ -317,7 +317,7 @@ describe Gitlab::Client do
     context "when merge request note" do
       before do
         stub_put("/projects/3/merge_requests/7/notes/1201", "note")
-        @note = Gitlab.edit_merge_request_note(3, 7, 1201, body: "edited merge request note content")
+        @note = Gitlab.edit_merge_request_note(3, 7, 1201, "edited merge request note content")
       end
 
       it "gets the correct resource" do
