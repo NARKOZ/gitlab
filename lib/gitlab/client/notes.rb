@@ -219,9 +219,11 @@ class Gitlab::Client
     #
     # @param [Integer] project The ID of a project.
     # @param [Integer] id The ID of a note.
+    # @param [Hash] options A set of options.
+    # @option options [String] :body (required) The body of a note.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_note(project, id, body)
-      put("/projects/#{url_encode project}/notes/#{id}", body: body)
+    def edit_note(project, id, options = {})
+      put("/projects/#{url_encode project}/notes/#{id}", body: options)
     end
 
     # Modifies an issue note.
@@ -232,9 +234,11 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] issue The ID of an issue.
     # @param [Integer] id The ID of a note.
+    # @param [Hash] options A set of options.
+    # @option options [String] :body (required) The body of a note.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_issue_note(project, issue, id, body)
-      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: body)
+    def edit_issue_note(project, issue, id, options = {})
+      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: options)
     end
 
     # Modifies a snippet note.
@@ -245,9 +249,11 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] snippet The ID of a snippet.
     # @param [Integer] id The ID of a note.
+    # @param [Hash] options A set of options.
+    # @option options [String] :body (required) The body of a note.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_snippet_note(project, snippet, id, body)
-      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: body)
+    def edit_snippet_note(project, snippet, id, options = {})
+      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: options)
     end
 
     # Modifies a merge_request note.
@@ -258,9 +264,11 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] merge_request The ID of a merge_request.
     # @param [Integer] id The ID of a note.
+    # @param [Hash] options A set of options.
+    # @option options [String] :body (required) The body of a note.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_merge_request_note(project, merge_request, id, body)
-      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: body)
+    def edit_merge_request_note(project, merge_request, id, options = {})
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: options)
     end
     alias_method :edit_merge_request_comment, :edit_merge_request_note
   end
