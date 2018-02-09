@@ -30,7 +30,7 @@ class Gitlab::Client
     # @param  [String]  description Optional release notes for tag.
     # @return [Gitlab::ObjectifiedHash]
     def create_tag(project, tag_name, ref, message='', description=nil)
-      post("/projects/#{url_encode project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message, description: description })
+      post("/projects/#{url_encode project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message, release_description: description })
     end
     alias_method :repo_create_tag, :create_tag
 
