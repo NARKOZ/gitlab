@@ -28,6 +28,12 @@ gem 'gitlab'
 # gem 'gitlab', github: 'NARKOZ/gitlab'
 ```
 
+Or via [homebrew gem](https://github.com/sportngin/brew-gem):
+
+```ruby
+brew gem install gitlab
+```
+
 ## Usage
 
 Configuration example:
