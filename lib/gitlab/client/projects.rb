@@ -472,14 +472,15 @@ class Gitlab::Client
       delete("/projects/#{url_encode id}/star")
     end
 
-    # Get projects by user
+    # Get a list of visible projects for the given user.
+    # @see https://docs.gitlab.com/ee/api/projects.html#list-user-projects
     #
     # @example
     #   Gitlab.user_projects(1)
     #   Gitlab.user_projects(1, { order_by: 'last_activity_at' })
-    #   Gitlab.user_projects(1, { order_by: 'name', sort: 'asc' })
+    #   Gitlab.user_projects('username', { order_by: 'name', sort: 'asc' })
     #
-    # @param  [Integer] user_id The ID of a user.
+    # @param  [Integer, String] user_id The ID or username of the user.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :per_page Number of projects to return per page
     # @option options [String] :page The page to retrieve
