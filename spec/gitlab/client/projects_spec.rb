@@ -610,4 +610,24 @@ describe Gitlab::Client do
       expect(@unstarred_project.id).to eq(3)
     end
   end
+
+  describe ".user_projects" do
+    let(:user_id) { 1 }
+    let(:project_id) { 1 }
+
+    before do
+      stub_get("/users/#{user_id}/projects", "user_projects")
+      @user_projects = Gitlab.user_projects(user_id)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/users/#{user_id}/projects")).to have_been_made
+    end
+
+    it "returns a paginated response of projects" do
+      expect(@user_projects).to be_a Gitlab::PaginatedResponse
+      expect(@user_projects.first.id).to eq(project_id)
+      expect(@user_projects.first.owner.id).to eq(user_id)
+    end
+  end
 end

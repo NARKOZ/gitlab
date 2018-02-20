@@ -471,5 +471,24 @@ class Gitlab::Client
     def unstar_project(id)
       delete("/projects/#{url_encode id}/star")
     end
+
+    # Get a list of visible projects for the given user.
+    # @see https://docs.gitlab.com/ee/api/projects.html#list-user-projects
+    #
+    # @example
+    #   Gitlab.user_projects(1)
+    #   Gitlab.user_projects(1, { order_by: 'last_activity_at' })
+    #   Gitlab.user_projects('username', { order_by: 'name', sort: 'asc' })
+    #
+    # @param  [Integer, String] user_id The ID or username of the user.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :per_page Number of projects to return per page
+    # @option options [String] :page The page to retrieve
+    # @option options [String] :order_by Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
+    # @option options [String] :sort Return projects sorted in asc or desc order.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_projects(user_id, options={})
+      get("/users/#{url_encode user_id}/projects", query: options)
+    end
   end
 end
