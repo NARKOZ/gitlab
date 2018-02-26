@@ -2,6 +2,11 @@
 
 ### Unreleased
 
+### 4.3.2 (26/02/2018)
+- Gemspec: force reliance on Psych > 2.2.0 for safe_load
+- Gemspec: remove dev dependency on pry (useful but not needed)
+- ssh_key family: support list/create/delete of keys for specific users
+
 ### 4.2.0 (13/07/2017)
 - Use `url_encode` in all `Commit` resources (@grodowski)
 - Fix `project_search` path for APIv4 (@edaubert)
