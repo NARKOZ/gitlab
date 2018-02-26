@@ -201,6 +201,22 @@ describe Gitlab::Client do
   end
 
   describe ".ssh_keys" do
+    context "without user ID passed" do
+      before do
+        stub_get("/user/keys", "keys")
+        @keys = Gitlab.ssh_keys
+      end
+
+      it "gets the correct resource" do
+        expect(a_get("/user/keys")).to have_been_made
+      end
+
+      it "returns a paginated response of SSH keys" do
+        expect(@keys).to be_a Gitlab::PaginatedResponse
+        expect(@keys.first.title).to eq("narkoz@helium")
+      end
+    end
+
     context "with user ID passed" do
       before do
         stub_get("/users/1/keys", "keys")
@@ -217,14 +233,14 @@ describe Gitlab::Client do
       end
     end
 
-    context "without user ID passed" do
+    context "with user ID passed (directly)" do
       before do
-        stub_get("/user/keys", "keys")
-        @keys = Gitlab.ssh_keys
+        stub_get("/users/1/keys", "keys")
+        @keys = Gitlab.ssh_keys(1)
       end
 
       it "gets the correct resource" do
-        expect(a_get("/user/keys")).to have_been_made
+        expect(a_get("/users/1/keys")).to have_been_made
       end
 
       it "returns a paginated response of SSH keys" do
@@ -250,34 +266,70 @@ describe Gitlab::Client do
   end
 
   describe ".create_ssh_key" do
-    before do
-      stub_post("/user/keys", "key")
-      @key = Gitlab.create_ssh_key("title", "body")
+    context "without user ID passed" do
+      before do
+	stub_post("/user/keys", "key")
+	@key = Gitlab.create_ssh_key("title", "body")
+      end
+
+      it "gets the correct resource" do
+	body = { title: "title", key: "body" }
+	expect(a_post("/user/keys").with(body: body)).to have_been_made
+      end
+
+      it "returns information about a created SSH key" do
+	expect(@key.title).to eq("narkoz@helium")
+      end
     end
 
-    it "gets the correct resource" do
-      body = { title: "title", key: "body" }
-      expect(a_post("/user/keys").with(body: body)).to have_been_made
-    end
+    context "with user ID passed" do
+      before do
+	stub_post("/user/15/keys", "key")
+	@key = Gitlab.create_ssh_key(15,"title", "body")
+      end
 
-    it "returns information about a created SSH key" do
-      expect(@key.title).to eq("narkoz@helium")
+      it "gets the correct resource" do
+	body = { title: "title", key: "body" }
+	expect(a_post("/user/15/keys").with(body: body)).to have_been_made
+      end
+
+      it "returns information about a created SSH key" do
+	expect(@key.title).to eq("narkoz@helium")
+      end
     end
   end
 
   describe ".delete_ssh_key" do
-    before do
-      stub_delete("/user/keys/1", "key")
-      @key = Gitlab.delete_ssh_key(1)
+    context "without user id" do
+      before do
+	stub_delete("/user/keys/1", "key")
+	@key = Gitlab.delete_ssh_key(1)
+      end
+
+      it "gets the correct resource" do
+	expect(a_delete("/user/keys/1")).to have_been_made
+      end
+
+      it "returns information about a deleted SSH key" do
+	expect(@key.title).to eq("narkoz@helium")
+      end
     end
 
-    it "gets the correct resource" do
-      expect(a_delete("/user/keys/1")).to have_been_made
+    context "with user id" do
+      before do
+	stub_delete("/user/15/keys/1", "key")
+	@key = Gitlab.delete_ssh_key(15,1)
+      end
+
+      it "gets the correct resource" do
+	expect(a_delete("/user/15/keys/1")).to have_been_made
+      end
+
+      it "returns information about a deleted SSH key" do
+	expect(@key.title).to eq("narkoz@helium")
+      end
     end
 
-    it "returns information about a deleted SSH key" do
-      expect(@key.title).to eq("narkoz@helium")
-    end
   end
 
   describe ".emails" do

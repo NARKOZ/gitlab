@@ -134,8 +134,15 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @option options [Integer] :user_id The ID of the user to retrieve the keys for.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def ssh_keys(options={})
-      user_id = options.delete :user_id
+    def ssh_keys(*args)
+      if args[0].class == Fixnum
+	user_id = args.shift
+	options = Hash[*args.flatten]
+	options.delete :user_id
+      else
+	options = Hash[*args.flatten]
+	user_id = options.delete :user_id
+      end
       if user_id.to_i.zero?
         get("/user/keys", query: options)
       else
@@ -158,23 +165,38 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_ssh_key('key title', 'key body')
+    #   Gitlab.create_ssh_key(user_id, 'key title', 'key body')
     #
+    # @param  [Integer] (optional) The ID of the user whose SSH key is being created.
     # @param  [String] title The title of an SSH key.
     # @param  [String] key The SSH key body.
     # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
-    def create_ssh_key(title, key)
-      post("/user/keys", body: { title: title, key: key })
+    def create_ssh_key(*args)
+      if args.length == 2
+	post("/user/keys", body: { title: args[0], key: args[1] })
+      elsif args.length == 3
+	post("/user/#{args[0]}/keys", body: { title: args[1], key: args[2] })
+      else
+        raise "Invalid argument count"
+      end
     end
 
-    # Deletes an SSH key.
+    # Deletes an SSH key for a given user.
     #
     # @example
-    #   Gitlab.delete_ssh_key(1)
+    #   Gitlab.delete_ssh_key(45,1) # of user-id 45
+    #   Gitlab.delete_ssh_key(1)    # of current user
     #
+    # @param  [Integer] (optional) user_id of user whose SSH key to delete
     # @param  [Integer] id The ID of a user's SSH key.
     # @return [Gitlab::ObjectifiedHash] Information about deleted SSH key.
-    def delete_ssh_key(id)
-      delete("/user/keys/#{id}")
+    def delete_ssh_key(*args) 
+      id = args.pop
+      if (args.length > 0) 
+	delete("/user/#{args[0]}/keys/#{id}")
+      else
+	delete("/user/keys/#{id}")
+      end
     end
 
     # Gets user emails.

@@ -22,8 +22,8 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'httparty'
   gem.add_runtime_dependency 'terminal-table'
+  gem.add_runtime_dependency 'psych',[">= 2.2.0"]
 
-  gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'webmock'

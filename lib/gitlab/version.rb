@@ -1,3 +1,3 @@
 module Gitlab
-  VERSION = '4.3.0'.freeze
+  VERSION = '4.3.2'.freeze
 end
