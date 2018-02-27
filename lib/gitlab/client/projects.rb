@@ -415,6 +415,24 @@ class Gitlab::Client
       post("/projects/#{url_encode id}/fork", body: options)
     end
 
+    # Get a list of all visible projects across GitLab for the authenticated user.
+    # When accessed without authentication, only public projects are returned.
+    #
+    # Note: This feature was introduced in GitLab 10.1
+    #
+    # @example
+    #   Gitlab.project_forks(42)
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @option options [String] :order_by Return requests ordered by id, name, created_at or last_activity_at fields
+    # @option options [String] :sort Return requests sorted in asc or desc order
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def project_forks(id, options={})
+      get("/projects/#{url_encode id}/forks", query: options)
+    end
+
     # Updates an existing project.
     #
     # @example

@@ -155,6 +155,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".project_forks" do
+    before do
+      stub_get("/projects/3/forks", "project_forks")
+      @project_forks = Gitlab.project_forks(3)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/projects/3/forks")).to have_been_made
+    end
+
+    it "returns a paginated response of projects found" do
+      expect(@project_forks).to be_a Gitlab::PaginatedResponse
+      expect(@project_forks.first.name).to eq("gitlab")
+      expect(@project_forks.first.owner.name).to eq("Administrator")
+    end
+  end
+
   describe ".team_members" do
     before do
       stub_get("/projects/3/members", "team_members")
