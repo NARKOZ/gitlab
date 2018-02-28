@@ -5,6 +5,7 @@
 [![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
 [![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
+[![Open Source Helpers](https://www.codetriage.com/narkoz/gitlab/badges/users.svg)](https://www.codetriage.com/narkoz/gitlab)
 
 [website](http://narkoz.github.io/gitlab) |
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
