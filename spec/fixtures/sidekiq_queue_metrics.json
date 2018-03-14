@@ -1,0 +1,8 @@
+{
+  "queues": {
+    "default": {
+      "backlog": 0,
+      "latency": 0
+    }
+  }
+}
