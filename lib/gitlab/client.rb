@@ -29,6 +29,7 @@ module Gitlab
     include RepositoryFiles
     include Runners
     include Services
+    include Sidekiq
     include Snippets
     include SystemHooks
     include Tags
