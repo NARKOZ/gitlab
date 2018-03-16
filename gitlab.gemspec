@@ -20,8 +20,8 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.0.0'
 
-  gem.add_runtime_dependency 'httparty'
-  gem.add_runtime_dependency 'terminal-table'
+  gem.add_runtime_dependency 'httparty', '>= 0.14.0'
+  gem.add_runtime_dependency 'terminal-table', '>= 1.5.1'
 
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
