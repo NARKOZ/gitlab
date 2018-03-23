@@ -36,5 +36,23 @@ class Gitlab::Client
     def user_events(user, options={})
       get("/users/#{url_encode user}/events", query: options)
     end
+
+    # Gets a list of visible project events
+    #
+    # @example
+    #   Gitlab.project_events(1)
+    #   Gitlab.project_events(1, { action: created })
+    #
+    # @param  [Integer] project The ID of project
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :action Only events of specific action type
+    # @option options [String] :target_type Only events of specific target type
+    # @option options [Date] :before Only events created before date
+    # @option options [Date] :after Only events created after date
+    # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def project_events(project, options={})
+      get("/#{url_encode project}/events", query: options)
+    end
   end
 end

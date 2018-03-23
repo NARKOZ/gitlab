@@ -30,4 +30,19 @@ describe Gitlab::Client do
       expect(@events).to be_a Gitlab::PaginatedResponse
     end
   end
+
+  describe '.project_events' do
+    before do
+      stub_get("/1/events", "project_events")
+      @events = Gitlab.project_events(1)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/1/events")).to have_been_made
+    end
+
+    it "returns a response of project's visible events" do
+      expect(@events).to be_a Gitlab::PaginatedResponse
+    end
+  end
 end
