@@ -53,43 +53,24 @@ describe Gitlab::Client do
     context "when successful request" do
       before do
         stub_post("/users", "user")
-        @user = Gitlab.create_user("email", "pass")
-      end
-
-      it "gets the correct resource" do
-        body = { email: "email", password: "pass", name: "email" }
-        expect(a_post("/users").with(body: body)).to have_been_made
-      end
-
-      it "returns information about a created user" do
-        expect(@user.email).to eq("john@example.com")
-      end
-    end
-
-    context "when bad request" do
-      it "throws an exception" do
-        stub_post("/users", "error_already_exists", 409)
-        expect do
-          Gitlab.create_user("email", "pass")
-        end.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
-      end
-    end
-  end
-
-  describe ".create_user_with_userame" do
-    context "when successful request" do
-      before do
-        stub_post("/users", "user")
         @user = Gitlab.create_user("email", "pass", "username")
       end
 
       it "gets the correct resource" do
-        body = { email: "email", password: "pass", username: "username" }
+        body = { email: "email", password: "pass", username: "username", name: "email" }
         expect(a_post("/users").with(body: body)).to have_been_made
       end
 
       it "returns information about a created user" do
         expect(@user.email).to eq("john@example.com")
+      end
+    end
+
+    context "with missing required parameters" do
+      it "throws and exception" do
+        expect do
+          Gitlab.create_user("email","pass")
+        end.to raise_error(ArgumentError, "Missing required parameters")
       end
     end
 
