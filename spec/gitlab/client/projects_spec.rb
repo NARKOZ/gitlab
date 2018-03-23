@@ -92,7 +92,7 @@ describe Gitlab::Client do
   describe ".create_project for user" do
     before do
       stub_post("/users", "user")
-      @owner = Gitlab.create_user("john@example.com", "pass", name: 'John Owner')
+      @owner = Gitlab.create_user("john@example.com", "pass", "username", name: 'John Owner')
       stub_post("/projects/user/#{@owner.id}", "project_for_user")
       @project = Gitlab.create_project('Brute', user_id: @owner.id)
     end
