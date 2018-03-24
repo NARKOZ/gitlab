@@ -2,6 +2,18 @@ class Gitlab::Client
   # Defines methods related to merge requests.
   # @see https://docs.gitlab.com/ce/api/merge_requests.html
   module MergeRequests
+    # Gets a list of all of the merge requests the authenticated user has access to.
+    #
+    # @example
+    #   Gitlab.user_merge_requests
+    #   Gitlab.user_merge_requests(state: :opened, scope: :all)
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_merge_requests(options = {})
+      get('/merge_requests', query: options)
+    end
+
     # Gets a list of project merge requests.
     #
     # @example
