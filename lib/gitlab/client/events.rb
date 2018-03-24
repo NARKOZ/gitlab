@@ -11,8 +11,8 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :action Only events of specific action type
     # @option options [String] :target_type Only events of specific target type
-    # @option options [Date] :before Only events created before date
-    # @option options [Date] :after Only events created after date
+    # @option options [String] :before Only events created before YYYY-MM-DD
+    # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
     def events(options={})
@@ -29,8 +29,8 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :action Only events of specific action type
     # @option options [String] :target_type Only events of specific target type
-    # @option options [Date] :before Only events created before date
-    # @option options [Date] :after Only events created after date
+    # @option options [String] :before Only events created before YYYY-MM-DD
+    # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
     def user_events(user, options={})
@@ -47,8 +47,8 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :action Only events of specific action type
     # @option options [String] :target_type Only events of specific target type
-    # @option options [Date] :before Only events created before date
-    # @option options [Date] :after Only events created after date
+    # @option options [String] :before Only events created before YYYY-MM-DD
+    # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
     def project_events(project, options={})
