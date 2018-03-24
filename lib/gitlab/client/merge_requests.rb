@@ -6,7 +6,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_requests(5)
-    #   Gitlab.merge_requests({ per_page: 40 })
+    #   Gitlab.merge_requests(5, { per_page: 40 })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
