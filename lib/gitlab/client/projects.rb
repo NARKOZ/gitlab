@@ -50,21 +50,6 @@ class Gitlab::Client
       get("/projects/#{url_encode id}")
     end
 
-    # Gets a list of project events.
-    #
-    # @example
-    #   Gitlab.project_events(42)
-    #   Gitlab.project_events('gitlab')
-    #
-    # @param  [Integer, String] project The ID or path of a project.
-    # @param  [Hash] options A customizable set of options.
-    # @option options [Integer] :page The page number.
-    # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_events(project, options={})
-      get("/projects/#{url_encode project}/events", query: options)
-    end
-
     # Creates a new project.
     #
     # @example
