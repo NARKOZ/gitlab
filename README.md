@@ -175,6 +175,64 @@ For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## Development
 
+### With a dockerized Gitlab instance
+
+```shell
+docker-compose up -d gitlab # Will start the gitlab instance in the background (approx. 3 minutes)
+```
+
+After a while, your Gitlab instance will be accessible on http://localhost:3000.
+
+Once you have set your new root password, you can login with the root user.
+
+You can now setup a personal access token here: http://localhost:3000/profile/personal_access_tokens
+
+Once you have your token, set the variables to the correct values in the `docker.env` file.
+
+Then, launch the tool:
+
+```shell
+docker-compose run app
+```
+
+```ruby
+Gitlab.users
+=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+```
+
+To launch the specs,
+
+```shell
+docker-compose run app rake spec
+```
+
+#### Want to use Gitlab Enterprise?
+
+Just change the image from `gitlab/gitlab-ce:latest` to `gitlab/gitlab-ee:latest` in the `docker-compose.yml` file.
+
+### With an external Gitlab instance
+
+First, set the variables to the correct values in the `docker.env` file.
+
+Then, launch the tool:
+
+```shell
+docker-compose run app
+```
+
+```ruby
+Gitlab.users
+=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+```
+
+To launch the specs,
+
+```shell
+docker-compose run app rake spec
+```
+
+### Without Docker
+
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake spec` to run the tests. You can also run `bin/console` for an interactive
 prompt that will allow you to experiment.
