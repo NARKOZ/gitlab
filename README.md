@@ -28,6 +28,12 @@ gem 'gitlab'
 # gem 'gitlab', github: 'NARKOZ/gitlab'
 ```
 
+Mac OS users can install using Homebrew:
+
+```sh
+brew install gitlab-gem
+```
+
 ## Usage
 
 Configuration example:
