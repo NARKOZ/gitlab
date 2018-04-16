@@ -46,29 +46,27 @@ class Gitlab::Client
     #
     # @example
     #    Gitlab.approve_project_access_request(1, 1)
-    #    Gitlab.approve_project_access_request(1, 1, 30)
+    #    Gitlab.approve_project_access_request(1, 1, {access_level: '30'})
     #
     # @param  [Integer, String] :project(required) The ID or name of a project.
     # @param  [Integer] :user_id(required) The user ID of the access requester
-    # @param  [Integer] :access_level(optional) A valid access level (defaults: 30, developer access level)
+    # @option options [String] :access_level(optional) A valid access level (defaults: '30', developer access level)
     # @return <Gitlab::ObjectifiedHash] Information about the approved project access request
-    def approve_project_access_request(project, user_id, access_level = '')
-      body = {access_level: access_level}
-      put("/projects/#{url_encode project}/access_requests/#{user_id}/approve", body: body)
+    def approve_project_access_request(project, user_id, options = {})
+      put("/projects/#{url_encode project}/access_requests/#{user_id}/approve", body: options)
     end
     # Approves a group access request for the given user.
     #
     # @example
     #    Gitlab.approve_group_access_request(1, 1)
-    #    Gitlab.approve_group_access_request(1, 1, 30)
+    #    Gitlab.approve_group_access_request(1, 1, {access_level: '30'})
     #
     # @param  [Integer, String] :group(required) The ID or name of a group.
     # @param  [Integer] :user_id(required) The user ID of the access requester
-    # @param  [Integer] :access_level(optional) A valid access level (defaults: 30, developer access level)
+    # @option options [String] :access_level(optional) A valid access level (defaults: '30', developer access level)
     # @return <Gitlab::ObjectifiedHash] Information about the approved group access request
-    def approve_group_access_request(group, user_id, access_level = '')
-      body = {access_level: access_level}
-      put("/groups/#{url_encode group}/access_requests/#{user_id}/approve", body: body)
+    def approve_group_access_request(group, user_id, options = {})
+      put("/groups/#{url_encode group}/access_requests/#{user_id}/approve", body: options)
     end
     # Denies a project access request for the given user.
     #
