@@ -50,7 +50,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] :project(required) The ID or name of a project.
     # @param  [Integer] :user_id(required) The user ID of the access requester
-    # @option options [String] :access_level(optional) A valid access level (defaults: '30', developer access level)
+    # @option options [Integer] :access_level(optional) A valid access level (defaults: 30, developer access level)
     # @return <Gitlab::ObjectifiedHash] Information about the approved project access request
     def approve_project_access_request(project, user_id, options = {})
       put("/projects/#{url_encode project}/access_requests/#{user_id}/approve", body: options)
@@ -63,7 +63,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] :group(required) The ID or name of a group.
     # @param  [Integer] :user_id(required) The user ID of the access requester
-    # @option options [String] :access_level(optional) A valid access level (defaults: '30', developer access level)
+    # @option options [Integer] :access_level(optional) A valid access level (defaults: 30, developer access level)
     # @return <Gitlab::ObjectifiedHash] Information about the approved group access request
     def approve_group_access_request(group, user_id, options = {})
       put("/groups/#{url_encode group}/access_requests/#{user_id}/approve", body: options)
