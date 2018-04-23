@@ -9,8 +9,8 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def labels(project)
-      get("/projects/#{url_encode project}/labels")
+    def labels(project, options={})
+      get("/projects/#{url_encode project}/labels", query: options)
     end
 
     # Creates a new label.
