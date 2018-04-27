@@ -219,9 +219,10 @@ class Gitlab::Client
     #
     # @param [Integer] project The ID of a project.
     # @param [Integer] id The ID of a note.
+    # @param [String] body The content of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_note(project, id, body)
-      put("/projects/#{url_encode project}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/notes/#{id}", body: note_content(body))
     end
 
     # Modifies an issue note.
@@ -232,9 +233,10 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] issue The ID of an issue.
     # @param [Integer] id The ID of a note.
+    # @param [String] body The content of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_issue_note(project, issue, id, body)
-      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: note_content(body))
     end
 
     # Modifies a snippet note.
@@ -245,9 +247,10 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] snippet The ID of a snippet.
     # @param [Integer] id The ID of a note.
+    # @param [String] body The content of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_snippet_note(project, snippet, id, body)
-      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/snippets/#{snippet}/notes/#{id}", body: note_content(body))
     end
 
     # Modifies a merge_request note.
@@ -258,10 +261,24 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project.
     # @param [Integer] merge_request The ID of a merge_request.
     # @param [Integer] id The ID of a note.
+    # @param [String] body The content of a note.
     # @return [Gitlab::ObjectifiedHash]
     def edit_merge_request_note(project, merge_request, id, body)
-      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: body)
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: note_content(body))
     end
     alias_method :edit_merge_request_comment, :edit_merge_request_note
+
+    private
+
+    # TODO: Remove this method after a couple deprecation cycles.  Replace calls with the code
+    # in the 'else'.
+    def note_content(body)
+      if body.is_a?(Hash)
+        STDERR.puts "Passing the note body as a Hash is deprecated.  You should just pass the String."
+        body
+      else
+        { body: body }
+      end
+    end
   end
 end

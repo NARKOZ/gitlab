@@ -1,6 +1,21 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
+  describe ".user_merge_requests" do
+    before do
+      stub_get("/merge_requests", "merge_requests")
+      @user_merge_requests = Gitlab.user_merge_requests
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/merge_requests")).to have_been_made
+    end
+
+    it "returns a paginated response of user merge requests" do
+      expect(@user_merge_requests).to be_a Gitlab::PaginatedResponse
+    end
+  end
+
   describe ".merge_requests" do
     before do
       stub_get("/projects/3/merge_requests", "merge_requests")

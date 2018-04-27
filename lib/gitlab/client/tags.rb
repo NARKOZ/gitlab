@@ -30,7 +30,7 @@ class Gitlab::Client
     # @param  [String]  description Optional release notes for tag.
     # @return [Gitlab::ObjectifiedHash]
     def create_tag(project, tag_name, ref, message='', description=nil)
-      post("/projects/#{url_encode project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message, description: description })
+      post("/projects/#{url_encode project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message, release_description: description })
     end
     alias_method :repo_create_tag, :create_tag
 
@@ -44,7 +44,7 @@ class Gitlab::Client
     # @param  [String] tag The name of the tag.
     # @return [Gitlab::ObjectifiedHash]
     def tag(project, tag)
-      get("/projects/#{url_encode project}/repository/tags/#{tag}")
+      get("/projects/#{url_encode project}/repository/tags/#{url_encode tag}")
     end
     alias_method :repo_tag, :tag
 
@@ -58,7 +58,7 @@ class Gitlab::Client
     # @param  [String] tag The name of the tag to delete
     # @return [Gitlab::ObjectifiedHash]
     def delete_tag(project, tag)
-      delete("/projects/#{url_encode project}/repository/tags/#{tag}")
+      delete("/projects/#{url_encode project}/repository/tags/#{url_encode tag}")
     end
     alias_method :repo_delete_tag, :delete_tag
 
@@ -73,7 +73,7 @@ class Gitlab::Client
     # @param  [String] description Release notes with markdown support
     # @return [Gitlab::ObjectifiedHash]
     def create_release(project, tag, description)
-      post("/projects/#{url_encode project}/repository/tags/#{tag}/release", body: { description: description })
+      post("/projects/#{url_encode project}/repository/tags/#{url_encode tag}/release", body: { description: description })
     end
     alias_method :repo_create_release, :create_release
 
@@ -88,7 +88,7 @@ class Gitlab::Client
     # @param  [String] description Release notes with markdown support
     # @return [Gitlab::ObjectifiedHash]
     def update_release(project, tag, description)
-      put("/projects/#{url_encode project}/repository/tags/#{tag}/release", body: { description: description })
+      put("/projects/#{url_encode project}/repository/tags/#{url_encode tag}/release", body: { description: description })
     end
     alias_method :repo_update_release, :update_release
 

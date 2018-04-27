@@ -1,17 +1,17 @@
 # Gitlab
 
-[![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg?style=flat)](https://travis-ci.org/NARKOZ/gitlab)
-[![Code Climate](https://img.shields.io/codeclimate/github/NARKOZ/gitlab.svg?style=flat)](https://codeclimate.com/github/NARKOZ/gitlab)
-[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg?style=flat)](https://inch-ci.org/github/NARKOZ/gitlab)
-[![Gem version](https://img.shields.io/gem/v/gitlab.svg?style=flat)](https://rubygems.org/gems/gitlab)
-[![License](https://img.shields.io/badge/license-BSD-red.svg?style=flat)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
+[![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg)](https://travis-ci.org/NARKOZ/gitlab)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/NARKOZ/gitlab.svg)](https://codeclimate.com/github/NARKOZ/gitlab)
+[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
+[![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
+[![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](http://narkoz.github.io/gitlab) |
 [documentation](http://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).
-As of version `4.0.0` this gem will only support Ruby 2.0+ and Gitlab API v4.
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
+As of version `4.0.0` this gem only supports Ruby 2.0+ and Gitlab API v4.
 
 ## Installation
 
@@ -26,6 +26,12 @@ Or add to a Gemfile:
 ```ruby
 gem 'gitlab'
 # gem 'gitlab', github: 'NARKOZ/gitlab'
+```
+
+Mac OS users can install using Homebrew:
+
+```sh
+brew install gitlab-gem
 ```
 
 ## Usage
@@ -174,6 +180,64 @@ Web version is available at https://gitlab-live.herokuapp.com
 For more information, refer to [website](http://narkoz.github.io/gitlab).
 
 ## Development
+
+### With a dockerized Gitlab instance
+
+```shell
+docker-compose up -d gitlab # Will start the gitlab instance in the background (approx. 3 minutes)
+```
+
+After a while, your Gitlab instance will be accessible on http://localhost:3000.
+
+Once you have set your new root password, you can login with the root user.
+
+You can now setup a personal access token here: http://localhost:3000/profile/personal_access_tokens
+
+Once you have your token, set the variables to the correct values in the `docker.env` file.
+
+Then, launch the tool:
+
+```shell
+docker-compose run app
+```
+
+```ruby
+Gitlab.users
+=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+```
+
+To launch the specs,
+
+```shell
+docker-compose run app rake spec
+```
+
+#### Want to use Gitlab Enterprise?
+
+Just change the image from `gitlab/gitlab-ce:latest` to `gitlab/gitlab-ee:latest` in the `docker-compose.yml` file.
+
+### With an external Gitlab instance
+
+First, set the variables to the correct values in the `docker.env` file.
+
+Then, launch the tool:
+
+```shell
+docker-compose run app
+```
+
+```ruby
+Gitlab.users
+=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+```
+
+To launch the specs,
+
+```shell
+docker-compose run app rake spec
+```
+
+### Without Docker
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake spec` to run the tests. You can also run `bin/console` for an interactive

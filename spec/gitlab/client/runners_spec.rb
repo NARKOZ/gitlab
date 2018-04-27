@@ -130,6 +130,16 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.runner_jobs' do
+    before do
+      stub_get('/runners/1/jobs', 'runner_jobs')
+      @jobs = Gitlab.runner_jobs(1)
+    end
+    it 'gets the correct resource' do
+      expect(a_get('/runners/1/jobs')).to have_been_made
+    end
+  end
+
   describe ".project_runners" do
     before do
       stub_get("/projects/1/runners", "project_runners")

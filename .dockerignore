@@ -1,0 +1,6 @@
+.git
+Gemfile.lock
+Dockerfile
+docker-compose.yml
+*.gem
+deploy

@@ -53,26 +53,6 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".project_events" do
-    before do
-      stub_get("/projects/2/events", "project_events")
-      @events = Gitlab.project_events(2)
-    end
-
-    it "gets the correct resource" do
-      expect(a_get("/projects/2/events")).to have_been_made
-    end
-
-    it "returns a paginated response of events" do
-      expect(@events).to be_a Gitlab::PaginatedResponse
-      expect(@events.size).to eq(2)
-    end
-
-    it "returns the action name of the event" do
-      expect(@events.first.action_name).to eq("opened")
-    end
-  end
-
   describe ".create_project" do
     before do
       stub_post("/projects", "project")
@@ -152,6 +132,23 @@ describe Gitlab::Client do
         expect(@project.id).to eq(20)
         expect(@project.owner.username).to eq(@sudoed_username)
       end
+    end
+  end
+
+  describe ".project_forks" do
+    before do
+      stub_get("/projects/3/forks", "project_forks")
+      @project_forks = Gitlab.project_forks(3)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/projects/3/forks")).to have_been_made
+    end
+
+    it "returns a paginated response of projects found" do
+      expect(@project_forks).to be_a Gitlab::PaginatedResponse
+      expect(@project_forks.first.name).to eq("gitlab")
+      expect(@project_forks.first.owner.name).to eq("Administrator")
     end
   end
 
@@ -608,6 +605,26 @@ describe Gitlab::Client do
 
     it "returns information about the unstarred project" do
       expect(@unstarred_project.id).to eq(3)
+    end
+  end
+
+  describe ".user_projects" do
+    let(:user_id) { 1 }
+    let(:project_id) { 1 }
+
+    before do
+      stub_get("/users/#{user_id}/projects", "user_projects")
+      @user_projects = Gitlab.user_projects(user_id)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/users/#{user_id}/projects")).to have_been_made
+    end
+
+    it "returns a paginated response of projects" do
+      expect(@user_projects).to be_a Gitlab::PaginatedResponse
+      expect(@user_projects.first.id).to eq(project_id)
+      expect(@user_projects.first.owner.id).to eq(user_id)
     end
   end
 end
