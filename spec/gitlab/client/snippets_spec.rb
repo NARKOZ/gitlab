@@ -36,7 +36,7 @@ describe Gitlab::Client do
   describe ".create_snippet" do
     before do
       stub_post("/projects/3/snippets", "snippet")
-      @snippet = Gitlab.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code')
+      @snippet = Gitlab.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public')
     end
 
     it "gets the correct resource" do
