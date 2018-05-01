@@ -40,7 +40,7 @@ describe Gitlab::Client do
     end
 
     it "gets the correct resource" do
-      body = { title: 'API', file_name: 'api.rb', code: 'code' }
+      body = { title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public' }
       expect(a_post("/projects/3/snippets").with(body: body)).to have_been_made
     end
 
