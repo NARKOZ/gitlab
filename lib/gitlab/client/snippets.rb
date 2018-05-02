@@ -31,7 +31,7 @@ class Gitlab::Client
     # Creates a new snippet.
     #
     # @example
-    #   Gitlab.create_snippet(42, { title: 'REST', file_name: 'api.rb', code: 'some code' })
+    #   Gitlab.create_snippet(42, { title: 'REST', file_name: 'api.rb', code: 'some code', visibility: 'public'})
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
@@ -39,6 +39,7 @@ class Gitlab::Client
     # @option options [String] :file_name (required) The name of a snippet file.
     # @option options [String] :code (required) The content of a snippet.
     # @option options [String] :lifetime (optional) The expiration date of a snippet.
+    # @option options [String] :visibility (required) The visibility of a snippet
     # @return [Gitlab::ObjectifiedHash] Information about created snippet.
     def create_snippet(project, options={})
       post("/projects/#{url_encode project}/snippets", body: options)
@@ -56,6 +57,7 @@ class Gitlab::Client
     # @option options [String] :file_name The name of a snippet file.
     # @option options [String] :code The content of a snippet.
     # @option options [String] :lifetime The expiration date of a snippet.
+    # @option options [String] :visibility (optional) The visibility of a snippet
     # @return [Gitlab::ObjectifiedHash] Information about updated snippet.
     def edit_snippet(project, id, options={})
       put("/projects/#{url_encode project}/snippets/#{id}", body: options)
