@@ -1,3 +1,6 @@
+gem 'psych','>=2.2'
+require 'psych'
+
 require 'rspec'
 require 'webmock/rspec'
 
