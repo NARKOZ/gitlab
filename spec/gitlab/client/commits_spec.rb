@@ -8,6 +8,7 @@ describe Gitlab::Client do
   it { is_expected.to respond_to :repo_create_commit_comment }
   it { is_expected.to respond_to :repo_commit_status }
   it { is_expected.to respond_to :repo_update_commit_status }
+  it { is_expected.to respond_to :repo_commit_merge_requests }
 
   describe ".commits" do
     before do
@@ -163,6 +164,27 @@ describe Gitlab::Client do
 
     it "returns id of a created commit" do
       expect(@commit.id).to eq('ed899a2f4b50b4370feeea94676502b42383c746')
+    end
+  end
+
+  describe ".repo_commit_merge_requests" do
+    before do
+      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests", "project_commit_merge_requests")
+      @commit_merge_requests = Gitlab.commit_merge_requests(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests")).
+        to have_been_made
+    end
+
+    it "returns commit's associated merge_requests" do
+      expect(@commit_merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@commit_merge_requests.length).to eq(2)
+      expect(@commit_merge_requests[0].iid).to eq(1)
+      expect(@commit_merge_requests[0].author.id).to eq(1)
+      expect(@commit_merge_requests[1].iid).to eq(2)
+      expect(@commit_merge_requests[1].author.id).to eq(2)
     end
   end
 end
