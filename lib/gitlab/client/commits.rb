@@ -142,5 +142,23 @@ class Gitlab::Client
       }.merge(options)
       post("/projects/#{url_encode project}/repository/commits", body: payload)
     end
+
+    # Gets a list of merge requests for a commit.
+    #
+    # @see https://docs.gitlab.com/ce/api/commits.html#list-merge-requests-associated-with-a-commit
+    # Introduced in Gitlab 10.7
+    #
+    # @example
+    #   Gitlab.commit_merge_requests(5, 'c9f9662a9b1116c838b523ed64c6abdb4aae4b8b')
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String] sha The commit hash.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def commit_merge_requests(project, commit, options={})
+      get("/projects/#{url_encode project}/repository/commits/#{commit}/merge_requests", query: options)
+    end
+    alias_method :repo_commit_merge_requests, :commit_merge_requests
   end
 end
