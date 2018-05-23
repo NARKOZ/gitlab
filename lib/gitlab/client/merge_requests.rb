@@ -155,5 +155,121 @@ class Gitlab::Client
     def unsubscribe_from_merge_request(project, id)
       post("/projects/#{url_encode project}/merge_requests/#{id}/unsubscribe")
     end
+
+    # List project merge request discussions
+    #
+    # @example
+    #   Gitlab.merge_request_discussions(5, 1)
+    #   Gitlab.merge_request_discussions('gitlab', 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] List of the merge request discussions.
+    def merge_request_discussions(project, merge_request_id)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions")
+    end
+
+    # Get single merge request discussion
+    #
+    # @example
+    #   Gitlab.merge_request_discussion(5, 1, 1)
+    #   Gitlab.merge_request_discussion('gitlab', 1, 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] discussion_id The ID of a discussion.
+    # @return [Gitlab::ObjectifiedHash] The merge request discussion.
+    def merge_request_discussion(project, merge_request_id, discussion_id)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}")
+    end
+
+    # Create new merge request discussion
+    #
+    # @example
+    #   Gitlab.create_merge_request_discussion(5, 1, body: 'discuss')
+    #   Gitlab.create_merge_request_discussion('gitlab', 1, body: 'discuss')
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Hash] options A customizable set of options.
+    #   * :body (String) The content of a discussion
+    #   * :created_at (String) Date time string, ISO 8601 formatted, e.g. 2016-03-11T03:45:40Z
+    #   * :position (Hash) Position when creating a diff note
+    #     * :base_sha (String) Base commit SHA in the source branch
+    #     * :start_sha (String) SHA referencing commit in target branch
+    #     * :head_sha (String) SHA referencing HEAD of this merge request
+    #     * :position_type (String) Type of the position reference', allowed values: 'text' or 'image'
+    #     * :new_path (String) File path after change
+    #     * :new_line (Integer) Line number after change (for 'text' diff notes)
+    #     * :old_path (String) File path before change
+    #     * :old_line (Integer) Line number before change (for 'text' diff notes)
+    #     * :width (Integer) Width of the image (for 'image' diff notes)
+    #     * :height (Integer) Height of the image (for 'image' diff notes)
+    #     * :x (Integer) X coordinate (for 'image' diff notes)
+    #     * :y (Integer) Y coordinate (for 'image' diff notes)
+    # @return [Gitlab::ObjectifiedHash] The created merge request discussion.
+    def create_merge_request_discussion(project, merge_request_id, options={})
+      post("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions", body: options)
+    end
+
+    # Resolve a merge request discussion
+    #
+    # @example
+    #   Gitlab.resolve_merge_request_discussion(5, 1, 1, true)
+    #   Gitlab.resolve_merge_request_discussion('gitlab', 1, 1, false)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] discussion_id The ID of a discussion.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :resolved Resolve/unresolve the discussion.
+    # @return [Gitlab::ObjectifiedHash] The merge request discussion.
+    def resolve_merge_request_discussion(project, merge_request_id, discussion_id, options)
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}", body: options)
+    end
+
+    # Add note to existing merge request discussion
+    #
+    # @example
+    #   Gitlab.create_merge_request_discussion_note(5, 1, 1, note_id: 1, body: 'note')
+    #   Gitlab.create_merge_request_discussion_note('gitlab', 1, 1, note_id: 1, body: 'note')
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] discussion_id The ID of a discussion.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :note_id The ID of a discussion note.
+    # @option options [String] :body The content of a discussion.
+    # @option options [String] :created_at Date time string, ISO 8601 formatted, e.g. 2016-03-11T03:45:40Z.
+    # @return [Gitlab::ObjectifiedHash] The merge request discussion note.
+    def create_merge_request_discussion_note(project, merge_request_id, discussion_id, options)
+      post("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes", body: options)
+    end
+
+    # Modify an existing merge request discussion note
+    #
+    # @example
+    #   Gitlab.update_merge_request_discussion_note(5, 1, 1, 1, body: 'note')
+    #   Gitlab.update_merge_request_discussion_note('gitlab', 1, 1, 1, body: 'note')
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] discussion_id The ID of a discussion.
+    # @param  [Integer] note_id The ID of a discussion note.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :body The content of a discussion.
+    # @option options [Boolean] :resolved Resolve/unresolve the note.
+    # @return [Gitlab::ObjectifiedHash] The merge request discussion note.
+    def update_merge_request_discussion_note(project, merge_request_id, discussion_id, note_id, options)
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}", body: options)
+    end
+
+    # Delete a merge request discussion note
+    #
+    # @example
+    #   Gitlab.delete_merge_request_discussion_note(5, 1, 1, 1)
+    #   Gitlab.delete_merge_request_discussion_note('gitlab', 1, 1, 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] discussion_id The ID of a discussion.
+    # @param  [Integer] note_id The ID of a discussion note.
+    # @return [Gitlab::ObjectifiedHash] An empty response.
+    def delete_merge_request_discussion_note(project, merge_request_id, discussion_id, note_id)
+      delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}")
+    end
   end
 end

@@ -236,4 +236,116 @@ describe Gitlab::Client do
       expect(@merge_request.project_id).to eq(3)
     end
   end
+
+  describe ".merge_request_discussions" do
+    before do
+      stub_get("/projects/3/merge_requests/2/discussions", "merge_request_discussions")
+      @discussions = Gitlab.merge_request_discussions(3, 2)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/projects/3/merge_requests/2/discussions")).to have_been_made
+    end
+
+    it "returns information about the discussions" do
+      expect(@discussions.length).to eq(1)
+      expect(@discussions.first.id).to eq('7d66bf19bf835e6a4666130544ba1b5c343fc705')
+    end
+  end
+
+  describe ".merge_request_discussion" do
+    before do
+      stub_get("/projects/3/merge_requests/2/discussions/1", "merge_request_discussion")
+      @discussion = Gitlab.merge_request_discussion(3, 2, 1)
+    end
+
+    it "gets the correct resource" do
+      expect(a_get("/projects/3/merge_requests/2/discussions/1")).to have_been_made
+    end
+
+    it "returns information about the discussions" do
+      expect(@discussion.id).to eq('7d66bf19bf835e6a4666130544ba1b5c343fc705')
+    end
+  end
+
+  describe ".create_merge_request_discussion" do
+    before do
+      stub_post("/projects/3/merge_requests/2/discussions", "merge_request_discussion")
+      @discussion = Gitlab.create_merge_request_discussion(3, 2, body: 'Discussion', position: {old_line: 1})
+    end
+
+    it "posts the correct resource" do
+      expect(a_post("/projects/3/merge_requests/2/discussions").
+        with(body: 'body=Discussion&position[old_line]=1')).to have_been_made
+    end
+
+    it "returns information about the discussions" do
+      expect(@discussion.id).to eq('7d66bf19bf835e6a4666130544ba1b5c343fc705')
+    end
+  end
+
+  describe ".resolve_merge_request_discussion" do
+    before do
+      stub_put("/projects/3/merge_requests/2/discussions/1", "merge_request_discussion")
+      @discussion = Gitlab.resolve_merge_request_discussion(3, 2, 1, resolved: true)
+    end
+
+    it "puts the correct resource" do
+      expect(a_put("/projects/3/merge_requests/2/discussions/1").
+             with(body: 'resolved=true')).to have_been_made
+    end
+
+    it "returns information about the discussions" do
+      expect(@discussion.id).to eq('7d66bf19bf835e6a4666130544ba1b5c343fc705')
+      note = @discussion.notes.first
+      expect(note['id']).to eq(1758)
+    end
+  end
+
+  describe ".create_merge_request_discussion_note" do
+    before do
+      stub_post("/projects/3/merge_requests/2/discussions/1/notes", "merge_request_discussion_note")
+      @note = Gitlab.create_merge_request_discussion_note(3, 2, 1, body: 'note')
+    end
+
+    it "posts the correct resource" do
+      expect(a_post("/projects/3/merge_requests/2/discussions/1/notes").
+             with(body: 'body=note')).to have_been_made
+    end
+
+    it "returns information about the note" do
+      expect(@note.id).to eq(1775)
+    end
+  end
+
+  describe ".update_merge_request_discussion_note" do
+    before do
+      stub_put("/projects/3/merge_requests/2/discussions/1/notes/1", "merge_request_discussion_note")
+      @note = Gitlab.update_merge_request_discussion_note(3, 2, 1, 1, body: 'note2')
+    end
+
+    it "puts the correct resource" do
+      expect(a_put("/projects/3/merge_requests/2/discussions/1/notes/1").
+             with(body: 'body=note2')).to have_been_made
+    end
+
+    it "returns information about the note" do
+      expect(@note.id).to eq(1775)
+    end
+  end
+
+  describe ".delete_merge_request_discussion_note" do
+    before do
+      stub_request(:delete, "https://api.example.com/projects/3/merge_requests/2/discussions/1/notes/1").to_return(body: '')
+      @note = Gitlab.delete_merge_request_discussion_note(3, 2, 1, 1)
+    end
+
+    it "deletes the correct resource" do
+      expect(a_delete("/projects/3/merge_requests/2/discussions/1/notes/1")).to have_been_made
+    end
+
+    it "returns nothing" do
+      expect(@note).to be_falsy
+    end
+  end
 end
