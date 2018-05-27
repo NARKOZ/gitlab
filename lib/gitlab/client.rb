@@ -14,6 +14,7 @@ module Gitlab
     include Deployments
     include Environments
     include Events
+    include GroupMilestones
     include Groups
     include Issues
     include Jobs
