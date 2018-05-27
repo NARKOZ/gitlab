@@ -24,7 +24,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a group.
     # @return [Gitlab::ObjectifiedHash]
     def group(id)
-      get("/groups/#{id}")
+      get("/groups/#{url_encode id}")
     end
 
     # Creates a new group.
@@ -48,7 +48,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a group
     # @return [Gitlab::ObjectifiedHash] Information about the deleted group.
     def delete_group(id)
-      delete("/groups/#{id}")
+      delete("/groups/#{url_encode id}")
     end
 
     # Get a list of group members.
@@ -63,7 +63,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def group_members(id, options={})
-      get("/groups/#{id}/members", query: options)
+      get("/groups/#{url_encode id}/members", query: options)
     end
 
     # Get details of a single group member.
@@ -75,7 +75,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The user id of the member to find.
     # @return [Gitlab::ObjectifiedHash] (id, username, name, email, state, access_level ...)
     def group_member(team_id, user_id)
-      get("/groups/#{team_id}/members/#{user_id}")
+      get("/groups/#{url_encode team_id}/members/#{user_id}")
     end
 
     # Adds a user to group.
@@ -88,7 +88,7 @@ class Gitlab::Client
     # @param  [Integer] access_level Project access level.
     # @return [Gitlab::ObjectifiedHash] Information about added team member.
     def add_group_member(team_id, user_id, access_level)
-      post("/groups/#{team_id}/members", body: { user_id: user_id, access_level: access_level })
+      post("/groups/#{url_encode team_id}/members", body: { user_id: user_id, access_level: access_level })
     end
 
     # Edit a user of a group.
@@ -101,7 +101,7 @@ class Gitlab::Client
     # @param  [Integer] access_level Project access level.
     # @return [Gitlab::ObjectifiedHash] Information about edited team member.
     def edit_group_member(team_id, user_id, access_level)
-      put("/groups/#{team_id}/members/#{user_id}", body: { access_level: access_level })
+      put("/groups/#{url_encode team_id}/members/#{user_id}", body: { access_level: access_level })
     end
 
     # Removes user from user group.
@@ -113,7 +113,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash] Information about removed team member.
     def remove_group_member(team_id, user_id)
-      delete("/groups/#{team_id}/members/#{user_id}")
+      delete("/groups/#{url_encode team_id}/members/#{user_id}")
     end
 
     # Transfers a project to a group
@@ -125,7 +125,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     def transfer_project_to_group(id, project_id)
       body = { id: id, project_id: project_id }
-      post("/groups/#{id}/projects/#{project_id}", body: body)
+      post("/groups/#{url_encode id}/projects/#{project_id}", body: body)
     end
 
     # Search for groups by name
@@ -150,7 +150,7 @@ class Gitlab::Client
     # @param [Integer] id The ID of a group
     # @return [Array<Gitlab::ObjectifiedHash>] List of projects under a group
     def group_projects(id, options={})
-      get("/groups/#{id}/projects", query: options)
+      get("/groups/#{url_encode id}/projects", query: options)
     end
 
     # Get a list of subgroups under a group
@@ -168,7 +168,7 @@ class Gitlab::Client
     # @option options [String] :owned Limit to groups owned by the current user.
     # @return [Array<Gitlab::ObjectifiedHash>] List of subgroups under a group
     def group_subgroups(id, options={})
-      get("/groups/#{id}/subgroups", query: options)
+      get("/groups/#{url_encode id}/subgroups", query: options)
     end
 
     # Updates an existing group.
@@ -187,7 +187,7 @@ class Gitlab::Client
     # @option options [String] :request_access_enabled Allow users to request member access.
     # @return [Gitlab::ObjectifiedHash] Information about the edited group.
     def edit_group(id, options={})
-      put("/groups/#{id}", body: options)
+      put("/groups/#{url_encode id}", body: options)
     end
   end
 end
