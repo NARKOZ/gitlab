@@ -1,0 +1,22 @@
+{
+    "key": "mit",
+    "name": "MIT License",
+    "nickname": null,
+    "featured": true,
+    "html_url": "http://choosealicense.com/licenses/mit/",
+    "source_url": "http://opensource.org/licenses/MIT",
+    "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty.",
+    "conditions": [
+        "include-copyright"
+    ],
+    "permissions": [
+        "commercial-use",
+        "modifications",
+        "distribution",
+        "private-use"
+    ],
+    "limitations": [
+        "no-liability"
+    ],
+    "content": "The MIT License (MIT)\n\nCopyright (c) 2016 John Doe\n [...]"
+}
