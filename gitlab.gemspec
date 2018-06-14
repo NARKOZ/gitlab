@@ -11,7 +11,9 @@ Gem::Specification.new do |gem|
   gem.summary       = 'A Ruby wrapper and CLI for the GitLab API'
   gem.homepage      = 'https://github.com/narkoz/gitlab'
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = `git ls-files`.split($/).
+                      reject { |f| f[/^spec/] } -
+                      %w[Dockerfile docker-compose.yml docker.env .travis.yml .rubocop.yml .dockerignore]
   gem.bindir        = 'exe'
   gem.executables   = gem.files.grep(%r{^exe/}) { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
