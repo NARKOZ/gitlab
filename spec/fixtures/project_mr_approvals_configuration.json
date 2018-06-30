@@ -1,0 +1,35 @@
+{
+  "approvers": [
+    {
+      "user": {
+        "id": 5,
+        "name": "John Doe6",
+        "username": "user5",
+        "state":"active","avatar_url":"https://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80\u0026d=identicon","web_url":"http://localhost/user5"
+      }
+    }
+  ],
+  "approver_groups": [
+    {
+      "group": {
+        "id": 1,
+        "name": "group1",
+        "path": "group1",
+        "description": "",
+        "visibility": "public",
+        "lfs_enabled": false,
+        "avatar_url": null,
+        "web_url": "http://localhost/groups/group1",
+        "request_access_enabled": false,
+        "full_name": "group1",
+        "full_path": "group1",
+        "parent_id": null,
+        "ldap_cn": null,
+        "ldap_access": null
+      }
+    }
+  ],
+  "approvals_before_merge": 3,
+  "reset_approvals_on_push": false,
+  "disable_overriding_approvers_per_merge_request": true
+}
