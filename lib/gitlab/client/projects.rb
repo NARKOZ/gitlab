@@ -449,6 +449,18 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/share", body: { group_id: id, group_access: group_access })
     end
 
+    # Unshare project with group.
+    #
+    # @example
+    #   Gitlab.unshare_project_with_group('gitlab', 2)
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [Integer] id The ID of a group.
+    # @return [void] This API call returns an empty response body.
+    def unshare_project_with_group(project, id)
+      delete("/projects/#{url_encode project}/share/#{id}")
+    end
+
     # Stars a project.
     # @see https://docs.gitlab.com/ce/api/projects.html#star-a-project
     #
