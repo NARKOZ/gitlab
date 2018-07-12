@@ -578,6 +578,17 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".unshare_project_with_group" do
+    before do
+      stub_delete("/projects/3/share/10", "group")
+      @group = Gitlab.unshare_project_with_group(3, 10)
+    end
+
+    it "gets the correct resource" do
+      expect(a_delete("/projects/3/share/10")).to have_been_made
+    end
+  end
+
   describe ".star_project" do
     before do
       stub_post("/projects/3/star", "project_star")
