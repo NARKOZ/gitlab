@@ -340,14 +340,15 @@ class Gitlab::Client
     # Creates a new deploy key.
     #
     # @example
-    #   Gitlab.create_deploy_key(42, 'My Key', 'Key contents')
+    #   Gitlab.create_deploy_key(42, 'My Key', 'Key contents', can_push: true)
     #
     # @param  [Integer, String] project The ID or path of a project.
     # @param  [String] title The title of a deploy key.
     # @param  [String] key The content of a deploy key.
+    # @param  [Hash] options A customizable set of options.
     # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
-    def create_deploy_key(project, title, key)
-      post("/projects/#{url_encode project}/deploy_keys", body: { title: title, key: key })
+    def create_deploy_key(project, title, key, options = {})
+      post("/projects/#{url_encode project}/deploy_keys", body: { title: title, key: key }.merge(options))
     end
 
     # Enables a deploy key at the project.

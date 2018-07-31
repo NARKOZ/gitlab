@@ -515,6 +515,40 @@ describe Gitlab::Client do
     end
   end
 
+  describe ".create_deploy_key" do
+    context 'no options' do
+      before do
+        stub_post("/projects/42/deploy_keys", "project_key")
+        @deploy_key = Gitlab.create_deploy_key(42, 'My Key', 'Key contents')
+      end
+
+      it "gets the correct resource" do
+        expect(a_post("/projects/42/deploy_keys").
+          with(body: { title: 'My Key', key: 'Key contents' })).to have_been_made
+      end
+
+      it "returns information about a created key" do
+        expect(@deploy_key.id).to eq(2)
+      end
+    end
+
+    context 'some options' do
+      before do
+        stub_post("/projects/42/deploy_keys", "project_key")
+        @deploy_key = Gitlab.create_deploy_key(42, 'My Key', 'Key contents', can_push: true)
+      end
+
+      it "gets the correct resource" do
+        expect(a_post("/projects/42/deploy_keys").
+          with(body: { title: 'My Key', key: 'Key contents', can_push: true })).to have_been_made
+      end
+
+      it "returns information about a created key" do
+        expect(@deploy_key.id).to eq(2)
+      end
+    end
+  end
+
   describe ".delete_deploy_key" do
     before do
       stub_delete("/projects/42/deploy_keys/2", "project_key")
