@@ -1,6 +1,8 @@
-## Change Log
+## CHANGELOG
 
-### Unreleased
+### Newer releases
+
+Please see: https://github.com/NARKOZ/gitlab/releases
 
 ### 4.2.0 (13/07/2017)
 - Use `url_encode` in all `Commit` resources (@grodowski)
