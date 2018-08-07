@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to MR Approvals.
   # @see https://docs.gitlab.com/ee/api/merge_request_approvals.html

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Gitlab
   # Wrapper for the Gitlab REST API.
   class Client < API
-    Dir[File.expand_path('../client/*.rb', __FILE__)].each { |f| require f }
+    Dir[File.expand_path('client/*.rb', __dir__)].each { |f| require f }
 
     # Please keep in alphabetical order
     include AccessRequests
@@ -53,8 +55,8 @@ module Gitlab
       inspected
     end
 
-    def url_encode(s)
-      URI.encode(s.to_s, /\W/)
+    def url_encode(url)
+      URI.encode(url.to_s, /\W/)
     end
 
     private

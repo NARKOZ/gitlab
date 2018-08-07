@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to repository commits.
   # @see https://docs.gitlab.com/ce/api/commits.html
@@ -14,10 +16,10 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def commits(project, options={})
+    def commits(project, options = {})
       get("/projects/#{url_encode project}/repository/commits", query: options)
     end
-    alias_method :repo_commits, :commits
+    alias repo_commits commits
 
     # Gets a specific commit identified by the commit hash or name of a branch or tag.
     #
@@ -31,7 +33,7 @@ class Gitlab::Client
     def commit(project, sha)
       get("/projects/#{url_encode project}/repository/commits/#{sha}")
     end
-    alias_method :repo_commit, :commit
+    alias repo_commit commit
 
     # Get the diff of a commit in a project.
     #
@@ -45,7 +47,7 @@ class Gitlab::Client
     def commit_diff(project, sha)
       get("/projects/#{url_encode project}/repository/commits/#{sha}/diff")
     end
-    alias_method :repo_commit_diff, :commit_diff
+    alias repo_commit_diff commit_diff
 
     # Gets a list of comments for a commit.
     #
@@ -57,10 +59,10 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def commit_comments(project, commit, options={})
+    def commit_comments(project, commit, options = {})
       get("/projects/#{url_encode project}/repository/commits/#{commit}/comments", query: options)
     end
-    alias_method :repo_commit_comments, :commit_comments
+    alias repo_commit_comments commit_comments
 
     # Creates a new comment for a commit.
     #
@@ -75,10 +77,10 @@ class Gitlab::Client
     # @option options [Integer] :line The line number.
     # @option options [String] :line_type The line type (new or old).
     # @return [Gitlab::ObjectifiedHash] Information about created comment.
-    def create_commit_comment(project, commit, note, options={})
+    def create_commit_comment(project, commit, note, options = {})
       post("/projects/#{url_encode project}/repository/commits/#{commit}/comments", body: options.merge(note: note))
     end
-    alias_method :repo_create_commit_comment, :create_commit_comment
+    alias repo_create_commit_comment create_commit_comment
 
     # Get the status of a commit
     #
@@ -94,10 +96,10 @@ class Gitlab::Client
     # @option options [String] :stage Filter by stage
     # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [Boolean] :all The flag to return all statuses, not only latest ones
-    def commit_status(project, sha, options={})
+    def commit_status(project, sha, options = {})
       get("/projects/#{url_encode project}/repository/commits/#{sha}/statuses", query: options)
     end
-    alias_method :repo_commit_status, :commit_status
+    alias repo_commit_status commit_status
 
     # Adds or updates a status of a commit.
     #
@@ -113,10 +115,10 @@ class Gitlab::Client
     # @option options [String] :ref The ref (branch or tag) to which the status refers
     # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [String] :target_url The target URL to associate with this status
-    def update_commit_status(project, sha, state, options={})
+    def update_commit_status(project, sha, state, options = {})
       post("/projects/#{url_encode project}/statuses/#{sha}", query: options.merge(state: state))
     end
-    alias_method :repo_update_commit_status, :update_commit_status
+    alias repo_update_commit_status update_commit_status
 
     # Creates a single commit with one or more changes
     #
@@ -134,11 +136,11 @@ class Gitlab::Client
     # @option options [String] :author_email the email address of the author
     # @option options [String] :author_name the name of the author
     # @return [Gitlab::ObjectifiedHash] hash of commit related data
-    def create_commit(project, branch, message, actions, options={})
+    def create_commit(project, branch, message, actions, options = {})
       payload = {
-          branch: branch,
-          commit_message: message,
-          actions: actions,
+        branch: branch,
+        commit_message: message,
+        actions: actions
       }.merge(options)
       post("/projects/#{url_encode project}/repository/commits", body: payload)
     end
@@ -156,9 +158,9 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def commit_merge_requests(project, commit, options={})
+    def commit_merge_requests(project, commit, options = {})
       get("/projects/#{url_encode project}/repository/commits/#{commit}/merge_requests", query: options)
     end
-    alias_method :repo_commit_merge_requests, :commit_merge_requests
+    alias repo_commit_merge_requests commit_merge_requests
   end
 end

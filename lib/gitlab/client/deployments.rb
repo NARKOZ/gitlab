@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to deployments.
   # @see https://docs.gitlab.com/ce/api/deployments.html
@@ -13,7 +15,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def deployments(project, options={})
+    def deployments(project, options = {})
       get("/projects/#{url_encode project}/deployments", query: options)
     end
 

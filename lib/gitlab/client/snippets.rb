@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to snippets.
   # @see https://docs.gitlab.com/ce/api/project_snippets.html
@@ -12,7 +14,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash]
-    def snippets(project, options={})
+    def snippets(project, options = {})
       get("/projects/#{url_encode project}/snippets", query: options)
     end
 
@@ -41,7 +43,7 @@ class Gitlab::Client
     # @option options [String] :lifetime (optional) The expiration date of a snippet.
     # @option options [String] :visibility (required) The visibility of a snippet
     # @return [Gitlab::ObjectifiedHash] Information about created snippet.
-    def create_snippet(project, options={})
+    def create_snippet(project, options = {})
       post("/projects/#{url_encode project}/snippets", body: options)
     end
 
@@ -59,7 +61,7 @@ class Gitlab::Client
     # @option options [String] :lifetime The expiration date of a snippet.
     # @option options [String] :visibility (optional) The visibility of a snippet
     # @return [Gitlab::ObjectifiedHash] Information about updated snippet.
-    def edit_snippet(project, id, options={})
+    def edit_snippet(project, id, options = {})
       put("/projects/#{url_encode project}/snippets/#{id}", body: options)
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to groups.
   # @see https://docs.gitlab.com/ce/api/groups.html
@@ -12,8 +14,8 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def groups(options={})
-      get("/groups", query: options)
+    def groups(options = {})
+      get('/groups', query: options)
     end
 
     # Gets a single group.
@@ -36,9 +38,9 @@ class Gitlab::Client
     # @param  [String] name The name of a group.
     # @param  [String] path The path of a group.
     # @return [Gitlab::ObjectifiedHash] Information about created group.
-    def create_group(name, path, options={})
+    def create_group(name, path, options = {})
       body = { name: name, path: path }.merge(options)
-      post("/groups", body: body)
+      post('/groups', body: body)
     end
 
     # Delete's a group.
@@ -62,7 +64,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_members(id, options={})
+    def group_members(id, options = {})
       get("/groups/#{url_encode id}/members", query: options)
     end
 
@@ -138,9 +140,9 @@ class Gitlab::Client
     # @option options [String] :per_page Number of projects to return per page
     # @option options [String] :page The page to retrieve
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_search(search, options={})
+    def group_search(search, options = {})
       options[:search] = search
-      get("/groups", query: options)
+      get('/groups', query: options)
     end
 
     # Get a list of projects under a group
@@ -149,7 +151,7 @@ class Gitlab::Client
     #
     # @param [Integer] id The ID of a group
     # @return [Array<Gitlab::ObjectifiedHash>] List of projects under a group
-    def group_projects(id, options={})
+    def group_projects(id, options = {})
       get("/groups/#{url_encode id}/projects", query: options)
     end
 
@@ -167,7 +169,7 @@ class Gitlab::Client
     # @option options [String] :statistics Include group statistics (admins only).
     # @option options [String] :owned Limit to groups owned by the current user.
     # @return [Array<Gitlab::ObjectifiedHash>] List of subgroups under a group
-    def group_subgroups(id, options={})
+    def group_subgroups(id, options = {})
       get("/groups/#{url_encode id}/subgroups", query: options)
     end
 
@@ -186,7 +188,7 @@ class Gitlab::Client
     # @option options [String] :lfs_enabled Enable/disable Large File Storage (LFS) for the projects in this groupr.
     # @option options [String] :request_access_enabled Allow users to request member access.
     # @return [Gitlab::ObjectifiedHash] Information about the edited group.
-    def edit_group(id, options={})
+    def edit_group(id, options = {})
       put("/groups/#{url_encode id}", body: options)
     end
   end

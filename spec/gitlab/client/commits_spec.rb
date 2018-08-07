@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gitlab::Client do
@@ -10,102 +12,102 @@ describe Gitlab::Client do
   it { is_expected.to respond_to :repo_update_commit_status }
   it { is_expected.to respond_to :repo_commit_merge_requests }
 
-  describe ".commits" do
+  describe '.commits' do
     before do
-      stub_get("/projects/3/repository/commits", "project_commits").
-        with(query: { ref_name: "api" })
-      @commits = Gitlab.commits(3, ref_name: "api")
+      stub_get('/projects/3/repository/commits', 'project_commits')
+        .with(query: { ref_name: 'api' })
+      @commits = Gitlab.commits(3, ref_name: 'api')
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/3/repository/commits").
-        with(query: { ref_name: "api" })).to have_been_made
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits')
+        .with(query: { ref_name: 'api' })).to have_been_made
     end
 
-    it "returns a paginated response of repository commits" do
+    it 'returns a paginated response of repository commits' do
       expect(@commits).to be_a Gitlab::PaginatedResponse
-      expect(@commits.first.id).to eq("f7dd067490fe57505f7226c3b54d3127d2f7fd46")
+      expect(@commits.first.id).to eq('f7dd067490fe57505f7226c3b54d3127d2f7fd46')
     end
   end
 
-  describe ".commit" do
+  describe '.commit' do
     before do
-      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6", "project_commit")
+      stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6', 'project_commit')
       @commit = Gitlab.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6")).
-        to have_been_made
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6'))
+        .to have_been_made
     end
 
-    it "returns a repository commit" do
-      expect(@commit.id).to eq("6104942438c14ec7bd21c6cd5bd995272b3faff6")
+    it 'returns a repository commit' do
+      expect(@commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
   end
 
-  describe ".commit_diff" do
+  describe '.commit_diff' do
     before do
-      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff", "project_commit_diff")
+      stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff', 'project_commit_diff')
       @diff = Gitlab.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff")).
-        to have_been_made
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff'))
+        .to have_been_made
     end
 
-    it "returns a diff of a commit" do
-      expect(@diff.new_path).to eq("doc/update/5.4-to-6.0.md")
+    it 'returns a diff of a commit' do
+      expect(@diff.new_path).to eq('doc/update/5.4-to-6.0.md')
     end
   end
 
-  describe ".commit_comments" do
+  describe '.commit_comments' do
     before do
-      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "project_commit_comments")
+      stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments', 'project_commit_comments')
       @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments")).
-        to have_been_made
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments'))
+        .to have_been_made
     end
 
     it "returns commit's comments" do
       expect(@commit_comments).to be_a Gitlab::PaginatedResponse
       expect(@commit_comments.length).to eq(2)
-      expect(@commit_comments[0].note).to eq("this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
+      expect(@commit_comments[0].note).to eq('this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6')
       expect(@commit_comments[0].author.id).to eq(11)
-      expect(@commit_comments[1].note).to eq("another discussion point on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6")
+      expect(@commit_comments[1].note).to eq('another discussion point on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6')
       expect(@commit_comments[1].author.id).to eq(12)
     end
   end
 
-  describe ".create_commit_comment" do
+  describe '.create_commit_comment' do
     before do
-      stub_post("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments", "project_commit_comment")
+      stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments', 'project_commit_comment')
       @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
     end
 
-    it "returns information about the newly created comment" do
+    it 'returns information about the newly created comment' do
       expect(@merge_request.note).to eq('Nice code!')
       expect(@merge_request.author.id).to eq(1)
     end
   end
 
-  describe ".commit_status" do
+  describe '.commit_status' do
     before do
-      stub_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses", 'project_commit_status').
-        with(query: { all: 'true' })
+      stub_get('/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses', 'project_commit_status')
+        .with(query: { all: 'true' })
       @statuses = Gitlab.commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', all: true)
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses").
-        with(query: { all: true }))
+    it 'gets the correct resource' do
+      expect(a_get('/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses')
+        .with(query: { all: true }))
     end
 
-    it "gets statuses of a commit" do
+    it 'gets statuses of a commit' do
       expect(@statuses).to be_kind_of Gitlab::PaginatedResponse
       expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@statuses.first.ref).to eq('decreased-spec')
@@ -115,19 +117,19 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".update_commit_status" do
+  describe '.update_commit_status' do
     before do
-      stub_post("/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8", 'project_update_commit_status').
-        with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' })
+      stub_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8', 'project_update_commit_status')
+        .with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' })
       @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
     end
 
-    it "gets the correct resource" do
-      expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8').
-        with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
+    it 'gets the correct resource' do
+      expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8')
+        .with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
     end
 
-    it "returns information about the newly created status" do
+    it 'returns information about the newly created status' do
       expect(@status).to be_kind_of Gitlab::ObjectifiedHash
       expect(@status.id).to eq(498)
       expect(@status.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
@@ -136,13 +138,13 @@ describe Gitlab::Client do
     end
   end
 
-  describe ".create_commit" do
+  describe '.create_commit' do
     let(:actions) do
       [
         {
-          action: "create",
-          file_path: "foo/bar",
-          content: "some content"
+          action: 'create',
+          file_path: 'foo/bar',
+          content: 'some content'
         }
       ]
     end
@@ -158,24 +160,24 @@ describe Gitlab::Client do
     end
 
     before do
-      stub_post("/projects/6/repository/commits", 'project_commit_create').with(body: query)
-      @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, {author_email: 'joe@sample.org', author_name: 'Joe Sample'})
+      stub_post('/projects/6/repository/commits', 'project_commit_create').with(body: query)
+      @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, author_email: 'joe@sample.org', author_name: 'Joe Sample')
     end
 
-    it "returns id of a created commit" do
+    it 'returns id of a created commit' do
       expect(@commit.id).to eq('ed899a2f4b50b4370feeea94676502b42383c746')
     end
   end
 
-  describe ".repo_commit_merge_requests" do
+  describe '.repo_commit_merge_requests' do
     before do
-      stub_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests", "project_commit_merge_requests")
+      stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests', 'project_commit_merge_requests')
       @commit_merge_requests = Gitlab.commit_merge_requests(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
-    it "gets the correct resource" do
-      expect(a_get("/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests")).
-        to have_been_made
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests'))
+        .to have_been_made
     end
 
     it "returns commit's associated merge_requests" do

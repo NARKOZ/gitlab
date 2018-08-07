@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to pipelines.
   # @see https://docs.gitlab.com/ce/api/pipeline_triggers.html
@@ -35,7 +37,7 @@ class Gitlab::Client
     # @param  [String] description The trigger name
     # @return [Gitlab::ObjectifiedHash] The created trigger.
     def create_trigger(project, description)
-      post("/projects/#{url_encode project}/triggers", body: {description: description})
+      post("/projects/#{url_encode project}/triggers", body: { description: description })
     end
 
     # Update a project trigger
@@ -48,7 +50,7 @@ class Gitlab::Client
     # @param [Hash] options A customizable set of options.
     # @option options [String] :description The trigger name.
     # @return [Gitlab::ObjectifiedHash] The updated trigger.
-    def update_trigger(project, trigger_id, options={})
+    def update_trigger(project, trigger_id, options = {})
       put("/projects/#{url_encode project}/triggers/#{trigger_id}", body: options)
     end
 
@@ -75,7 +77,7 @@ class Gitlab::Client
     def remove_trigger(project, trigger_id)
       delete("/projects/#{url_encode project}/triggers/#{trigger_id}")
     end
-    alias_method :delete_trigger, :remove_trigger
+    alias delete_trigger remove_trigger
 
     # Run the given project pipeline trigger.
     #
@@ -90,12 +92,12 @@ class Gitlab::Client
     # @param  [String] ref Branch or tag name to build.
     # @param  [Hash] variables A set of build variables to use for the build. (optional)
     # @return [Gitlab::ObjectifiedHash] The trigger.
-    def run_trigger(project, token, ref, variables={})
+    def run_trigger(project, token, ref, variables = {})
       post("/projects/#{url_encode project}/trigger/pipeline", unauthenticated: true, body: {
-        token: token,
-        ref: ref,
-        variables: variables
-      })
+             token: token,
+             ref: ref,
+             variables: variables
+           })
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to merge requests.
   # @see https://docs.gitlab.com/ce/api/merge_requests.html
@@ -25,7 +27,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def merge_requests(project, options={})
+    def merge_requests(project, options = {})
       get("/projects/#{url_encode project}/merge_requests", query: options)
     end
 
@@ -58,7 +60,7 @@ class Gitlab::Client
     # @option options [Integer] :target_project_id (optional) The target project ID.
     # @option options [String] :labels (optional) Labels as a comma-separated list.
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
-    def create_merge_request(project, title, options={})
+    def create_merge_request(project, title, options = {})
       body = { title: title }.merge(options)
       post("/projects/#{url_encode project}/merge_requests", body: body)
     end
@@ -77,7 +79,7 @@ class Gitlab::Client
     # @option options [Integer] :assignee_id The ID of a user to assign merge request.
     # @option options [String] :state_event New state (close|reopen|merge).
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
-    def update_merge_request(project, id, options={})
+    def update_merge_request(project, id, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{id}", body: options)
     end
 
@@ -91,7 +93,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :merge_commit_message Custom merge commit message
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
-    def accept_merge_request(project, id, options={})
+    def accept_merge_request(project, id, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
     end
 
@@ -205,7 +207,7 @@ class Gitlab::Client
     #     * :x (Integer) X coordinate (for 'image' diff notes)
     #     * :y (Integer) Y coordinate (for 'image' diff notes)
     # @return [Gitlab::ObjectifiedHash] The created merge request discussion.
-    def create_merge_request_discussion(project, merge_request_id, options={})
+    def create_merge_request_discussion(project, merge_request_id, options = {})
       post("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions", body: options)
     end
 

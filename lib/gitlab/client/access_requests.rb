@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to Award Emojis.
   # @see https://docs.gitlab.com/ce/api/access_requests.html
@@ -12,6 +14,7 @@ class Gitlab::Client
     def project_access_requests(project)
       get("/projects/#{url_encode project}/access_requests")
     end
+
     # Gets a list of access requests for a group viewable by the authenticated user.
     #
     # @example
@@ -22,6 +25,7 @@ class Gitlab::Client
     def group_access_requests(group)
       get("/groups/#{url_encode group}/access_requests")
     end
+
     # Requests access for the authenticated user to a project.
     #
     # @example
@@ -32,6 +36,7 @@ class Gitlab::Client
     def request_project_access(project)
       post("/projects/#{url_encode project}/access_requests")
     end
+
     # Requests access for the authenticated user to a group.
     #
     # @example
@@ -42,6 +47,7 @@ class Gitlab::Client
     def request_group_access(group)
       post("/groups/#{url_encode group}/access_requests")
     end
+
     # Approves a project access request for the given user.
     #
     # @example
@@ -55,6 +61,7 @@ class Gitlab::Client
     def approve_project_access_request(project, user_id, options = {})
       put("/projects/#{url_encode project}/access_requests/#{user_id}/approve", body: options)
     end
+
     # Approves a group access request for the given user.
     #
     # @example
@@ -68,6 +75,7 @@ class Gitlab::Client
     def approve_group_access_request(group, user_id, options = {})
       put("/groups/#{url_encode group}/access_requests/#{user_id}/approve", body: options)
     end
+
     # Denies a project access request for the given user.
     #
     # @example
@@ -79,6 +87,7 @@ class Gitlab::Client
     def deny_project_access_request(project, user_id)
       delete("/projects/#{url_encode project}/access_requests/#{user_id}")
     end
+
     # Denies a group access request for the given user.
     #
     # @example

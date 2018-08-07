@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 require 'json'
 
@@ -7,7 +9,7 @@ module Gitlab
     include HTTParty
     format :json
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
-    parser proc { |body, _| parse(body) }
+    parser(proc { |body, _| parse(body) })
 
     attr_accessor :private_token, :endpoint
 
@@ -32,13 +34,13 @@ module Gitlab
 
     # Decodes a JSON response into Ruby object.
     def self.decode(response)
-      return response ? JSON.load(response) : {}     
+      response ? JSON.load(response) : {}
     rescue JSON::ParserError
       raise Error::Parsing, 'The response is not a valid JSON'
     end
 
-    %w(get post put delete).each do |method|
-      define_method method do |path, options={}|
+    %w[get post put delete].each do |method|
+      define_method method do |path, options = {}|
         httparty_config(options)
         authorization_header(options)
         validate self.class.send(method, @endpoint + path, options)
@@ -71,7 +73,7 @@ module Gitlab
 
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
-    def request_defaults(sudo=nil)
+    def request_defaults(sudo = nil)
       self.class.default_params sudo: sudo
       raise Error::MissingCredentials, 'Please set an endpoint to API' unless @endpoint
       self.class.default_params.delete(:sudo) if sudo.nil?

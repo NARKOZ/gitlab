@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Gitlab
   # Wrapper class of file response.
   class FileResponse
-    HEADER_CONTENT_DISPOSITION = 'Content-Disposition'.freeze
+    HEADER_CONTENT_DISPOSITION = 'Content-Disposition'
 
     attr_reader :filename
 
@@ -18,7 +20,7 @@ module Gitlab
     def to_hash
       { filename: @filename, data: @file }
     end
-    alias_method :to_h, :to_hash
+    alias to_h to_hash
 
     # @return [String] Formatted string with the class name, object id and filename.
     def inspect

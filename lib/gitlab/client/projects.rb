@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to projects.
   # @see https://docs.gitlab.com/ce/api/projects.html
@@ -13,8 +15,8 @@ class Gitlab::Client
     # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ce/api/projects.html#list-all-projects Gitlab docs} for all valid options)
     #
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def projects(options={})
-      get("/projects", query: options)
+    def projects(options = {})
+      get('/projects', query: options)
     end
 
     # Search for projects by name.
@@ -30,10 +32,10 @@ class Gitlab::Client
     # @option options [String] :order_by Return requests ordered by id, name, created_at or last_activity_at fields
     # @option options [String] :sort Return requests sorted in asc or desc order
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_search(query, options={})
-      get("/projects", query: options.merge(search:query))
+    def project_search(query, options = {})
+      get('/projects', query: options.merge(search: query))
     end
-    alias_method :search_projects, :project_search
+    alias search_projects project_search
 
     # Gets information about a project.
     #
@@ -68,8 +70,8 @@ class Gitlab::Client
     # @option options [Boolean] :public The setting for making a project public (0 = false, 1 = true).
     # @option options [Integer] :user_id The user/owner id of a project.
     # @return [Gitlab::ObjectifiedHash] Information about created project.
-    def create_project(name, options={})
-      url = options[:user_id] ? "/projects/user/#{options[:user_id]}" : "/projects"
+    def create_project(name, options = {})
+      url = options[:user_id] ? "/projects/user/#{options[:user_id]}" : '/projects'
       post(url, body: { name: name }.merge(options))
     end
 
@@ -96,7 +98,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def team_members(project, options={})
+    def team_members(project, options = {})
       get("/projects/#{url_encode project}/members", query: options)
     end
 
@@ -164,7 +166,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_hooks(project, options={})
+    def project_hooks(project, options = {})
       get("/projects/#{url_encode project}/hooks", query: options)
     end
 
@@ -194,7 +196,7 @@ class Gitlab::Client
     # @param  option [Boolean] :merge_requests_events Trigger hook on merge_requests events (0 = false, 1 = true)
     # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about added hook.
-    def add_project_hook(project, url, options={})
+    def add_project_hook(project, url, options = {})
       body = { url: url }.merge(options)
       post("/projects/#{url_encode project}/hooks", body: body)
     end
@@ -213,7 +215,7 @@ class Gitlab::Client
     # @param  option [Boolean] :merge_requests_events Trigger hook on merge_requests events (0 = false, 1 = true)
     # @param  option [Boolean] :tag_push_events Trigger hook on push_tag events (0 = false, 1 = true)
     # @return [Gitlab::ObjectifiedHash] Information about updated hook.
-    def edit_project_hook(project, id, url, options={})
+    def edit_project_hook(project, id, url, options = {})
       body = { url: url }.merge(options)
       put("/projects/#{url_encode project}/hooks/#{id}", body: body)
     end
@@ -253,7 +255,7 @@ class Gitlab::Client
     # @param  option [Boolean] :deny_delete_tag Do not allow users to remove git tags with git push (0 = false, 1 = true)
     # @param  option [String] :commit_message_regex Commit message regex
     # @return [Gitlab::ObjectifiedHash] Information about added push rule.
-    def add_push_rule(id, options={})
+    def add_push_rule(id, options = {})
       post("/projects/#{url_encode id}/push_rule", body: options)
     end
 
@@ -268,7 +270,7 @@ class Gitlab::Client
     # @param  option [Boolean] :deny_delete_tag Do not allow users to remove git tags with git push (0 = false, 1 = true)
     # @param  option [String] :commit_message_regex Commit message regex
     # @return [Gitlab::ObjectifiedHash] Information about updated push rule.
-    def edit_push_rule(id, options={})
+    def edit_push_rule(id, options = {})
       put("/projects/#{url_encode id}/push_rule", body: options)
     end
 
@@ -318,7 +320,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def deploy_keys(project, options={})
+    def deploy_keys(project, options = {})
       get("/projects/#{url_encode project}/deploy_keys", query: options)
     end
 
@@ -394,7 +396,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :sudo The username the project will be forked for
     # @return [Gitlab::ObjectifiedHash] Information about the forked project.
-    def create_fork(id, options={})
+    def create_fork(id, options = {})
       post("/projects/#{url_encode id}/fork", body: options)
     end
 
@@ -412,7 +414,7 @@ class Gitlab::Client
     # @option options [String] :order_by Return requests ordered by id, name, created_at or last_activity_at fields
     # @option options [String] :sort Return requests sorted in asc or desc order
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_forks(id, options={})
+    def project_forks(id, options = {})
       get("/projects/#{url_encode id}/forks", query: options)
     end
 
@@ -431,7 +433,7 @@ class Gitlab::Client
     # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ce/api/projects.html#edit-project Gitlab docs} for all valid options)
     #
     # @return [Gitlab::ObjectifiedHash] Information about the edited project.
-    def edit_project(id, options={})
+    def edit_project(id, options = {})
       put("/projects/#{url_encode id}", body: options)
     end
 
@@ -500,7 +502,7 @@ class Gitlab::Client
     # @option options [String] :order_by Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
     # @option options [String] :sort Return projects sorted in asc or desc order.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def user_projects(user_id, options={})
+    def user_projects(user_id, options = {})
       get("/users/#{url_encode user_id}/projects", query: options)
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gitlab
   module Error
     # Custom error class for rescuing from all Gitlab errors.
@@ -11,7 +13,7 @@ module Gitlab
 
     # Custom error class for rescuing from HTTP response errors.
     class ResponseError < Error
-      POSSIBLE_MESSAGE_KEYS = %i(message error_description error)
+      POSSIBLE_MESSAGE_KEYS = %i[message error_description error].freeze
 
       def initialize(response)
         @response = response

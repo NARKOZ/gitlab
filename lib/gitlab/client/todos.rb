@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to todos
-  # @see https://docs.gitlab.com/ce/api/todos.html 
+  # @see https://docs.gitlab.com/ce/api/todos.html
   module Todos
     # Gets a list of todos.
     #
@@ -16,8 +18,8 @@ class Gitlab::Client
     # @option options [Integer] :state The state of the todo. Can be either `pending` or `done`
     # @option options [Integer] :type The type of a todo. Can be either `Issue` or `MergeRequest`
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def todos(options={})
-      get("/todos", query: options)
+    def todos(options = {})
+      get('/todos', query: options)
     end
 
     # Marks a single pending todo for the current user as done.
@@ -38,7 +40,7 @@ class Gitlab::Client
     #
     # @return [void] This API call returns an empty response body.
     def mark_all_todos_as_done
-      post("/todos/mark_as_done")
+      post('/todos/mark_as_done')
     end
   end
 end

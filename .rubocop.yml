@@ -1,14 +1,6 @@
-Layout/SpaceAroundEqualsInParameterDefault:
-  Enabled: false
-
-Style/Alias:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  Enabled: false
-
-Layout/DotPosition:
-  Enabled: false
+---
+AllCops:
+  TargetRubyVersion: 2.3
 
 Metrics/LineLength:
   Max: 100
@@ -16,18 +8,18 @@ Metrics/LineLength:
     - 'lib/gitlab/client/*'
     - 'spec/**/*'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
 Style/ClassAndModuleChildren:
   Exclude:
     - 'lib/gitlab/client/*'
 
-Layout/SpaceInsideHashLiteralBraces:
+Style/FrozenStringLiteralComment:
   Exclude:
-    - 'lib/gitlab/client/*'
-
-Style/StringLiterals:
-  Exclude:
-    - 'spec/**/*'
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
+    - 'spec/gitlab/file_response_spec.rb'
+    - 'spec/gitlab/help_spec.rb'

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Gitlab::Shell
   class History
     DEFAULT_HISTFILESIZE = 200
     DEFAULT_FILE_PATH = File.join(Dir.home, '.gitlab_shell_history')
 
-    def initialize(options={})
+    def initialize(options = {})
       @file_path = options[:file_path] || DEFAULT_FILE_PATH
       Readline::HISTORY.clear
     end
@@ -13,13 +15,13 @@ class Gitlab::Shell
     end
 
     def save
-      lines.each { |line| history_file.puts line if history_file }
+      lines.each { |line| history_file&.puts line }
     end
 
     def push(line)
       Readline::HISTORY << line
     end
-    alias_method :<<, :push
+    alias << push
 
     def lines
       Readline::HISTORY.to_a.last(max_lines)
@@ -31,7 +33,7 @@ class Gitlab::Shell
       if defined?(@history_file)
         @history_file
       else
-        @history_file = File.open(history_file_path, 'w', 0600).tap do |file|
+        @history_file = File.open(history_file_path, 'w', 0o600).tap do |file|
           file.sync = true
         end
       end
@@ -48,7 +50,7 @@ class Gitlab::Shell
       path = history_file_path
 
       File.foreach(path) { |line| yield(line) } if File.exist?(path)
-    rescue => error
+    rescue StandardError => error
       warn "History file not loaded: #{error.message}"
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'base64'
 
 class Gitlab::Client
@@ -14,14 +16,14 @@ class Gitlab::Client
     # @param  [String] filepath The relative path of the file in the repository
     # @param  [String] ref The name of a repository branch or tag or if not given the default branch.
     # @return [String]
-    def file_contents(project, filepath, ref='master')
+    def file_contents(project, filepath, ref = 'master')
       get "/projects/#{url_encode project}/repository/files/#{url_encode filepath}/raw",
-          query: { ref: ref},
+          query: { ref: ref },
           format: nil,
           headers: { Accept: 'text/plain' },
           parser: ::Gitlab::Request::Parser
     end
-    alias_method :repo_file_contents, :file_contents
+    alias repo_file_contents file_contents
 
     # Gets a repository file.
     #

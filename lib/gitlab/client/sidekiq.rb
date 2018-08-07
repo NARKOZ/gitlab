@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to sidekiq metrics.
   # @see https://docs.gitlab.com/ce/api/sidekiq_metrics.html

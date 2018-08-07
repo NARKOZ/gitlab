@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to system hooks.
   # @see https://docs.gitlab.com/ce/api/system_hooks.html
@@ -12,10 +14,10 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def hooks(options={})
-      get("/hooks", query: options)
+    def hooks(options = {})
+      get('/hooks', query: options)
     end
-    alias_method :system_hooks, :hooks
+    alias system_hooks hooks
 
     # Adds a new system hook.
     #
@@ -29,9 +31,9 @@ class Gitlab::Client
     # @option options [boolean] :enable_ssl_verification `false` will cause Gitlab to ignore invalid/unsigned certificate errors (default is `true`)
     # @return [Gitlab::ObjectifiedHash]
     def add_hook(url, options = {})
-      post("/hooks", body: options.merge(url: url))
+      post('/hooks', body: options.merge(url: url))
     end
-    alias_method :add_system_hook, :add_hook
+    alias add_system_hook add_hook
 
     # Tests a system hook.
     #
@@ -44,7 +46,7 @@ class Gitlab::Client
     def hook(id)
       get("/hooks/#{id}")
     end
-    alias_method :system_hook, :hook
+    alias system_hook hook
 
     # Deletes a new system hook.
     #
@@ -57,6 +59,6 @@ class Gitlab::Client
     def delete_hook(id)
       delete("/hooks/#{id}")
     end
-    alias_method :delete_system_hook, :delete_hook
+    alias delete_system_hook delete_hook
   end
 end

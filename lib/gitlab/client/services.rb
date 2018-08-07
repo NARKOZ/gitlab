@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Third party services connected to a project.
   # @see https://docs.gitlab.com/ce/api/services.html
@@ -43,8 +45,9 @@ class Gitlab::Client
     end
 
     private
+
     def correct_service_name(service)
-      service.to_s.gsub('_', '-')
+      service.to_s.tr('_', '-')
     end
   end
 end
