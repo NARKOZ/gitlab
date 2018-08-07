@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'gitlab/version'
 require 'gitlab/objectified_hash'
 require 'gitlab/configuration'
@@ -15,7 +17,7 @@ module Gitlab
   # Alias for Gitlab::Client.new
   #
   # @return [Gitlab::Client]
-  def self.client(options={})
+  def self.client(options = {})
     Gitlab::Client.new(options)
   end
 
@@ -26,12 +28,12 @@ module Gitlab
   end
 
   # Delegate to Gitlab::Client
-  def self.respond_to_missing?(method_name, include_private=false)
+  def self.respond_to_missing?(method_name, include_private = false)
     client.respond_to?(method_name) || super
   end
 
   # Delegate to HTTParty.http_proxy
-  def self.http_proxy(address=nil, port=nil, username=nil, password=nil)
+  def self.http_proxy(address = nil, port = nil, username = nil, password = nil)
     Gitlab::Request.http_proxy(address, port, username, password)
   end
 

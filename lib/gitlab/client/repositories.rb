@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to repositories.
   # @see https://docs.gitlab.com/ce/api/repositories.html
@@ -13,10 +15,10 @@ class Gitlab::Client
     # @option options [String] :path The path inside repository.
     # @option options [String] :ref_name The name of a repository branch or tag.
     # @return [Gitlab::ObjectifiedHash]
-    def tree(project, options={})
+    def tree(project, options = {})
       get("/projects/#{url_encode project}/repository/tree", query: options)
     end
-    alias_method :repo_tree, :tree
+    alias repo_tree tree
 
     # Get project repository archive
     #
@@ -54,6 +56,6 @@ class Gitlab::Client
     def compare(project, from, to)
       get("/projects/#{url_encode project}/repository/compare", query: { from: from, to: to })
     end
-    alias_method :repo_compare, :compare
+    alias repo_compare compare
   end
 end

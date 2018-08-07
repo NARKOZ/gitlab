@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to pipelines.
   # @see https://docs.gitlab.com/ce/api/pipelines.html
@@ -13,7 +15,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def pipelines(project, options={})
+    def pipelines(project, options = {})
       get("/projects/#{url_encode project}/pipelines", query: options)
     end
 

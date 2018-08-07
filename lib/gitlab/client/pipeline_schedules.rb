@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to pipeline schedules.
   # @see https://docs.gitlab.com/ce/api/pipeline_schedules.html
@@ -12,7 +14,7 @@ class Gitlab::Client
     # @param   [Hash] options A customizable set of options.
     # @options options [String] :scope The scope of pipeline schedules, one of a 'active' or 'inactive'.
     # @return  [Array<Gitlab::ObjectifiedHash>]
-    def pipeline_schedules(project, options={})
+    def pipeline_schedules(project, options = {})
       get("/projects/#{url_encode project}/pipeline_schedules", query: options)
     end
 
@@ -41,7 +43,7 @@ class Gitlab::Client
     # @option options [String] :cron_timezone The timezone supproted by ActiveSupport::TimeZone (e.g. Pacific Time (US & Canada)) (default: 'UTC').
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def create_pipeline_schedule(project, options={})
+    def create_pipeline_schedule(project, options = {})
       post("/projects/#{url_encode project}/pipeline_schedules", query: options)
     end
 
@@ -59,7 +61,7 @@ class Gitlab::Client
     # @option options [String] :cron_timezone The timezone supproted by ActiveSupport::TimeZone (e.g. Pacific Time (US & Canada)) (default: 'UTC').
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
     # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule.
-    def edit_pipeline_schedule(project, pipeline_schedule_id, options={})
+    def edit_pipeline_schedule(project, pipeline_schedule_id, options = {})
       put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}", query: options)
     end
 
@@ -98,7 +100,7 @@ class Gitlab::Client
     # @option options [String] :key The key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed.
     # @option options [String] :value The value of a variable
     # @return [Array<Gitlab::ObjectifiedHash>] The created pipeline schedule variable.
-    def create_pipeline_schedule_variable(project, pipeline_schedule_id, options={})
+    def create_pipeline_schedule_variable(project, pipeline_schedule_id, options = {})
       post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables", query: options)
     end
 
@@ -113,7 +115,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :value The value of a variable.
     # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule variable.
-    def edit_pipeline_schedule_variable(project, pipeline_schedule_id, key, options={})
+    def edit_pipeline_schedule_variable(project, pipeline_schedule_id, key, options = {})
       put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}", query: options)
     end
 
@@ -126,7 +128,7 @@ class Gitlab::Client
     # @param  [Integer] The pipeline schedule ID.
     # @param  [String] The key of a variable.
     # @return [Array<Gitlab::ObjectifiedHash>] The deleted pipeline schedule variable.
-    def delete_pipeline_schedule_variable(project, pipeline_schedule_id, key, options={})
+    def delete_pipeline_schedule_variable(project, pipeline_schedule_id, key, _options = {})
       delete("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}")
     end
   end

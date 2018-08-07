@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'gitlab'
 require 'gitlab/help'
 require 'gitlab/cli_helpers'
@@ -15,7 +17,7 @@ class Gitlab::Shell
       trap('INT') { quit_shell } # capture ctrl-c
       setup
 
-      while buffer = Readline.readline('gitlab> ')
+      while (buffer = Readline.readline('gitlab> '))
         begin
           parse_input buffer
 
@@ -34,7 +36,7 @@ class Gitlab::Shell
             data = execute command, arguments
             output_table command, arguments, data
           end
-        rescue => e
+        rescue StandardError => e
           puts e.message
         end
       end
@@ -46,7 +48,7 @@ class Gitlab::Shell
       buf = Shellwords.shellwords(buffer)
 
       @command = buf.shift
-      @arguments = buf.count > 0 ? buf : []
+      @arguments = buf.count.positive? ? buf : []
     end
 
     def setup
@@ -62,7 +64,7 @@ class Gitlab::Shell
     end
 
     # Execute a given command with arguements
-    def execute(cmd=command, args=arguments)
+    def execute(cmd = command, args = arguments)
       raise "Unknown command: #{cmd}. See the 'help' for a list of valid commands." unless actions.include?(cmd.to_sym)
 
       confirm_command(cmd)

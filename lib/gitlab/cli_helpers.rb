@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'json'
 require 'base64'
@@ -5,7 +7,7 @@ require 'base64'
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
   module Helpers
-    extend self
+    module_function
 
     # Returns actions available to CLI & Shell
     #
@@ -71,7 +73,7 @@ class Gitlab::CLI
 
       puts 'Are you sure? (y/n)'
 
-      if %w(y yes).include?($stdin.gets.to_s.strip.downcase)
+      if %w[y yes].include?($stdin.gets.to_s.strip.downcase)
         puts 'Proceeding..'
       else
         puts 'Command aborted.'
@@ -82,7 +84,7 @@ class Gitlab::CLI
     # Gets defined help for a specific command/action.
     #
     # @return [String]
-    def help(cmd=nil, &block)
+    def help(cmd = nil, &block)
       if cmd.nil? || Gitlab::Help.help_map.key?(cmd)
         Gitlab::Help.actions_table(cmd)
       else
@@ -159,7 +161,7 @@ class Gitlab::CLI
     # @param  [Array]  args         Options passed to the API call
     # @param  [bool]   single_value If set to true, a single result should be returned
     # @return [Hash]   Result hash
-    def record_hash(data, cmd, args, single_value=false)
+    def record_hash(data, cmd, args, single_value = false)
       if data.empty?
         result = nil
       else
@@ -169,21 +171,21 @@ class Gitlab::CLI
           row = {}
 
           keys.each do |key|
-            case hash[key]
-            when Hash
-              row[key] = 'Hash'
-            when StringIO
-              row[key] = Base64.encode64(hash[key].read)
-            when nil
-              row[key] = nil
-            else
-              row[key] = hash[key]
-            end
+            row[key] = case hash[key]
+                       when Hash
+                         'Hash'
+                       when StringIO
+                         Base64.encode64(hash[key].read)
+                       when nil
+                         nil
+                       else
+                         hash[key]
+                       end
           end
 
           result.push row
         end
-        result = result[0] if single_value && result.count > 0
+        result = result[0] if single_value && result.count.positive?
       end
 
       {
@@ -202,10 +204,10 @@ class Gitlab::CLI
     end
 
     # Helper function to call Gitlab commands with args.
-    def gitlab_helper(cmd, args=[])
+    def gitlab_helper(cmd, args = [])
       begin
         data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
-      rescue => e
+      rescue StandardError => e
         puts e.message
         yield if block_given?
       end

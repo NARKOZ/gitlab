@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to Award Emojis.
   # @see https://docs.gitlab.com/ce/api/award_emoji.html
@@ -79,7 +81,7 @@ class Gitlab::Client
     # @param [String] emoji_name The name of the emoji, without colons.
     # @return [Gitlab::ObjectifiedHash]
     def create_award_emoji(project, awardable_id, awardable_type, emoji_name)
-      post("/projects/#{url_encode project}/#{awardable_type}s/#{awardable_id}/award_emoji", body: {name: emoji_name})
+      post("/projects/#{url_encode project}/#{awardable_type}s/#{awardable_id}/award_emoji", body: { name: emoji_name })
     end
 
     # Awards a new emoji to a note on an awardable(issue, merge request or snippet)
@@ -96,7 +98,7 @@ class Gitlab::Client
     # @param [String] emoji_name The name of the emoji, without colons.
     # @return [Gitlab::ObjectifiedHash]
     def create_note_award_emoji(project, awardable_id, awardable_type, note_id, emoji_name)
-      post("/projects/#{url_encode project}/#{awardable_type}s/#{awardable_id}/notes/#{note_id}/award_emoji", body: {name: emoji_name})
+      post("/projects/#{url_encode project}/#{awardable_type}s/#{awardable_id}/notes/#{note_id}/award_emoji", body: { name: emoji_name })
     end
 
     # Deletes a single award emoji from an awardable(issue, merge request or snippet)

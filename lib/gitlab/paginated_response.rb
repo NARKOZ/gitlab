@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gitlab
   # Wrapper class of paginated response.
   class PaginatedResponse
@@ -54,9 +56,10 @@ module Gitlab
       response
     end
 
-    def has_last_page?
+    def last_page?
       !(@links.nil? || @links.last.nil?)
     end
+    alias has_last_page? last_page?
 
     def last_page
       return nil if @client.nil? || !has_last_page?
@@ -64,9 +67,10 @@ module Gitlab
       @client.get(path)
     end
 
-    def has_first_page?
+    def first_page?
       !(@links.nil? || @links.first.nil?)
     end
+    alias has_first_page? first_page?
 
     def first_page
       return nil if @client.nil? || !has_first_page?
@@ -74,9 +78,10 @@ module Gitlab
       @client.get(path)
     end
 
-    def has_next_page?
+    def next_page?
       !(@links.nil? || @links.next.nil?)
     end
+    alias has_next_page? next_page?
 
     def next_page
       return nil if @client.nil? || !has_next_page?
@@ -84,9 +89,10 @@ module Gitlab
       @client.get(path)
     end
 
-    def has_prev_page?
+    def prev_page?
       !(@links.nil? || @links.prev.nil?)
     end
+    alias has_prev_page? prev_page?
 
     def prev_page
       return nil if @client.nil? || !has_prev_page?

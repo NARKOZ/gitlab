@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to group milestones.
   # @see https://docs.gitlab.com/ee/api/group_milestones.html
@@ -12,7 +14,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_milestones(id, options={})
+    def group_milestones(id, options = {})
       get("/groups/#{url_encode id}/milestones", query: options)
     end
 
@@ -39,7 +41,7 @@ class Gitlab::Client
     # @option options [String] :description The description of a milestone.
     # @option options [String] :due_date The due date of a milestone.
     # @return [Gitlab::ObjectifiedHash] Information about created milestone.
-    def create_group_milestone(id, title, options={})
+    def create_group_milestone(id, title, options = {})
       body = { title: title }.merge(options)
       post("/groups/#{url_encode id}/milestones", body: body)
     end
@@ -57,7 +59,7 @@ class Gitlab::Client
     # @option options [String] :due_date The due date of a milestone.
     # @option options [String] :state_event The state of a milestone ('close' or 'activate').
     # @return [Gitlab::ObjectifiedHash] Information about updated milestone.
-    def edit_group_milestone(id, milestone_id, options={})
+    def edit_group_milestone(id, milestone_id, options = {})
       put("/groups/#{url_encode id}/milestones/#{milestone_id}", body: options)
     end
 
@@ -71,7 +73,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_milestone_issues(id, milestone_id, options={})
+    def group_milestone_issues(id, milestone_id, options = {})
       get("/groups/#{url_encode id}/milestones/#{milestone_id}/issues", query: options)
     end
 
@@ -85,9 +87,8 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_milestone_merge_requests(id, milestone_id, options={})
+    def group_milestone_merge_requests(id, milestone_id, options = {})
       get("/groups/#{url_encode id}/milestones/#{milestone_id}/merge_requests", query: options)
     end
   end
 end
-

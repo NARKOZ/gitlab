@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to labels.
   # @see https://docs.gitlab.com/ce/api/labels.html
@@ -9,7 +11,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def labels(project, options={})
+    def labels(project, options = {})
       get("/projects/#{url_encode project}/labels", query: options)
     end
 
@@ -43,7 +45,7 @@ class Gitlab::Client
     # @option options [String] :description The description of the label.
     # @option options [String] :priority The priority of the label. Must be greater or equal than zero or null to remove the priority.
     # @return [Gitlab::ObjectifiedHash] Information about updated label.
-    def edit_label(project, name, options={})
+    def edit_label(project, name, options = {})
       put("/projects/#{url_encode project}/labels", body: options.merge(name: name))
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to issue boards.
   # @see https://docs.gitlab.com/ce/api/boards.html
@@ -13,7 +15,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def boards(project, options={})
+    def boards(project, options = {})
       get("/projects/#{url_encode project}/boards", query: options)
     end
 
@@ -28,6 +30,7 @@ class Gitlab::Client
     def board_lists(project, id)
       get("/projects/#{url_encode project}/boards/#{id}/lists")
     end
+
     #
     # Gets a single board list
     #
@@ -53,7 +56,7 @@ class Gitlab::Client
     # @param  [Integer] label_id The ID of a label.
     # @return [Gitlab::ObjectifiedHash] Information about created list.
     def create_board_list(project, board_id, label_id)
-      post("/projects/#{url_encode project}/boards/#{board_id}/lists", body: {label_id: label_id})
+      post("/projects/#{url_encode project}/boards/#{board_id}/lists", body: { label_id: label_id })
     end
 
     # Updates a board list.
@@ -67,7 +70,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of a list.
     # @return [Gitlab::ObjectifiedHash] Information about updated board list.
     def edit_board_list(project, board_id, id, position)
-      put("/projects/#{url_encode project}/boards/#{board_id}/lists/#{id}", body: {position: position})
+      put("/projects/#{url_encode project}/boards/#{board_id}/lists/#{id}", body: { position: position })
     end
 
     # Deletes  a board list.
@@ -85,4 +88,3 @@ class Gitlab::Client
     end
   end
 end
-

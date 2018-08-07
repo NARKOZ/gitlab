@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gitlab::PageLinks do
   before do
-    @page_links = Gitlab::PageLinks.new('Link' => "<http://example.com/api/v3/projects?page=1&per_page=5>; rel=\"first\", <http://example.com/api/v3/projects?page=20&per_page=5>; rel=\"last\", <http://example.com/api/v3/projects?page=7&per_page=5>; rel=\"prev\", <http://example.com/api/v3/projects?page=9&per_page=5>; rel=\"next\"")
+    @page_links = described_class.new('Link' => '<http://example.com/api/v3/projects?page=1&per_page=5>; rel="first", <http://example.com/api/v3/projects?page=20&per_page=5>; rel="last", <http://example.com/api/v3/projects?page=7&per_page=5>; rel="prev", <http://example.com/api/v3/projects?page=9&per_page=5>; rel="next"')
   end
 
   context '.extract_links' do

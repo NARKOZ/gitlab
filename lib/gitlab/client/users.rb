@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to users.
   # @see https://docs.gitlab.com/ce/api/users.html
@@ -12,8 +14,8 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def users(options={})
-      get("/users", query: options)
+    def users(options = {})
+      get('/users', query: options)
     end
 
     # Gets information about a user.
@@ -25,8 +27,8 @@ class Gitlab::Client
     #
     # @param  [Integer] id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
-    def user(id=nil)
-      id.to_i.zero? ? get("/user") : get("/users/#{id}")
+    def user(id = nil)
+      id.to_i.zero? ? get('/user') : get("/users/#{id}")
     end
 
     # Creates a new user.
@@ -48,7 +50,7 @@ class Gitlab::Client
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def create_user(*args)
-      options = Hash === args.last ? args.pop : {}
+      options = args.last.is_a?(Hash) ? args.pop : {}
       body = if args[2]
                { email: args[0], password: args[1], username: args[2] }
              else
@@ -73,7 +75,7 @@ class Gitlab::Client
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
-    def edit_user(user_id, options={})
+    def edit_user(user_id, options = {})
       put("/users/#{user_id}", body: options)
     end
 
@@ -120,7 +122,7 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     # @note This method doesn't require private_token to be set.
     def session(email, password)
-      post("/session", body: { email: email, password: password }, unauthenticated: true)
+      post('/session', body: { email: email, password: password }, unauthenticated: true)
     end
 
     # Gets a list of user's SSH keys.
@@ -134,10 +136,10 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @option options [Integer] :user_id The ID of the user to retrieve the keys for.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def ssh_keys(options={})
+    def ssh_keys(options = {})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
-        get("/user/keys", query: options)
+        get('/user/keys', query: options)
       else
         get("/users/#{user_id}/keys", query: options)
       end
@@ -163,7 +165,7 @@ class Gitlab::Client
     # @param  [String] key The SSH key body.
     # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
     def create_ssh_key(title, key)
-      post("/user/keys", body: { title: title, key: key })
+      post('/user/keys', body: { title: title, key: key })
     end
 
     # Deletes an SSH key.
@@ -186,8 +188,8 @@ class Gitlab::Client
     #
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
-    def emails(user_id=nil)
-      url = user_id.to_i.zero? ? "/user/emails" : "/users/#{user_id}/emails"
+    def emails(user_id = nil)
+      url = user_id.to_i.zero? ? '/user/emails' : "/users/#{user_id}/emails"
       get(url)
     end
 
@@ -212,9 +214,9 @@ class Gitlab::Client
     # @param  [String] email Email address
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
-    def add_email(email, user_id=nil)
-      url = user_id.to_i.zero? ? "/user/emails" : "/users/#{user_id}/emails"
-      post(url, body: {email: email})
+    def add_email(email, user_id = nil)
+      url = user_id.to_i.zero? ? '/user/emails' : "/users/#{user_id}/emails"
+      post(url, body: { email: email })
     end
 
     # Delete email
@@ -227,7 +229,7 @@ class Gitlab::Client
     # @param  [Integer] id Email address ID
     # @param  [Integer] user_id The ID of a user.
     # @return [Boolean]
-    def delete_email(id, user_id=nil)
+    def delete_email(id, user_id = nil)
       url = user_id.to_i.zero? ? "/user/emails/#{id}" : "/users/#{user_id}/emails/#{id}"
       delete(url)
     end
@@ -242,9 +244,9 @@ class Gitlab::Client
     # @option options [String] :per_page Number of user to return per page
     # @option options [String] :page The page to retrieve
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def user_search(search, options={})
+    def user_search(search, options = {})
       options[:search] = search
-      get("/users", query: options)
+      get('/users', query: options)
     end
   end
 end

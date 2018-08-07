@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'gitlab'
 require 'terminal-table/import'
 require_relative 'cli_helpers'
@@ -17,7 +19,11 @@ class Gitlab::CLI
   #
   # @param [Array] args The command and it's optional arguments.
   def self.start(args)
-    command = args.shift.strip rescue 'help'
+    command = begin
+                args.shift.strip
+              rescue StandardError
+                'help'
+              end
     run(command, args)
   end
 
@@ -30,13 +36,13 @@ class Gitlab::CLI
   # @param [String] cmd The name of a command.
   # @param [Array] args The optional arguments for a command.
   # @return [nil]
-  def self.run(cmd, args=[])
+  def self.run(cmd, args = [])
     case cmd
     when 'help'
       puts help(args.shift) { |out| out.gsub!(/Gitlab\./, 'gitlab ') }
     when 'info'
-      endpoint = Gitlab.endpoint ? Gitlab.endpoint : 'not set'
-      private_token = Gitlab.private_token ? Gitlab.private_token : 'not set'
+      endpoint = Gitlab.endpoint || 'not set'
+      private_token = Gitlab.private_token || 'not set'
       puts "Gitlab endpoint is #{endpoint}"
       puts "Gitlab private token is #{private_token}"
       puts "Ruby Version is #{RUBY_VERSION}"
@@ -60,7 +66,7 @@ class Gitlab::CLI
 
       begin
         command_args.map! { |arg| symbolize_keys(yaml_load(arg)) }
-      rescue => e
+      rescue StandardError => e
         puts e.message
         exit 1
       end

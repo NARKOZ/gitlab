@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to milestones.
   # @see https://docs.gitlab.com/ce/api/milestones.html
@@ -12,7 +14,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def milestones(project, options={})
+    def milestones(project, options = {})
       get("/projects/#{url_encode project}/milestones", query: options)
     end
 
@@ -38,7 +40,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def milestone_issues(project, milestone, options={})
+    def milestone_issues(project, milestone, options = {})
       get("/projects/#{url_encode project}/milestones/#{milestone}/issues", query: options)
     end
 
@@ -52,7 +54,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def milestone_merge_requests(project, milestone, options={})
+    def milestone_merge_requests(project, milestone, options = {})
       get("/projects/#{url_encode project}/milestones/#{milestone}/merge_requests", query: options)
     end
 
@@ -67,7 +69,7 @@ class Gitlab::Client
     # @option options [String] :description The description of a milestone.
     # @option options [String] :due_date The due date of a milestone.
     # @return [Gitlab::ObjectifiedHash] Information about created milestone.
-    def create_milestone(project, title, options={})
+    def create_milestone(project, title, options = {})
       body = { title: title }.merge(options)
       post("/projects/#{url_encode project}/milestones", body: body)
     end
@@ -85,7 +87,7 @@ class Gitlab::Client
     # @option options [String] :due_date The due date of a milestone.
     # @option options [String] :state_event The state of a milestone ('close' or 'activate').
     # @return [Gitlab::ObjectifiedHash] Information about updated milestone.
-    def edit_milestone(project, id, options={})
+    def edit_milestone(project, id, options = {})
       put("/projects/#{url_encode project}/milestones/#{id}", body: options)
     end
   end

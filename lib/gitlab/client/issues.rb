@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to issues.
   # @see https://docs.gitlab.com/ce/api/issues.html
@@ -15,9 +17,9 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def issues(project=nil, options={})
+    def issues(project = nil, options = {})
       if project.to_s.empty? && project.to_i.zero?
-        get("/issues", query: options)
+        get('/issues', query: options)
       else
         get("/projects/#{url_encode project}/issues", query: options)
       end
@@ -49,7 +51,7 @@ class Gitlab::Client
     # @option options [Integer] :milestone_id The ID of a milestone to assign issue.
     # @option options [String] :labels Comma-separated label names for an issue.
     # @return [Gitlab::ObjectifiedHash] Information about created issue.
-    def create_issue(project, title, options={})
+    def create_issue(project, title, options = {})
       body = { title: title }.merge(options)
       post("/projects/#{url_encode project}/issues", body: body)
     end
@@ -69,7 +71,7 @@ class Gitlab::Client
     # @option options [String] :labels Comma-separated label names for an issue.
     # @option options [String] :state_event The state event of an issue ('close' or 'reopen').
     # @return [Gitlab::ObjectifiedHash] Information about updated issue.
-    def edit_issue(project, id, options={})
+    def edit_issue(project, id, options = {})
       put("/projects/#{url_encode project}/issues/#{id}", body: options)
     end
 
@@ -143,10 +145,10 @@ class Gitlab::Client
     # @param  [Integer] id The ID of an issue.
     # @option options [String] :to_project_id The ID of the new project.
     # @return [Gitlab::ObjectifiedHash] Information about moved issue.
-    def move_issue(project, id, options={})
+    def move_issue(project, id, options = {})
       post("/projects/#{url_encode project}/issues/#{id}/move", body: options)
     end
-    
+
     # Sets an estimated time of work for an issue.
     #
     # @example
@@ -158,8 +160,8 @@ class Gitlab::Client
     def estimate_time_of_issue(project, id, duration)
       post("/projects/#{url_encode project}/issues/#{id}/time_estimate", body: { duration: url_encode(duration) })
     end
-    
-    # Resets the estimated time for an issue to 0 seconds.  
+
+    # Resets the estimated time for an issue to 0 seconds.
     #
     # @example
     #   Gitlab.reset_time_estimate_of_issue(3, 42)
@@ -169,7 +171,7 @@ class Gitlab::Client
     def reset_time_estimate_of_issue(project, id)
       post("/projects/#{url_encode project}/issues/#{id}/reset_time_estimate")
     end
-    
+
     # Adds spent time for an issue
     #
     # @example
@@ -181,7 +183,7 @@ class Gitlab::Client
     def add_time_spent_on_issue(project, id, duration)
       post("/projects/#{url_encode project}/issues/#{id}/add_spent_time", body: { duration: url_encode(duration) })
     end
-    
+
     # Resets the total spent time for this issue to 0 seconds.
     #
     # @example
@@ -192,7 +194,7 @@ class Gitlab::Client
     def reset_time_spent_on_issue(project, id)
       post("/projects/#{url_encode project}/issues/#{id}/reset_spent_time")
     end
-    
+
     # Get time tracking stats for an issue
     #
     # @example
@@ -203,6 +205,5 @@ class Gitlab::Client
     def time_stats_for_issue(project, id)
       get("/projects/#{url_encode project}/issues/#{id}/time_stats")
     end
-    
   end
 end

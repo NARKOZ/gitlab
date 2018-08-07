@@ -1,13 +1,12 @@
+---
 language: ruby
 rvm:
   - 2.3
   - 2.4
   - 2.5
-before_install: gem update bundler
 
-matrix:
+jobs:
   include:
-    - rvm: 2.4
-      env: "TRAVIS_CI_RUBOCOP=true"
-  allow_failures:
-    - env: "TRAVIS_CI_RUBOCOP=true"
+    - stage: lint
+      rvm: 2.3
+      script: bundle exec rake rubocop

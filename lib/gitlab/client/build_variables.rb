@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to builds.
   # @see https://docs.gitlab.com/ce/api/build_variables.html

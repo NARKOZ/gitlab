@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to builds.
   # @see https://docs.gitlab.com/ce/api/builds.html
@@ -14,7 +16,7 @@ class Gitlab::Client
     # @option options [Integer] :per_page The number of results per page.
     # @param  [Integer, String] project The ID or name of a project.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def builds(project, options={})
+    def builds(project, options = {})
       get("/projects/#{url_encode project}/builds", query: options)
     end
 
@@ -40,15 +42,15 @@ class Gitlab::Client
     # @return [Gitlab::FileResponse]
     def build_artifacts(project, id)
       get("/projects/#{url_encode project}/builds/#{id}/artifacts",
-           format: nil,
-           headers: { Accept: 'application/octet-stream' },
-           parser: proc { |body, _|
-            if body.encoding == Encoding::ASCII_8BIT # binary response
-              ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
-            else # error with json response
-              ::Gitlab::Request.parse(body)
-            end
-          })
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          parser: proc { |body, _|
+                    if body.encoding == Encoding::ASCII_8BIT # binary response
+                      ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+                    else # error with json response
+                      ::Gitlab::Request.parse(body)
+                    end
+                  })
     end
 
     # Gets a list of builds for specific commit in a project.
@@ -63,7 +65,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>] The list of builds.
-    def commit_builds(project, sha, options={})
+    def commit_builds(project, sha, options = {})
       get("/projects/#{url_encode project}/repository/commits/#{sha}/builds", query: options)
     end
 

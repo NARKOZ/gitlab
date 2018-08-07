@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Gitlab
   # Wrapper for the Gitlab REST API.
   class Client < API
-    Dir[File.expand_path('../client/*.rb', __FILE__)].each { |f| require f }
+    Dir[File.expand_path('client/*.rb', __dir__)].each { |f| require f }
 
     # Please keep in alphabetical order
     include AccessRequests
@@ -45,16 +47,12 @@ module Gitlab
     # @return [String]
     def inspect
       inspected = super
-
-      if @private_token
-        inspected = inspected.sub! @private_token, only_show_last_four_chars(@private_token)
-      end
-
+      inspected.sub! @private_token, only_show_last_four_chars(@private_token) if @private_token
       inspected
     end
 
-    def url_encode(s)
-      URI.encode(s.to_s, /\W/)
+    def url_encode(url)
+      URI.encode(url.to_s, /\W/)
     end
 
     private

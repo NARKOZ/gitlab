@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to runners.
   # @see https://docs.gitlab.com/ce/api/runners.html
   module Runners
-
     # Get a list of specific runners available to the user.
     # @see https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
     #
@@ -15,7 +16,7 @@ class Gitlab::Client
     # @option options [String] :scope The scope of specific runners to show, one of: active, paused, online; showing all runners if none provided
     # @return [Array<Gitlab::ObjectifiedHash>]
     def runners(options = {})
-      get("/runners", query: options)
+      get('/runners', query: options)
     end
 
     # Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
@@ -28,7 +29,7 @@ class Gitlab::Client
     # @option options [String] :scope The scope of runners to show, one of: specific, shared, active, paused, online; showing all runners if none provided
     # @return [Array<Gitlab::ObjectifiedHash>]
     def all_runners(options = {})
-      get("/runners/all", query: options)
+      get('/runners/all', query: options)
     end
 
     # Get details of a runner..
@@ -56,7 +57,7 @@ class Gitlab::Client
     # @option options [String] :active The state of a runner; can be set to true or false.
     # @option options [String] :tag_list The list of tags for a runner; put array of tags, that should be finally assigned to a runner
     # @return <Gitlab::ObjectifiedHash>
-    def update_runner(id, options={})
+    def update_runner(id, options = {})
       put("/runners/#{id}", query: options)
     end
 
@@ -121,6 +122,5 @@ class Gitlab::Client
     def project_disable_runner(id, runner_id)
       delete("/projects/#{url_encode id}/runners/#{runner_id}")
     end
-
   end
 end

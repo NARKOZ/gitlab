@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to events.
   # @see https://docs.gitlab.com/ce/api/events.html
@@ -15,7 +17,7 @@ class Gitlab::Client
     # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def events(options={})
+    def events(options = {})
       get('/events', query: options)
     end
 
@@ -33,7 +35,7 @@ class Gitlab::Client
     # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def user_events(user, options={})
+    def user_events(user, options = {})
       get("/users/#{url_encode user}/events", query: options)
     end
 
@@ -51,7 +53,7 @@ class Gitlab::Client
     # @option options [String] :after Only events created after YYYY-MM-DD
     # @option options [String] :sort Sort by created_at either 'asc' or 'desc'
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_events(project, options={})
+    def project_events(project, options = {})
       get("/#{url_encode project}/events", query: options)
     end
   end

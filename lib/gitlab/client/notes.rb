@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to notes.
   # @see https://docs.gitlab.com/ce/api/notes.html
@@ -11,7 +13,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def notes(project, options={})
+    def notes(project, options = {})
       get("/projects/#{url_encode project}/notes", query: options)
     end
 
@@ -25,7 +27,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def issue_notes(project, issue, options={})
+    def issue_notes(project, issue, options = {})
       get("/projects/#{url_encode project}/issues/#{issue}/notes", query: options)
     end
 
@@ -39,7 +41,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def snippet_notes(project, snippet, options={})
+    def snippet_notes(project, snippet, options = {})
       get("/projects/#{url_encode project}/snippets/#{snippet}/notes", query: options)
     end
 
@@ -53,10 +55,10 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def merge_request_notes(project, merge_request, options={})
+    def merge_request_notes(project, merge_request, options = {})
       get("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", query: options)
     end
-    alias_method :merge_request_comments, :merge_request_notes
+    alias merge_request_comments merge_request_notes
 
     # Gets a single wall note.
     #
@@ -158,7 +160,7 @@ class Gitlab::Client
     def create_merge_request_note(project, merge_request, body)
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
-    alias_method :create_merge_request_comment, :create_merge_request_note
+    alias create_merge_request_comment create_merge_request_note
 
     # Deletes a wall note.
     #
@@ -210,7 +212,7 @@ class Gitlab::Client
     def delete_merge_request_note(project, merge_request, id)
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}")
     end
-    alias_method :delete_merge_request_comment, :delete_merge_request_note
+    alias delete_merge_request_comment delete_merge_request_note
 
     # Modifies a wall note.
     #
@@ -266,7 +268,7 @@ class Gitlab::Client
     def edit_merge_request_note(project, merge_request, id, body)
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes/#{id}", body: note_content(body))
     end
-    alias_method :edit_merge_request_comment, :edit_merge_request_note
+    alias edit_merge_request_comment edit_merge_request_note
 
     private
 
@@ -274,7 +276,7 @@ class Gitlab::Client
     # in the 'else'.
     def note_content(body)
       if body.is_a?(Hash)
-        STDERR.puts "Passing the note body as a Hash is deprecated.  You should just pass the String."
+        STDERR.puts 'Passing the note body as a Hash is deprecated.  You should just pass the String.'
         body
       else
         { body: body }

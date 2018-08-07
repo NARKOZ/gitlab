@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to projects.
   # @see https://docs.gitlab.com/ee/api/jobs.html

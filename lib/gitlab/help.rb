@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'gitlab'
 require 'gitlab/cli_helpers'
 
@@ -32,9 +34,7 @@ module Gitlab::Help
     # @return [String]
     def ri_cmd
       which_ri = `which ri`.chomp
-      if which_ri.empty?
-        raise "'ri' tool not found in $PATH. Please install it to use the help."
-      end
+      raise "'ri' tool not found in $PATH. Please install it to use the help." if which_ri.empty?
 
       which_ri
     end
@@ -47,8 +47,8 @@ module Gitlab::Help
     def help_map
       @help_map ||= begin
         actions.each_with_object({}) do |action, hsh|
-          key = client.method(action).
-                owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
+          key = client.method(action)
+                      .owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
           hsh[key] ||= []
           hsh[key] << action.to_s
         end
@@ -58,7 +58,7 @@ module Gitlab::Help
     # Table with available commands.
     #
     # @return [Terminal::Table]
-    def actions_table(topic=nil)
+    def actions_table(topic = nil)
       rows = topic ? help_map[topic] : help_map.keys
       table do |t|
         t.title = topic || 'Help Topics'
@@ -73,9 +73,9 @@ module Gitlab::Help
 
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
     def namespace(cmd)
-      method_owners.select { |method| method[:name] == cmd }.
-        map { |method| method[:owner] + '.' + method[:name] }.
-        shift
+      method_owners.select { |method| method[:name] == cmd }
+                   .map { |method| method[:owner] + '.' + method[:name] }
+                   .shift
     end
 
     # Massage output from 'ri'.

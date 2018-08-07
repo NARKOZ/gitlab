@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to tags.
   # @see https://docs.gitlab.com/ce/api/tags.html
@@ -12,10 +14,10 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def tags(project, options={})
+    def tags(project, options = {})
       get("/projects/#{url_encode project}/repository/tags", query: options)
     end
-    alias_method :repo_tags, :tags
+    alias repo_tags tags
 
     # Creates a new project repository tag.
     #
@@ -29,10 +31,10 @@ class Gitlab::Client
     # @param  [String]  message Optional message for tag, creates annotated tag if specified.
     # @param  [String]  description Optional release notes for tag.
     # @return [Gitlab::ObjectifiedHash]
-    def create_tag(project, tag_name, ref, message='', description=nil)
+    def create_tag(project, tag_name, ref, message = '', description = nil)
       post("/projects/#{url_encode project}/repository/tags", body: { tag_name: tag_name, ref: ref, message: message, release_description: description })
     end
-    alias_method :repo_create_tag, :create_tag
+    alias repo_create_tag create_tag
 
     # Gets information about a repository tag.
     #
@@ -46,7 +48,7 @@ class Gitlab::Client
     def tag(project, tag)
       get("/projects/#{url_encode project}/repository/tags/#{url_encode tag}")
     end
-    alias_method :repo_tag, :tag
+    alias repo_tag tag
 
     # Deletes a repository tag.  Requires Gitlab >= 6.8.x
     #
@@ -60,7 +62,7 @@ class Gitlab::Client
     def delete_tag(project, tag)
       delete("/projects/#{url_encode project}/repository/tags/#{url_encode tag}")
     end
-    alias_method :repo_delete_tag, :delete_tag
+    alias repo_delete_tag delete_tag
 
     # Adds release notes to an existing repository tag.  Requires Gitlab >= 8.2.0
     #
@@ -75,7 +77,7 @@ class Gitlab::Client
     def create_release(project, tag, description)
       post("/projects/#{url_encode project}/repository/tags/#{url_encode tag}/release", body: { description: description })
     end
-    alias_method :repo_create_release, :create_release
+    alias repo_create_release create_release
 
     # Updates the release notes of a given release.  Requires Gitlab >= 8.2.0
     #
@@ -90,7 +92,6 @@ class Gitlab::Client
     def update_release(project, tag, description)
       put("/projects/#{url_encode project}/repository/tags/#{url_encode tag}/release", body: { description: description })
     end
-    alias_method :repo_update_release, :update_release
-
+    alias repo_update_release update_release
   end
 end

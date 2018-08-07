@@ -1,33 +1,28 @@
-Layout/SpaceAroundEqualsInParameterDefault:
-  Enabled: false
+---
+inherit_from: .rubocop_todo.yml
 
-Style/Alias:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  Enabled: false
-
-Layout/DotPosition:
-  Enabled: false
+AllCops:
+  TargetRubyVersion: 2.3
 
 Metrics/LineLength:
-  Max: 100
+  Max: 125
   Exclude:
     - 'lib/gitlab/client/*'
-    - 'spec/**/*'
-
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'lib/gitlab/client/*'
-
-Layout/SpaceInsideHashLiteralBraces:
-  Exclude:
-    - 'lib/gitlab/client/*'
-
-Style/StringLiterals:
-  Exclude:
     - 'spec/**/*'
 
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'lib/gitlab/*'
+    - 'lib/gitlab/client/*'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'spec/gitlab/file_response_spec.rb'
+    - 'spec/gitlab/help_spec.rb'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to environments.
   # @see https://docs.gitlab.com/ce/api/environments.html
@@ -13,7 +15,7 @@ class Gitlab::Client
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def environments(project, options={})
+    def environments(project, options = {})
       get("/projects/#{url_encode project}/environments", query: options)
     end
 
@@ -40,7 +42,7 @@ class Gitlab::Client
     # @option options [String] :external_url Optional URL for viewing the deployed project in this environment
     # @return [Gitlab::ObjectifiedHash] The updated environment.
     def create_environment(project, env_name, options = {})
-      body = {name: env_name}.merge(options)
+      body = { name: env_name }.merge(options)
       post("/projects/#{url_encode project}/environments", body: body)
     end
 
@@ -56,7 +58,7 @@ class Gitlab::Client
     # @option options [String] env_name Name for the environment
     # @option options [String] external_url Optional URL for viewing the deployed project in this environment
     # @return [Gitlab::ObjectifiedHash] The updated environment.
-    def edit_environment(project, id, options={})
+    def edit_environment(project, id, options = {})
       put("/projects/#{url_encode project}/environments/#{id}", body: options)
     end
 
