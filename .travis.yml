@@ -7,5 +7,6 @@ rvm:
 
 jobs:
   include:
-    - rvm: 2.3
+    - stage: lint
+      rvm: 2.3
       script: bundle exec rake rubocop
