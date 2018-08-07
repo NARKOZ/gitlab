@@ -50,7 +50,7 @@ class Gitlab::Client
     # @option options [Integer] :projects_limit The limit of projects for a user.
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def create_user(*args)
-      options = Hash === args.last ? args.pop : {}
+      options = args.last.is_a?(Hash) ? args.pop : {}
       body = if args[2]
                { email: args[0], password: args[1], username: args[2] }
              else

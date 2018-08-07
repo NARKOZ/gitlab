@@ -47,11 +47,7 @@ module Gitlab
     # @return [String]
     def inspect
       inspected = super
-
-      if @private_token
-        inspected = inspected.sub! @private_token, only_show_last_four_chars(@private_token)
-      end
-
+      inspected.sub! @private_token, only_show_last_four_chars(@private_token) if @private_token
       inspected
     end
 

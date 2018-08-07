@@ -1,9 +1,11 @@
 ---
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   TargetRubyVersion: 2.3
 
 Metrics/LineLength:
-  Max: 100
+  Max: 125
   Exclude:
     - 'lib/gitlab/client/*'
     - 'spec/**/*'
