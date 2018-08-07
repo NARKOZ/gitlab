@@ -12,8 +12,4 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.options = ['-D', '--parallel']
 end
 
-if ENV['TRAVIS_CI_RUBOCOP']
-  task default: :rubocop
-else
-  task default: :spec
-end
+task default: :spec

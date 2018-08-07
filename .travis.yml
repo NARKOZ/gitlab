@@ -5,9 +5,7 @@ rvm:
   - 2.4
   - 2.5
 
-matrix:
+jobs:
   include:
     - rvm: 2.3
-      env: "TRAVIS_CI_RUBOCOP=true"
-  allow_failures:
-    - env: "TRAVIS_CI_RUBOCOP=true"
+      script: bundle exec rake rubocop
