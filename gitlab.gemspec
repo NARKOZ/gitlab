@@ -3,7 +3,6 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gitlab/version'
-require 'english'
 
 Gem::Specification.new do |gem|
   gem.name          = 'gitlab'
@@ -14,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.summary       = 'A Ruby wrapper and CLI for the GitLab API'
   gem.homepage      = 'https://github.com/narkoz/gitlab'
 
-  gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  gem.files         = `git ls-files`.split($/)
                                     .grep_v(/^spec/) -
                       %w[Dockerfile docker-compose.yml docker.env .travis.yml
                          .rubocop.yml .dockerignore]

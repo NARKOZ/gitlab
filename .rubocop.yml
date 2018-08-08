@@ -26,3 +26,7 @@ Style/FrozenStringLiteralComment:
   Exclude:
     - 'spec/gitlab/file_response_spec.rb'
     - 'spec/gitlab/help_spec.rb'
+
+Style/SpecialGlobalVars:
+  Exclude:
+    - 'gitlab.gemspec'
