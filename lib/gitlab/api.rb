@@ -15,7 +15,7 @@ module Gitlab
       (Configuration::VALID_OPTIONS_KEYS + [:auth_token]).each do |key|
         send("#{key}=", options[key]) if options[key]
       end
-      request_defaults(@sudo)
+      request_defaults(sudo)
       self.class.headers 'User-Agent' => user_agent
     end
   end
