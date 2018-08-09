@@ -39,13 +39,24 @@ describe Gitlab::Client do
   end
 
   describe '.create_pipeline' do
+    let(:pipeline_path) { '/projects/3/pipeline?ref=master' }
+
     before do
-      stub_post('/projects/3/pipeline?ref=master', 'pipeline_create')
-      @pipeline_create = Gitlab.create_pipeline(3, 'master')
+      stub_post(pipeline_path, 'pipeline_create')
+      variables = { 'VAR1' => ':-D', 'VAR2' => ':-(' }
+      @pipeline_create = Gitlab.create_pipeline(3, 'master', variables)
     end
 
     it 'gets the correct resource' do
-      expect(a_post('/projects/3/pipeline?ref=master')).to have_been_made
+      expect(a_post(pipeline_path)).to have_been_made
+    end
+
+    it 'get correct params in request' do
+      expected_parameters = JSON.dump([
+        { 'key' => 'VAR1', 'value' => ':-D' },
+        { 'key' => 'VAR2', 'value' => ':-(' }
+      ])
+      expect(a_post(pipeline_path).with(body: expected_parameters)).to have_been_made
     end
 
     it 'returns a single pipeline' do

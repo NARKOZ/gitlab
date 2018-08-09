@@ -38,9 +38,21 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref Reference to commit.
+    # @param  [Hash] variables A variables pased to pipeline.
     # @return [Gitlab::ObjectifiedHash] The pipelines changes.
-    def create_pipeline(project, ref)
-      post("/projects/#{url_encode project}/pipeline?ref=#{ref}")
+    def create_pipeline(project, ref, variables = {})
+      normalized_variables = variables.each_with_object([]) do |(key, value), res|
+        res.push(
+          'key' => key,
+          'value' => value
+        )
+      end
+
+      post(
+        "/projects/#{url_encode project}/pipeline",
+        query: { ref: ref },
+        body: JSON.dump(normalized_variables)
+      )
     end
 
     # Cancels a pipeline.
