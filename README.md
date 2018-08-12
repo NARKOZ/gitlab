@@ -2,16 +2,16 @@
 
 [![Build Status](https://img.shields.io/travis/NARKOZ/gitlab.svg)](https://travis-ci.org/NARKOZ/gitlab)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e310b334b1b5db4a7e1/maintainability)](https://codeclimate.com/github/NARKOZ/gitlab)
-[![Inline docs](http://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
+[![Inline docs](https://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
 [![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
-[website](http://narkoz.github.io/gitlab) |
-[documentation](http://rubydoc.info/gems/gitlab/frames) |
+[website](https://narkoz.github.io/gitlab) |
+[documentation](https://rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
 Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
-As of version `4.0.0` this gem only supports Ruby 2.0+ and Gitlab API v4.
+As of version `4.0.0` this gem only supports Ruby 2.0+ and GitLab API v4.
 
 ## Installation
 
@@ -54,8 +54,8 @@ Usage examples:
 
 ```ruby
 # set an API endpoint
-Gitlab.endpoint = 'http://example.net/api/v4'
-# => "http://example.net/api/v4"
+Gitlab.endpoint = 'https://example.net/api/v4'
+# => "https://example.net/api/v4"
 
 # set a user private token
 Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
@@ -63,7 +63,7 @@ Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
 
 # configure a proxy server
 Gitlab.http_proxy('proxyhost', 8888)
-# proxy server w/ basic auth
+# proxy server with basic auth
 Gitlab.http_proxy('proxyhost', 8888, 'proxyuser', 'strongpasswordhere')
 
 # list projects
@@ -108,11 +108,11 @@ end
 projects.auto_paginate
 ```
 
-For more information, refer to [documentation](http://rubydoc.info/gems/gitlab/frames).
+For more information, refer to [documentation](https://rubydoc.info/gems/gitlab/frames).
 
 ## CLI
 
-It is possible to use this gem as a command line interface to gitlab. In order to make that work you need to set a few environment variables:
+It is possible to use this gem as a command line interface to GitLab. In order to make that work you need to set a few environment variables:
 ```sh
 export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v4
 export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account>
@@ -124,21 +124,21 @@ export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
 
 Usage:
 
-When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
+When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
 
 Usage examples:
 
 ```sh
 # list users
-# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#users-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#users-instance_method
 gitlab users
 
 # get current user
-# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
 gitlab user
 
 # get a user
-# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
 gitlab user 2
 
 # filter output
@@ -150,7 +150,7 @@ gitlab user --except=email,bio
 gitlab user 2 --json
 
 # passing options hash to a command (use YAML)
-# see: http://www.rubydoc.info/gems/gitlab/3.4.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
@@ -177,17 +177,17 @@ gitlab> create_merge_request 4 "New merge request" "{source_branch: 'new_branch'
 ```
 
 Web version is available at https://gitlab-live.herokuapp.com  
-For more information, refer to [website](http://narkoz.github.io/gitlab).
+For more information, refer to [website](https://narkoz.github.io/gitlab).
 
 ## Development
 
-### With a dockerized Gitlab instance
+### With a dockerized GitLab instance
 
 ```shell
-docker-compose up -d gitlab # Will start the gitlab instance in the background (approx. 3 minutes)
+docker-compose up -d gitlab # Will start the GitLab instance in the background (approx. 3 minutes)
 ```
 
-After a while, your Gitlab instance will be accessible on http://localhost:3000.
+After a while, your GitLab instance will be accessible on http://localhost:3000.
 
 Once you have set your new root password, you can login with the root user.
 
@@ -206,17 +206,17 @@ Gitlab.users
 => [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
 ```
 
-To launch the specs,
+To launch the specs:
 
 ```shell
 docker-compose run app rake spec
 ```
 
-#### Want to use Gitlab Enterprise?
+#### Want to use GitLab Enterprise?
 
 Just change the image from `gitlab/gitlab-ce:latest` to `gitlab/gitlab-ee:latest` in the `docker-compose.yml` file.
 
-### With an external Gitlab instance
+### With an external GitLab instance
 
 First, set the variables to the correct values in the `docker.env` file.
 
