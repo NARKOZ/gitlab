@@ -348,4 +348,36 @@ describe Gitlab::Client do
       expect(@note).to be_falsy
     end
   end
+
+  describe '.merge_request_diff_versions' do
+    before do
+      stub_get('/projects/3/merge_requests/105/versions', 'merge_request_diff_versions')
+      @versions = Gitlab.merge_request_diff_versions(3, 105)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/105/versions')).to have_been_made
+    end
+
+    it 'returns an array of the versions' do
+      expect(@versions.length).to eq(2)
+      expect(@versions.first.head_commit_sha).to eq('33e2ee8579fda5bc36accc9c6fbd0b4fefda9e30')
+    end
+  end
+
+  describe '.merge_request_single_diff_version' do
+    before do
+      stub_get('/projects/3/merge_requests/105/versions/1', 'merge_request_single_diff_version')
+      @diff = Gitlab.merge_request_single_diff_version(3, 105, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/105/versions/1')).to have_been_made
+    end
+
+    it 'returns diff, with array of diffs in version' do
+      expect(@diff.diffs).to be_a Array
+      expect(@diff.diffs.first['old_path']).to eq('LICENSE')
+    end
+  end
 end

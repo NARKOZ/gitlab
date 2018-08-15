@@ -273,5 +273,30 @@ class Gitlab::Client
     def delete_merge_request_discussion_note(project, merge_request_id, discussion_id, note_id)
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}")
     end
+
+    # Gets a list of merge request diff versions
+    #
+    # @example
+    #   Gitlab.merge_request_versions(5, 1)
+    #   Gitlab.merge_request_versions('gitlab', 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] A list of the merge request versions.
+    def merge_request_diff_versions(project, merge_request_id)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/versions")
+    end
+
+    # Gets the diff a single merge request diff version\
+    #
+    # @example
+    #   Gitlab.merge_request_versions(5, 1, 1)
+    #   Gitlab.merge_request_versions('gitlab', 1, 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @param  [Integer] id The ID of a merge request diff version.
+    # @return [Gitlab::ObjectifiedHash] Record of the specific diff
+    def merge_request_single_diff_version(project, merge_request_id, version_id)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/versions/#{version_id}")
+    end
   end
 end
