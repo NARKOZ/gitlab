@@ -505,5 +505,82 @@ class Gitlab::Client
     def user_projects(user_id, options = {})
       get("/users/#{url_encode user_id}/projects", query: options)
     end
+
+    # Get a list of all project badges
+    # @see https://docs.gitlab.com/ee/api/project_badges.html#list-all-badges-of-a-project
+    #
+    # @example
+    #   Gitlab.badges(42)
+    #   Gitlab.badges('gitlab', { order_by: 'last_activity_at' })
+    #   Gitlab.badges('gitlab', { order_by: 'name', sort: 'asc' })
+    #
+    # @param  [Integer, String] user_id The ID or username of the user.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :per_page Number of projects to return per page
+    # @option options [String] :page The page to retrieve
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def badges(project, options = {})
+      get("/projects/#{url_encode project}/badges", query: options)
+    end
+    
+    # Get information of a project badge
+    # @see https://docs.gitlab.com/ee/api/project_badges.html#get-a-badge-of-a-project
+    #
+    # @example
+    #   Gitlab.badge(42, 2)
+    #   Gitlab.badge('media-center/transcoder', 3)
+    #
+    # @param  [Integer, String] project The ID or path of a project.  
+    # @param  [Integer] id The badge ID. 
+    # @return [Gitlab::ObjectifiedHash] Information about the edited bagde. 
+    def badge(project, id)
+      get("/projects/#{url_encode project}/badges/#{id}")
+    end
+    
+    # Add a new badge to a project.
+    #
+    # @example
+    #   Gitlab.add_badge('gitlab', 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master', 'https://shields.io/my/badge1')
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [String] link_url URL of the badge link.
+    # @param  [String] image_url URL of the badge image.
+    # @return [Gitlab::ObjectifiedHash] Information about added badge.
+    def add_badge(project, link_url, image_url)
+      post("/projects/#{url_encode project}/badges", body: { link_url: link_url, image_url: image_url })
+    end
+
+    # Updates a badge of a project.
+    #
+    # @example
+    #   Gitlab.edit_badge(42, 2)
+    #   Gitlab.edit_badge(42, 2, { link_url: 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master' })
+    #   Gitlab.edit_badge('project-name', 2, { link_url: 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master', image_url: 'https://shields.io/my/badge1' })
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [Integer] id The badge ID.
+    # @param  [Hash] options A customizable set of options
+    # @option options [String] :link_url URL of the badge link.
+    # @option options [String] :image_url URL of the badge image.
+    # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ee/api/project_badges.html#edit-a-badge-of-a-project Gitlab docs} for all valid options)
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the edited bagde.
+    def edit_badge(project, id, options = {})
+      put("/projects/#{url_encode project}/badges/#{id}", body: options)
+    end
+    
+    # Remove a badge from a project.
+    # @see https://docs.gitlab.com/ee/api/project_badges.html#remove-a-badge-from-a-project
+    #
+    # @example
+    #   Gitlab.remove_badge(42, 2)
+    #   Gitlab.remove_badge('gitlab-org/gitlab-ce', 2)
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [Integer] id The badge ID.
+    # @return [Gitlab::ObjectifiedHash] Empty hash.
+    def remove_badge(project, id)
+      delete("/projects/#{url_encode project}/badges/#{id}")
+    end
   end
 end
