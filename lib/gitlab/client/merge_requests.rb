@@ -289,13 +289,13 @@ class Gitlab::Client
     # Gets the diff a single merge request diff version\
     #
     # @example
-    #   Gitlab.merge_request_versions(5, 1, 1)
-    #   Gitlab.merge_request_versions('gitlab', 1, 1)
+    #   Gitlab.merge_request_diff_version(5, 1, 1)
+    #   Gitlab.merge_request_diff_version('gitlab', 1, 1)
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
     # @param  [Integer] id The ID of a merge request diff version.
     # @return [Gitlab::ObjectifiedHash] Record of the specific diff
-    def merge_request_single_diff_version(project, merge_request_id, version_id)
+    def merge_request_diff_version(project, merge_request_id, version_id)
       get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/versions/#{version_id}")
     end
   end

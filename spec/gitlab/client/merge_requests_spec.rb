@@ -365,10 +365,10 @@ describe Gitlab::Client do
     end
   end
 
-  describe '.merge_request_single_diff_version' do
+  describe '.merge_request_diff_version' do
     before do
-      stub_get('/projects/3/merge_requests/105/versions/1', 'merge_request_single_diff_version')
-      @diff = Gitlab.merge_request_single_diff_version(3, 105, 1)
+      stub_get('/projects/3/merge_requests/105/versions/1', 'merge_request_diff_version')
+      @diff = Gitlab.merge_request_diff_version(3, 105, 1)
     end
 
     it 'gets the correct resource' do
