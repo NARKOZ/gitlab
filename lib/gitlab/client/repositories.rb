@@ -57,5 +57,18 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/repository/compare", query: { from: from, to: to })
     end
     alias repo_compare compare
+
+    # Get the common ancestor for 2 refs (commit SHAs, branch names or tags).
+    #
+    # @example
+    #   Gitlab.merge_base(42, ['master', 'feature/branch'])
+    #   Gitlab.merge_base(42, ['master', 'feature/branch'])
+    #
+    # @param [Integer] project The ID of a project.
+    # @param [String] refs Array containing 2 commit SHAs, branch names, or tags.
+    # @return [Gitlab::ObjectifiedHash]
+    def merge_base(project, refs)
+      get("/projects/#{url_encode project}/repository/merge_base", query: { refs: refs })
+    end
   end
 end
