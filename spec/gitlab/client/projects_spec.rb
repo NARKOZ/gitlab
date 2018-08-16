@@ -5,6 +5,82 @@ require 'spec_helper'
 describe Gitlab::Client do
   it { is_expected.to respond_to :search_projects }
 
+  describe '.project_badges' do
+    before do
+      stub_get('/projects/3/badges', 'badges')
+      @badges = Gitlab.project_badges(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/badges')).to have_been_made
+    end
+
+    it 'returns a paginated response of badges' do
+      expect(@badges).to be_a Gitlab::PaginatedResponse
+      expect(@badges.first.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badges.first.kind).to eq('project')
+    end
+  end
+
+  describe '.project_badge' do
+    before do
+      stub_get('/projects/3/badges/1', 'badge')
+      @badge = Gitlab.project_badge(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/badges/1')).to have_been_made
+    end
+
+    it 'returns information about a badge' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badge.image_url).to eq('https://shields.io/my/badge')
+    end
+  end
+
+  describe '.add_project_badge' do
+    before do
+      stub_post('/projects/Gitlab/badges', 'badge')
+      @badge = Gitlab.add_project_badge('Gitlab', 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', 'https://shields.io/my/badge')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/Gitlab/badges')).to have_been_made
+    end
+
+    it 'returns information about a badge added to project' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badge.image_url).to eq('https://shields.io/my/badge')
+    end
+  end
+
+  describe '.edit_project_badge' do
+    before do
+      stub_put('/projects/3/badges/1', 'badge')
+      @badge = Gitlab.edit_project_badge(3, 1, {image_url: 'https://shields.io/your/badge'})
+    end
+
+    it 'gets the correct resource' do
+      expect(a_put('/projects/3/badges/1')
+          .with(body: { image_url: 'https://shields.io/your/badge' })).to have_been_made
+    end
+
+    it 'returns information about an edited badge' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+    end
+  end
+
+  describe '.remove_project_badge' do
+    before do
+      stub_delete('/projects/Gitlab/badges/1', 'remove_badge')
+      @project = Gitlab.remove_project_badge('Gitlab', 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/projects/Gitlab/badges/1')).to have_been_made
+    end
+  end
+
   describe '.projects' do
     before do
       stub_get('/projects', 'projects')
@@ -66,8 +142,6 @@ describe Gitlab::Client do
     end
 
     it 'returns information about a created project' do
-      expect(@project.name).to eq('Gitlab')
-      expect(@project.owner.name).to eq('John Smith')
     end
   end
 

@@ -191,5 +191,82 @@ class Gitlab::Client
     def edit_group(id, options = {})
       put("/groups/#{url_encode id}", body: options)
     end
+
+    # Get a list of all group badges
+    # @see https://docs.gitlab.com/ce/api/group_badges.html#list-all-badges-of-a-group
+    #
+    # @example
+    #   Gitlab.group_badges(42)
+    #   Gitlab.group_badges('gitlab', { per_page: 1, page: 2 })
+    #
+    # @param  [Integer, String] group_id The ID or name of the group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :per_page Number of projects to return per page
+    # @option options [String] :page The page to retrieve
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_badges(group, options = {})
+      get("/groups/#{url_encode group}/badges", query: options)
+    end
+
+    # Get information of a group badge
+    # @see https://docs.gitlab.com/ce/api/group_badges.html#get-a-badge-of-a-group
+    #
+    # @example
+    #   Gitlab.group_badge(42, 2)
+    #   Gitlab.group_badge('Gitlab', 3)
+    #
+    # @param  [Integer, String] group The ID or name of a group.
+    # @param  [Integer] id The badge ID.
+    # @return [Gitlab::ObjectifiedHash] Information about the group bagde.
+    def group_badge(project, id)
+      get("/groups/#{url_encode project}/badges/#{id}")
+    end
+
+    # Add a new badge to a group.
+    # @see https://docs.gitlab.com/ce/api/group_badges.html#add-a-badge-to-a-group
+    #
+    # @example
+    #   Gitlab.add_group_badge('gitlab', 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master', 'https://shields.io/my/badge1')
+    #
+    # @param  [Integer, String] group The ID or name of a group.
+    # @param  [String] link_url URL of the badge link.
+    # @param  [String] image_url URL of the badge image.
+    # @return [Gitlab::ObjectifiedHash] Information about added badge.
+    def add_group_badge(group, link_url, image_url)
+      post("/groups/#{url_encode group}/badges", body: { link_url: link_url, image_url: image_url })
+    end
+
+    # Updates a badge of a group.
+    #
+    # @example
+    #   Gitlab.edit_group_badge(42, 2)
+    #   Gitlab.edit_group_badge(42, 2, { link_url: 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master' })
+    #   Gitlab.edit_group_badge('group-name', 2, { link_url: 'https://gitlab.com/gitlab-org/gitlab-ce/commits/master', image_url: 'https://shields.io/my/badge1' })
+    #
+    # @param  [Integer, String] group The ID or name of a group.
+    # @param  [Integer] id The badge ID.
+    # @param  [Hash] options A customizable set of options
+    # @option options [String] :link_url URL of the badge link.
+    # @option options [String] :image_url URL of the badge image.
+    # (Any provided options will be passed to Gitlab. See {https://docs.gitlab.com/ce/api/group_badges.html#edit-a-badge-of-a-group Gitlab docs} for all valid options)
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the edited bagde.
+    def edit_group_badge(group, id, options = {})
+      put("/groups/#{url_encode group}/badges/#{id}", body: options)
+    end
+
+    # Remove a badge from a group.
+    # @see https://docs.gitlab.com/ce/api/group_badges.html#remove-a-badge-from-a-group
+    #
+    # @example
+    #   Gitlab.remove_group_badge(42, 2)
+    #   Gitlab.remove_group_badge('gitlab-org', 2)
+    #
+    # @param  [Integer, String] group The ID or name of a group.
+    # @param  [Integer] id The badge ID.
+    # @return [Gitlab::ObjectifiedHash] Empty hash.
+    def remove_group_badge(group, id)
+      delete("/groups/#{url_encode group}/badges/#{id}")
+    end
   end
 end

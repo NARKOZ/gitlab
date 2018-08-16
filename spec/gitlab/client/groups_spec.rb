@@ -3,6 +3,82 @@
 require 'spec_helper'
 
 describe Gitlab::Client do
+  describe '.group_badges' do
+    before do
+      stub_get('/groups/3/badges', 'badges')
+      @badges = Gitlab.group_badges(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/badges')).to have_been_made
+    end
+
+    it 'returns a paginated response of badges' do
+      expect(@badges).to be_a Gitlab::PaginatedResponse
+      expect(@badges.first.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badges.first.kind).to eq('project')
+    end
+  end
+
+  describe '.group_badge' do
+    before do
+      stub_get('/groups/3/badges/1', 'badge')
+      @badge = Gitlab.group_badge(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/badges/1')).to have_been_made
+    end
+
+    it 'returns information about a badge' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badge.image_url).to eq('https://shields.io/my/badge')
+    end
+  end
+
+  describe '.add_group_badge' do
+    before do
+      stub_post('/groups/Gitlab/badges', 'badge')
+      @badge = Gitlab.add_group_badge('Gitlab', 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', 'https://shields.io/my/badge')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/groups/Gitlab/badges')).to have_been_made
+    end
+
+    it 'returns information about a badge added to project' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+      expect(@badge.image_url).to eq('https://shields.io/my/badge')
+    end
+  end
+
+  describe '.edit_group_badge' do
+    before do
+      stub_put('/groups/3/badges/1', 'badge')
+      @badge = Gitlab.edit_group_badge(3, 1, {image_url: 'https://shields.io/your/badge'})
+    end
+
+    it 'gets the correct resource' do
+      expect(a_put('/groups/3/badges/1')
+          .with(body: { image_url: 'https://shields.io/your/badge' })).to have_been_made
+    end
+
+    it 'returns information about an edited badge' do
+      expect(@badge.link_url).to eq('http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}')
+    end
+  end
+
+  describe '.remove_group_badge' do
+    before do
+      stub_delete('/groups/Gitlab/badges/1', 'remove_badge')
+      @project = Gitlab.remove_group_badge('Gitlab', 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/groups/Gitlab/badges/1')).to have_been_made
+    end
+  end
+
   describe '.groups' do
     before do
       stub_get('/groups', 'groups')
