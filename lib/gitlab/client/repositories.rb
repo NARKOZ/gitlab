@@ -64,8 +64,8 @@ class Gitlab::Client
     #   Gitlab.merge_base(42, ['master', 'feature/branch'])
     #   Gitlab.merge_base(42, ['master', 'feature/branch'])
     #
-    # @param [Integer] project The ID of a project.
-    # @param [String] refs Array containing 2 commit SHAs, branch names, or tags.
+    # @param [Integer, String] project The ID or URL-encoded path of the project.
+    # @param [Array] refs Array containing 2 commit SHAs, branch names, or tags.
     # @return [Gitlab::ObjectifiedHash]
     def merge_base(project, refs)
       get("/projects/#{url_encode project}/repository/merge_base", query: { refs: refs })
