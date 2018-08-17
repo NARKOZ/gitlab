@@ -93,4 +93,22 @@ describe Gitlab::Client do
       expect(@diff.diffs.last['new_path']).to eq 'files/js/application.js'
     end
   end
+
+  describe '.merge_base' do
+    before do
+      stub_get('/projects/3/repository/merge_base', 'merge_base')
+        .with(query: { refs: %w[master feature] })
+      @response = Gitlab.merge_base(3, %w[master feature])
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/merge_base')
+        .with(query: { refs: %w[master feature] })).to have_been_made
+    end
+
+    it 'gets common ancestor of the two refs' do
+      expect(@response).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@response.id).to eq '1a0b36b3cdad1d2ee32457c102a8c0b7056fa863'
+    end
+  end
 end
