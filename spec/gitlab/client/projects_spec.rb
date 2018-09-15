@@ -188,12 +188,12 @@ describe Gitlab::Client do
   describe '.add_team_member' do
     before do
       stub_post('/projects/3/members', 'team_member')
-      @team_member = Gitlab.add_team_member(3, 1, 40, {expires_at: "2018-12-31"})
+      @team_member = Gitlab.add_team_member(3, 1, 40, expires_at: '2018-12-31')
     end
 
     it 'gets the correct resource' do
       expect(a_post('/projects/3/members')
-          .with(body: { user_id: '1', access_level: '40', expires_at: "2018-12-31" })).to have_been_made
+          .with(body: { user_id: '1', access_level: '40', expires_at: '2018-12-31' })).to have_been_made
     end
 
     it 'returns information about an added team member' do
@@ -205,12 +205,12 @@ describe Gitlab::Client do
   describe '.edit_team_member' do
     before do
       stub_put('/projects/3/members/1', 'team_member')
-      @team_member = Gitlab.edit_team_member(3, 1, 40, {expires_at: "2018-12-31"})
+      @team_member = Gitlab.edit_team_member(3, 1, 40, expires_at: '2018-12-31')
     end
 
     it 'gets the correct resource' do
       expect(a_put('/projects/3/members/1')
-          .with(body: { access_level: '40', expires_at: "2018-12-31" })).to have_been_made
+          .with(body: { access_level: '40', expires_at: '2018-12-31' })).to have_been_made
     end
 
     it 'returns information about an edited team member' do

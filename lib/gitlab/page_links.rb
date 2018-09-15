@@ -26,6 +26,7 @@ module Gitlab
           url = match[1]
           meta = match[2]
           next if !url || !meta || METAS.index(meta).nil?
+
           send("#{meta}=", url)
         end
       end

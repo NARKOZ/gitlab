@@ -76,6 +76,7 @@ module Gitlab
     def request_defaults(sudo = nil)
       self.class.default_params sudo: sudo
       raise Error::MissingCredentials, 'Please set an endpoint to API' unless @endpoint
+
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
 
