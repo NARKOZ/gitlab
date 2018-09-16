@@ -118,28 +118,34 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.add_team_member('gitlab', 2, 40)
+    #   Gitlab.add_team_member('gitlab', 2, 40, { expires_at: "2018-12-31"})
     #
     # @param  [Integer, String] project The ID or path of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
     # @param  [Hash] options A customizable set of options.
+    # @option options [String] :expires_at A date string in the format YEAR-MONTH-DAY.
     # @return [Gitlab::ObjectifiedHash] Information about added team member.
-    def add_team_member(project, id, access_level)
-      post("/projects/#{url_encode project}/members", body: { user_id: id, access_level: access_level })
+    def add_team_member(project, id, access_level, options = {})
+      body = { user_id: id, access_level: access_level }.merge(options)
+      post("/projects/#{url_encode project}/members", body: body)
     end
 
     # Updates a team member's project access level.
     #
     # @example
     #   Gitlab.edit_team_member('gitlab', 3, 20)
+    #   Gitlab.edit_team_member('gitlab', 3, 20, { expires_at: "2018-12-31"})
     #
     # @param  [Integer, String] project The ID or path of a project.
     # @param  [Integer] id The ID of a user.
     # @param  [Integer] access_level The access level to project.
     # @param  [Hash] options A customizable set of options.
+    # @option options [String] :expires_at A date string in the format YEAR-MONTH-DAY.
     # @return [Array<Gitlab::ObjectifiedHash>] Information about updated team member.
-    def edit_team_member(project, id, access_level)
-      put("/projects/#{url_encode project}/members/#{id}", body: { access_level: access_level })
+    def edit_team_member(project, id, access_level, options = {})
+      body = { access_level: access_level }.merge(options)
+      put("/projects/#{url_encode project}/members/#{id}", body: body)
     end
 
     # Removes a user from project team.
