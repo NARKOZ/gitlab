@@ -517,7 +517,7 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ee/api/projects.html#upload-a-file
     #
     # @example
-    #   Gitlab.upload_file(1, File.open(File::NULL, file))
+    #   Gitlab.upload_file(1, File.open(File::NULL, 'r'))
     #   File.open('myfile') { |file| Gitlab.upload_file(1, file) }
     #
     # @param  [Integer, String] id The ID or path of a project.
