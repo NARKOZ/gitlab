@@ -676,4 +676,24 @@ describe Gitlab::Client do
       expect(@user_projects.first.owner.id).to eq(user_id)
     end
   end
+
+  describe '.upload_file' do
+    let(:id) { 1 }
+    let(:file) { File.open(File::NULL, 'r') }
+
+    before do
+      stub_post("/projects/#{id}/uploads", 'upload_file')
+      @file = Gitlab.upload_file(id, file)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post("/projects/#{id}/uploads")).to have_been_made
+    end
+
+    it 'returns information about the uploaded file' do
+      expect(@file.alt).to eq('null')
+      expect(@file.url).to eq('/uploads/f22e67e35e1bcb339058212c54bb8772/null')
+      expect(@file.markdown).to eq('[null](/uploads/f22e67e35e1bcb339058212c54bb8772/null)')
+    end
+  end
 end

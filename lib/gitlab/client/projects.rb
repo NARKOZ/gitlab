@@ -511,5 +511,20 @@ class Gitlab::Client
     def user_projects(user_id, options = {})
       get("/users/#{url_encode user_id}/projects", query: options)
     end
+
+    # Uploads a file to the specified project to be used in an issue or
+    # merge request description, or a comment.
+    # @see https://docs.gitlab.com/ee/api/projects.html#upload-a-file
+    #
+    # @example
+    #   Gitlab.upload_file(1, File.open(File::NULL, file))
+    #   File.open('myfile') { |file| Gitlab.upload_file(1, file) }
+    #
+    # @param  [Integer, String] id The ID or path of a project.
+    # @param  [File] The file you are interested to upload.
+    # @return [Gitlab::ObjectifiedHash]
+    def upload_file(id, file)
+      post("/projects/#{url_encode id}/uploads", body: { file: file })
+    end
   end
 end
