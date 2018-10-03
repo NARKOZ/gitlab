@@ -169,7 +169,7 @@ class Gitlab::Client
     def create_ssh_key(title, key, options = {})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
-        post("/user/keys", body: { title: title, key: key })
+        post('/user/keys', body: { title: title, key: key })
       else
         post("/users/#{user_id}/keys", body: { title: title, key: key })
       end
