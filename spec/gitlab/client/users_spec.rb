@@ -252,18 +252,37 @@ describe Gitlab::Client do
   end
 
   describe '.create_ssh_key' do
-    before do
-      stub_post('/user/keys', 'key')
-      @key = Gitlab.create_ssh_key('title', 'body')
+    describe 'without user ID' do
+      before do
+        stub_post('/user/keys', 'key')
+        @key = Gitlab.create_ssh_key('title', 'body')
+      end
+
+      it 'gets the correct resource' do
+        body = { title: 'title', key: 'body' }
+        expect(a_post('/user/keys').with(body: body)).to have_been_made
+      end
+
+      it 'returns information about a created SSH key' do
+        expect(@key.title).to eq('narkoz@helium')
+      end
     end
 
-    it 'gets the correct resource' do
-      body = { title: 'title', key: 'body' }
-      expect(a_post('/user/keys').with(body: body)).to have_been_made
-    end
+    describe 'with user ID' do
+      before do
+        stub_post('/users/1/keys', 'key')
+        @options = { user_id: 1 }
+        @key = Gitlab.create_ssh_key('title', 'body', @options)
+      end
 
-    it 'returns information about a created SSH key' do
-      expect(@key.title).to eq('narkoz@helium')
+      it 'gets the correct resource' do
+        body = { title: 'title', key: 'body' }
+        expect(a_post('/users/1/keys').with(body: body)).to have_been_made
+      end
+
+      it 'returns information about a created SSH key' do
+        expect(@key.title).to eq('narkoz@helium')
+      end
     end
   end
 
