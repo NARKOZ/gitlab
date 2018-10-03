@@ -287,17 +287,35 @@ describe Gitlab::Client do
   end
 
   describe '.delete_ssh_key' do
-    before do
-      stub_delete('/user/keys/1', 'key')
-      @key = Gitlab.delete_ssh_key(1)
+    describe 'without user ID' do
+      before do
+        stub_delete('/user/keys/1', 'key')
+        @key = Gitlab.delete_ssh_key(1)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_delete('/user/keys/1')).to have_been_made
+      end
+
+      it 'returns information about a deleted SSH key' do
+        expect(@key.title).to eq('narkoz@helium')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_delete('/user/keys/1')).to have_been_made
-    end
+    describe 'with user ID' do
+      before do
+        stub_delete('/users/1/keys/1', 'key')
+        @options = { user_id: 1 }
+        @key = Gitlab.delete_ssh_key(1, @options)
+      end
 
-    it 'returns information about a deleted SSH key' do
-      expect(@key.title).to eq('narkoz@helium')
+      it 'gets the correct resource' do
+        expect(a_delete('/users/1/keys/1')).to have_been_made
+      end
+
+      it 'returns information about a deleted SSH key' do
+        expect(@key.title).to eq('narkoz@helium')
+      end
     end
   end
 
