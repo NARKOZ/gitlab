@@ -62,6 +62,18 @@ describe Gitlab::CLI do
         expect(@output).to include('Jack Smith')
       end
     end
+
+    context 'when command is create_label' do
+      before do
+        stub_post('/projects/Project/labels', 'label')
+        args = ['Project', 'Backlog', '#DD10AA']
+        @output = capture_output { described_class.run('create_label', args) }
+      end
+
+      it 'shows executed command' do
+        expect(@output).to include('Gitlab.create_label Project, Backlog, #DD10AA')
+      end
+    end
   end
 
   describe '.start' do
