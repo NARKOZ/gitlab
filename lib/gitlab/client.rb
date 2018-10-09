@@ -41,6 +41,7 @@ module Gitlab
     include Tags
     include Todos
     include Users
+    include Versions
 
     # Text representation of the client, masking private token.
     #
