@@ -231,9 +231,16 @@ class Gitlab::CLI
       hash
     end
 
+    # Check if arg is a color in 6-digit hex notation with leading '#' sign
+    def hex_color?(arg)
+      pattern = /\A#\h{6}\Z/
+
+      pattern.match(arg)
+    end
+
     # YAML::load on a single argument
     def yaml_load(arg)
-      YAML.safe_load(arg)
+      hex_color?(arg) ? arg : YAML.safe_load(arg)
     rescue Psych::SyntaxError
       raise "Error: Argument is not valid YAML syntax: #{arg}"
     end
