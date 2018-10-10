@@ -58,10 +58,12 @@ module MergeRequests
   # @option options [Integer] :assignee_id (optional) The ID of a user to assign merge request.
   # @option options [Integer] :target_project_id (optional) The target project ID.
   # @option options [String] :labels (optional) Labels as a comma-separated list.
+  # @option options [Integer] :timeout (optional) Timeout for opening connection and reading data.
   # @return [Gitlab::ObjectifiedHash] Information about created merge request.
   def create_merge_request(project, title, options = {})
     body = { title: title }.merge(options)
-    post("/projects/#{url_encode project}/merge_requests", body: body)
+    timeout = options[:timeout] ? options[:timeout] : 60
+    post("/projects/#{url_encode project}/merge_requests", body: body, timeout: timeout)
   end
 
   # Updates a merge request.
