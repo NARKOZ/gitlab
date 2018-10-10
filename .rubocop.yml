@@ -20,7 +20,6 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'lib/gitlab/*'
-    - 'lib/gitlab/client/*'
 
 Style/FrozenStringLiteralComment:
   Exclude:
