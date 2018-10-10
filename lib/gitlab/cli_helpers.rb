@@ -92,14 +92,14 @@ class Gitlab::CLI
       end
     end
 
-    # Outputs a nicely formatted table or error msg.
+    # Outputs a nicely formatted table or error message.
     def output_table(cmd, args, data)
       case data
       when Gitlab::ObjectifiedHash, Gitlab::FileResponse
         puts record_table([data], cmd, args)
       when Gitlab::PaginatedResponse
         puts record_table(data, cmd, args)
-      else # probably just an error msg
+      else # probably just an error message
         puts data
       end
     end
@@ -219,9 +219,9 @@ class Gitlab::CLI
     # @return [Hash]
     def symbolize_keys(hash)
       if hash.is_a?(Hash)
-        hash = hash.each_with_object({}) do |(key, value), newhash|
+        hash = hash.each_with_object({}) do |(key, value), new_hash|
           begin
-            newhash[key.to_sym] = symbolize_keys(value)
+            new_hash[key.to_sym] = symbolize_keys(value)
           rescue NoMethodError
             raise "Error: cannot convert hash key to symbol: #{key}"
           end
