@@ -74,7 +74,7 @@ module Gitlab::Help
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
     def namespace(cmd)
       method_owners.select { |method| method[:name] == cmd }
-                   .map { |method| 'Gitlab::Client::' + method[:owner] + '.' + method[:name] }
+                   .map { |method| method[:owner] + '.' + method[:name] }
                    .shift
     end
 
