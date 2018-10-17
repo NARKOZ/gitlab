@@ -50,6 +50,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.merge_request_pipelines' do
+    before do
+      stub_get('/projects/3/merge_requests/1/pipelines', 'pipelines')
+      @pipelines = Gitlab.merge_request_pipelines(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/1/pipelines')).to have_been_made
+    end
+
+    it 'returns information about all pipelines in merge request' do
+      expect(@pipelines.first.id).to eq(47)
+      expect(@pipelines.first.status).to eq('pending')
+    end
+  end
+
   describe '.create_merge_request' do
     before do
       stub_post('/projects/3/merge_requests', 'merge_request')

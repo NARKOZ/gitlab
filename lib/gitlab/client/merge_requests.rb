@@ -43,6 +43,18 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/merge_requests/#{id}")
     end
 
+    # Gets a list of merge request pipelines.
+    #
+    # @example
+    #   Gitlab.merge_request_pipelines(5, 36)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return <Gitlab::ObjectifiedHash]
+    def merge_request_pipelines(project, id)
+      get("/projects/#{url_encode project}/merge_requests/#{id}/pipelines")
+    end
+
     # Creates a merge request.
     #
     # @example
