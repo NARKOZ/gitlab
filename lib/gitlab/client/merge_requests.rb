@@ -50,7 +50,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
-    # @return <Gitlab::ObjectifiedHash]
+    # @return [Array<Gitlab::ObjectifiedHash>]
     def merge_request_pipelines(project, id)
       get("/projects/#{url_encode project}/merge_requests/#{id}/pipelines")
     end
