@@ -45,7 +45,7 @@ class Gitlab::Client
     # @param  [String] branch The name of the branch
     # @return [Gitlab::ObjectifiedHash]
     def cherry_pick_commit(project, sha, branch)
-      post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: {branch: branch})
+      post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: { branch: branch })
     end
 
     # Get the diff of a commit in a project.

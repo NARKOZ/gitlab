@@ -48,14 +48,14 @@ describe Gitlab::Client do
 
   describe '.cherry_pick_commit' do
     before do
-      stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: {branch: 'master'})
+      stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
       @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
     end
 
     it 'gets the correct resource' do
       expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
-        .with(body: {branch: 'master'})
-        ).to have_been_made
+        .with(body: { branch: 'master' }))
+        .to have_been_made
     end
 
     it 'returns the correct response' do
