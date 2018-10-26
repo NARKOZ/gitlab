@@ -35,6 +35,19 @@ class Gitlab::Client
     end
     alias repo_commit commit
 
+    # Cherry picks a commit to a given branch.
+    #
+    # @example
+    #   Gitlab.cherry_pick_commit(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] sha The commit hash or name of a repository branch or tag
+    # @param  [String] branch The name of the branch
+    # @return [Gitlab::ObjectifiedHash]
+    def cherry_pick_commit(project, sha, branch)
+      post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: {branch: branch})
+    end
+
     # Get the diff of a commit in a project.
     #
     # @example

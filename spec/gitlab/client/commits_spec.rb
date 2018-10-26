@@ -46,6 +46,24 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.cherry_pick_commit' do
+    before do
+      stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: {branch: 'master'})
+      @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
+        .with(body: {branch: 'master'})
+        ).to have_been_made
+    end
+
+    it 'returns the correct response' do
+      expect(@cherry_pick_commit).to be_a Gitlab::ObjectifiedHash
+      expect(@cherry_pick_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    end
+  end
+
   describe '.commit_diff' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff', 'project_commit_diff')
