@@ -627,6 +627,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.transfer_project' do
+    before do
+      stub_put('/projects/3/transfer', 'transfer_project')
+      @transfered_project = Gitlab.transfer_project(3, 'yolo')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_put('/projects/3/transfer')
+          .with(body: { namespace: 'yolo' })).to have_been_made
+    end
+
+    it 'returns information about the transfered project' do
+      expect(@transfered_project.id).to eq(1)
+    end
+  end
+
   describe '.star_project' do
     before do
       stub_post('/projects/3/star', 'project_star')

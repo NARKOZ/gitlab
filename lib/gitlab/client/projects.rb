@@ -467,6 +467,18 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/share/#{id}")
     end
 
+    # Transfer a project to a new namespace.
+    #
+    # @example
+    #   Gitlab.transfer_project(42, 'yolo')
+    #
+    # @param  [Integer, String] project The ID or path of a project
+    # @param  [Integer, String] namespace The ID or path of the namespace to transfer to project to
+    # @return [Gitlab::ObjectifiedHash] Information about transfered project.
+    def transfer_project(project, namespace)
+      put("/projects/#{url_encode project}/transfer", body: { namespace: namespace })
+    end
+
     # Stars a project.
     # @see https://docs.gitlab.com/ce/api/projects.html#star-a-project
     #
