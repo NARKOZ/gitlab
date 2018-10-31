@@ -205,5 +205,16 @@ class Gitlab::Client
     def time_stats_for_issue(project, id)
       get("/projects/#{url_encode project}/issues/#{id}/time_stats")
     end
+
+    # Get participants on issue
+    #
+    # @example
+    #   @gitlab.participants_on_issue(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    def participants_on_issue(project, id)
+      get("/projects/#{url_encode project}/issues/#{id}/participants")
+    end
   end
 end
