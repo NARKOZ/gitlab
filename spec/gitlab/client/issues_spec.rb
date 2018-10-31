@@ -284,4 +284,20 @@ describe Gitlab::Client do
       expect(@issue.assignee.name).to eq('Jack Smith')
     end
   end
+
+  describe '.issue_participants' do
+    before do
+      stub_get('/projects/3/issues/33/participants', 'issue')
+      @issue = Gitlab.participants_on_issue(3, 33)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/issues/33/participants')).to have_been_made
+    end
+
+    it 'returns information about the participants on issue' do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq('Jack Smith')
+    end
+  end
 end
