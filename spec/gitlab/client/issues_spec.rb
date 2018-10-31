@@ -284,4 +284,20 @@ describe Gitlab::Client do
       expect(@issue.assignee.name).to eq('Jack Smith')
     end
   end
+
+  describe '.merge_requests_closing_issue_on_merge' do
+    before do
+      stub_get('/projects/3/issues/33/closed_by', 'issue')
+      @issue = Gitlab.merge_requests_closing_issue_on_merge(3, 33)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/issues/33/closed_by')).to have_been_made
+    end
+
+    it 'returns information about the issue' do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq('Jack Smith')
+    end
+  end
 end
