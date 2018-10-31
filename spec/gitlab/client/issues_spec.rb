@@ -295,7 +295,7 @@ describe Gitlab::Client do
       expect(a_get('/projects/3/issues/33/closed_by')).to have_been_made
     end
 
-    it 'returns information about the issue' do
+    it 'returns list of merge requests closing issue on merge' do
       expect(@issue.project_id).to eq(3)
       expect(@issue.assignee.name).to eq('Jack Smith')
     end
