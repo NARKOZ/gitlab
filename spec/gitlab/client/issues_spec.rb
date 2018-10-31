@@ -285,10 +285,10 @@ describe Gitlab::Client do
     end
   end
 
-  describe '.issue_participants' do
+  describe '.participants_on_issue' do
     before do
-      stub_get('/projects/3/issues/33/participants', 'issue')
-      @issue = Gitlab.participants_on_issue(3, 33)
+      stub_get('/projects/3/issues/33/participants', 'participants_on_issue')
+      @participants = Gitlab.participants_on_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -296,8 +296,8 @@ describe Gitlab::Client do
     end
 
     it 'returns information about the participants on issue' do
-      expect(@issue.project_id).to eq(3)
-      expect(@issue.assignee.name).to eq('Jack Smith')
+      expect(@participants.first.name).to eq('John Doe1')
+      expect(@participants.size).to eq(2)
     end
   end
 end
