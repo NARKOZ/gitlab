@@ -38,9 +38,20 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref Reference to commit.
+    # @param  [Hash] variables Variables passed to pipelines
     # @return [Gitlab::ObjectifiedHash] The pipelines changes.
-    def create_pipeline(project, ref)
-      post("/projects/#{url_encode project}/pipeline?ref=#{ref}")
+    def create_pipeline(project, ref, variables = {})
+      body = {}
+
+      # This mapping is necessary, cause the API expects an array with objects (with `key` and `value` keys)
+      # See: https://docs.gitlab.com/ee/api/pipelines.html#create-a-new-pipeline
+      body[:variables] = variables.map { |(key, value)| { key: key, value: value } } if variables.any?
+
+      post(
+        "/projects/#{url_encode project}/pipeline",
+        query: { ref: ref },
+        body: body
+      )
     end
 
     # Cancels a pipeline.
