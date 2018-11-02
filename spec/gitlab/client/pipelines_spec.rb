@@ -39,13 +39,15 @@ describe Gitlab::Client do
   end
 
   describe '.create_pipeline' do
+    let(:pipeline_path) { '/projects/3/pipeline?ref=master' }
+
     before do
-      stub_post('/projects/3/pipeline?ref=master', 'pipeline_create')
+      stub_post(pipeline_path, 'pipeline_create')
       @pipeline_create = Gitlab.create_pipeline(3, 'master')
     end
 
     it 'gets the correct resource' do
-      expect(a_post('/projects/3/pipeline?ref=master')).to have_been_made
+      expect(a_post(pipeline_path)).to have_been_made
     end
 
     it 'returns a single pipeline' do
@@ -54,6 +56,19 @@ describe Gitlab::Client do
 
     it 'returns information about a pipeline' do
       expect(@pipeline_create.user.name).to eq('Administrator')
+    end
+
+    context 'when variables are passed' do
+      before do
+        stub_post(pipeline_path, 'pipeline_create')
+        variables = { 'VAR1' => 'value', VAR2: :value }
+        @pipeline_create = Gitlab.create_pipeline(3, 'master', variables)
+      end
+
+      it 'calls with the correct body' do
+        expected_body = 'variables[][key]=VAR1&variables[][value]=value&variables[][key]=VAR2&variables[][value]=value'
+        expect(a_post(pipeline_path).with(body: expected_body)).to have_been_made
+      end
     end
   end
 
