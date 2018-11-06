@@ -59,7 +59,7 @@ module Gitlab
         case message
         when Gitlab::ObjectifiedHash
           message.to_h.sort.map do |key, val|
-            "'#{key}' #{(val.is_a?(Hash) ? val.sort.map { |k, v| "(#{k}: #{v.join(' ')})" } : val).join(' ')}"
+            "'#{key}' #{(val.is_a?(Hash) ? val.sort.map { |k, v| "(#{k}: #{v.join(' ')})" } : [val].flatten).join(' ')}"
           end.join(', ')
         when Array
           message.join(' ')
