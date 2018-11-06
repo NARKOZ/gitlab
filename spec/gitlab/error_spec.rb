@@ -25,7 +25,7 @@ describe Gitlab::Error::ResponseError do
     { code: 401, parsed_response: Gitlab::ObjectifiedHash.new(error: 'Displayed error') },
     { code: 500, parsed_response: Gitlab::ObjectifiedHash.new(embed_entity: { foo: ['bar'], sna: ['fu'] }, password: ['too short']) },
     { code: 403, parsed_response: Array.new(['First message.', 'Second message.']) },
-    { code: 400, parsed_response: Gitlab::ObjectifiedHash.new(message: { error: 'Spam detected' } ) }
+    { code: 400, parsed_response: Gitlab::ObjectifiedHash.new(message: { error: 'Spam detected' }) }
 
   ].each_with_index do |data, index|
     it 'returns the expected message' do
