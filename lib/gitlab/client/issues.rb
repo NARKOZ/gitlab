@@ -216,5 +216,16 @@ class Gitlab::Client
     def participants_on_issue(project, id)
       get("/projects/#{url_encode project}/issues/#{id}/participants")
     end
+
+    # List merge requests that will close issue on merge
+    #
+    # @example
+    #   Gitlab.merge_requests_closing_issue_on_merge(3, 42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of an issue.
+    def merge_requests_closing_issue_on_merge(project, id)
+      get("/projects/#{url_encode project}/issues/#{id}/closed_by")
+    end
   end
 end
