@@ -300,4 +300,20 @@ describe Gitlab::Client do
       expect(@participants.size).to eq(2)
     end
   end
+
+  describe '.merge_requests_closing_issue_on_merge' do
+    before do
+      stub_get('/projects/3/issues/33/closed_by', 'merge_requests_closing_issue_on_merge')
+      @merge_requests = Gitlab.merge_requests_closing_issue_on_merge(3, 33)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/issues/33/closed_by')).to have_been_made
+    end
+
+    it 'returns list of merge requests closing issue on merge' do
+      expect(@merge_requests.first.title).to eq('New feature')
+      expect(@merge_requests.size).to eq(2)
+    end
+  end
 end
