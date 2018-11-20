@@ -10,6 +10,7 @@ module Gitlab
     include AwardEmojis
     include Boards
     include Branches
+    include BroadcastMessages
     include BuildVariables
     include Builds
     include Commits
