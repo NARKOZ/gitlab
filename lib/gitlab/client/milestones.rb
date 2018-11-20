@@ -98,7 +98,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a milestone.
-    # @return [void] This API call returns an empty response body.
+    # @return [nil] This API call returns an empty response body.
     def delete_milestone(project, id)
       delete("/projects/#{url_encode project}/milestones/#{id}")
     end
