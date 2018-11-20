@@ -7,6 +7,9 @@ describe Gitlab::Client do
   it { is_expected.to respond_to :repo_branch }
   it { is_expected.to respond_to :repo_protect_branch }
   it { is_expected.to respond_to :repo_unprotect_branch }
+  it { is_expected.to respond_to :repo_create_branch }
+  it { is_expected.to respond_to :repo_delete_branch }
+  it { is_expected.to respond_to :repo_delete_merged_branches }
 
   describe '.branches' do
     before do
@@ -115,6 +118,17 @@ describe Gitlab::Client do
 
     it 'returns information about the deleted repository branch' do
       expect(@branch.branch_name).to eq('api')
+    end
+  end
+
+  describe '.delete_merged_branches' do
+    before do
+      stub_delete('/projects/3/repository/merged_branches', 'empty')
+      @branch = Gitlab.delete_merged_branches(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/projects/3/repository/merged_branches')).to have_been_made
     end
   end
 end

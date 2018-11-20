@@ -94,5 +94,17 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/repository/branches/#{url_encode branch}")
     end
     alias repo_delete_branch delete_branch
+
+    # Delete all branches that are merged into the project default branch. Protected branches will not be deleted as part of this operation.
+    #
+    # @example
+    #   Gitlab.delete_merged_branches(3)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @return [nil] This API call returns an empty response body.
+    def delete_merged_branches(project)
+      delete("/projects/#{url_encode project}/repository/merged_branches")
+    end
+    alias repo_delete_merged_branches delete_merged_branches
   end
 end
