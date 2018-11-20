@@ -106,5 +106,30 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/repository/merged_branches")
     end
     alias repo_delete_merged_branches delete_merged_branches
+
+    # Gets a list of protected branches from a project.
+    #
+    # @example
+    #   Gitlab.protected_branches(42)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def protected_branches(project)
+      get("/projects/#{url_encode project}/protected_branches")
+    end
+    alias repo_protected_branches protected_branches
+
+    # Gets a single protected branch or wildcard protected branch
+    #
+    # @example
+    #   Gitlab.protected_branch(3, 'api')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] The name of the branch or wildcard
+    # @return [Gitlab::ObjectifiedHash]
+    def protected_branch(project, branch)
+      get("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
+    end
+    alias repo_protected_branch protected_branch
   end
 end
