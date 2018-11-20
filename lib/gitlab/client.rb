@@ -8,9 +8,9 @@ module Gitlab
     # Please keep in alphabetical order
     include AccessRequests
     include AwardEmojis
-    include BroadcastMessages
     include Boards
     include Branches
+    include BroadcastMessages
     include BuildVariables
     include Builds
     include Commits
