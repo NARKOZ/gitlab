@@ -10,6 +10,8 @@ describe Gitlab::Client do
   it { is_expected.to respond_to :repo_create_branch }
   it { is_expected.to respond_to :repo_delete_branch }
   it { is_expected.to respond_to :repo_delete_merged_branches }
+  it { is_expected.to respond_to :repo_protected_branches }
+  it { is_expected.to respond_to :repo_protected_branch }
 
   describe '.branches' do
     before do
@@ -129,6 +131,40 @@ describe Gitlab::Client do
 
     it 'gets the correct resource' do
       expect(a_delete('/projects/3/repository/merged_branches')).to have_been_made
+    end
+  end
+
+  describe '.protected_branches' do
+    before do
+      stub_get('/projects/3/protected_branches', 'protected_branches')
+      @branches = Gitlab.protected_branches(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/protected_branches')).to have_been_made
+    end
+
+    it 'returns information about the protected_branches' do
+      expect(@branches).to be_a Gitlab::PaginatedResponse
+      expect(@branches.first.merge_access_levels).to be_a Array
+      expect(@branches.first.push_access_levels).to be_a Array
+    end
+  end
+
+  describe '.protected_branch' do
+    before do
+      stub_get('/projects/3/protected_branches/master', 'protected_branch')
+      @branch = Gitlab.protected_branch(3, 'master')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/protected_branches/master')).to have_been_made
+    end
+
+    it 'returns correct information about the protected_branch' do
+      expect(@branch.name).to eq 'master'
+      expect(@branch.merge_access_levels).to be_a Array
+      expect(@branch.push_access_levels).to be_a Array
     end
   end
 end
