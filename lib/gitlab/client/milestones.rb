@@ -90,5 +90,17 @@ class Gitlab::Client
     def edit_milestone(project, id, options = {})
       put("/projects/#{url_encode project}/milestones/#{id}", body: options)
     end
+
+    # Delete a project milestone.
+    #
+    # @example
+    #   Gitlab.delete_milestone(5, 2)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a milestone.
+    # @return [nil] This API call returns an empty response body.
+    def delete_milestone(project, id)
+      delete("/projects/#{url_encode project}/milestones/#{id}")
+    end
   end
 end

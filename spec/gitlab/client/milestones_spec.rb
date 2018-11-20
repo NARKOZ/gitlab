@@ -97,4 +97,15 @@ describe Gitlab::Client do
       expect(@milestone.project_id).to eq(3)
     end
   end
+
+  describe '.delete_milestone' do
+    before do
+      stub_delete('/projects/3/milestones/33', 'empty')
+      @milestone = Gitlab.delete_milestone(3, 33)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/projects/3/milestones/33')).to have_been_made
+    end
+  end
 end
