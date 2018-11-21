@@ -36,7 +36,7 @@ describe Gitlab::Client do
   describe '.create_wiki' do
     before do
       stub_post('/projects/1/wikis', 'wiki')
-      @wiki = Gitlab.create_wiki(1, 'home page', 'home')
+      @wiki = Gitlab.create_wiki(1, 'home', 'home page')
     end
 
     it 'gets the correct resource' do

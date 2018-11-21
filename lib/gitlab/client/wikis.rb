@@ -42,7 +42,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] format (optional) The format of the wiki page. Available formats are: markdown (default), rdoc, and asciidoc.
     # @return [Gitlab::ObjectifiedHash] Information about created wiki page.
-    def create_wiki(project, content, title, options = {})
+    def create_wiki(project, title, content, options = {})
       body = { content: content, title: title }.merge(options)
       post("/projects/#{url_encode project}/wikis", body: body)
     end
