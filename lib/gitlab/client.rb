@@ -43,6 +43,7 @@ module Gitlab
     include Todos
     include Users
     include Versions
+    include Wikis
 
     # Text representation of the client, masking private token.
     #
