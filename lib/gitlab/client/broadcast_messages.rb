@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Gitlab::Client
-  # Defines methods related to broadcast messages(only accessible to administrators).
+  # Defines methods related to broadcast messages (only accessible to administrators).
   # @see https://docs.gitlab.com/ce/api/broadcast_messages.html
   module BroadcastMessages
     # Get all broadcast messages

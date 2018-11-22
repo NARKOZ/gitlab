@@ -12,7 +12,7 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :with_content(optional) Include pages content
+    # @option options [String] with_content(optional) Include pages content
     # @return [Array<Gitlab::ObjectifiedHash>]
     def wikis(project, options = {})
       get("/projects/#{url_encode project}/wikis", query: options)
@@ -33,8 +33,8 @@ class Gitlab::Client
     # Creates a new wiki page for the given repository with the given title, slug, and content.
     #
     # @example
-    #   Gitlab.create_wiki(3, 'Some Content', 'Some Title')
-    #   Gitlab.create_wiki(3, 'Some Content', 'Some Title', { format: 'rdoc' })
+    #   Gitlab.create_wiki(3, 'Some Title', 'Some Content')
+    #   Gitlab.create_wiki(3, 'Some Title', 'Some Content', { format: 'rdoc' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] content The content of the wiki page.
@@ -51,7 +51,7 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.update_wiki(6, 'home', { title: 'New title' })
-    #   Gitlab.update_wiki(6, 'home', { title: 'New title', message: 'New Message', format: 'rdoc' })
+    #   Gitlab.update_wiki(6, 'home', { title: 'New title', content: 'New Message', format: 'rdoc' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] slug The slug (a unique string) of the wiki page.

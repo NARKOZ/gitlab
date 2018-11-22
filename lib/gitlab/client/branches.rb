@@ -125,7 +125,7 @@ class Gitlab::Client
     #   Gitlab.protected_branch(3, 'api')
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @param  [String] The name of the branch or wildcard
+    # @param  [String] name The name of the branch or wildcard
     # @return [Gitlab::ObjectifiedHash]
     def protected_branch(project, branch)
       get("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
