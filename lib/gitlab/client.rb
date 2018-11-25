@@ -15,14 +15,18 @@ module Gitlab
     include Builds
     include Commits
     include Deployments
+    include DockerfileTemplates
     include Environments
     include Events
+    include GitignoreTemplates
+    include GitlabCiYmlTemplates
     include GroupMilestones
     include Groups
     include Issues
     include Jobs
     include Keys
     include Labels
+    include LicenseTemplates
     include MergeRequestApprovals
     include MergeRequests
     include Milestones
@@ -32,6 +36,7 @@ module Gitlab
     include PipelineTriggers
     include Pipelines
     include Projects
+    include ProjectTemplates
     include Repositories
     include RepositoryFiles
     include Runners

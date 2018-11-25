@@ -1,0 +1,70 @@
+[
+  {
+    "key": "Binary",
+    "name": "Binary"
+  },
+  {
+    "key": "Binary-alpine",
+    "name": "Binary-alpine"
+  },
+  {
+    "key": "Binary-scratch",
+    "name": "Binary-scratch"
+  },
+  {
+    "key": "Golang",
+    "name": "Golang"
+  },
+  {
+    "key": "Golang-alpine",
+    "name": "Golang-alpine"
+  },
+  {
+    "key": "Golang-scratch",
+    "name": "Golang-scratch"
+  },
+  {
+    "key": "HTTPd",
+    "name": "HTTPd"
+  },
+  {
+    "key": "Node",
+    "name": "Node"
+  },
+  {
+    "key": "Node-alpine",
+    "name": "Node-alpine"
+  },
+  {
+    "key": "OpenJDK",
+    "name": "OpenJDK"
+  },
+  {
+    "key": "OpenJDK-alpine",
+    "name": "OpenJDK-alpine"
+  },
+  {
+    "key": "PHP",
+    "name": "PHP"
+  },
+  {
+    "key": "Python",
+    "name": "Python"
+  },
+  {
+    "key": "Python-alpine",
+    "name": "Python-alpine"
+  },
+  {
+    "key": "Python2",
+    "name": "Python2"
+  },
+  {
+    "key": "Ruby",
+    "name": "Ruby"
+  },
+  {
+    "key": "Ruby-alpine",
+    "name": "Ruby-alpine"
+  }
+]
