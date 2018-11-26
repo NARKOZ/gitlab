@@ -4,7 +4,7 @@ class Gitlab::Client
   # Defines methods related to gitlab_ci.yml templates.
   # @see https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html
   module GitlabCiYmlTemplates
-    # Get all gitlab_ci_yml templates.
+    # Get all `gitlab_ci.yml` templates.
     #
     # @example
     #   Gitlab.gitlab_ci_yml_templates
@@ -14,7 +14,7 @@ class Gitlab::Client
       get('/templates/gitlab_ci_ymls')
     end
 
-    # Get a single gitlab_ci_yml template.
+    # Get a single `gitlab_ci.yml` template.
     #
     # @example
     #   Gitlab.gitlab_ci_yml_template('Ruby')

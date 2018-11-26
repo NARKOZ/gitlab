@@ -2,7 +2,7 @@
 
 class Gitlab::Client
   # Defines methods related to project-specific templates.
-  # @see https://docs.gitlab.com/ce/api/projects.html
+  # @see https://docs.gitlab.com/ce/api/project_templates.html
   module ProjectTemplates
     # Get all templates of a particular type
     # @example
