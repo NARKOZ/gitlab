@@ -49,7 +49,7 @@ class Gitlab::Client
 
       post(
         "/projects/#{url_encode project}/pipeline",
-        query: { ref: ref },
+        query: { ref: url_encode(ref) },
         body: body
       )
     end
