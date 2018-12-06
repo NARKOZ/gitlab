@@ -9,10 +9,13 @@ class Gitlab::Client
     # @example
     #   Gitlab.jobs(1)
     #   Gitlab.jobs("project")
+    #   Gitlab.jobs("project", {scope: ["manual", "success"], per_page: 100 })
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Array] :scope The scope of jobs to show, one or array of: created, pending, running, failed, success, canceled, skipped, manual; showing all jobs if none provided.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def jobs(project_id, options = {})
       get("/projects/#{url_encode project_id}/jobs", query: options)
