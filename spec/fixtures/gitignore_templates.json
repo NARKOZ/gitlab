@@ -1,0 +1,82 @@
+[
+  {
+    "key": "Actionscript",
+    "name": "Actionscript"
+  },
+  {
+    "key": "Ada",
+    "name": "Ada"
+  },
+  {
+    "key": "Agda",
+    "name": "Agda"
+  },
+  {
+    "key": "Android",
+    "name": "Android"
+  },
+  {
+    "key": "AppEngine",
+    "name": "AppEngine"
+  },
+  {
+    "key": "AppceleratorTitanium",
+    "name": "AppceleratorTitanium"
+  },
+  {
+    "key": "ArchLinuxPackages",
+    "name": "ArchLinuxPackages"
+  },
+  {
+    "key": "Autotools",
+    "name": "Autotools"
+  },
+  {
+    "key": "C",
+    "name": "C"
+  },
+  {
+    "key": "C++",
+    "name": "C++"
+  },
+  {
+    "key": "CFWheels",
+    "name": "CFWheels"
+  },
+  {
+    "key": "CMake",
+    "name": "CMake"
+  },
+  {
+    "key": "CUDA",
+    "name": "CUDA"
+  },
+  {
+    "key": "CakePHP",
+    "name": "CakePHP"
+  },
+  {
+    "key": "ChefCookbook",
+    "name": "ChefCookbook"
+  },
+  {
+    "key": "Clojure",
+    "name": "Clojure"
+  },
+  {
+    "key": "CodeIgniter",
+    "name": "CodeIgniter"
+  },
+  {
+    "key": "CommonLisp",
+    "name": "CommonLisp"
+  },
+  {
+    "key": "Composer",
+    "name": "Composer"
+  },
+  {
+    "key": "Concrete5",
+    "name": "Concrete5"
+  }
+]

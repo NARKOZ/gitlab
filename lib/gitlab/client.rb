@@ -40,6 +40,7 @@ module Gitlab
     include Snippets
     include SystemHooks
     include Tags
+    include Templates
     include Todos
     include Users
     include Versions
