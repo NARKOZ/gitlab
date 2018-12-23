@@ -18,7 +18,7 @@ class Gitlab::Client
     def edit_submodule(project, submodule, branch, commit_sha, commit_message)
       put("/projects/#{url_encode project}/repository/submodules/#{url_encode submodule}", body: {
         branch: branch,
-        commit_sha: commit_sha
+        commit_sha: commit_sha,
         commit_message: commit_message
       })
     end
