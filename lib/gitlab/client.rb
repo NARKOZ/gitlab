@@ -31,6 +31,7 @@ module Gitlab
     include PipelineSchedules
     include PipelineTriggers
     include Pipelines
+    include ProjectBadges
     include Projects
     include Repositories
     include RepositoryFiles
