@@ -52,7 +52,7 @@ describe Gitlab::Client do
   describe '.unprotect_repository_tag' do
     before do
       stub_delete('/projects/1/protected_tags/release-1-0', 'empty')
-      @unprotected_tag = Gitlab.unprotect_repository_tag(1, 'release-1-0')
+      Gitlab.unprotect_repository_tag(1, 'release-1-0')
     end
 
     it 'gets the correct resource' do
