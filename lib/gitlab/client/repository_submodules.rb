@@ -7,20 +7,21 @@ class Gitlab::Client
     # Edits an existing repository submodule.
     #
     # @example
-    #   Gitlab.edit_file(42, "submodule", "branch", "3ddec28ea23acc5caa5d8331a6ecb2a65fc03e88", "commit message")
+    #   Gitlab.edit_file(42, "submodule", {
+    #     branch: "branch",
+    #     commit_sha: "3ddec28ea23acc5caa5d8331a6ecb2a65fc03e88",
+    #     commit_message: "commit message"
+    #   })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] submodule full path of submodule to update.
-    # @param  [String] branch the name of the branch to commit changes to.
-    # @param  [String] commit_sha commit SHA to update the submodule to.
-    # @param  [String] commit_message ...commit message.
+    # @param  [Hash] options A customizable set of options.
+    # @param  options [String] :branch the name of the branch to commit changes to.
+    # @param  options [String] :commit_sha commit SHA to update the submodule to.
+    # @param  options [String] :commit_message commit message text.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_submodule(project, submodule, branch, commit_sha, commit_message)
-      put("/projects/#{url_encode project}/repository/submodules/#{url_encode submodule}", body: {
-            branch: branch,
-            commit_sha: commit_sha,
-            commit_message: commit_message
-          })
+    def edit_submodule(project, submodule, options = {})
+      put("/projects/#{url_encode project}/repository/submodules/#{url_encode submodule}", body: options)
     end
   end
 end
