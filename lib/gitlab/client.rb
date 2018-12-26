@@ -36,6 +36,7 @@ module Gitlab
     include ProtectedTags
     include Repositories
     include RepositoryFiles
+    include RepositorySubmodules
     include Runners
     include Services
     include Sidekiq
