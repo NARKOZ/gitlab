@@ -8,25 +8,22 @@ Gem::Specification.new do |gem|
   gem.name          = 'gitlab'
   gem.version       = Gitlab::VERSION
   gem.authors       = ['Nihad Abbasov', 'Sean Edge']
-  gem.email         = ['mail@narkoz.me', 'asedge@gmail.com']
+  gem.email         = ['nihad@42na.in', 'asedge@gmail.com']
   gem.description   = 'Ruby client and CLI for GitLab API'
   gem.summary       = 'A Ruby wrapper and CLI for the GitLab API'
-  gem.homepage      = 'https://github.com/narkoz/gitlab'
+  gem.homepage      = 'https://github.com/NARKOZ/gitlab'
 
-  gem.files         = `git ls-files`.split($/)
-                                    .grep_v(/^spec/) -
-                      %w[Dockerfile docker-compose.yml docker.env .travis.yml
-                         .rubocop.yml .dockerignore]
+  gem.files         = Dir['{exe,lib}/**/*', 'LICENSE.txt', 'README.md', 'CHANGELOG.md']
   gem.bindir        = 'exe'
   gem.executables   = gem.files.grep(%r{^exe/}) { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
-  gem.license       = 'BSD'
+  gem.license       = 'BSD-2-Clause'
 
   gem.required_ruby_version = '>= 2.3'
 
-  gem.add_runtime_dependency 'httparty', '>= 0.14.0'
-  gem.add_runtime_dependency 'terminal-table', '>= 1.5.1'
+  gem.add_runtime_dependency 'httparty', '~> 0.14', '>= 0.14.0'
+  gem.add_runtime_dependency 'terminal-table', '~> 1.5', '>= 1.5.1'
 
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
