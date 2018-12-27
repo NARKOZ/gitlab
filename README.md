@@ -65,6 +65,8 @@ Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
 Gitlab.http_proxy('proxyhost', 8888)
 # proxy server with basic auth
 Gitlab.http_proxy('proxyhost', 8888, 'proxyuser', 'strongpasswordhere')
+# set timeout for responses
+ENV['GITLAB_API_HTTPARTY_OPTIONS'] = '{read_timeout: 60}'
 
 # list projects
 Gitlab.projects(per_page: 5)
