@@ -37,6 +37,7 @@ module Gitlab
     include Repositories
     include RepositoryFiles
     include RepositorySubmodules
+    include ResourceLabelEvents
     include Runners
     include Services
     include Sidekiq
