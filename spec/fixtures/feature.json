@@ -1,0 +1,14 @@
+{
+  "name": "new_library",
+  "state": "conditional",
+  "gates": [
+    {
+      "key": "boolean",
+      "value": false
+    },
+    {
+      "key": "percentage_of_time",
+      "value": 30
+    }
+  ]
+}
