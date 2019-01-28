@@ -58,6 +58,7 @@ module Gitlab
                     when 405 then Error::MethodNotAllowed
                     when 409 then Error::Conflict
                     when 422 then Error::Unprocessable
+                    when 429 then Error::TooManyRequests
                     when 500 then Error::InternalServerError
                     when 502 then Error::BadGateway
                     when 503 then Error::ServiceUnavailable
