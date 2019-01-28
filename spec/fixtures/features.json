@@ -1,0 +1,22 @@
+[
+  {
+    "name": "experimental_feature",
+    "state": "off",
+    "gates": [
+      {
+        "key": "boolean",
+        "value": false
+      }
+    ]
+  },
+  {
+    "name": "new_library",
+    "state": "on",
+    "gates": [
+      {
+        "key": "boolean",
+        "value": true
+      }
+    ]
+  }
+]
