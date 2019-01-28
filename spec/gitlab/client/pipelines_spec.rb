@@ -109,4 +109,15 @@ describe Gitlab::Client do
       expect(@pipeline_retry.user.name).to eq('Administrator')
     end
   end
+
+  describe '.delete_pipeline' do
+    before do
+      stub_delete('/projects/3/pipelines/46', 'empty')
+      Gitlab.delete_pipeline(3, 46)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/projects/3/pipelines/46')).to have_been_made
+    end
+  end
 end
