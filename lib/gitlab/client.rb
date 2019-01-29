@@ -32,6 +32,7 @@ module Gitlab
     include PipelineTriggers
     include Pipelines
     include ProjectBadges
+    include ProjectClusters
     include Projects
     include ProtectedTags
     include Repositories
