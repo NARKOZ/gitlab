@@ -40,7 +40,7 @@ module Gitlab
       #
       # @return [String]
       def build_error_message
-        parsed_response = @response.parsed_response
+        parsed_response = classified_response
         message = check_error_keys(parsed_response)
         "Server responded with code #{@response.code}, message: " \
         "#{handle_message(message)}. " \
@@ -52,6 +52,17 @@ module Gitlab
       def check_error_keys(resp)
         key = POSSIBLE_MESSAGE_KEYS.find { |k| resp.respond_to?(k) }
         key ? resp.send(key) : resp
+      end
+
+      # Parse the body based on the classification of the body content type
+      #
+      # @return parsed response
+      def classified_response
+        if @response.respond_to?('headers')
+          @response.headers['content-type'] == 'text/plain' ? { message: @response.to_s } : @response.parsed_response
+        else
+          @response.parsed_response
+        end
       end
 
       # Handle error response message in case of nested hashes
@@ -89,6 +100,9 @@ module Gitlab
 
     # Raised when API endpoint returns the HTTP status code 422.
     class Unprocessable < ResponseError; end
+
+    # Raised when API endpoint returns the HTTP status code 429.
+    class TooManyRequests < ResponseError; end
 
     # Raised when API endpoint returns the HTTP status code 500.
     class InternalServerError < ResponseError; end
