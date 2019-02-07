@@ -79,9 +79,11 @@ class Gitlab::Client
     #   Gitlab.runner_jobs(1)
     #
     # @param  [Integer] id The ID of a runner.
+    # @param  [String] status The job status filter
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def runner_jobs(runner_id)
-      get("/runners/#{url_encode runner_id}/jobs")
+    def runner_jobs(runner_id, status=nil)
+      filter = status.nil? ? "" : "?status=#{status}"
+      get("/runners/#{url_encode runner_id}/jobs#{filter}")
     end
 
     # List all runners (specific and shared) available in the project. Shared runners are listed if at least one shared runner is defined and shared runners usage is enabled in the project's settings.
