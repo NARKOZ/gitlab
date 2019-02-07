@@ -25,18 +25,6 @@ class Gitlab::Client
       end
     end
 
-    # Gets a list of issues of a group.
-    #
-    # @example
-    #   Gitlab.group_issues(5)
-    #
-    # @param  [Integer, String] group_id The ID or name of a group.
-    # @param  [Hash] options A customizable set of options.
-    # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_issues(group=nil, options={})
-      get("/groups/#{group}/issues", query: options)
-    end
-
     # Gets a single issue.
     #
     # @example
