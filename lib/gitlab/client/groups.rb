@@ -200,7 +200,7 @@ class Gitlab::Client
     # @param  [Integer, String] group_id The ID or name of a group.
     # @param  [Hash] options A customizable set of options.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def group_issues(group = nil, options = {})
+    def group_issues(group, options = {})
       get("/groups/#{group}/issues", query: options)
     end
   end
