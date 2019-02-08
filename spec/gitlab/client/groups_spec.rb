@@ -245,4 +245,20 @@ describe Gitlab::Client do
       end
     end
   end
+
+  describe '.group_issues' do
+    before do
+      stub_get('/groups/3/issues', 'group_issues')
+      @issues = Gitlab.group_issues(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/issues')).to have_been_made
+    end
+
+    it "returns a paginated response of project's issues" do
+      expect(@issues).to be_a Gitlab::PaginatedResponse
+      expect(@issues.first.project_id).to eq(4)
+    end
+  end
 end
