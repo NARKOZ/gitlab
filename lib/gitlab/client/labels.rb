@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Gitlab::Client
-  # Defines methods related to labels.
+  # Defines methods related to project labels.
   # @see https://docs.gitlab.com/ce/api/labels.html
   module Labels
     # Gets a list of project's labels.

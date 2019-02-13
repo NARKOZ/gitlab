@@ -18,6 +18,7 @@ module Gitlab
     include Environments
     include Events
     include Features
+    include GroupLabels
     include GroupMilestones
     include Groups
     include Issues
