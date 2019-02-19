@@ -1,0 +1,64 @@
+  {
+    "id": 1,
+    "project": null,
+    "lists": [],
+    "name": "new_name",
+    "group": {
+      "id": 5,
+      "name": "Documentcloud",
+      "path": "documentcloud",
+      "owner_id": null,
+      "created_at": "2018-05-07T06:52:45.788Z",
+      "updated_at": "2018-07-03T06:48:17.005Z",
+      "description": "Consequatur aut a aperiam ut.",
+      "avatar": {
+        "url": null
+      },
+      "membership_lock": false,
+      "share_with_group_lock": false,
+      "visibility_level": 20,
+      "request_access_enabled": false,
+      "ldap_sync_status": "ready",
+      "ldap_sync_error": null,
+      "ldap_sync_last_update_at": null,
+      "ldap_sync_last_successful_update_at": null,
+      "ldap_sync_last_sync_at": null,
+      "lfs_enabled": null,
+      "parent_id": null,
+      "shared_runners_minutes_limit": null,
+      "repository_size_limit": null,
+      "require_two_factor_authentication": false,
+      "two_factor_grace_period": 48,
+      "plan_id": null,
+      "project_creation_level": 2,
+      "runners_token": "rgeeL-nv3wa6YdRvuMid"
+    },
+    "milestone": {
+      "id": 44,
+      "iid": 1,
+      "group_id": 5,
+      "title": "Group Milestone",
+      "description": "Group Milestone Desc",
+      "state": "active",
+      "created_at": "2018-07-03T07:15:19.271Z",
+      "updated_at": "2018-07-03T07:15:19.271Z",
+      "due_date": null,
+      "start_date": null,
+      "web_url": "http://example.com/groups/documentcloud/-/milestones/1"
+    },
+    "assignee": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://example.com/root"
+    },
+    "labels": [{
+      "id": 11,
+      "name": "GroupLabel",
+      "color": "#428BCA",
+      "description": ""
+    }],
+    "weight": 4
+  }
