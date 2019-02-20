@@ -1,0 +1,52 @@
+[
+  {
+    "id": 83,
+    "iid": 1,
+    "project_id": 12,
+    "title": "Add file",
+    "description": "Add first file",
+    "state": "opened",
+    "created_at": "2018-01-24T06:02:15.514Z",
+    "updated_at": "2018-02-06T12:36:23.263Z",
+    "closed_at": null,
+    "labels":[],
+    "milestone": null,
+    "assignees": [{
+      "id": 20,
+      "name": "Ceola Deckow",
+      "username": "sammy.collier",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/c23d85a4f50e0ea76ab739156c639231?s=80&d=identicon",
+      "web_url": "http://localhost:3000/sammy.collier"
+    }],
+    "author": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://localhost:3000/root"
+    },
+    "assignee": {
+      "id": 20,
+      "name": "Ceola Deckow",
+      "username": "sammy.collier",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/c23d85a4f50e0ea76ab739156c639231?s=80&d=identicon",
+      "web_url": "http://localhost:3000/sammy.collier"
+    },
+    "user_notes_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "web_url": "http://localhost:3000/h5bp/7bp/subgroup-prj/issues/1",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    }
+  }
+]

@@ -45,6 +45,7 @@ module Gitlab
     include RepositorySubmodules
     include ResourceLabelEvents
     include Runners
+    include Search
     include Services
     include Sidekiq
     include Snippets
