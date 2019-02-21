@@ -1,0 +1,20 @@
+[
+  {
+    "id": 50,
+    "title": "Sample file",
+    "file_name": "file.rb",
+    "description": "Simple ruby file",
+    "author": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://localhost:3000/root"
+    },
+    "updated_at": "2018-02-06T12:49:29.104Z",
+    "created_at": "2017-11-28T08:20:18.071Z",
+    "project_id": 9,
+    "web_url": "http://localhost:3000/root/jira-test/snippets/50"
+  }
+]
