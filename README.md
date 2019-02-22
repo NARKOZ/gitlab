@@ -11,7 +11,7 @@
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
 Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
-As of version `4.0.0` this gem only supports Ruby 2.0+ and GitLab API v4.
+As of version `4.0.0` this gem only supports GitLab API v4.
 
 ## Installation
 
