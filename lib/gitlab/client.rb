@@ -15,6 +15,7 @@ module Gitlab
     include BuildVariables
     include Builds
     include Commits
+    include ContainerRegistry
     include Deployments
     include Environments
     include Events
