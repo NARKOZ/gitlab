@@ -28,6 +28,7 @@ module Gitlab
     include Jobs
     include Keys
     include Labels
+    include Lint
     include Markdown
     include MergeRequestApprovals
     include MergeRequests
