@@ -1,0 +1,12 @@
+[
+  {
+    "name": "A",
+    "path": "group/project:A",
+    "location": "gitlab.example.com:5000/group/project:A"
+  },
+  {
+    "name": "latest",
+    "path": "group/project:latest",
+    "location": "gitlab.example.com:5000/group/project:latest"
+  }
+]
