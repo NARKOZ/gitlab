@@ -1,0 +1,6 @@
+{
+  "status": "invalid",
+  "errors": [
+    "variables config should be a hash of key value pairs"
+  ]
+}
