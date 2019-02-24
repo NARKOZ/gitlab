@@ -122,5 +122,50 @@ class Gitlab::Client
     def project_disable_runner(id, runner_id)
       delete("/projects/#{url_encode id}/runners/#{runner_id}")
     end
+
+    # Register a new Runner for the instance.
+    #
+    # @example
+    #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e')
+    #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e', description: 'Some Description', active: true, locked: false)
+    #
+    # @param  [String] token Registration token.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :description Runner description.
+    # @option options [Hash] :info Runner metadata.
+    # @option options [Boolean] :active Whether the Runner is active.
+    # @option options [Boolean] :locked Whether the Runner should be locked for current project.
+    # @option options [Boolean] :run_untagged Whether the Runner should handle untagged jobs.
+    # @option options [Array<String>] :tag_list List of Runner tags.
+    # @option options [Integer] :maximum_timeout Maximum timeout set when this Runner will handle the job.
+    # @return <Gitlab::ObjectifiedHash> Response against runner registration
+    def register_runner(token, options = {})
+      body = { token: token }.merge(options)
+      post('/runners', body: body)
+    end
+
+    # Deletes a registed Runner.
+    #
+    # @example
+    #   Gitlab.delete_registered_runner('9142c16ea169eaaea3d752313a434a6e')
+    #
+    # @param  [String] token Runner authentication token.
+    # @return [void] This API call returns an empty response body.
+    def delete_registered_runner(token)
+      body = { token: token }
+      delete('/runners', body: body)
+    end
+
+    # Validates authentication credentials for a registered Runner.
+    #
+    # @example
+    #   Gitlab.verify_auth_registered_runner('9142c16ea169eaaea3d752313a434a6e')
+    #
+    # @param  [String] token Runner authentication token.
+    # @return [void] This API call returns an empty response body.
+    def verify_auth_registered_runner(token)
+      body = { token: token }
+      post('/runners/verify', body: body)
+    end
   end
 end

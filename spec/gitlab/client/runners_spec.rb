@@ -191,4 +191,44 @@ describe Gitlab::Client do
       expect(@runner.description).to eq('test-1-20150125')
     end
   end
+
+  describe '.register_runner' do
+    before do
+      stub_post('/runners', 'register_runner_response').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false })
+      @register_runner_response = Gitlab.register_runner('6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/runners')
+        .with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false })).to have_been_made
+    end
+
+    it 'returns correct response for the runner registration' do
+      expect(@register_runner_response.token).to eq('6337ff461c94fd3fa32ba3b1ff4125')
+    end
+  end
+
+  describe '.delete_registered_runner' do
+    before do
+      stub_delete('/runners', 'empty').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })
+      Gitlab.delete_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/runners')
+        .with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })).to have_been_made
+    end
+  end
+
+  describe '.verify_auth_registered_runner' do
+    before do
+      stub_post('/runners/verify', 'empty').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })
+      Gitlab.verify_auth_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/runners/verify')
+        .with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })).to have_been_made
+    end
+  end
 end
