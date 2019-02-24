@@ -150,7 +150,7 @@ class Gitlab::Client
     #   Gitlab.delete_registered_runner('9142c16ea169eaaea3d752313a434a6e')
     #
     # @param  [String] token Runner authentication token.
-    # @return [void] This API call returns an empty response body.
+    # @return [nil] This API call returns an empty response body.
     def delete_registered_runner(token)
       body = { token: token }
       delete('/runners', body: body)
@@ -162,7 +162,7 @@ class Gitlab::Client
     #   Gitlab.verify_auth_registered_runner('9142c16ea169eaaea3d752313a434a6e')
     #
     # @param  [String] token Runner authentication token.
-    # @return [void] This API call returns an empty response body.
+    # @return [nil] This API call returns an empty response body.
     def verify_auth_registered_runner(token)
       body = { token: token }
       post('/runners/verify', body: body)
