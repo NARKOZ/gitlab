@@ -21,13 +21,13 @@ describe Gitlab::Client do
   describe '.edit_project_merge_request_approvals' do
     before do
       body = { approvals_before_merge: '3', reset_approvals_on_push: 'false', disable_overriding_approvers_per_merge_request: 'true' }
-      stub_post('/projects/1/approvals', 'project_merge_request_approvals').with(body: body)
+      stub_post('/projects/1/approvers', 'project_merge_request_approvals').with(body: body)
       @project_mr_approvals = Gitlab.edit_project_merge_request_approvals(1, approvals_before_merge: 3, reset_approvals_on_push: false, disable_overriding_approvers_per_merge_request: true)
     end
 
     it 'gets the correct resource' do
       body = { approvals_before_merge: '3', reset_approvals_on_push: 'false', disable_overriding_approvers_per_merge_request: 'true' }
-      expect(a_post('/projects/1/approvals')
+      expect(a_post('/projects/1/approvers')
         .with(body: body)).to have_been_made
     end
 
