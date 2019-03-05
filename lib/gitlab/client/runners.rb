@@ -82,7 +82,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :status Status of the job; one of: running, success, failed, canceled
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def runner_jobs(runner_id, options={})
+    def runner_jobs(runner_id, options = {})
       get("/runners/#{url_encode runner_id}/jobs", query: options)
     end
 
