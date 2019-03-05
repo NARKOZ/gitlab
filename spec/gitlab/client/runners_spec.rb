@@ -132,12 +132,12 @@ describe Gitlab::Client do
 
   describe '.runner_jobs' do
     before do
-      stub_get('/runners/1/jobs', 'runner_jobs')
-      @jobs = Gitlab.runner_jobs(1)
+      stub_get('/runners/1/jobs?status=running', 'runner_jobs')
+      @jobs = Gitlab.runner_jobs(1, status: :running)
     end
 
     it 'gets the correct resource' do
-      expect(a_get('/runners/1/jobs')).to have_been_made
+      expect(a_get('/runners/1/jobs').with(query: { status: :running })).to have_been_made
     end
   end
 
