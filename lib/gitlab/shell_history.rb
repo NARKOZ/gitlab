@@ -50,8 +50,8 @@ class Gitlab::Shell
       path = history_file_path
 
       File.foreach(path) { |line| yield(line) } if File.exist?(path)
-    rescue StandardError => error
-      warn "History file not loaded: #{error.message}"
+    rescue StandardError => e
+      warn "History file not loaded: #{e.message}"
     end
 
     def max_lines

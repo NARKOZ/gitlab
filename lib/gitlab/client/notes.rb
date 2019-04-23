@@ -276,7 +276,7 @@ class Gitlab::Client
     # in the 'else'.
     def note_content(body)
       if body.is_a?(Hash)
-        STDERR.puts 'Passing the note body as a Hash is deprecated.  You should just pass the String.'
+        warn 'Passing the note body as a Hash is deprecated.  You should just pass the String.'
         body
       else
         { body: body }
