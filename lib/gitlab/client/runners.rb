@@ -79,7 +79,7 @@ class Gitlab::Client
     #   Gitlab.runner_jobs(1)
     #
     # @param  [Integer] id The ID of a runner.
-    # @param  [String] status The job status filter
+    # @param  [Hash] options A customizable set of options.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def runner_jobs(runner_id, options = {})
       get("/runners/#{url_encode runner_id}/jobs", query: options)
