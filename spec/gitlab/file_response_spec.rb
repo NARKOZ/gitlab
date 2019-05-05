@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gitlab::FileResponse do
   before do
-    @file_response = described_class.new StringIO.new('', 'rb+')
+    @file_response = described_class.new StringIO.new(+'', 'rb+')
   end
 
   context '.empty?' do

@@ -50,20 +50,7 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
-      error_klass = case response.code
-                    when 400 then Error::BadRequest
-                    when 401 then Error::Unauthorized
-                    when 403 then Error::Forbidden
-                    when 404 then Error::NotFound
-                    when 405 then Error::MethodNotAllowed
-                    when 409 then Error::Conflict
-                    when 422 then Error::Unprocessable
-                    when 429 then Error::TooManyRequests
-                    when 500 then Error::InternalServerError
-                    when 502 then Error::BadGateway
-                    when 503 then Error::ServiceUnavailable
-                    end
-
+      error_klass = Error::STATUS_MAPPINGS[response.code]
       raise error_klass, response if error_klass
 
       parsed = response.parsed_response

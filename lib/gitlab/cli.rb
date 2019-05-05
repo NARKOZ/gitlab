@@ -8,9 +8,6 @@ require_relative 'shell'
 class Gitlab::CLI
   extend Helpers
 
-  # If set to true, JSON will be rendered as output
-  @render_json = false
-
   # Starts a new CLI session.
   #
   # @example

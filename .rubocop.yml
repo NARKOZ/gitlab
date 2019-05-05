@@ -5,7 +5,7 @@ AllCops:
   TargetRubyVersion: 2.3
 
 Metrics/LineLength:
-  Max: 125
+  Max: 123
   Exclude:
     - 'lib/gitlab/client/*'
     - 'spec/**/*'
@@ -15,7 +15,7 @@ Metrics/BlockLength:
     - 'spec/**/*'
 
 Metrics/CyclomaticComplexity:
-  Max: 15
+  Max: 12
 
 Style/Documentation:
   Enabled: false
@@ -27,5 +27,4 @@ Style/ClassAndModuleChildren:
 
 Style/FrozenStringLiteralComment:
   Exclude:
-    - 'spec/gitlab/file_response_spec.rb'
     - 'spec/gitlab/help_spec.rb'

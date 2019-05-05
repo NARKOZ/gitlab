@@ -30,12 +30,8 @@ class Gitlab::Shell
     private
 
     def history_file
-      if defined?(@history_file)
-        @history_file
-      else
-        @history_file = File.open(history_file_path, 'w', 0o600).tap do |file|
-          file.sync = true
-        end
+      @history_file ||= File.open(history_file_path, 'w', 0o600).tap do |file|
+        file.sync = true
       end
     rescue Errno::EACCES
       warn 'History not saved; unable to open your history file for writing.'

@@ -56,9 +56,9 @@ describe Gitlab::Shell do
     end
     context 'called with an argument' do
       it 'returns an Array of matching commands' do
-        completed_cmds = @comp.call 'group'
+        completed_cmds = @comp.call 'issue'
         expect(completed_cmds).to be_a Array
-        expect(completed_cmds.sort).to eq(%w[group group_access_requests group_board group_board_list group_board_lists group_boards group_issues group_labels group_member group_members group_milestone group_milestone_issues group_milestone_merge_requests group_milestones group_projects group_search group_subgroups group_variable group_variables groups])
+        expect(completed_cmds.sort).to eq(%w[issue issue_label_event issue_label_events issue_note issue_notes issues])
       end
     end
   end
