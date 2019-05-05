@@ -14,9 +14,6 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
-Metrics/CyclomaticComplexity:
-  Max: 12
-
 Style/Documentation:
   Enabled: false
 
