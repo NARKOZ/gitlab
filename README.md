@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](https://narkoz.github.io/gitlab) |
-[documentation](https://rubydoc.info/gems/gitlab/frames) |
+[documentation](https://www.rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
 Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
@@ -110,7 +110,7 @@ end
 projects.auto_paginate
 ```
 
-For more information, refer to [documentation](https://rubydoc.info/gems/gitlab/frames).
+For more information, refer to [documentation](https://www.rubydoc.info/gems/gitlab/frames).
 
 ## CLI
 
