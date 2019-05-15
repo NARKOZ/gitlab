@@ -751,4 +751,36 @@ describe Gitlab::Client do
       end
     end
   end
+
+  describe '.archive_project' do
+    before do
+      stub_post('/projects/3/archive', 'project_archive')
+      @archived_project = Gitlab.archive_project('3')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/3/archive')).to have_been_made
+    end
+
+    it 'returns information about a archived project' do
+      expect(@archived_project.name).to eq('GitLab Community Edition')
+      expect(@archived_project.archived).to eq(true)
+    end
+  end
+
+  describe '.unarchive_project' do
+    before do
+      stub_post('/projects/3/unarchive', 'project_unarchive')
+      @unarchived_project = Gitlab.unarchive_project('3')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/3/unarchive')).to have_been_made
+    end
+
+    it 'returns information about a unarchived project' do
+      expect(@unarchived_project.name).to eq('GitLab Community Edition')
+      expect(@unarchived_project.archived).to eq(false)
+    end
+  end
 end

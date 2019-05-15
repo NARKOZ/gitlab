@@ -570,5 +570,27 @@ class Gitlab::Client
     def project_template(project, type, key, options = {})
       get("/projects/#{url_encode project}/templates/#{type}/#{key}", query: options)
     end
+
+    # Archives a project.
+    #
+    # @example
+    #   Gitlab.archive_project(4)
+    #
+    # @param  [Integer, String] id The ID or path of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about archived project.
+    def archive_project(id)
+      post("/projects/#{url_encode id}/archive")
+    end
+
+    # Unarchives a project.
+    #
+    # @example
+    #   Gitlab.unarchive_project(4)
+    #
+    # @param  [Integer, String] id The ID or path of a project.
+    # @return [Gitlab::ObjectifiedHash] Information about unarchived project.
+    def unarchive_project(id)
+      post("/projects/#{url_encode id}/unarchive")
+    end
   end
 end
