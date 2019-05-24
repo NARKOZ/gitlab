@@ -64,7 +64,7 @@ module Gitlab
     def last_page
       return nil if @client.nil? || !has_last_page?
 
-      path = @links.last.sub(/#{@client.endpoint}/, '')
+      path = @links.last[/\/(?!.*\.).*/].sub(/#{@client.endpoint[/\/(?!.*\.).*/]}/, '')
       @client.get(path)
     end
 
@@ -76,7 +76,7 @@ module Gitlab
     def first_page
       return nil if @client.nil? || !has_first_page?
 
-      path = @links.first.sub(/#{@client.endpoint}/, '')
+      path = @links.first[/\/(?!.*\.).*/].sub(/#{@client.endpoint[/\/(?!.*\.).*/]}/, '')
       @client.get(path)
     end
 
@@ -88,7 +88,7 @@ module Gitlab
     def next_page
       return nil if @client.nil? || !has_next_page?
 
-      path = @links.next.sub(/#{@client.endpoint}/, '')
+      path = @links.next[/\/(?!.*\.).*/].sub(/#{@client.endpoint[/\/(?!.*\.).*/]}/, '')
       @client.get(path)
     end
 
@@ -100,7 +100,7 @@ module Gitlab
     def prev_page
       return nil if @client.nil? || !has_prev_page?
 
-      path = @links.prev.sub(/#{@client.endpoint}/, '')
+      path = @links.prev[/\/(?!.*\.).*/].sub(/#{@client.endpoint[/\/(?!.*\.).*/]}/, '')
       @client.get(path)
     end
   end
