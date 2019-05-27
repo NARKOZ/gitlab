@@ -95,7 +95,6 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
-
   shared_context 'when performing limited pagination with a block' do
     before do
       next_page = double('next_page')
@@ -126,5 +125,4 @@ describe Gitlab::PaginatedResponse do
       expect { |b| @paginated_response.paginate_with_limit(5, &b) }.to yield_successive_args(1, 2, 3, 4, 5)
     end
   end
-
 end
