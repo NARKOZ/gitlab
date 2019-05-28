@@ -28,9 +28,10 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref The commit sha, branch, or tag to download.
+    # @param  [String] format The archive format. Options are: tar.gz (default), tar.bz2, tbz, tbz2, tb2, bz2, tar, and zip
     # @return [Gitlab::FileResponse]
-    def repo_archive(project, ref = 'master')
-      get("/projects/#{url_encode project}/repository/archive",
+    def repo_archive(project, ref = 'master', format = 'tar.gz')
+      get("/projects/#{url_encode project}/repository/archive.#{format}",
           format: nil,
           headers: { Accept: 'application/octet-stream' },
           query: { sha: ref },

@@ -56,6 +56,25 @@ module Gitlab
       response
     end
 
+    def paginate_with_limit(limit)
+      response = block_given? ? nil : []
+      count = 0
+      each_page do |page|
+        if block_given?
+          page.each do |item|
+            yield item
+            count += 1
+            break if count >= limit
+          end
+        else
+          response += page[0, limit - count]
+          count = response.length
+        end
+        break if count >= limit
+      end
+      response
+    end
+
     def parse_path(link)
       # Regex remove protocol://host:port from link
       # to leave just the path, then strip the
