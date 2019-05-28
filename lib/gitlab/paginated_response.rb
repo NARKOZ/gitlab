@@ -76,14 +76,9 @@ module Gitlab
     end
 
     def parse_path(link)
-      # Regex remove protocol://host:port from link
-      # to leave just the path, then strip the
-      # @client.endpoint path (e.g. /api/v4) from
-      # the beginning
-      link[%r{\/(?!.*\.).*}].sub(
-        /#{@client.endpoint[%r{\/(?!.*\.).*}]}/,
-        ''
-      )
+      # Regex remove protocol://host:port from link to leave just the path,
+      # then strip the @client.endpoint path (e.g. /api/v4) from the beginning
+      link[%r{\/(?!.*\.).*}].sub(/#{@client.endpoint[%r{\/(?!.*\.).*}]}/, '')
     end
 
     def last_page?
@@ -94,8 +89,7 @@ module Gitlab
     def last_page
       return nil if @client.nil? || !has_last_page?
 
-      path = parse_path(@links.last)
-      @client.get(path)
+      @client.get(parse_path(@links.last))
     end
 
     def first_page?
@@ -106,8 +100,7 @@ module Gitlab
     def first_page
       return nil if @client.nil? || !has_first_page?
 
-      path = parse_path(@links.first)
-      @client.get(path)
+      @client.get(parse_path(@links.first))
     end
 
     def next_page?
@@ -118,8 +111,7 @@ module Gitlab
     def next_page
       return nil if @client.nil? || !has_next_page?
 
-      path = parse_path(@links.next)
-      @client.get(path)
+      @client.get(parse_path(@links.next))
     end
 
     def prev_page?
@@ -130,8 +122,7 @@ module Gitlab
     def prev_page
       return nil if @client.nil? || !has_prev_page?
 
-      path = parse_path(@links.prev)
-      @client.get(path)
+      @client.get(parse_path(@links.prev))
     end
   end
 end
