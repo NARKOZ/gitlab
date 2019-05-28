@@ -57,7 +57,14 @@ module Gitlab
     end
 
     def parse_path(link)
-      link[%r{\/(?!.*\.).*}].sub(/#{@client.endpoint[%r{\/(?!.*\.).*}]}/, '')
+      # Regex remove protocol://host:port from link
+      # to leave just the path, then strip the
+      # @client.endpoint path (e.g. /api/v4) from
+      # the beginning
+      link[%r{\/(?!.*\.).*}].sub(
+        /#{@client.endpoint[%r{\/(?!.*\.).*}]}/,
+        ''
+      )
     end
 
     def last_page?
