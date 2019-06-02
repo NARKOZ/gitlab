@@ -7,6 +7,7 @@ module Gitlab
 
     # Please keep in alphabetical order
     include AccessRequests
+    include ApplicationSettings
     include Avatar
     include AwardEmojis
     include Boards
