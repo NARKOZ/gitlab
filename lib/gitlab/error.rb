@@ -95,6 +95,9 @@ module Gitlab
     # Raised when API endpoint returns the HTTP status code 405.
     class MethodNotAllowed < ResponseError; end
 
+    # Raised when API endpoint returns the HTTP status code 406.
+    class NotAcceptable < ResponseError; end
+
     # Raised when API endpoint returns the HTTP status code 409.
     class Conflict < ResponseError; end
 
@@ -120,6 +123,7 @@ module Gitlab
       403 => Forbidden,
       404 => NotFound,
       405 => MethodNotAllowed,
+      406 => NotAcceptable,
       409 => Conflict,
       422 => Unprocessable,
       429 => TooManyRequests,
