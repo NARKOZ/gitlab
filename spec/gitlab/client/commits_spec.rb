@@ -46,6 +46,24 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.commit_refs' do
+    before do
+      stub_get('/projects/3/repository/commits/0b4cd14ccc6a5c392526df719d29baf4315a4bbb/refs', 'project_commit_refs')
+      @refs = Gitlab.commit_refs(3, '0b4cd14ccc6a5c392526df719d29baf4315a4bbb')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/commits/0b4cd14ccc6a5c392526df719d29baf4315a4bbb/refs'))
+        .to have_been_made
+    end
+
+    it 'returns an Array of refs' do
+      expect(@refs.map(&:to_h))
+        .to include('type' => 'branch', 'name' => '12-1-stable')
+        .and include('type' => 'tag', 'name' => 'v12.1.0')
+    end
+  end
+
   describe '.cherry_pick_commit' do
     before do
       stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
