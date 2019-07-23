@@ -35,6 +35,22 @@ class Gitlab::Client
     end
     alias repo_commit commit
 
+    # Get all references (from branches or tags) a commit is pushed to.
+    #
+    # @example
+    #   Gitlab.commit_refs(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] sha The commit hash
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :type The scope of commits. Possible values `branch`, `tag`, `all`. Default is `all`.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Gitlab::ObjectifiedHash]
+    def commit_refs(project, sha, options = {})
+      get("/projects/#{url_encode project}/repository/commits/#{sha}/refs", query: options)
+    end
+
     # Cherry picks a commit to a given branch.
     #
     # @example
