@@ -67,9 +67,9 @@ describe Gitlab::Request do
       path = "#{@request.endpoint}/version"
 
       # Stub Gitlab::Configuration
-      allow(@request).to receive(:httparty).and_return({
+      allow(@request).to receive(:httparty).and_return(
         headers: { 'Cookie' => 'gitlab_canary=true' }
-      })
+      )
 
       stub_request(:get, path)
       @request.get('/version')
