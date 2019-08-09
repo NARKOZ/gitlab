@@ -42,7 +42,12 @@ module Gitlab
     %w[get post put delete].each do |method|
       define_method method do |path, options = {}|
         httparty_config(options)
-        authorization_header(options)
+
+        unless options[:unauthenticated]
+          options[:headers] ||= {}
+          options[:headers].merge!(authorization_header)
+        end
+
         validate self.class.send(method, @endpoint + path, options)
       end
     end
@@ -62,28 +67,25 @@ module Gitlab
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
     def request_defaults(sudo = nil)
-      self.class.default_params sudo: sudo
       raise Error::MissingCredentials, 'Please set an endpoint to API' unless @endpoint
 
+      self.class.default_params sudo: sudo
       self.class.default_params.delete(:sudo) if sudo.nil?
     end
 
     private
 
-    # Sets a PRIVATE-TOKEN or Authorization header for requests.
+    # Returns an Authorization header hash
     #
-    # @param [Hash] options A customizable set of options.
-    # @option options [Boolean] :unauthenticated true if the API call does not require user authentication.
     # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
-    def authorization_header(options)
-      return if options[:unauthenticated]
+    def authorization_header
       raise Error::MissingCredentials, 'Please provide a private_token or auth_token for user' unless @private_token
 
-      options[:headers] = if @private_token.size < 21
-                            { 'PRIVATE-TOKEN' => @private_token }
-                          else
-                            { 'Authorization' => "Bearer #{@private_token}" }
-                          end
+      if @private_token.size < 21
+        { 'PRIVATE-TOKEN' => @private_token }
+      else
+        { 'Authorization' => "Bearer #{@private_token}" }
+      end
     end
 
     # Set HTTParty configuration
