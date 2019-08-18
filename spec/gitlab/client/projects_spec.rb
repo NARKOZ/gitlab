@@ -695,11 +695,11 @@ describe Gitlab::Client do
 
   describe '.upload_file' do
     let(:id) { 1 }
-    let(:file) { File.open(File::NULL, 'r') }
+    let(:file_fullpath) { File::NULL }
 
     before do
       stub_post("/projects/#{id}/uploads", 'upload_file')
-      @file = Gitlab.upload_file(id, file)
+      @file = Gitlab.upload_file(id, file_fullpath)
     end
 
     it 'gets the correct resource' do
