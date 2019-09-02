@@ -54,8 +54,12 @@ class Gitlab::Client
     # @param  [String] scope The scope to search in. Currently these scopes are supported: issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs.
     # @param  [String] search The search query.
     # @return [Array<Gitlab::ObjectifiedHash>] Returns a list of responses depending on the requested scope.
-    def search_in_project(project, scope, search)
+    def search_in_project(project, scope, search, ref = nil)
       options = { scope: scope, search: search }
+      
+      # Add ref filter if provided - backward compatible with main project
+      options[:ref] = ref unless ref.nil?
+
       get("/projects/#{url_encode project}/search", query: options)
     end
   end

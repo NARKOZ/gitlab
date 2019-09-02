@@ -35,7 +35,7 @@ module Gitlab
 
     # Resets all configuration options to the defaults.
     def reset
-      self.endpoint       = ENV['GITLAB_API_ENDPOINT']
+      self.endpoint       = ENV['GITLAB_API_ENDPOINT'] || ENV['CI_API_V4_URL']
       self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV['GITLAB_API_AUTH_TOKEN']
       self.httparty       = get_httparty_config(ENV['GITLAB_API_HTTPARTY_OPTIONS'])
       self.sudo           = nil
