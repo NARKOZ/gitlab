@@ -56,7 +56,7 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>] Returns a list of responses depending on the requested scope.
     def search_in_project(project, scope, search, ref = nil)
       options = { scope: scope, search: search }
-      
+
       # Add ref filter if provided - backward compatible with main project
       options[:ref] = ref unless ref.nil?
 
