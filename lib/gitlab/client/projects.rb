@@ -529,14 +529,13 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ee/api/projects.html#upload-a-file
     #
     # @example
-    #   Gitlab.upload_file(1, File.open(File::NULL, 'r'))
-    #   File.open('myfile') { |file| Gitlab.upload_file(1, file) }
+    #   Gitlab.upload_file(1, '/full/path/to/avatar.jpg')
     #
     # @param  [Integer, String] id The ID or path of a project.
-    # @param  [File] The file you are interested to upload.
+    # @param  [String] file_fullpath The fullpath of the file you are interested to upload.
     # @return [Gitlab::ObjectifiedHash]
-    def upload_file(id, file)
-      post("/projects/#{url_encode id}/uploads", body: { file: file })
+    def upload_file(id, file_fullpath)
+      post("/projects/#{url_encode id}/uploads", body: { file: File.open(file_fullpath, 'r') })
     end
 
     # Get all project templates of a particular type
