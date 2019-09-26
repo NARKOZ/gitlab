@@ -25,6 +25,7 @@ module Gitlab
     include GroupLabels
     include GroupMilestones
     include Groups
+    include IssueLinks
     include Issues
     include Jobs
     include Keys
