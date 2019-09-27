@@ -261,4 +261,20 @@ describe Gitlab::Client do
       expect(@issues.first.project_id).to eq(4)
     end
   end
+
+  describe '.group_merge_requests' do
+    before do
+      stub_get('/groups/3/merge_requests', 'group_merge_requests')
+      @merge_requests = Gitlab.group_merge_requests(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/merge_requests')).to have_been_made
+    end
+
+    it "returns information about a group's merge requests" do
+      expect(@merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@merge_requests.first.project_id).to eq(3)
+    end
+  end
 end

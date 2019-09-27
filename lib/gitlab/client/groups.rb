@@ -80,6 +80,18 @@ class Gitlab::Client
       get("/groups/#{url_encode team_id}/members/#{user_id}")
     end
 
+    # Gets a list of merge requests of a group.
+    #
+    # @example
+    #   Gitlab.group_merge_requests(5)
+    #
+    # @param  [Integer, String] group_id The ID or name of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_merge_requests(group, options = {})
+      get("/groups/#{group}/merge_requests", query: options)
+    end
+
     # Adds a user to group.
     #
     # @example
