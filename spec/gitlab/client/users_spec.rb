@@ -55,11 +55,11 @@ describe Gitlab::Client do
     context 'when successful request' do
       before do
         stub_post('/users', 'user')
-        @user = Gitlab.create_user('email', 'pass')
+        @user = Gitlab.create_user('email', 'pass', 'john.smith')
       end
 
       it 'gets the correct resource' do
-        body = { email: 'email', password: 'pass', name: 'email' }
+        body = { email: 'email', password: 'pass', username: 'john.smith', name: 'email' }
         expect(a_post('/users').with(body: body)).to have_been_made
       end
 
@@ -72,8 +72,16 @@ describe Gitlab::Client do
       it 'throws an exception' do
         stub_post('/users', 'error_already_exists', 409)
         expect do
-          Gitlab.create_user('email', 'pass')
+          Gitlab.create_user('email', 'pass', 'john.smith')
         end.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/users")
+      end
+    end
+
+    context 'when not enough arguments' do
+      it 'throws an exception' do
+        expect do
+          Gitlab.create_user('email', 'pass')
+        end.to raise_error(ArgumentError, 'Missing required parameters')
       end
     end
   end
@@ -86,7 +94,7 @@ describe Gitlab::Client do
       end
 
       it 'gets the correct resource' do
-        body = { email: 'email', password: 'pass', username: 'username' }
+        body = { email: 'email', password: 'pass', username: 'username', name: 'email' }
         expect(a_post('/users').with(body: body)).to have_been_made
       end
 
