@@ -58,7 +58,7 @@ describe Gitlab::Shell do
       it 'returns an Array of matching commands' do
         completed_cmds = @comp.call 'issue'
         expect(completed_cmds).to be_a Array
-        expect(completed_cmds.sort).to eq(%w[issue issue_label_event issue_label_events issue_note issue_notes issues])
+        expect(completed_cmds.sort).to eq(%w[issue issue_label_event issue_label_events issue_links issue_note issue_notes issues])
       end
     end
   end
