@@ -37,11 +37,11 @@ class Gitlab::Client
     # @example
     #   Gitlab.create_user('joe@foo.org', 'secret', 'joe', { name: 'Joe Smith' })
     #   or
-    #   Gitlab.create_user('joe@foo.org', 'secret')
+    #   Gitlab.create_user('joe@foo.org', 'secret', 'joe')
     #
-    # @param  [String] email The email of a user.
-    # @param  [String] password The password of a user.
-    # @param  [String] username The username of a user.
+    # @param  [String] email(required) The email of a user.
+    # @param  [String] password(required) The password of a user.
+    # @param  [String] username(required) The username of a user.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :name The name of a user. Defaults to email.
     # @option options [String] :skype The skype of a user.
@@ -51,11 +51,9 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Information about created user.
     def create_user(*args)
       options = args.last.is_a?(Hash) ? args.pop : {}
-      body = if args[2]
-               { email: args[0], password: args[1], username: args[2] }
-             else
-               { email: args[0], password: args[1], name: args[0] }
-             end
+      raise ArgumentError, 'Missing required parameters' unless args[2]
+
+      body = { email: args[0], password: args[1], username: args[2], name: args[0] }
       body.merge!(options)
       post('/users', body: body)
     end
