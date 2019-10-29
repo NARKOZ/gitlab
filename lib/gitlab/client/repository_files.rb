@@ -25,7 +25,6 @@ class Gitlab::Client
     end
     alias repo_file_contents file_contents
 
-
     # Get file blame from repository
     #
     # @example

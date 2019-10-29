@@ -29,7 +29,7 @@ describe Gitlab::Client do
     end
 
     it 'returns the blame info of the file' do
-      expect(@blames.first.commit.id).to eq("d42409d56517157c48bf3bd97d3f75974dde19fb")
+      expect(@blames.first.commit.id).to eq('d42409d56517157c48bf3bd97d3f75974dde19fb')
     end
   end
 
