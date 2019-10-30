@@ -18,6 +18,21 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.get_file_blame' do
+    before do
+      stub_get('/projects/3/repository/files/README%2Emd/blame?ref=master', 'get_file_blame')
+      @blames = Gitlab.get_file_blame(3, 'README.md', 'master')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/files/README%2Emd/blame?ref=master')).to have_been_made
+    end
+
+    it 'returns the blame info of the file' do
+      expect(@blames.first.commit.id).to eq('d42409d56517157c48bf3bd97d3f75974dde19fb')
+    end
+  end
+
   describe '.get_file' do
     before do
       stub_get('/projects/3/repository/files/README%2Emd?ref=master', 'get_repository_file')

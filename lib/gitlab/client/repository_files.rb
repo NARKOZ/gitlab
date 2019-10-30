@@ -25,6 +25,22 @@ class Gitlab::Client
     end
     alias repo_file_contents file_contents
 
+    # Get file blame from repository
+    #
+    # @example
+    #   Gitlab.get_file_blame(42, "README.md", "master")
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] file_path The full path of the file.
+    # @param  [String] ref The name of branch, tag or commit.
+    # @return [Gitlab::ObjectifiedHash]
+    #
+    def get_file_blame(project, file_path, ref)
+      get("/projects/#{url_encode project}/repository/files/#{url_encode file_path}/blame", query: {
+            ref: ref
+          })
+    end
+
     # Gets a repository file.
     #
     # @example
