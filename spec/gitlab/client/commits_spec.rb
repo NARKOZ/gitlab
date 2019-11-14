@@ -15,13 +15,13 @@ describe Gitlab::Client do
   describe '.commits' do
     before do
       stub_get('/projects/3/repository/commits', 'project_commits')
-        .with(query: { ref_name: 'api' })
-      @commits = Gitlab.commits(3, ref_name: 'api')
+        .with(query: { ref: 'api' })
+      @commits = Gitlab.commits(3, ref: 'api')
     end
 
     it 'gets the correct resource' do
       expect(a_get('/projects/3/repository/commits')
-        .with(query: { ref_name: 'api' })).to have_been_made
+        .with(query: { ref: 'api' })).to have_been_made
     end
 
     it 'returns a paginated response of repository commits' do
