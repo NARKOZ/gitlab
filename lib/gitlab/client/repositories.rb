@@ -13,7 +13,7 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :path The path inside repository.
-    # @option options [String] :ref_name The name of a repository branch or tag.
+    # @option options [String] :ref The name of a repository branch or tag.
     # @option options [Integer] :per_page Number of results to show per page (default = 20)
     # @return [Gitlab::ObjectifiedHash]
     def tree(project, options = {})
