@@ -8,11 +8,11 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.commits('viking')
-    #   Gitlab.repo_commits('gitlab', { ref_name: 'api' })
+    #   Gitlab.repo_commits('gitlab', { ref: 'api' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :ref_name The branch or tag name of a project repository.
+    # @option options [String] :ref The branch or tag name of a project repository.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>]
