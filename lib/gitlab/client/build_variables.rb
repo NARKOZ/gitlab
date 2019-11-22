@@ -2,8 +2,8 @@
 
 class Gitlab::Client
   # Defines methods related to builds.
-  # @see https://docs.gitlab.com/ce/api/build_variables.html
-  # @see https://docs.gitlab.com/ee/api/group_level_variables.html
+  # @see https://docs.gitlab.com/ce/api/project_level_variables.html
+  # @see https://docs.gitlab.com/ce/api/group_level_variables.html
   module BuildVariables
     # Gets a list of the project's build variables
     #
@@ -36,9 +36,10 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] key The key of a variable; must have no more than 255 characters; only `A-Z`, `a-z`, `0-9` and `_` are allowed
     # @param  [String] value The value of a variable
+    # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def create_variable(project, key, value)
-      post("/projects/#{url_encode project}/variables", body: { key: key, value: value })
+    def create_variable(project, key, value, **opts)
+      post("/projects/#{url_encode project}/variables", body: opts.merge(key: key, value: value))
     end
 
     # Update a project's build variable.
@@ -49,9 +50,10 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] key The key of a variable
     # @param  [String] value The value of a variable
+    # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def update_variable(project, key, value)
-      put("/projects/#{url_encode project}/variables/#{key}", body: { value: value })
+    def update_variable(project, key, value, **opts)
+      put("/projects/#{url_encode project}/variables/#{key}", body: opts.merge(value: value))
     end
 
     # Remove a project's build variable.
@@ -97,9 +99,10 @@ class Gitlab::Client
     # @param  [Integer, String] group The ID or name of a group.
     # @param  [String] key The key of a variable; must have no more than 255 characters; only `A-Z`, `a-z`, `0-9` and `_` are allowed
     # @param  [String] value The value of a variable
+    # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def create_group_variable(group, key, value)
-      post("/groups/#{url_encode group}/variables", body: { key: key, value: value })
+    def create_group_variable(group, key, value, **opts)
+      post("/groups/#{url_encode group}/variables", body: opts.merge(key: key, value: value))
     end
 
     # Update a group's build variable.
@@ -110,9 +113,10 @@ class Gitlab::Client
     # @param  [Integer, String] group The ID or name of a group.
     # @param  [String] key The key of a variable
     # @param  [String] value The value of a variable
+    # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def update_group_variable(group, key, value)
-      put("/groups/#{url_encode group}/variables/#{key}", body: { value: value })
+    def update_group_variable(group, key, value, **opts)
+      put("/groups/#{url_encode group}/variables/#{key}", body: opts.merge(value: value))
     end
 
     # Remove a group's build variable.
