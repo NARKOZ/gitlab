@@ -104,9 +104,10 @@ class Gitlab::Client
     #
     # @param [Integer] project(required) The ID of a project.
     # @param [Integer] merge_request(required) The IID of a merge request.
+    # @option options [String] :sudo(optional) The username of the user you want to remove the approval for
     # @return [void] This API call returns an empty response body.
-    def unapprove_merge_request(project, merge_request)
-      post("/projects/#{url_encode project}/merge_requests/#{merge_request}/unapprove")
+    def unapprove_merge_request(project, merge_request, options = {})
+      post("/projects/#{url_encode project}/merge_requests/#{merge_request}/unapprove", body: options)
     end
   end
 end
