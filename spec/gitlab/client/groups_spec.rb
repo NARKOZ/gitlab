@@ -22,6 +22,17 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.group' do
+    before do
+      stub_get('/groups/3?with_projects=false', 'group')
+      @group = Gitlab.group(3, with_projects: false)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3?with_projects=false')).to have_been_made
+    end
+  end
+
   describe '.create_group' do
     context 'without description' do
       before do
