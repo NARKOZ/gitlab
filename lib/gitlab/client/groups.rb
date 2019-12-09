@@ -24,9 +24,12 @@ class Gitlab::Client
     #   Gitlab.group(42)
     #
     # @param  [Integer] id The ID of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :with_custom_attributes Include custom attributes in response (admins only)
+    # @option options [Boolean] :with_projects Include details about group projects (default: true)
     # @return [Gitlab::ObjectifiedHash]
-    def group(id)
-      get("/groups/#{url_encode id}")
+    def group(id, options = {})
+      get("/groups/#{url_encode id}", query: options)
     end
 
     # Creates a new group.
