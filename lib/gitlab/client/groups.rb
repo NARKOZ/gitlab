@@ -218,5 +218,42 @@ class Gitlab::Client
     def group_issues(group, options = {})
       get("/groups/#{group}/issues", query: options)
     end
+
+    # Sync group with LDAP
+    #
+    # @example
+    #   Gitlab.sync_ldap_group(1)
+    #
+    # @param [Integer] id The ID or name of a group.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def sync_ldap_group(id)
+      post("/groups/#{url_encode id}/ldap_sync")
+    end
+
+    # Add LDAP group link
+    #
+    # @example
+    #   Gitlab.add_ldap_group_links(1, 'all', 50, 'ldap')
+    #
+    # @param  [Integer] id The ID of a group
+    # @param  [String] cn The CN of a LDAP group
+    # @param  [Integer] group_access Minimum access level for members of the LDAP group.
+    # @param  [String] provider LDAP provider for the LDAP group
+    # @return [Gitlab::ObjectifiedHash] Information about added ldap group link
+    def add_ldap_group_links(id, commonname, group_access, provider)
+      post("/groups/#{url_encode id}/ldap_group_links", body: { cn: commonname, group_access: group_access, provider: provider })
+    end
+
+    # Delete LDAP group link
+    #
+    # @example
+    #   Gitlab.delete_ldap_group_links(1, 'all')
+    #
+    # @param  [Integer] id The ID of a group
+    # @param  [String] cn The CN of a LDAP group
+    # @return [Gitlab::ObjectifiedHash] Empty hash
+    def delete_ldap_group_links(id, commonname, provider)
+      delete("/groups/#{url_encode id}/ldap_group_links/#{url_encode provider}/#{url_encode commonname}")
+    end
   end
 end

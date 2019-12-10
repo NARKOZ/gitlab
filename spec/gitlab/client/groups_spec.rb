@@ -288,4 +288,44 @@ describe Gitlab::Client do
       expect(@merge_requests.first.project_id).to eq(3)
     end
   end
+
+  describe '.sync_ldap_group' do
+    before do
+      stub_post('/groups/1/ldap_sync', 'group_ldap_sync')
+      Gitlab.sync_ldap_group(1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/groups/1/ldap_sync')).to have_been_made
+    end
+  end
+
+  describe '.add_ldap_group_links' do
+    before do
+      stub_post('/groups/1/ldap_group_links', 'group_add_ldap_links')
+      @ldap_link = Gitlab.add_ldap_group_links(1, 'all', 50, 'ldap')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/groups/1/ldap_group_links')
+          .with(body: { cn: 'all', group_access: 50, provider: 'ldap' })).to have_been_made
+    end
+
+    it 'returns information about the created ldap link' do
+      expect(@ldap_link.cn).to eq('all')
+      expect(@ldap_link.group_access).to eq(50)
+      expect(@ldap_link.provider).to eq('ldap')
+    end
+  end
+
+  describe '.delete_ldap_group_links' do
+    before do
+      stub_delete('/groups/1/ldap_group_links/ldap/all', 'group_delete_ldap_links')
+      Gitlab.delete_ldap_group_links(1, 'all', 'ldap')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/groups/1/ldap_group_links/ldap/all')).to have_been_made
+    end
+  end
 end
