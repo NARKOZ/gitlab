@@ -19,6 +19,7 @@ module Gitlab
     include ContainerRegistry
     include Deployments
     include Environments
+    include Epics
     include Events
     include Features
     include GroupBoards

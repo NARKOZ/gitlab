@@ -1,0 +1,35 @@
+[
+  {
+  "id": 29,
+  "iid": 4,
+  "group_id": 7,
+  "title": "Accusamus iste et ullam ratione voluptatem omnis debitis dolor est.",
+  "description": "Molestias dolorem eos vitae expedita impedit necessitatibus quo voluptatum.",
+  "state": "opened",
+  "web_url": "http://localhost:3001/groups/test/-/epics/4",
+  "reference": "&4",
+  "author": {
+    "id": 10,
+    "name": "Lu Mayer",
+    "username": "kam",
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/018729e129a6f31c80a6327a30196823?s=80&d=identicon",
+    "web_url": "http://localhost:3001/kam"
+  },
+  "start_date": null,
+  "start_date_is_fixed": false,
+  "start_date_fixed": null,
+  "start_date_from_inherited_source": null,
+  "due_date": "2018-07-31",
+  "due_date_is_fixed": false,
+  "due_date_fixed": null,
+  "due_date_from_inherited_source": "2018-07-31",
+  "created_at": "2018-07-17T13:36:22.770Z",
+  "updated_at": "2018-07-18T12:22:05.239Z",
+  "closed_at": "2018-08-18T12:22:05.239Z",
+  "labels": [],
+  "upvotes": 4,
+  "downvotes": 0
+  }
+]
+
