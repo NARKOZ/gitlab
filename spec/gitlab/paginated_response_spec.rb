@@ -19,7 +19,7 @@ describe Gitlab::PaginatedResponse do
     expect(@paginated_response).to respond_to :has_prev_page?
   end
 
-  context '.parse_headers!' do
+  describe '.parse_headers!' do
     it 'parses headers' do
       @paginated_response.parse_headers!('Link' => '<http://example.com/api/v3/projects?page=1&per_page=5>; rel="first", <http://example.com/api/v3/projects?page=20&per_page=5>; rel="last"')
       client = @paginated_response.client = double('client')
@@ -39,7 +39,7 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
-  context '.each_page' do
+  describe '.each_page' do
     it 'iterates pages' do
       next_page = double('next_page')
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
@@ -49,7 +49,7 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
-  context '.auto_paginate' do
+  describe '.auto_paginate' do
     it 'returns an array if block is not given' do
       next_page = double('next_page')
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
@@ -70,21 +70,21 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     include_context 'when performing limited pagination returning an array'
     it 'returns a limited array' do
       expect(@paginated_response.paginate_with_limit(3)).to contain_exactly(1, 2, 3)
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     include_context 'when performing limited pagination returning an array'
     it 'returns exactly the first page' do
       expect(@paginated_response.paginate_with_limit(4)).to contain_exactly(1, 2, 3, 4)
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     it 'returns a page plus one' do
       next_page = double('next_page')
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
@@ -105,21 +105,21 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     include_context 'when performing limited pagination with a block'
     it 'iterates items with limit' do
       expect { |b| @paginated_response.paginate_with_limit(3, &b) }.to yield_successive_args(1, 2, 3)
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     include_context 'when performing limited pagination with a block'
     it 'iterates exactly the first page' do
       expect { |b| @paginated_response.paginate_with_limit(4, &b) }.to yield_successive_args(1, 2, 3, 4)
     end
   end
 
-  context '.paginate_with_limit' do
+  describe '.paginate_with_limit' do
     include_context 'when performing limited pagination with a block'
     it 'iterates the first page plus one' do
       expect { |b| @paginated_response.paginate_with_limit(5, &b) }.to yield_successive_args(1, 2, 3, 4, 5)

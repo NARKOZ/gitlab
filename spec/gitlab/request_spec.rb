@@ -3,11 +3,6 @@
 require 'spec_helper'
 
 describe Gitlab::Request do
-  it { is_expected.to respond_to :get }
-  it { is_expected.to respond_to :post }
-  it { is_expected.to respond_to :put }
-  it { is_expected.to respond_to :delete }
-
   before do
     # Prevent tests modifying the `default_params` value from causing cross-test
     # pollution
@@ -15,6 +10,11 @@ describe Gitlab::Request do
 
     @request = described_class.new
   end
+
+  it { is_expected.to respond_to :get }
+  it { is_expected.to respond_to :post }
+  it { is_expected.to respond_to :put }
+  it { is_expected.to respond_to :delete }
 
   describe '.default_options' do
     it 'has default values' do

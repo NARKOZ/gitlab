@@ -82,6 +82,7 @@ describe Gitlab::Client do
           .with(query: { name_regex: '.*' })).to have_been_made
       end
     end
+
     context 'when all options provided for deletion' do
       before do
         stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(query: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })

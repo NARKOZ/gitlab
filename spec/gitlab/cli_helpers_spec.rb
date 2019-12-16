@@ -17,6 +17,7 @@ describe Gitlab::CLI::Helpers do
     it 'returns true when command is valid' do
       expect(described_class).to be_valid_command('merge_requests')
     end
+
     it 'returns false when command is NOT valid' do
       expect(described_class).not_to be_valid_command('mmmmmerge_requests')
     end

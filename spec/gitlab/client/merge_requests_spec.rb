@@ -60,6 +60,7 @@ describe Gitlab::Client do
       expect(a_get('/projects/3/merge_requests/1/participants')).to have_been_made
     end
   end
+
   describe '.merge_request_pipelines' do
     before do
       stub_get('/projects/3/merge_requests/1/pipelines', 'pipelines')

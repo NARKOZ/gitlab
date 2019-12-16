@@ -34,6 +34,7 @@ describe Gitlab::Client do
         expect(@feature).to be_a Gitlab::ObjectifiedHash
       end
     end
+
     context 'when setting percentage-of-time gate value' do
       before do
         stub_post('/features/new_library', 'feature')

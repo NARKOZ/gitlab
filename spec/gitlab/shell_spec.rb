@@ -23,12 +23,15 @@ describe Gitlab::Shell do
     it 'returns a Gitlab::Shell::History instance' do
       expect(@history).to be_a Gitlab::Shell::History
     end
+
     it 'responds to :save' do
       expect(@history).to respond_to :save
     end
+
     it 'responds to :load' do
       expect(@history).to respond_to :load
     end
+
     it 'responds to :<<' do
       expect(@history).to respond_to :<<
     end
@@ -40,6 +43,7 @@ describe Gitlab::Shell do
       expect(completion).to be_truthy
       expect(completion).to be_a Proc
     end
+
     it 'sets the Readline completion_append_character' do
       completion_character = Readline.completion_append_character
       expect(completion_character).to eq(' ')
@@ -54,6 +58,7 @@ describe Gitlab::Shell do
     it 'returns a Proc object' do
       expect(@comp).to be_a Proc
     end
+
     context 'called with an argument' do
       it 'returns an Array of matching commands' do
         completed_cmds = @comp.call 'issue'

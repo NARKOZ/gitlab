@@ -109,12 +109,12 @@ describe Gitlab::Client do
         Gitlab.private_token = nil
       end
 
-      it 'does not raise Error::MissingCredentials' do
-        expect { Gitlab.run_trigger(3, '7b9148c158980bbd9bcea92c17522d', 'master', a: 10) }.not_to raise_error
-      end
-
       after do
         Gitlab.private_token = 'secret'
+      end
+
+      it 'does not raise Error::MissingCredentials' do
+        expect { Gitlab.run_trigger(3, '7b9148c158980bbd9bcea92c17522d', 'master', a: 10) }.not_to raise_error
       end
     end
 

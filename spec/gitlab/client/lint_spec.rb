@@ -20,6 +20,7 @@ describe Gitlab::Client do
         expect(@lint_response.errors).to eq([])
       end
     end
+
     context 'when invalid content' do
       before do
         stub_post('/lint', 'invalid_content_gitlab_ci_yml')
@@ -36,6 +37,7 @@ describe Gitlab::Client do
         expect(@lint_response.errors).to include('variables config should be a hash of key value pairs')
       end
     end
+
     context 'when without content attribute' do
       before do
         stub_post('/lint', 'no_content_gitlab_ci_yml')
