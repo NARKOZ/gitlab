@@ -51,20 +51,4 @@ describe Gitlab::Error::ResponseError do
     response_double = double('response', body: 'Retry later', to_s: 'Retry text', parsed_response: { message: 'Retry hash' }, code: 429, options: {}, headers: headers, request: @request_double)
     expect(described_class.new(response_double).send(:build_error_message)).to match(/Retry hash/)
   end
-
-  it 'passes missing messages to the parsed response' do
-    response_hash = { message: 'Failed to cherry-pick', error_code: 'empty' }
-    response_double = double(
-      'response',
-      body: JSON.dump(response_hash),
-      parsed_response: response_hash,
-      code: 400,
-      headers: { 'content-type' => 'application/json' },
-      request: @request_double
-    )
-
-    error = described_class.new(response_double)
-
-    expect(error.error_code).to eq(response_hash[:error_code])
-  end
 end
