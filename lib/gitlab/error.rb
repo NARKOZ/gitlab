@@ -78,18 +78,6 @@ module Gitlab
           message
         end
       end
-
-      def method_missing(method, *args, &block)
-        if @response.parsed_response.key?(method)
-          @response.parsed_response[method]
-        else
-          super
-        end
-      end
-
-      def respond_to_missing?(method, include_private = false)
-        super || @response.parsed_response.key?(method, include_private)
-      end
     end
 
     # Raised when API endpoint returns the HTTP status code 400.
