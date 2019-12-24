@@ -25,3 +25,6 @@ Style/ClassAndModuleChildren:
 Style/FrozenStringLiteralComment:
   Exclude:
     - 'spec/gitlab/help_spec.rb'
+
+Lint/NonDeterministicRequireOrder:
+  Enabled: false
