@@ -181,7 +181,7 @@ class Gitlab::Client
     # @param  [Integer] id The ID of an issue.
     # @param  [String] duration The time spent in human format. e.g: 3h30m
     def add_time_spent_on_issue(project, id, duration)
-      post("/projects/#{url_encode project}/issues/#{id}/add_spent_time", body: { duration: url_encode(duration) })
+      post("/projects/#{url_encode project}/issues/#{id}/add_spent_time", body: { duration: duration })
     end
 
     # Resets the total spent time for this issue to 0 seconds.

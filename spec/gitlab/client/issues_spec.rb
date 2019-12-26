@@ -237,19 +237,38 @@ describe Gitlab::Client do
   end
 
   describe '.add_time_spent_on_issue' do
-    before do
-      stub_post('/projects/3/issues/33/add_spent_time', 'issue')
-      @issue = Gitlab.add_time_spent_on_issue(3, 33, '3h30m')
+    context 'with positive value' do
+      before do
+        stub_post('/projects/3/issues/33/add_spent_time', 'issue')
+        @issue = Gitlab.add_time_spent_on_issue(3, 33, '3h30m')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/projects/3/issues/33/add_spent_time')
+          .with(body: { duration: '3h30m' })).to have_been_made
+      end
+
+      it 'returns information about the estimated issue' do
+        expect(@issue.project_id).to eq(3)
+        expect(@issue.assignee.name).to eq('Jack Smith')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_post('/projects/3/issues/33/add_spent_time')
-        .with(body: { duration: '3h30m' })).to have_been_made
-    end
+    context 'with negative value' do
+      before do
+        stub_post('/projects/3/issues/33/add_spent_time', 'issue')
+        @issue = Gitlab.add_time_spent_on_issue(3, 33, '-30m')
+      end
 
-    it 'returns information about the estimated issue' do
-      expect(@issue.project_id).to eq(3)
-      expect(@issue.assignee.name).to eq('Jack Smith')
+      it 'gets the correct resource' do
+        expect(a_post('/projects/3/issues/33/add_spent_time')
+          .with(body: { duration: '-30m' })).to have_been_made
+      end
+
+      it 'returns information about the estimated issue' do
+        expect(@issue.project_id).to eq(3)
+        expect(@issue.assignee.name).to eq('Jack Smith')
+      end
     end
   end
 
