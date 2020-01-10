@@ -1,0 +1,42 @@
+{
+  "rules": [
+      {
+          "id": 1,
+          "name": "Default",
+          "rule_type": "regular",
+          "approvers": [
+              {
+                  "id": 1,
+                  "name": "John Doe",
+                  "username": "jon.doe",
+                  "state": "active",
+                  "avatar_url": "https://gitlab.company.com/uploads/-/system/user/avatar/1/avatar.png",
+                  "web_url": "https://gitlab.company.com/john.doe"
+              }
+          ],
+          "approvals_required": 2,
+          "users": [],
+          "groups": [
+              {
+                  "id": 1,
+                  "web_url": "https://gitlab.company.com/groups/company",
+                  "name": "company",
+                  "path": "company",
+                  "description": "",
+                  "visibility": "public",
+                  "lfs_enabled": true,
+                  "avatar_url": null,
+                  "request_access_enabled": false,
+                  "full_name": "company",
+                  "full_path": "company",
+                  "parent_id": null,
+                  "ldap_cn": null,
+                  "ldap_access": null,
+                  "file_template_project_id": null
+              }
+          ],
+          "contains_hidden_groups": false
+      }
+  ],
+  "fallback_approvals_required": 2
+}

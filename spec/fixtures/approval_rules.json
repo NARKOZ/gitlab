@@ -1,0 +1,7 @@
+{
+  "name": "Default",
+  "approvals_required": 2,
+  "users": [],
+  "groups": [1,2],
+  "remove_hidden_groups": false
+}

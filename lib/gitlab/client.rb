@@ -8,6 +8,8 @@ module Gitlab
     # Please keep in alphabetical order
     include AccessRequests
     include ApplicationSettings
+    include ApprovalRules
+    include ApprovalSettings
     include Avatar
     include AwardEmojis
     include Boards
