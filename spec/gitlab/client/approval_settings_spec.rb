@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gitlab::Client do
@@ -14,6 +16,5 @@ describe Gitlab::Client do
     it 'gets the correct approval settings' do
       expect(@project_rules).to be_a Gitlab::ObjectifiedHash
     end
-
   end
 end
