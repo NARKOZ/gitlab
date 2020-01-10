@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'json'
 
 class Gitlab::Client
@@ -33,8 +34,7 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def create_approval_rule(project, rule_name, options = {})
       body = { name: rule_name }.merge(options)
-      settings = post("/projects/#{url_encode project}/approval_settings/rules", body: body)
+      post("/projects/#{url_encode project}/approval_settings/rules", body: body)
     end
-
   end
 end
