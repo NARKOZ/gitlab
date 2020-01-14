@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
-
 class Gitlab::Client
   # Defines methods related to project approval rules.
   # Does not exist in API documentation
@@ -12,8 +10,8 @@ class Gitlab::Client
     #   Gitlab.delete_approval_rule(1, 133)
     #   Gitlab.delete_approval_rule("project", 133)
     #
-    # @param  [Integer, String] id The ID or name of a project.
-    # @param  [Integer, String] id The ID of the rule to be deleted.
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer, String] approval_rule_id The ID of the rule to be deleted.
     # @return [void] This API call returns an empty response body.
     def delete_approval_rule(project, approval_rule_id)
       delete("/projects/#{url_encode project}/approval_settings/rules/#{url_encode approval_rule_id}")
@@ -25,8 +23,8 @@ class Gitlab::Client
     #   Gitlab.create_approval_rule(1, "Default",  { :approvals_required => 2, :users =>[], :groups => [1, 2], :remove_hidden_groups => false })
     #   Gitlab.delete_approval_rule("project", "Default", { :approvals_required => 2, :users =>[], :groups => [1, 2], :remove_hidden_groups => false })
     #
-    # @param  [Integer, String] id The ID or name of a project.
-    # @param  [Integer, String] id The ID of the rule to be deleted.
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] rule_name The name of the rule to be created.
     # @option options [Integer] :approvals_required(optional) #Number of approvals required
     # @option options [Array] :users(optional) #Number of approvals required
     # @option options [Array] :groups(optional) #Number of approvals required
