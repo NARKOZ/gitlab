@@ -145,4 +145,15 @@ describe Gitlab::Client do
       expect(a_post('/projects/1/jobs/1/artifacts/keep')).to have_been_made
     end
   end
+
+  describe '.job_artifacts_delete' do
+    before do
+      stub_delete('/projects/1/jobs/1/artifacts', 'job')
+      @projects = Gitlab.job_artifacts_delete(1, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_delete('/projects/1/jobs/1/artifacts')).to have_been_made
+    end
+  end
 end
