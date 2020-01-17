@@ -41,14 +41,16 @@ module Gitlab
 
     %w[get post put delete].each do |method|
       define_method method do |path, options = {}|
-        httparty_config(options)
+        params = options.dup
 
-        unless options[:unauthenticated]
-          options[:headers] ||= {}
-          options[:headers].merge!(authorization_header)
+        httparty_config(params)
+
+        unless params[:unauthenticated]
+          params[:headers] ||= {}
+          params[:headers].merge!(authorization_header)
         end
 
-        validate self.class.send(method, @endpoint + path, options)
+        validate self.class.send(method, @endpoint + path, params)
       end
     end
 

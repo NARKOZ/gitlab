@@ -79,6 +79,22 @@ describe Gitlab::Request do
         'Cookie' => 'gitlab_canary=true'
       }.merge(described_class.headers))).to have_been_made
     end
+
+    it 'does not modify options in-place' do
+      options = { per_page: 10 }
+      original_options = options.dup
+
+      @request.private_token = 'token'
+      @request.endpoint = 'https://example.com/api/v4'
+
+      # Stub Gitlab::Configuration
+      allow(@request).to receive(:httparty).and_return(nil)
+
+      stub_request(:get, "#{@request.endpoint}/projects")
+      @request.get('/projects', options)
+
+      expect(options).to eq(original_options)
+    end
   end
 
   describe '#authorization_header' do
