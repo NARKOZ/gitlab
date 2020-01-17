@@ -163,5 +163,19 @@ class Gitlab::Client
     def job_artifacts_keep(project_id, job_id)
       post("/projects/#{url_encode project_id}/jobs/#{job_id}/artifacts/keep")
     end
+
+    # Delete Artifacts
+    # Deletes the artifacts associated with a job.
+    #
+    # @example
+    #   Gitlab.job_artifacts_delete(1,1)
+    #   Gitlab.job_artifacts_delete("project", 1)
+    #
+    # @param  [Integer, String] The ID or name of a project.
+    # @param  [Integer]  the id of the job
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def job_artifacts_delete(project_id, job_id)
+      delete("/projects/#{url_encode project_id}/jobs/#{job_id}/artifacts")
+    end
   end
 end
