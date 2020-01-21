@@ -604,7 +604,7 @@ describe Gitlab::Client do
     context 'no options' do
       before do
         body = { title: 'New key name' }
-        stub_put('/projects/42/deploy_keys/2', 'project_key').with(body: body)
+        stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)
         @project_deploy_key = Gitlab.edit_deploy_key(42, 2, 'New key name')
       end
 
@@ -623,7 +623,7 @@ describe Gitlab::Client do
     context 'some options' do
       before do
         body = { title: 'New key name', can_push: true }
-        stub_put('/projects/42/deploy_keys/2', 'project_key').with(body: body)
+        stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)
         @project_deploy_key = Gitlab.edit_deploy_key(42, 2, 'New key name', can_push: true)
       end
 
