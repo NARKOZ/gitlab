@@ -600,6 +600,47 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.edit_deploy_key' do
+    context 'no options' do
+      before do
+        body = { title: 'New key name' }
+        stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)
+        @project_deploy_key = Gitlab.edit_deploy_key(42, 2, 'New key name')
+      end
+
+      it 'puts the correct resource' do
+        body = { title: 'New key name' }
+        expect(a_put('/projects/42/deploy_keys/2')
+          .with(body: body)).to have_been_made
+      end
+
+      it 'returns the correct updated information' do
+        expect(@project_deploy_key).to be_a Gitlab::ObjectifiedHash
+        expect(@project_deploy_key.title).to eq 'New key name'
+      end
+    end
+
+    context 'some options' do
+      before do
+        body = { title: 'New key name', can_push: true }
+        stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)
+        @project_deploy_key = Gitlab.edit_deploy_key(42, 2, 'New key name', can_push: true)
+      end
+
+      it 'puts the correct resource' do
+        body = { title: 'New key name', can_push: true }
+        expect(a_put('/projects/42/deploy_keys/2')
+          .with(body: body)).to have_been_made
+      end
+
+      it 'returns the correct updated information' do
+        expect(@project_deploy_key).to be_a Gitlab::ObjectifiedHash
+        expect(@project_deploy_key.title).to eq 'New key name'
+        expect(@project_deploy_key.can_push).to eq true
+      end
+    end
+  end
+
   describe '.share_project_with_group' do
     before do
       stub_post('/projects/3/share', 'group')

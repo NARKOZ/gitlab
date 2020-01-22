@@ -1,0 +1,7 @@
+{
+  "id": 2,
+  "title": "New key name",
+  "key": "ssh-rsa ...",
+  "can_push": true,
+  "created_at": "2013-09-22T18:34:32Z"
+}

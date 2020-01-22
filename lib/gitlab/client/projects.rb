@@ -380,6 +380,20 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/deploy_keys/#{key}/disable", body: { id: project, key_id: key })
     end
 
+    # Updates an existing deploy key.
+    #
+    # @example
+    #   Gitlab.edit_deploy_key(42, 66, 'New key name', can_push: false)
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [Integer] id The ID of a deploy key.
+    # @param  [String] title The title of a deploy key.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Gitlab::ObjectifiedHash] Information about created deploy key.
+    def edit_deploy_key(project, id, title, options = {})
+      put("/projects/#{url_encode project}/deploy_keys/#{id}", body: { title: title }.merge(options))
+    end
+
     # Deletes a deploy key from project.
     #
     # @example
