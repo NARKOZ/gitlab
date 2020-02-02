@@ -74,7 +74,7 @@ module Gitlab
     end
 
     def url_encode(url)
-      URI.encode(url.to_s, /\W/)
+      URI.encode_www_form_component(url.to_s)
     end
 
     private
