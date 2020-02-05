@@ -9,6 +9,7 @@ describe Gitlab::Client do
   it { is_expected.to respond_to :repo_branch }
   it { is_expected.to respond_to :repo_tree }
   it { is_expected.to respond_to :repo_compare }
+  it { is_expected.to respond_to :repo_contributors }
 
   describe '.tags' do
     before do
@@ -112,3 +113,21 @@ describe Gitlab::Client do
     end
   end
 end
+
+describe '.contributors' do
+  before do
+    stub_get('/projects/3/repository/contributors', 'contributors')
+    @contributors = Gitlab.contributors(3)
+  end
+
+  it 'gets the correct resource' do
+    expect(a_get('/projects/3/repository/contributors')).to have_been_made
+  end
+
+  it 'returns a paginated response of repository contributors' do
+    expect(@contributors).to be_a Gitlab::PaginatedResponse
+    expect(@contributors.first.name).to eq("Dmitriy Zaporozhets")
+    expect(@contributors.first.commits).to eq(117)
+  end
+end
+

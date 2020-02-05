@@ -72,5 +72,22 @@ class Gitlab::Client
     def merge_base(project, refs)
       get("/projects/#{url_encode project}/repository/merge_base", query: { refs: refs })
     end
+
+    # Get project repository contributors.
+    #
+    # @example
+    #   Gitlab.contributors(42)
+    #   Gitlab.contributors(42, { order: 'name' })
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :order_by Order by name, email or commits (default = commits).
+    # @option options [String] :sort Sort order asc or desc (default = asc).
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def contributors(project, options = {})
+      get("/projects/#{url_encode project}/repository/contributors", query: options)
+    end
+    alias repo_contributors contributors
+
   end
 end
