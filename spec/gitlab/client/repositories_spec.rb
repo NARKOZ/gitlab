@@ -126,7 +126,7 @@ describe '.contributors' do
 
   it 'returns a paginated response of repository contributors' do
     expect(@contributors).to be_a Gitlab::PaginatedResponse
-    expect(@contributors.first.name).to eq("Dmitriy Zaporozhets")
+    expect(@contributors.first.name).to eq('Dmitriy Zaporozhets')
     expect(@contributors.first.commits).to eq(117)
   end
 end
