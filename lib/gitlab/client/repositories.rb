@@ -88,6 +88,5 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/repository/contributors", query: options)
     end
     alias repo_contributors contributors
-
   end
 end

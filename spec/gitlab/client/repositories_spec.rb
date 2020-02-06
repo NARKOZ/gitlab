@@ -130,4 +130,3 @@ describe '.contributors' do
     expect(@contributors.first.commits).to eq(117)
   end
 end
-
