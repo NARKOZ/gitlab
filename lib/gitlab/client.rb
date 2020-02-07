@@ -73,8 +73,12 @@ module Gitlab
       inspected
     end
 
+    # Utility method for URL encoding of a string.
+    # Copied from https://ruby-doc.org/stdlib-2.7.0/libdoc/erb/rdoc/ERB/Util.html
+    #
+    # @return [String]
     def url_encode(url)
-      URI.encode(url.to_s, /\W/)
+      url.to_s.b.gsub(/[^a-zA-Z0-9_\-.~]/n) { |m| sprintf("%%%02X", m.unpack1("C")) }
     end
 
     private
