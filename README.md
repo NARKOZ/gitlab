@@ -1,6 +1,6 @@
 # Gitlab
 
-[![Build Status](https://img.shields.io/github/workflow/status/NARKOZ/gitlab/Ruby/master)](https://github.com/NARKOZ/gitlab/actions?query=workflow%3ARuby)
+[![Build Status](https://img.shields.io/github/workflow/status/NARKOZ/gitlab/CI/master)](https://github.com/NARKOZ/gitlab/actions?query=workflow%3ARuby)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e310b334b1b5db4a7e1/maintainability)](https://codeclimate.com/github/NARKOZ/gitlab)
 [![Inline docs](https://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
 [![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
