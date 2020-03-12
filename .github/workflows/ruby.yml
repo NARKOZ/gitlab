@@ -1,0 +1,46 @@
+name: Ruby
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby:
+          - 2.5
+          - 2.6
+          - 2.7
+    name: Ruby ${{ matrix.ruby }} test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Build and test with Rake
+      run: |
+        gem install bundler --no-document
+        bundle install --jobs 4 --retry 3
+        bundle exec rake
+
+  lint:
+    runs-on: ubuntu-latest
+    name: Rubocop lint
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.5
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.5
+    - name: Lint with Rubocop
+      run: |
+        gem install bundler --no-document
+        bundle install --jobs 4 --retry 3
+        bundle exec rake rubocop
