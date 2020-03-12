@@ -1,8 +1,10 @@
 ---
 inherit_from: .rubocop_todo.yml
 
+require: rubocop-performance
+
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
 
 Layout/LineLength:
   Max: 123
@@ -22,9 +24,14 @@ Style/ClassAndModuleChildren:
     - 'lib/gitlab/*'
     - 'lib/gitlab/client/*'
 
-Style/FrozenStringLiteralComment:
-  Exclude:
-    - 'spec/gitlab/help_spec.rb'
-
 Lint/NonDeterministicRequireOrder:
   Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true

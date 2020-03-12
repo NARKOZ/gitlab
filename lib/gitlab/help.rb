@@ -80,6 +80,7 @@ module Gitlab::Help
 
     # Massage output from 'ri'.
     def change_help_output!(cmd, output_str)
+      output_str = +output_str
       output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd + ' \1')
       output_str.gsub!(/\,[\s]*/, ' ')
 

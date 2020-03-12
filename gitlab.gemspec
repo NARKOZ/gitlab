@@ -20,14 +20,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.license       = 'BSD-2-Clause'
 
-  gem.required_ruby_version = '>= 2.3'
+  gem.required_ruby_version = '>= 2.5'
 
   gem.add_runtime_dependency 'httparty', '~> 0.14', '>= 0.14.0'
   gem.add_runtime_dependency 'terminal-table', '~> 1.5', '>= 1.5.1'
 
-  gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'rubocop'
   gem.add_development_dependency 'webmock'
 end

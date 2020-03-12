@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gitlab::Help do
@@ -26,12 +28,12 @@ describe Gitlab::Help do
 
     it 'returns a String of modified output' do
       described_class.change_help_output! @cmd, @help_output
-      expect(@help_output).to eq("Gitlab.create_branch 4 'new-branch' 'master'")
+      expect(@help_output).to eq("Gitlab.create_branch(4, 'new-branch', 'master')")
     end
 
     it 'formats options hash and return a String of modified output' do
       described_class.change_help_output! 'groups', @help_output_with_options
-      expect(@help_output_with_options).to eq('Gitlab.groups "{ per_page: 3 }"')
+      expect(@help_output_with_options).to eq('Gitlab.groups({ per_page: 3 })')
     end
   end
 

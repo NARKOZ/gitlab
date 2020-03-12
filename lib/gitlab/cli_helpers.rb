@@ -206,14 +206,10 @@ class Gitlab::CLI
 
     # Helper function to call Gitlab commands with args.
     def gitlab_helper(cmd, args = [])
-      begin
-        data = args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
-      rescue StandardError => e
-        puts e.message
-        yield if block_given?
-      end
-
-      data
+      args.any? ? Gitlab.send(cmd, *args) : Gitlab.send(cmd)
+    rescue StandardError => e
+      puts e.message
+      yield if block_given?
     end
 
     # Convert a hash (recursively) to use symbol hash keys
@@ -221,11 +217,9 @@ class Gitlab::CLI
     def symbolize_keys(hash)
       if hash.is_a?(Hash)
         hash = hash.each_with_object({}) do |(key, value), new_hash|
-          begin
-            new_hash[key.to_sym] = symbolize_keys(value)
-          rescue NoMethodError
-            raise "Error: cannot convert hash key to symbol: #{key}"
-          end
+          new_hash[key.to_sym] = symbolize_keys(value)
+        rescue NoMethodError
+          raise "Error: cannot convert hash key to symbol: #{key}"
         end
       end
 
