@@ -123,6 +123,20 @@ class Gitlab::Client
       post('/session', body: { email: email, password: password }, unauthenticated: true)
     end
 
+    # Gets a list of user activities (for admin access only).
+    #
+    # @example
+    #   Gitlab.activities
+    #
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @option options [DateTime] :from The start date for paginated results.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def activities(options = {})
+      get('/user/activities', query: options)
+    end
+
     # Gets a list of user's SSH keys.
     #
     # @example
