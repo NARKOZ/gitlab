@@ -131,7 +131,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @option options [DateTime] :from The start date for paginated results.
+    # @option options [String] :from The start date for paginated results.
     # @return [Array<Gitlab::ObjectifiedHash>]
     def activities(options = {})
       get('/user/activities', query: options)
