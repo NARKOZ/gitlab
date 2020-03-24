@@ -39,6 +39,68 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.project_merge_request_approval_rules' do
+    before do
+      stub_get('/projects/1/approval_rules', 'project_merge_request_approval_rules')
+      @project_mr_approval_rules = Gitlab.project_merge_request_approval_rules(1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/1/approval_rules')).to have_been_made
+    end
+
+    it 'returns the paginated list of approval rules' do
+      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+    end
+  end
+
+  describe '.create_project_merge_request_approval_rule' do
+    before do
+      stub_post('/projects/1/approval_rules', 'project_merge_request_approval_rules')
+      @project_mr_approval_rules = Gitlab.create_project_merge_request_approval_rule(1, {name: "security", approvals_required: 1})
+    end
+
+    it 'creates the correct resource' do
+      expect(a_post('/projects/1/approval_rules')).to have_been_made
+    end
+
+    it 'returns the paginated list of approval rules' do
+      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+      expect(@project_mr_approval_rules.first.id).to eq(1)
+      expect(@project_mr_approval_rules.first.name).to eq("security")
+      expect(@project_mr_approval_rules.first.approvals_required).to eq(3)
+    end
+  end
+
+  describe '.update_project_merge_request_approval_rule' do
+    before do
+      stub_put('/projects/1/approval_rules/1', 'project_merge_request_approval_rules')
+      @project_mr_approval_rules = Gitlab.update_project_merge_request_approval_rule(1, 1, {name: "security", approvals_required: 1})
+    end
+
+    it 'updates the correct resource' do
+      expect(a_put('/projects/1/approval_rules/1')).to have_been_made
+    end
+
+    it 'returns the paginated list of approval rules' do
+      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+      expect(@project_mr_approval_rules.first.id).to eq(1)
+      expect(@project_mr_approval_rules.first.name).to eq("security")
+      expect(@project_mr_approval_rules.first.approvals_required).to eq(3)
+    end
+  end
+
+  describe '.delete_project_merge_request_approval_rule' do
+    before do
+      stub_delete('/projects/1/approval_rules/1', 'empty')
+      Gitlab.delete_project_merge_request_approval_rule(1, 1)
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/1/approval_rules/1')).to have_been_made
+    end
+  end
+
   describe '.edit_project_approvers' do
     before do
       body = { "approver_ids": ['5'], "approver_group_ids": ['1'] }
