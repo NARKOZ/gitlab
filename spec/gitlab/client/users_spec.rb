@@ -210,6 +210,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.activities' do
+    before do
+      stub_get('/user/activities', 'activities')
+      @activities = Gitlab.activities
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/user/activities')).to have_been_made
+    end
+
+    it 'returns a paginated response of user activity' do
+      expect(@activities).to be_a Gitlab::PaginatedResponse
+      expect(@activities.first.username).to eq('someuser')
+    end
+  end
+
   describe '.ssh_keys' do
     context 'with user ID passed' do
       before do
