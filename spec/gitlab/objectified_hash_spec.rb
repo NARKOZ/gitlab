@@ -30,6 +30,23 @@ describe Gitlab::ObjectifiedHash do
     end
   end
 
+  describe '#method_missing' do
+    it 'delegates to `@data` for valid keys' do
+      expect(@oh.a).to eq(@hash[:a])
+      expect(@oh.symbol).to eq(@hash[:symbol])
+      expect(@oh.string).to eq(@hash['string'])
+    end
+
+    it 'delegates to underlying Hash methods' do
+      expect(@oh.include?(:invalid_key)).to eq(false)
+      expect(@oh.include?(:a)).to eq(true)
+    end
+
+    it 'delegates to `super` for unknown messages' do
+      expect { @oh.invalid_method }.to raise_error(NoMethodError)
+    end
+  end
+
   describe '#respond_to' do
     it 'returns true for methods this object responds to through method_missing as sym' do
       expect(@oh).to respond_to(:a)
