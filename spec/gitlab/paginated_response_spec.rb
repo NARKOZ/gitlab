@@ -37,6 +37,20 @@ describe Gitlab::PaginatedResponse do
       expect(@paginated_response.next_page).to be_nil
       expect(@paginated_response.prev_page).to be_nil
     end
+
+    context 'when the Link header endpoint does not match the configured endpoint' do
+      it 'removes the apprpriate prefix from the pagination link' do
+        @paginated_response.parse_headers!('Link' => '<http://example.com/api/v3/projects?page=1&per_page=5>; rel="first", <http://example.com/api/v3/projects?page=20&per_page=5>; rel="last"')
+        client = @paginated_response.client = double('client')
+        first_page_response = double('first_page_response')
+        last_page_response = double('last_page_response')
+        allow(client).to receive(:endpoint).and_return('http://internal.example.com/api/v3')
+        allow(client).to receive(:get).with('/projects?page=1&per_page=5').and_return(first_page_response)
+        allow(client).to receive(:get).with('/projects?page=20&per_page=5').and_return(last_page_response)
+        expect(@paginated_response.first_page).to be first_page_response
+        expect(@paginated_response.last_page).to be last_page_response
+      end
+    end
   end
 
   describe '.each_page' do
@@ -123,6 +137,19 @@ describe Gitlab::PaginatedResponse do
     include_context 'when performing limited pagination with a block'
     it 'iterates the first page plus one' do
       expect { |b| @paginated_response.paginate_with_limit(5, &b) }.to yield_successive_args(1, 2, 3, 4, 5)
+    end
+  end
+
+  describe '.client_relative_path' do
+    subject(:client_relative_path) do
+      @paginated_response.client_relative_path('https://127.0.0.1/api/v4/projects/1/merge_requests/2/notes')
+    end
+
+    it 'removes the prefix and api version from the link' do
+      client = @paginated_response.client = double('client')
+      allow(client).to receive(:endpoint).and_return('https://example.com/api/v4')
+
+      expect(client_relative_path).to eq '/projects/1/merge_requests/2/notes'
     end
   end
 end
