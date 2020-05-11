@@ -60,6 +60,20 @@ class Gitlab::Client
     end
     alias merge_request_comments merge_request_notes
 
+    # Gets a list of notes for an epic.
+    #
+    # @example
+    #   Gitlab.epic_notes(5, 10)
+    #
+    # @param [Integer] project The ID of a group.
+    # @param [Integer] epic The ID of an epic.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def epic_notes(group, epic, options = {})
+      get("/groups/#{url_encode group}/epics/#{epic}/notes", query: options)
+    end
+
     # Gets a single wall note.
     #
     # @example

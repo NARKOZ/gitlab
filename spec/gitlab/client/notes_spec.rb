@@ -67,6 +67,22 @@ describe Gitlab::Client do
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
+
+    context 'when epic notes' do
+      before do
+        stub_get('/groups/3/epics/7/notes', 'notes')
+        @notes = Gitlab.epic_notes(3, 7)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/3/epics/7/notes')).to have_been_made
+      end
+
+      it 'returns a paginated response of notes' do
+        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes.first.author.name).to eq('John Smith')
+      end
+    end
   end
 
   describe 'note' do
