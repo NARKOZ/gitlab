@@ -60,6 +60,20 @@ class Gitlab::Client
     end
     alias merge_request_comments merge_request_notes
 
+    # Gets a list of notes for an epic.
+    #
+    # @example
+    #   Gitlab.epic_notes(5, 10)
+    #
+    # @param [Integer] project The ID of a group.
+    # @param [Integer] epic The ID of an epic.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def epic_notes(group, epic, options = {})
+      get("/groups/#{url_encode group}/epics/#{epic}/notes", query: options)
+    end
+
     # Gets a single wall note.
     #
     # @example
@@ -161,6 +175,19 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/notes", body: { body: body })
     end
     alias create_merge_request_comment create_merge_request_note
+
+    # Creates a new epic note.
+    #
+    # @example
+    #   Gitlab.create_epic_note(6, 1, 'Adding a note to my epic.')
+    #
+    # @param  [Integer, String] group The ID or name of a group.
+    # @param  [Integer] epic The ID of an epic.
+    # @param  [String] body The body of a note.
+    # @return [Gitlab::ObjectifiedHash] Information about created note.
+    def create_epic_note(group, epic, body)
+      post("/groups/#{url_encode group}/epics/#{epic}/notes", body: { body: body })
+    end
 
     # Deletes a wall note.
     #
