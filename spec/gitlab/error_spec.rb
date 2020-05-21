@@ -51,4 +51,21 @@ describe Gitlab::Error::ResponseError do
     response_double = double('response', body: 'Retry later', to_s: 'Retry text', parsed_response: { message: 'Retry hash' }, code: 429, options: {}, headers: headers, request: @request_double)
     expect(described_class.new(response_double).send(:build_error_message)).to match(/Retry hash/)
   end
+
+  context 'parsing errors' do
+    let(:headers) { { 'content-type' => 'application/json' } }
+    let(:response_double) do
+      double('response', body: 'Retry later', to_s: 'Retry text', code: status, options: {}, headers: headers, request: @request_double)
+    end
+    let(:status) { 429 }
+
+    before do
+      allow(response_double).to receive(:parsed_response)
+        .and_raise(Gitlab::Error::Parsing)
+    end
+
+    it 'Builds an error message from text' do
+      expect(described_class.new(response_double).send(:build_error_message)).to match(/Retry text/)
+    end
+  end
 end

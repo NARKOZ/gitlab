@@ -63,6 +63,14 @@ module Gitlab
         else
           @response.parsed_response
         end
+      rescue Gitlab::Error::Parsing
+        # Return stringified response when receiving a
+        # parsing error to avoid obfuscation of the
+        # api error.
+        #
+        # note: The Gitlab API does not always return valid
+        # JSON when there are errors.
+        @response.to_s
       end
 
       # Handle error response message in case of nested hashes
