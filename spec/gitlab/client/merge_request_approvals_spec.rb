@@ -57,7 +57,7 @@ describe Gitlab::Client do
   describe '.create_project_merge_request_approval_rule' do
     before do
       stub_post('/projects/1/approval_rules', 'project_merge_request_approval_rules')
-      @project_mr_approval_rules = Gitlab.create_project_merge_request_approval_rule(1, { name: 'security', approvals_required: 1 })
+      @project_mr_approval_rules = Gitlab.create_project_merge_request_approval_rule(1, name: 'security', approvals_required: 1)
     end
 
     it 'creates the correct resource' do
@@ -75,7 +75,7 @@ describe Gitlab::Client do
   describe '.update_project_merge_request_approval_rule' do
     before do
       stub_put('/projects/1/approval_rules/1', 'project_merge_request_approval_rules')
-      @project_mr_approval_rules = Gitlab.update_project_merge_request_approval_rule(1, 1, { name: 'security', approvals_required: 1 })
+      @project_mr_approval_rules = Gitlab.update_project_merge_request_approval_rule(1, 1, name: 'security', approvals_required: 1)
     end
 
     it 'updates the correct resource' do

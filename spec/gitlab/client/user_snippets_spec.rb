@@ -106,7 +106,7 @@ describe Gitlab::Client do
         .with(query: { per_page: 2, page: 1 })).to have_been_made
     end
 
-    it "returns a paginated response of public snippets" do
+    it 'returns a paginated response of public snippets' do
       expect(@snippets).to be_a Gitlab::PaginatedResponse
       expect(@snippets.last.visibility).to eq('public')
     end
@@ -123,7 +123,7 @@ describe Gitlab::Client do
     end
 
     it 'returns user agent detail information about the snippet' do
-      expect(@detail.to_h.keys.sort).to eq(['akismet_submitted', 'ip_address', 'user_agent'])
+      expect(@detail.to_h.keys.sort).to eq(%w[akismet_submitted ip_address user_agent])
     end
   end
 end
