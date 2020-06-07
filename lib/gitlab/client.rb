@@ -62,6 +62,7 @@ module Gitlab
     include Templates
     include Todos
     include Users
+    include UserSnippets
     include Versions
     include Wikis
 
