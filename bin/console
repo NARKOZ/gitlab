@@ -1,1 +1,11 @@
-#!/usr/bin/env ruby# frozen_string_literal: true# ENV['GITLAB_API_ENDPOINT'] = ''# ENV['GITLAB_API_PRIVATE_TOKEN'] = ''require 'bundler/setup'require 'gitlab'require 'pry'Pry.start
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# ENV['GITLAB_API_ENDPOINT'] = ''
+# ENV['GITLAB_API_PRIVATE_TOKEN'] = ''
+
+require 'bundler/setup'
+require 'gitlab'
+require 'pry'
+
+Pry.start
