@@ -139,6 +139,7 @@ class Gitlab::Client
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/approvers", body: options)
     end
 
+
     # Approve a merge request
     #
     # @example
@@ -164,6 +165,18 @@ class Gitlab::Client
     # @return [void] This API call returns an empty response body.
     def unapprove_merge_request(project, merge_request, options = {})
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/unapprove", body: options)
+    end
+
+    # Get the approval state of merge requests
+    #
+    # @example
+    #   Gitlab.merge_request_approval_state(5, 36)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def merge_request_approval_state(project, id)
+      get("/projects/#{url_encode project}/merge_requests/#{id}/approval_state")
     end
   end
 end
