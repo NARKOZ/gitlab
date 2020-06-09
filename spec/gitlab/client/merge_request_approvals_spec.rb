@@ -219,5 +219,4 @@ describe Gitlab::Client do
       expect(@approval_state.approved_by).to be_empty
     end
   end
-
 end
