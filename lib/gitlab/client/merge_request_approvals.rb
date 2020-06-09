@@ -139,7 +139,6 @@ class Gitlab::Client
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/approvers", body: options)
     end
 
-
     # Approve a merge request
     #
     # @example
