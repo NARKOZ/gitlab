@@ -202,4 +202,21 @@ describe Gitlab::Client do
       expect(a_post('/projects/1/merge_requests/5/unapprove')).to have_been_made
     end
   end
+
+  describe '.merge_request_approval_state' do
+    before do
+      stub_get('/projects/3/merge_requests/1/approval_state', 'merge_request_approval_state')
+      @approval_state = Gitlab.merge_request_approval_state(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/1/approval_state')).to have_been_made
+    end
+
+    it 'returns information about all approval states of merge request' do
+      expect(@approval_state.approvals_required).to eq(2)
+      expect(@approval_state.approvals_left).to eq(2)
+      expect(@approval_state.approved_by).to be_empty
+    end
+  end
 end
