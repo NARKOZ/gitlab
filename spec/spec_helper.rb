@@ -17,7 +17,8 @@ def capture_output
 end
 
 def load_fixture(name)
-  File.new(File.dirname(__FILE__) + "/fixtures/#{name}.json")
+  name, extension = name.split('.')
+  File.new(File.dirname(__FILE__) + "/fixtures/#{name}.#{extension || 'json'}")
 end
 
 RSpec.configure do |config|

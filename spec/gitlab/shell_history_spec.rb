@@ -42,7 +42,7 @@ describe Gitlab::Shell::History do
 
   context 'loading a file' do
     before do
-      @file = load_fixture('shell_history')
+      @file = load_fixture('shell_history.txt')
       @history = described_class.new(file_path: @file.path)
     end
 

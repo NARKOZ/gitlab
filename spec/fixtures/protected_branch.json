@@ -1,15 +1,1 @@
-{
-  "name": "master",
-  "push_access_levels": [
-    {
-      "access_level": 40,
-      "access_level_description": "Maintainers"
-    }
-  ],
-  "merge_access_levels": [
-    {
-      "access_level": 40,
-      "access_level_description": "Maintainers"
-    }
-  ]
-}
+{"name":"master","push_access_levels":[{"access_level":40,"access_level_description":"Maintainers"}],"merge_access_levels":[{"access_level":40,"access_level_description":"Maintainers"}]}

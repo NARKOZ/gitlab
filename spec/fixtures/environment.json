@@ -1,6 +1,1 @@
-{
-  "id": 12,
-  "name": "staging",
-  "slug": "staging-cb247rv",
-  "external_url": "https://staging.example.gitlab.com"
-}
+{"id":12,"name":"staging","slug":"staging-cb247rv","external_url":"https://staging.example.gitlab.com"}

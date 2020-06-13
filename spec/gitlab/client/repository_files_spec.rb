@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Gitlab::Client do
   describe '.file_contents' do
     before do
-      stub_get('/projects/3/repository/files/Gemfile/raw?ref=master', 'raw_file')
+      stub_get('/projects/3/repository/files/Gemfile/raw?ref=master', 'raw_file.txt')
       @file_contents = Gitlab.file_contents(3, 'Gemfile')
     end
 

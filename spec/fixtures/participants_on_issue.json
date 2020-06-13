@@ -1,18 +1,1 @@
-[
-  {
-    "id": 1,
-    "name": "John Doe1",
-    "username": "user1",
-    "state": "active",
-    "avatar_url": "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
-    "web_url": "http://localhost/user1"
-  },
-  {
-    "id": 5,
-    "name": "John Doe5",
-    "username": "user5",
-    "state": "active",
-    "avatar_url": "http://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80&d=identicon",
-    "web_url": "http://localhost/user5"
-  }
-]
+[{"id":1,"name":"John Doe1","username":"user1","state":"active","avatar_url":"http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon","web_url":"http://localhost/user1"},{"id":5,"name":"John Doe5","username":"user5","state":"active","avatar_url":"http://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80&d=identicon","web_url":"http://localhost/user5"}]

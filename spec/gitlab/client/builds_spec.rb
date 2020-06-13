@@ -41,7 +41,7 @@ describe Gitlab::Client do
   describe '.build_artifacts' do
     context 'when successful request' do
       before do
-        fixture = load_fixture('build_artifacts')
+        fixture = load_fixture('build_artifacts.zip')
         fixture.set_encoding(Encoding::ASCII_8BIT)
         stub_request(:get, "#{Gitlab.endpoint}/projects/3/builds/8/artifacts")
           .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
