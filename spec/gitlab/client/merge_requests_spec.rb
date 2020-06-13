@@ -303,7 +303,7 @@ describe Gitlab::Client do
 
     it 'posts the correct resource' do
       expect(a_post('/projects/3/merge_requests/2/discussions')
-        .with(body: 'body=Discussion&position[old_line]=1')).to have_been_made
+        .with(body: 'body=Discussion&position[old_line]=1'.gsub('[', '%5B').gsub(']', '%5D'))).to have_been_made
     end
 
     it 'returns information about the discussions' do

@@ -67,7 +67,7 @@ describe Gitlab::Client do
 
       it 'calls with the correct body' do
         expected_body = 'variables[][key]=VAR1&variables[][value]=value&variables[][key]=VAR2&variables[][value]=value'
-        expect(a_post(pipeline_path).with(body: expected_body)).to have_been_made
+        expect(a_post(pipeline_path).with(body: expected_body.gsub('[', '%5B').gsub(']', '%5D'))).to have_been_made
       end
     end
   end
