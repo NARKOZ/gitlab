@@ -7,29 +7,33 @@ module Gitlab
     def initialize(hash)
       @hash = hash
       @data = hash.each_with_object({}) do |(key, value), data|
-        value = ObjectifiedHash.new(value) if value.is_a? Hash
+        value = self.class.new(value) if value.is_a? Hash
         data[key.to_s] = value
       end
     end
 
     # @return [Hash] The original hash.
     def to_hash
-      @hash
+      hash
     end
     alias to_h to_hash
 
     # @return [String] Formatted string with the class name, object id and original hash.
     def inspect
-      "#<#{self.class}:#{object_id} {hash: #{@hash.inspect}}"
+      "#<#{self.class}:#{object_id} {hash: #{hash.inspect}}"
     end
 
-    # Delegate to ObjectifiedHash.
-    def method_missing(key)
-      @data.key?(key.to_s) ? @data[key.to_s] : super
+    private
+
+    attr_reader :hash, :data
+
+    # Respond to messages for which `self.data` has a key
+    def method_missing(method_name, *args, &block)
+      data.key?(method_name.to_s) ? data[method_name.to_s] : super
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      @hash.keys.map(&:to_sym).include?(method_name.to_sym) || super
+      hash.keys.map(&:to_sym).include?(method_name.to_sym) || super
     end
   end
 end
