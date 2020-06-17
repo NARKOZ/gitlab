@@ -8,6 +8,7 @@ module Gitlab
       @hash = hash
       @data = hash.each_with_object({}) do |(key, value), data|
         value = self.class.new(value) if value.is_a? Hash
+        value = value.map { |v| self.class.new(v) } if value.is_a? Array
         data[key.to_s] = value
       end
     end
