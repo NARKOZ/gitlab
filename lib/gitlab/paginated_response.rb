@@ -42,37 +42,18 @@ module Gitlab
       end
     end
 
-    def auto_paginate
-      response = block_given? ? nil : []
-      each_page do |page|
-        if block_given?
-          page.each do |item|
-            yield item
-          end
-        else
-          response += page
-        end
-      end
-      response
+    def lazy_paginate(&b)
+      to_enum(:each_page).lazy.flat_map(&:to_ary)
     end
 
-    def paginate_with_limit(limit)
-      response = block_given? ? nil : []
-      count = 0
-      each_page do |page|
-        if block_given?
-          page.each do |item|
-            yield item
-            count += 1
-            break if count >= limit
-          end
-        else
-          response += page[0, limit - count]
-          count = response.length
-        end
-        break if count >= limit
-      end
-      response
+    def auto_paginate(&b)
+      return lazy_paginate.to_a unless block_given?
+      lazy_paginate.each(&b)
+    end
+
+    def paginate_with_limit(limit, &b)
+      return lazy_paginate.take(limit).to_a unless block_given?
+      lazy_paginate.take(limit).each(&b)
     end
 
     def last_page?
