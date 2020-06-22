@@ -42,18 +42,20 @@ module Gitlab
       end
     end
 
-    def lazy_paginate(&b)
+    def lazy_paginate
       to_enum(:each_page).lazy.flat_map(&:to_ary)
     end
 
-    def auto_paginate(&b)
+    def auto_paginate(&block)
       return lazy_paginate.to_a unless block_given?
-      lazy_paginate.each(&b)
+
+      lazy_paginate.each(&block)
     end
 
-    def paginate_with_limit(limit, &b)
+    def paginate_with_limit(limit, &block)
       return lazy_paginate.take(limit).to_a unless block_given?
-      lazy_paginate.take(limit).each(&b)
+
+      lazy_paginate.take(limit).each(&block)
     end
 
     def last_page?
