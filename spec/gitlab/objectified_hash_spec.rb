@@ -4,13 +4,19 @@ require 'spec_helper'
 
 describe Gitlab::ObjectifiedHash do
   before do
-    @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol }
+    @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol, array: ["string", {:a => 1, :b => 2}] }
     @oh = described_class.new @hash
   end
 
   it 'objectifies a hash' do
     expect(@oh.a).to eq(@hash[:a])
     expect(@oh.b).to eq(@hash[:b])
+  end
+
+  it 'objectifies a hash contained in an array' do
+    expect(@oh.array[1].a).to eq(@hash[:array][1][:a])
+    expect(@oh.array[1].b).to eq(@hash[:array][1][:b])
+    expect(@oh.array[0]).to eq(@hash[:array][0])
   end
 
   describe '#to_hash' do
