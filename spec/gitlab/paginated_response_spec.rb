@@ -63,6 +63,25 @@ describe Gitlab::PaginatedResponse do
     end
   end
 
+  describe '.lazy_paginate' do
+    it 'returns a lazy enumerator' do
+      expect(@paginated_response.lazy_paginate).to be_an(Enumerator::Lazy)
+    end
+
+    it 'only requests needed pages' do
+      next_page = double('next_page')
+      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
+      allow(@paginated_response).to receive(:next_page).and_return(next_page)
+      allow(next_page).to receive(:has_next_page?).and_return(true)
+      # NOTE:
+      # Do not define :next_page on the next_page double to prove that it is NOT
+      # called even though :has_next_page? has been defined to claim another
+      # page is available.
+      allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
+      expect(@paginated_response.lazy_paginate.take(8)).to contain_exactly(1, 2, 3, 4, 5, 6, 7, 8)
+    end
+  end
+
   describe '.auto_paginate' do
     it 'returns an array if block is not given' do
       next_page = double('next_page')
@@ -104,7 +123,7 @@ describe Gitlab::PaginatedResponse do
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)
       allow(next_page).to receive(:has_next_page?).and_return(false)
-      allow(next_page).to receive(:[]).with(0, 1).and_return([5])
+      allow(next_page).to receive(:to_ary).and_return([5])
       expect(@paginated_response.paginate_with_limit(5)).to contain_exactly(1, 2, 3, 4, 5)
     end
   end
@@ -115,7 +134,7 @@ describe Gitlab::PaginatedResponse do
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)
       allow(next_page).to receive(:has_next_page?).and_return(false)
-      allow(next_page).to receive(:each).and_yield(5).and_yield(6).and_yield(7).and_yield(8)
+      allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
     end
   end
 
