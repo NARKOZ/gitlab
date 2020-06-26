@@ -35,12 +35,16 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.merge_request(5, 36)
+    #   Gitlab.merge_request(5, 36, { include_diverged_commits_count: true })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
+    # @option options [Boolean] :render_html If true response includes rendered HTML for title and description.
+    # @option options [Boolean] :include_diverged_commits_count If true response includes the commits behind the target branch.
+    # @option options [Boolean] :include_rebase_in_progress If true response includes whether a rebase operation is in progress.
     # @return <Gitlab::ObjectifiedHash]
-    def merge_request(project, id)
-      get("/projects/#{url_encode project}/merge_requests/#{id}")
+    def merge_request(project, id, options={})
+      get("/projects/#{url_encode project}/merge_requests/#{id}", query: options)
     end
 
     # Gets a list of merge request pipelines.
