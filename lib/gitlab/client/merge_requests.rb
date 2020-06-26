@@ -43,7 +43,7 @@ class Gitlab::Client
     # @option options [Boolean] :include_diverged_commits_count If true response includes the commits behind the target branch.
     # @option options [Boolean] :include_rebase_in_progress If true response includes whether a rebase operation is in progress.
     # @return <Gitlab::ObjectifiedHash]
-    def merge_request(project, id, options={})
+    def merge_request(project, id, options = {})
       get("/projects/#{url_encode project}/merge_requests/#{id}", query: options)
     end
 
