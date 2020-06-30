@@ -24,6 +24,10 @@ module Gitlab
       "#<#{self.class}:#{object_id} {hash: #{hash.inspect}}"
     end
 
+    def [](key)
+      @data[key]
+    end
+
     private
 
     attr_reader :hash, :data

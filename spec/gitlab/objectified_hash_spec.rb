@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Gitlab::ObjectifiedHash do
   before do
-    @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol, array: ["string", {:a => 1, :b => 2}] }
+    @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol, array: [ "string", {:a => 1, :b => 2} ] }
     @oh = described_class.new @hash
   end
 
@@ -17,6 +17,11 @@ describe Gitlab::ObjectifiedHash do
     expect(@oh.array[1].a).to eq(@hash[:array][1][:a])
     expect(@oh.array[1].b).to eq(@hash[:array][1][:b])
     expect(@oh.array[0]).to eq(@hash[:array][0])
+  end
+
+  it 'supports legacy addressing mode' do
+    expect(@oh['a']).to eq(@hash[:a])
+    expect(@oh['b']).to eq(@hash[:b])
   end
 
   describe '#to_hash' do
