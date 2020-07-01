@@ -25,7 +25,7 @@ module Gitlab
     end
 
     def [](key)
-      @data[key]
+      data[key]
     end
 
     private
