@@ -8,6 +8,7 @@ module Gitlab
       @hash = hash
       @data = hash.each_with_object({}) do |(key, value), data|
         value = self.class.new(value) if value.is_a? Hash
+        value = value.map { |v| v.is_a?(Hash) ? self.class.new(v) : v } if value.is_a? Array
         data[key.to_s] = value
       end
     end
@@ -21,6 +22,10 @@ module Gitlab
     # @return [String] Formatted string with the class name, object id and original hash.
     def inspect
       "#<#{self.class}:#{object_id} {hash: #{hash.inspect}}"
+    end
+
+    def [](key)
+      data[key]
     end
 
     private
