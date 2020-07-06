@@ -85,8 +85,14 @@ class Gitlab::Client
     # @option options [String] :source_branch (required) The source branch name.
     # @option options [String] :target_branch (required) The target branch name.
     # @option options [Integer] :assignee_id (optional) The ID of a user to assign merge request.
+    # @option options [Array<Integer>] :assignee_ids (optional) The ID of the user(s) to assign the MR to. Set to 0 or provide an empty value to unassign all assignees.
+    # @option options [String] :description (optional) Description of MR. Limited to 1,048,576 characters.
     # @option options [Integer] :target_project_id (optional) The target project ID.
     # @option options [String] :labels (optional) Labels as a comma-separated list.
+    # @option options [Integer] :milestone_id (optional) The global ID of a milestone
+    # @option options [Boolean] :remove_source_branch (optional) Flag indicating if a merge request should remove the source branch when merging
+    # @option options [Boolean] :allow_collaboration (optional) Allow commits from members who can merge to the target branch
+    # @option options [Boolean] :squash (optional) Squash commits into a single commit when merging
     # @return [Gitlab::ObjectifiedHash] Information about created merge request.
     def create_merge_request(project, title, options = {})
       body = { title: title }.merge(options)
@@ -119,7 +125,12 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :merge_commit_message Custom merge commit message
+    # @option options [String] :merge_commit_message(optional) Custom merge commit message
+    # @option options [String] :squash_commit_message(optional) Custom squash commit message
+    # @option options [Boolean] :squash(optional) if true the commits will be squashed into a single commit on merge
+    # @option options [Boolean] :should_remove_source_branch(optional) if true removes the source branch
+    # @option options [Boolean] :merge_when_pipeline_succeeds(optional) if true the MR is merged when the pipeline succeeds
+    # @option options [String] :sha(optional) if present, then this SHA must match the HEAD of the source branch, otherwise the merge will fail
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def accept_merge_request(project, id, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
