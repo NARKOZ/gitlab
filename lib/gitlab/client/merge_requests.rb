@@ -119,7 +119,12 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :merge_commit_message Custom merge commit message
+    # @option options [String] :merge_commit_message(optional) Custom merge commit message
+    # @option options [String] :squash_commit_message(optional) Custom squash commit message
+    # @option options [Boolean] :squash(optional) if true the commits will be squashed into a single commit on merge
+    # @option options [Boolean] :should_remove_source_branch(optional) if true removes the source branch
+    # @option options [Boolean] :merge_when_pipeline_succeeds(optional) if true the MR is merged when the pipeline succeeds
+    # @option options [String] :sha(optional) if present, then this SHA must match the HEAD of the source branch, otherwise the merge will fail
     # @return [Gitlab::ObjectifiedHash] Information about updated merge request.
     def accept_merge_request(project, id, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{id}/merge", body: options)
