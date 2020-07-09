@@ -19,6 +19,10 @@ module Gitlab
     end
     alias to_h to_hash
 
+    def merge(other_hash)
+      self.class.new(to_h.merge(other_hash))
+    end
+
     # @return [String] Formatted string with the class name, object id and original hash.
     def inspect
       "#<#{self.class}:#{object_id} {hash: #{hash.inspect}}"

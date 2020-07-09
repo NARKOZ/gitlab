@@ -34,6 +34,38 @@ describe Gitlab::ObjectifiedHash do
     end
   end
 
+  describe '#merge' do
+    before do
+      @hash2 = { c: 3 }
+    end
+
+    shared_examples 'mergeable ObjectifiedHash' do
+      it 'returns a ObjectifiedHash' do
+        expect(@merged_oh).to be_a(described_class)
+      end
+
+      it 'merges two ObjectifiedHash objects' do
+        expect(@merged_oh.to_h).to eq(@hash.merge(@hash2))
+      end
+    end
+
+    context 'when merging two ObjectifiedHash objects' do
+      before do
+        @merged_oh = @oh.merge(described_class.new(@hash2))
+      end
+
+      it_behaves_like 'mergeable ObjectifiedHash'
+    end
+
+    context 'when merging one ObjectifiedHash and a hash' do
+      before do
+        @merged_oh = @oh.merge(@hash2)
+      end
+
+      it_behaves_like 'mergeable ObjectifiedHash'
+    end
+  end
+
   describe '#inspect' do
     it 'returns a formatted string' do
       pretty_string = "#<#{@oh.class.name}:#{@oh.object_id} {hash: #{@hash}}"
