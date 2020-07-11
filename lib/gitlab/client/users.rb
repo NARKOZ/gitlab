@@ -239,10 +239,15 @@ class Gitlab::Client
     #
     # @param  [String] email Email address
     # @param  [Integer] user_id The ID of a user.
+    # @param  [Boolean] skip_confirmation     Skip confirmation and assume e-mail is verified
     # @return [Gitlab::ObjectifiedHash]
-    def add_email(email, user_id = nil)
+    def add_email(email, user_id = nil, skip_confirmation = nil)
       url = user_id.to_i.zero? ? '/user/emails' : "/users/#{user_id}/emails"
-      post(url, body: { email: email })
+      if skip_confirmation.nil?
+        post(url, body: { email: email })
+      else
+        post(url, body: { email: email, skip_confirmation: skip_confirmation })
+      end
     end
 
     # Delete email
