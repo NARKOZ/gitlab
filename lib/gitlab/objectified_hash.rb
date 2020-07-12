@@ -34,7 +34,14 @@ module Gitlab
 
     # Respond to messages for which `self.data` has a key
     def method_missing(method_name, *args, &block)
-      data.key?(method_name.to_s) ? data[method_name.to_s] : super
+      if data.key?(method_name.to_s)
+        data[method_name.to_s]
+      elsif data.respond_to?(method_name)
+        warn 'WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.'
+        data.send(method_name, *args, &block)
+      else
+        super
+      end
     end
 
     def respond_to_missing?(method_name, include_private = false)

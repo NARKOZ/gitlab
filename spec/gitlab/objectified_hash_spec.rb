@@ -8,6 +8,21 @@ describe Gitlab::ObjectifiedHash do
     @oh = described_class.new @hash
   end
 
+  describe 'Hash behavior' do
+    let(:hash) { { foo: 'bar' } }
+    let(:oh) { described_class.new(hash) }
+
+    it 'allows to call Hash methods' do
+      expect(oh.dig('foo')).to eq('bar')
+      expect(oh.merge(key: :value)).to eq({ 'foo' => 'bar', key: :value })
+    end
+
+    it 'warns about calling Hash methods' do
+      output = capture_output { oh.values }
+      expect(output).to eq("WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.\n")
+    end
+  end
+
   it 'objectifies a hash' do
     expect(@oh.a).to eq(@hash[:a])
     expect(@oh.b).to eq(@hash[:b])
