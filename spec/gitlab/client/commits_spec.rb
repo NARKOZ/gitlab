@@ -65,20 +65,32 @@ describe Gitlab::Client do
   end
 
   describe '.cherry_pick_commit' do
-    before do
-      stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
-      @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+    context 'on success' do
+      before do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
+        @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
+          .with(body: { branch: 'master' }))
+          .to have_been_made
+      end
+
+      it 'returns the correct response' do
+        expect(@cherry_pick_commit).to be_a Gitlab::ObjectifiedHash
+        expect(@cherry_pick_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
-        .with(body: { branch: 'master' }))
-        .to have_been_made
-    end
+    context 'on failure' do
+      it 'includes the error_code' do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'cherry_pick_commit_failure', 400)
 
-    it 'returns the correct response' do
-      expect(@cherry_pick_commit).to be_a Gitlab::ObjectifiedHash
-      expect(@cherry_pick_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
+        expect { Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Error::BadRequest) do |ex|
+          expect(ex.error_code).to eq('conflict')
+        end
+      end
     end
   end
 

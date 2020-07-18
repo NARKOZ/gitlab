@@ -34,6 +34,17 @@ module Gitlab
         @response.parsed_response.message
       end
 
+      # Additional error context returned by some API endpoints
+      #
+      # @return [String]
+      def error_code
+        if @response.respond_to?(:error_code)
+          @response.error_code
+        else
+          ''
+        end
+      end
+
       private
 
       # Human friendly message.
