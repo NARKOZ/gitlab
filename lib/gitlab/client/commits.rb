@@ -59,9 +59,13 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] sha The commit hash or name of a repository branch or tag
     # @param  [String] branch The name of the branch
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :dry_run Don't commit any changes
     # @return [Gitlab::ObjectifiedHash]
-    def cherry_pick_commit(project, sha, branch)
-      post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: { branch: branch })
+    def cherry_pick_commit(project, sha, branch, options = {})
+      options[:branch] = branch
+
+      post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: options)
     end
 
     # Get the diff of a commit in a project.

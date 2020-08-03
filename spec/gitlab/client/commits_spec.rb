@@ -92,6 +92,19 @@ describe Gitlab::Client do
         end
       end
     end
+
+    context 'with additional options' do
+      it 'passes additional options' do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit')
+          .with(body: { branch: 'master', dry_run: true })
+
+        Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
+
+        expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
+          .with(body: { branch: 'master', dry_run: true }))
+          .to have_been_made
+      end
+    end
   end
 
   describe '.commit_diff' do
