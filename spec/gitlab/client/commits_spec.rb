@@ -107,6 +107,49 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.revert_commit' do
+    context 'on success' do
+      before do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'project_commit').with(body: { branch: 'master' })
+        @revert_commit = Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert')
+          .with(body: { branch: 'master' }))
+          .to have_been_made
+      end
+
+      it 'returns the correct response' do
+        expect(@revert_commit).to be_a Gitlab::ObjectifiedHash
+        expect(@revert_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      end
+    end
+
+    context 'on failure' do
+      it 'includes the error_code' do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'revert_commit_failure', 400)
+
+        expect { Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Error::BadRequest) do |ex|
+          expect(ex.error_code).to eq('empty')
+        end
+      end
+    end
+
+    context 'with additional options' do
+      it 'passes additional options' do
+        stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'project_commit')
+          .with(body: { branch: 'master', dry_run: true })
+
+        Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
+
+        expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert')
+          .with(body: { branch: 'master', dry_run: true }))
+          .to have_been_made
+      end
+    end
+  end
+
   describe '.commit_diff' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff', 'project_commit_diff')

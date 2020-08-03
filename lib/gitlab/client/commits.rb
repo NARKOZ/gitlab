@@ -68,6 +68,23 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/repository/commits/#{sha}/cherry_pick", body: options)
     end
 
+    # Reverts a commit in a given branch.
+    #
+    # @example
+    #   Gitlab.revert_commit(42, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] sha The commit hash or name of a repository branch or tag
+    # @param  [String] branch The name of the branch
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :dry_run Don't commit any changes
+    # @return [Gitlab::ObjectifiedHash]
+    def revert_commit(project, sha, branch, options = {})
+      options[:branch] = branch
+
+      post("/projects/#{url_encode project}/repository/commits/#{sha}/revert", body: options)
+    end
+
     # Get the diff of a commit in a project.
     #
     # @example
