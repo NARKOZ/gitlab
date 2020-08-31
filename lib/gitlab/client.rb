@@ -52,6 +52,7 @@ module Gitlab
     include RepositoryFiles
     include RepositorySubmodules
     include ResourceLabelEvents
+    include ResourceStateEvents
     include Runners
     include Search
     include Services
