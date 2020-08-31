@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gitlab::Client
   # Defines methods related to resource state events.
   # @see https://docs.gitlab.com/ee/api/resource_state_events.html
@@ -10,7 +12,7 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] issue_iid The IID of an issue.
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def issue_state_events(project,issue_iid)
+    def issue_state_events(project, issue_iid)
       get("/projects/#{url_encode project}/issues/#{issue_iid}/resource_state_events")
     end
 
@@ -23,7 +25,7 @@ class Gitlab::Client
     # @param  [Integer] issue_iid The IID of an issue.
     # @param  [Integer] id The ID of a resource event.
     # @return Gitlab::ObjectifiedHash
-    def issue_state_event(project,issue_iid,id)
+    def issue_state_event(project, issue_iid,id)
       get("/projects/#{url_encode project}/issues/#{issue_iid}/resource_state_events/#{id}")
     end
 
