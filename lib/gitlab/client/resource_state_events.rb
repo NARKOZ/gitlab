@@ -25,7 +25,7 @@ class Gitlab::Client
     # @param  [Integer] issue_iid The IID of an issue.
     # @param  [Integer] id The ID of a resource event.
     # @return Gitlab::ObjectifiedHash
-    def issue_state_event(project, issue_iid,id)
+    def issue_state_event(project, issue_iid, id)
       get("/projects/#{url_encode project}/issues/#{issue_iid}/resource_state_events/#{id}")
     end
 
