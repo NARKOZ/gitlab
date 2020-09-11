@@ -9,11 +9,13 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.runners
-    #   Gitlab.runners(:active)
-    #   Gitlab.runners(:paused)
+    #   Gitlab.runners(type: 'instance_type', status: 'active')
+    #   Gitlab.runners(tag_list: 'tag1,tag2')
     #
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :scope The scope of specific runners to show, one of: active, paused, online; showing all runners if none provided
+    # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
+    # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
+    # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
     # @return [Array<Gitlab::ObjectifiedHash>]
     def runners(options = {})
       get('/runners', query: options)
@@ -24,9 +26,13 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.all_runners
+    #   Gitlab.all_runners(type: 'instance_type', status: 'active')
+    #   Gitlab.all_runners(tag_list: 'tag1,tag2')
     #
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :scope The scope of runners to show, one of: specific, shared, active, paused, online; showing all runners if none provided
+    # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
+    # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
+    # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
     # @return [Array<Gitlab::ObjectifiedHash>]
     def all_runners(options = {})
       get('/runners/all', query: options)
@@ -50,15 +56,19 @@ class Gitlab::Client
     # @example
     #   Gitlab.update_runner(42, { description: 'Awesome runner' })
     #   Gitlab.update_runner(42, { active: false })
-    #   Gitlab.update_runner(42, { tag_list: [ 'awesome', 'runner' ] })
     #
     # @param  [Integer, String] id The ID of a runner
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :active The state of a runner; can be set to true or false.
-    # @option options [String] :tag_list The list of tags for a runner; put array of tags, that should be finally assigned to a runner
+    # @option options [String] :description(optional) The description of a runner
+    # @option options [Boolean] :active(optional) The state of a runner; can be set to true or false
+    # @option options [String] :tag_list(optional) The list of tags for a runner; put array of tags, that should be finally assigned to a runner(separated by comma)
+    # @option options [Boolean] :run_untagged(optional) Flag indicating the runner can execute untagged jobs
+    # @option options [Boolean] :locked(optional) Flag indicating the runner is locked
+    # @option options [String] :access_level(optional) The access_level of the runner; not_protected or ref_protected
+    # @option options [Integer] :maximum_timeout(optional) Maximum timeout set when this runner will handle the job
     # @return <Gitlab::ObjectifiedHash>
     def update_runner(id, options = {})
-      put("/runners/#{id}", query: options)
+      put("/runners/#{id}", body: options)
     end
 
     # Remove a runner.
@@ -68,19 +78,23 @@ class Gitlab::Client
     #   Gitlab.delete_runner(42)
     #
     # @param  [Integer, String] id The ID of a runner
-    # @return <Gitlab::ObjectifiedHash>
+    # @return [nil] This API call returns an empty response body.
     def delete_runner(id)
       delete("/runners/#{id}")
     end
 
-    # Gets a list of Jobs for a Runner
+    # List jobs that are being processed or were processed by specified runner.
     #
     # @example
     #   Gitlab.runner_jobs(1)
+    #   Gitlab.runner_jobs(1, status: 'success')
+    #   Gitlab.runner_jobs(1, sort: 'desc')
     #
     # @param  [Integer] id The ID of a runner.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :status Status of the job; one of: running, success, failed, canceled
+    # @option options [String] :status(optional) Status of the job; one of: running, success, failed, canceled
+    # @option options [String] :order_by(optional) Order jobs by id.
+    # @option options [String] :sort(optional) Sort jobs in asc or desc order (default: desc)
     # @return [Array<Gitlab::ObjectifiedHash>]
     def runner_jobs(runner_id, options = {})
       get("/runners/#{url_encode runner_id}/jobs", query: options)
@@ -91,11 +105,17 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.project_runners(42)
+    #   Gitlab.project_runners(42, type: 'instance_type', status: 'active')
+    #   Gitlab.project_runners(42, tag_list: 'tag1,tag2')
     #
     # @param  [Integer, String] id The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
+    # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
+    # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
     # @return [Array<Gitlab::ObjectifiedHash>]
-    def project_runners(project_id)
-      get("/projects/#{url_encode project_id}/runners")
+    def project_runners(project_id, options = {})
+      get("/projects/#{url_encode project_id}/runners", query: options)
     end
 
     # Enable an available specific runner in the project.
@@ -125,21 +145,39 @@ class Gitlab::Client
       delete("/projects/#{url_encode id}/runners/#{runner_id}")
     end
 
+    # List all runners (specific and shared) available in the group as well its ancestor groups. Shared runners are listed if at least one shared runner is defined.
+    # @see https://docs.gitlab.com/ee/api/runners.html#list-groups-runners
+    #
+    # @example
+    #   Gitlab.group_runners(9)
+    #   Gitlab.group_runners(9, type: 'instance_type', status: 'active')
+    #   Gitlab.group_runners(9, tag_list: 'tag1,tag2')
+    #
+    # @param  [Integer, String] id The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
+    # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
+    # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_runners(group, options = {})
+      get("/groups/#{url_encode group}/runners", query: options)
+    end
+
     # Register a new Runner for the instance.
     #
     # @example
     #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e')
     #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e', description: 'Some Description', active: true, locked: false)
     #
-    # @param  [String] token Registration token.
+    # @param  [String] token(required) Registration token.
     # @param  [Hash] options A customizable set of options.
-    # @option options [String] :description Runner description.
-    # @option options [Hash] :info Runner metadata.
-    # @option options [Boolean] :active Whether the Runner is active.
-    # @option options [Boolean] :locked Whether the Runner should be locked for current project.
-    # @option options [Boolean] :run_untagged Whether the Runner should handle untagged jobs.
-    # @option options [Array<String>] :tag_list List of Runner tags.
-    # @option options [Integer] :maximum_timeout Maximum timeout set when this Runner will handle the job.
+    # @option options [String] :description(optional) Runner description.
+    # @option options [Hash] :info(optional) Runner metadata.
+    # @option options [Boolean] :active(optional) Whether the Runner is active.
+    # @option options [Boolean] :locked(optional) Whether the Runner should be locked for current project.
+    # @option options [Boolean] :run_untagged(optional) Whether the Runner should handle untagged jobs.
+    # @option options [Array<String>] :tag_list(optional) List of Runner tags.
+    # @option options [Integer] :maximum_timeout(optional) Maximum timeout set when this Runner will handle the job.
     # @return <Gitlab::ObjectifiedHash> Response against runner registration
     def register_runner(token, options = {})
       body = { token: token }.merge(options)

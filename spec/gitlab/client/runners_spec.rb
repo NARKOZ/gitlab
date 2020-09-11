@@ -8,7 +8,7 @@ describe Gitlab::Client do
       stub_get('/runners', 'runners')
     end
 
-    context 'without scope' do
+    context 'without extra queries' do
       before do
         @runner = Gitlab.runners
       end
@@ -24,14 +24,14 @@ describe Gitlab::Client do
       end
     end
 
-    context 'with scope' do
+    context 'with queries' do
       before do
-        stub_get('/runners?scope=online', 'runners')
-        @runner = Gitlab.runners(scope: :online)
+        stub_get('/runners?type=instance_type', 'runners')
+        @runner = Gitlab.runners(type: :instance_type)
       end
 
       it 'gets the correct resource' do
-        expect(a_get('/runners').with(query: { scope: :online })).to have_been_made
+        expect(a_get('/runners').with(query: { type: :instance_type })).to have_been_made
       end
 
       it 'returns a paginated response of runners' do
@@ -47,7 +47,7 @@ describe Gitlab::Client do
       stub_get('/runners/all', 'runners')
     end
 
-    context 'without scope' do
+    context 'without extra queries' do
       before do
         @runner = Gitlab.all_runners
       end
@@ -63,14 +63,14 @@ describe Gitlab::Client do
       end
     end
 
-    context 'with scope' do
+    context 'with queries' do
       before do
-        stub_get('/runners/all?scope=online', 'runners')
-        @runner = Gitlab.all_runners(scope: :online)
+        stub_get('/runners/all?type=instance_type', 'runners')
+        @runner = Gitlab.all_runners(type: :instance_type)
       end
 
       it 'gets the correct resource' do
-        expect(a_get('/runners/all').with(query: { scope: :online })).to have_been_made
+        expect(a_get('/runners/all').with(query: { type: :instance_type })).to have_been_made
       end
 
       it 'returns a paginated response of runners' do
@@ -100,12 +100,12 @@ describe Gitlab::Client do
 
   describe '.update_runner' do
     before do
-      stub_put('/runners/6', 'runner_edit').with(query: { description: 'abcefg' })
+      stub_put('/runners/6', 'runner_edit').with(body: { description: 'abcefg' })
       @runner = Gitlab.update_runner(6, description: 'abcefg')
     end
 
     it 'gets the correct resource' do
-      expect(a_put('/runners/6').with(query: { description: 'abcefg' })).to have_been_made
+      expect(a_put('/runners/6').with(body: { description: 'abcefg' })).to have_been_made
     end
 
     it 'returns an updated response of a runner' do
@@ -189,6 +189,41 @@ describe Gitlab::Client do
       expect(@runner).to be_a Gitlab::ObjectifiedHash
       expect(@runner.id).to eq(6)
       expect(@runner.description).to eq('test-1-20150125')
+    end
+  end
+
+  describe '.group_runners' do
+    before do
+      stub_get('/groups/9/runners', 'group_runners')
+    end
+
+    context 'without extra queries' do
+      before do
+        @runners = Gitlab.group_runners(9)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/9/runners')).to have_been_made
+      end
+
+      it 'returns a paginated response of runners' do
+        expect(@runners).to be_a Gitlab::PaginatedResponse
+      end
+    end
+
+    context 'with queries' do
+      before do
+        stub_get('/groups/9/runners?type=instance_type', 'group_runners')
+        @runner = Gitlab.group_runners(9, type: :instance_type)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/9/runners').with(query: { type: :instance_type })).to have_been_made
+      end
+
+      it 'returns a paginated response of runners' do
+        expect(@runner).to be_a Gitlab::PaginatedResponse
+      end
     end
   end
 
