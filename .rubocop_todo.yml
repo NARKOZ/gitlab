@@ -7,15 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 4
-# Cop supports --auto-correct.
-Lint/UnneededCopDisableDirective:
-  Exclude:
-    - 'lib/gitlab.rb'
-    - 'lib/gitlab/file_response.rb'
-    - 'lib/gitlab/objectified_hash.rb'
-    - 'lib/gitlab/paginated_response.rb'
-
-# Offense count: 4
 Metrics/AbcSize:
   Max: 34
 
