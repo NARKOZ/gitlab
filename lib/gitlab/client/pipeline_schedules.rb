@@ -44,7 +44,7 @@ class Gitlab::Client
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
     # @return [Array<Gitlab::ObjectifiedHash>]
     def create_pipeline_schedule(project, options = {})
-      post("/projects/#{url_encode project}/pipeline_schedules", query: options)
+      post("/projects/#{url_encode project}/pipeline_schedules", body: options)
     end
 
     # Updates the pipeline schedule of a project.
@@ -62,7 +62,7 @@ class Gitlab::Client
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
     # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule.
     def edit_pipeline_schedule(project, pipeline_schedule_id, options = {})
-      put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}", query: options)
+      put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}", body: options)
     end
 
     # Take ownership of a pipeline schedule.
@@ -101,7 +101,7 @@ class Gitlab::Client
     # @option options [String] :value The value of a variable
     # @return [Array<Gitlab::ObjectifiedHash>] The created pipeline schedule variable.
     def create_pipeline_schedule_variable(project, pipeline_schedule_id, options = {})
-      post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables", query: options)
+      post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables", body: options)
     end
 
     # Updates the variable of a pipeline schedule.
@@ -116,7 +116,7 @@ class Gitlab::Client
     # @option options [String] :value The value of a variable.
     # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule variable.
     def edit_pipeline_schedule_variable(project, pipeline_schedule_id, key, options = {})
-      put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}", query: options)
+      put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}", body: options)
     end
 
     # Delete the variable of a pipeline schedule

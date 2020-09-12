@@ -58,7 +58,7 @@ class Gitlab::Client
     # @param  [String] name The name of a label.
     # @return [Gitlab::ObjectifiedHash] Information about deleted label.
     def delete_label(project, name)
-      delete("/projects/#{url_encode project}/labels", body: { name: name })
+      delete("/projects/#{url_encode project}/labels/#{name}")
     end
 
     # Subscribes the user to a label to receive notifications
