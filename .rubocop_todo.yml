@@ -8,11 +8,11 @@
 
 # Offense count: 4
 Metrics/AbcSize:
-  Max: 34
+  Max: 35
 
 # Offense count: 3
 Metrics/CyclomaticComplexity:
-  Max: 12
+  Max: 13
 
 # Offense count: 8
 # Configuration parameters: CountComments, ExcludedMethods.
@@ -31,7 +31,7 @@ Metrics/ParameterLists:
 
 # Offense count: 1
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 11
 
 # Offense count: 1
 # Cop supports --auto-correct.
