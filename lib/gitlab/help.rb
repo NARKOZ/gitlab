@@ -74,14 +74,14 @@ module Gitlab::Help
     # Returns full namespace of a command (e.g. Gitlab::Client::Branches.cmd)
     def namespace(cmd)
       method_owners.select { |method| method[:name] == cmd }
-                   .map { |method| method[:owner] + '.' + method[:name] }
+                   .map { |method| "#{method[:owner]}.#{method[:name]}" }
                    .shift
     end
 
     # Massage output from 'ri'.
     def change_help_output!(cmd, output_str)
       output_str = +output_str
-      output_str.gsub!(/#{cmd}\((.*?)\)/m, cmd + ' \1')
+      output_str.gsub!(/#{cmd}\((.*?)\)/m, "#{cmd} \1")
       output_str.gsub!(/,\s*/, ' ')
 
       # Ensure @option descriptions are on a single line
