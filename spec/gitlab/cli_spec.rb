@@ -99,7 +99,7 @@ describe Gitlab::CLI do
       end
 
       it 'renders output as json' do
-        expect(JSON.parse(@output)['result']).to eq(JSON.parse(File.read(File.dirname(__FILE__) + '/../fixtures/user.json')))
+        expect(JSON.parse(@output)['result']).to eq(JSON.parse(File.read("#{File.dirname(__FILE__)}/../fixtures/user.json")))
         expect(JSON.parse(@output)['cmd']).to eq('Gitlab.user')
       end
     end

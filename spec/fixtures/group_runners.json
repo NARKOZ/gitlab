@@ -1,0 +1,32 @@
+[
+  {
+    "id": 3,
+    "description": "Shared",
+    "ip_address": "127.0.0.1",
+    "active": true,
+    "is_shared": true,
+    "name": "gitlab-runner",
+    "online": null,
+    "status": "not_connected"
+  },
+  {
+    "id": 6,
+    "description": "Test",
+    "ip_address": "127.0.0.1",
+    "active": true,
+    "is_shared": true,
+    "name": "gitlab-runner",
+    "online": false,
+    "status": "offline"
+  },
+  {
+    "id": 8,
+    "description": "Test 2",
+    "ip_address": "127.0.0.1",
+    "active": true,
+    "is_shared": false,
+    "name": "gitlab-runner",
+    "online": null,
+    "status": "not_connected"
+  }
+]
