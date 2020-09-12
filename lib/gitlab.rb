@@ -29,9 +29,11 @@ module Gitlab
   end
 
   # Delegate to Gitlab::Client
+  # rubocop:disable Style/OptionalBooleanParameter
   def self.respond_to_missing?(method_name, include_private = false)
     client.respond_to?(method_name) || super
   end
+  # rubocop:enable Style/OptionalBooleanParameter
 
   # Delegate to HTTParty.http_proxy
   def self.http_proxy(address = nil, port = nil, username = nil, password = nil)

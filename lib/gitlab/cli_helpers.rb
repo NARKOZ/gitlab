@@ -111,7 +111,7 @@ class Gitlab::CLI
       else
         hash_result = case data
                       when Gitlab::ObjectifiedHash, Gitlab::FileResponse
-                        record_hash([data], cmd, args, true)
+                        record_hash([data], cmd, args, single_value: true)
                       when Gitlab::PaginatedResponse
                         record_hash(data, cmd, args)
                       else
@@ -162,7 +162,7 @@ class Gitlab::CLI
     # @param  [Array]  args         Options passed to the API call
     # @param  [bool]   single_value If set to true, a single result should be returned
     # @return [Hash]   Result hash
-    def record_hash(data, cmd, args, single_value = false)
+    def record_hash(data, cmd, args, single_value: false)
       if data.empty?
         result = nil
       else
