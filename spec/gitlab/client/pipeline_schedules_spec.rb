@@ -108,14 +108,16 @@ describe Gitlab::Client do
 
   describe '.create_pipeline_schedule_variable' do
     before do
-      stub_post('/projects/3/pipeline_schedules/13/variables?key=NEW%20VARIABLE&value=new%20value', 'pipeline_schedule_variable')
+      stub_post('/projects/3/pipeline_schedules/13/variables', 'pipeline_schedule_variable')
+        .with(body: { key: 'NEW VARIABLE', value: 'new value' })
       @pipeline_schedule_variable = Gitlab.create_pipeline_schedule_variable(3, 13,
                                                                              key: 'NEW VARIABLE',
                                                                              value: 'new value')
     end
 
     it 'gets the correct resource' do
-      expect(a_post('/projects/3/pipeline_schedules/13/variables?key=NEW%20VARIABLE&value=new%20value')).to have_been_made
+      expect(a_post('/projects/3/pipeline_schedules/13/variables')
+        .with(body: { key: 'NEW VARIABLE', value: 'new value' })).to have_been_made
     end
 
     it 'returns a single variable' do
@@ -129,7 +131,8 @@ describe Gitlab::Client do
 
   describe '.edit_pipeline_schedule_variable' do
     before do
-      stub_put('/projects/3/pipeline_schedules/13/variables/NEW%20VARIABLE?value=update%20value', 'pipeline_schedule_variable_update')
+      stub_put('/projects/3/pipeline_schedules/13/variables/NEW%20VARIABLE', 'pipeline_schedule_variable_update')
+        .with(body: { value: 'update value' })
       @pipeline_schedule_variable = Gitlab.edit_pipeline_schedule_variable(3, 13, 'NEW VARIABLE', value: 'update value')
     end
 

@@ -58,7 +58,7 @@ class Gitlab::Client
     # @param  [String] name The name of a label.
     # @return [Gitlab::ObjectifiedHash] Information about deleted label.
     def delete_group_label(group, name)
-      delete("/groups/#{url_encode group}/labels", body: { name: name })
+      delete("/groups/#{url_encode group}/labels/#{name}")
     end
 
     # Subscribes the user to a group label to receive notifications

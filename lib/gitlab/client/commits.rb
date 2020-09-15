@@ -166,7 +166,7 @@ class Gitlab::Client
     # @option options [String] :name Filter by status name, eg. jenkins
     # @option options [String] :target_url The target URL to associate with this status
     def update_commit_status(project, sha, state, options = {})
-      post("/projects/#{url_encode project}/statuses/#{sha}", query: options.merge(state: state))
+      post("/projects/#{url_encode project}/statuses/#{sha}", body: options.merge(state: state))
     end
     alias repo_update_commit_status update_commit_status
 

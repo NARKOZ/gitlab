@@ -25,9 +25,11 @@ module Gitlab
       end
     end
 
+    # rubocop:disable Style/OptionalBooleanParameter
     def respond_to_missing?(method_name, include_private = false)
       super || @array.respond_to?(method_name, include_private)
     end
+    # rubocop:enable Style/OptionalBooleanParameter
 
     def parse_headers!(headers)
       @links = PageLinks.new headers

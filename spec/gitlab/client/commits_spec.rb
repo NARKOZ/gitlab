@@ -224,13 +224,13 @@ describe Gitlab::Client do
   describe '.update_commit_status' do
     before do
       stub_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8', 'project_update_commit_status')
-        .with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' })
+        .with(body: { name: 'test', ref: 'decreased-spec', state: 'failed' })
       @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
     end
 
     it 'gets the correct resource' do
       expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8')
-        .with(query: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
+        .with(body: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
     end
 
     it 'returns information about the newly created status' do

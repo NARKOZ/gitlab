@@ -73,25 +73,25 @@ describe Gitlab::Client do
   describe '.bulk_delete_registry_repository_tags' do
     context 'when just name_regex provided for deletion' do
       before do
-        stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(query: { name_regex: '.*' })
+        stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(body: { name_regex: '.*' })
         Gitlab.bulk_delete_registry_repository_tags(3, 1, name_regex: '.*')
       end
 
       it 'gets the correct resource' do
         expect(a_delete('/projects/3/registry/repositories/1/tags')
-          .with(query: { name_regex: '.*' })).to have_been_made
+          .with(body: { name_regex: '.*' })).to have_been_made
       end
     end
 
     context 'when all options provided for deletion' do
       before do
-        stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(query: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })
+        stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(body: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })
         Gitlab.bulk_delete_registry_repository_tags(3, 1, name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d')
       end
 
       it 'gets the correct resource' do
         expect(a_delete('/projects/3/registry/repositories/1/tags')
-          .with(query: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })).to have_been_made
+          .with(body: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })).to have_been_made
       end
     end
   end

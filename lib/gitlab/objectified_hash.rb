@@ -44,8 +44,10 @@ module Gitlab
       end
     end
 
+    # rubocop:disable Style/OptionalBooleanParameter
     def respond_to_missing?(method_name, include_private = false)
       hash.keys.map(&:to_sym).include?(method_name.to_sym) || super
     end
+    # rubocop:enable Style/OptionalBooleanParameter
   end
 end

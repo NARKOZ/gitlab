@@ -54,13 +54,12 @@ describe Gitlab::Client do
 
   describe '.delete_group_label' do
     before do
-      stub_delete('/groups/3/labels', 'label')
+      stub_delete('/groups/3/labels/Backlog', 'label')
       @label = Gitlab.delete_group_label(3, 'Backlog')
     end
 
     it 'gets the correct resource' do
-      expect(a_delete('/groups/3/labels')
-             .with(body: { name: 'Backlog' })).to have_been_made
+      expect(a_delete('/groups/3/labels/Backlog')).to have_been_made
     end
 
     it 'returns information about a deleted snippet' do

@@ -79,7 +79,7 @@ class Gitlab::Client
     # @option options [String] :older_than(required) Tags to delete that are older than the given time, written in human readable form 1h, 1d, 1month.
     # @return [void] This API call returns an empty response body.
     def bulk_delete_registry_repository_tags(project, repository_id, options = {})
-      delete("/projects/#{url_encode project}/registry/repositories/#{repository_id}/tags", query: options)
+      delete("/projects/#{url_encode project}/registry/repositories/#{repository_id}/tags", body: options)
     end
   end
 end
