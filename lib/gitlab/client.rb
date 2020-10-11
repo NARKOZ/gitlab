@@ -23,6 +23,7 @@ module Gitlab
     include Epics
     include Events
     include Features
+    include GroupBadges
     include GroupBoards
     include GroupLabels
     include GroupMilestones
