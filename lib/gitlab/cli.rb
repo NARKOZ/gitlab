@@ -17,10 +17,10 @@ class Gitlab::CLI
   # @param [Array] args The command and it's optional arguments.
   def self.start(args)
     command = begin
-                args.shift.strip
-              rescue StandardError
-                'help'
-              end
+      args.shift.strip
+    rescue StandardError
+      'help'
+    end
     run(command, args)
   end
 
