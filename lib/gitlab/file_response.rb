@@ -35,11 +35,9 @@ module Gitlab
       end
     end
 
-    # rubocop:disable Style/OptionalBooleanParameter
     def respond_to_missing?(method_name, include_private = false)
       super || @file.respond_to?(method_name, include_private)
     end
-    # rubocop:enable Style/OptionalBooleanParameter
 
     # Parse filename from the 'Content Disposition' header.
     def parse_headers!(headers)
