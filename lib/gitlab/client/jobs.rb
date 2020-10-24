@@ -70,16 +70,70 @@ class Gitlab::Client
     #   Gitlab.job_artifacts_download(1, "master", "release")
     #   Gitlab.job_artifacts_download("project", "master", "release")
     #
-    # @param  [Integer, String] id, The ID or name of a project.
-    # @param  [String]  ref, Ref Name
-    # @param  [String]  job, jobname
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @param  [Integer, String] project_id The ID or name of a project.
+    # @param  [String]  ref Ref Name
+    # @param  [String]  job jobname
+    # @return [Gitlab::FileResponse]
     def job_artifacts_download(project_id, ref_name, job_name)
-      get("/projects/#{url_encode project_id}/jobs/artifacts/#{ref_name}/download", query: { job: job_name },
-                                                                                    format: nil,
-                                                                                    headers: { Accept: 'text/plain' },
-                                                                                    parser: ::Gitlab::Request::Parser)
+      get("/projects/#{url_encode project_id}/jobs/artifacts/#{ref_name}/download",
+          query: { job: job_name },
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          parser: proc { |body, _|
+                    if body.encoding == Encoding::ASCII_8BIT # binary response
+                      ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+                    else # error with json response
+                      ::Gitlab::Request.parse(body)
+                    end
+                  })
     end
+
+    # Download a single artifact file by job ID
+    #
+    # @example
+    #   Gitlab.download_job_artifact_file(1, 5, "some/release/file.pdf")
+    #
+    # @param  [Integer, String] project_id(required) The ID or name of a project.
+    # @param  [String]  job_id(required) The unique job identifier.
+    # @param  [String]  artifact_path(required) Path to a file inside the artifacts archive.
+    # @return [Gitlab::FileResponse]
+    def download_job_artifact_file(project_id, job_id, artifact_path)
+      get("/projects/#{url_encode project_id}/jobs/#{job_id}/artifacts/#{artifact_path}",
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          parser: proc { |body, _|
+                    if body.encoding == Encoding::ASCII_8BIT # binary response
+                      ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+                    else # error with json response
+                      ::Gitlab::Request.parse(body)
+                    end
+                  })
+    end
+
+    # Download a single artifact file from specific tag or branch
+    #
+    # @example
+    #   Gitlab.download_branch_artifact_file(1, "master", "some/release/file.pdf", 'pdf')
+    #
+    # @param  [Integer, String] project_id(required) The ID or name of a project.
+    # @param  [String]  ref_name(required) Branch or tag name in repository. HEAD or SHA references are not supported.
+    # @param  [String]  artifact_path(required) Path to a file inside the artifacts archive.
+    # @param  [String]  job(required) The name of the job.
+    # @return [Gitlab::FileResponse]
+    def download_branch_artifact_file(project_id, ref_name, artifact_path, job)
+      get("/projects/#{url_encode project_id}/jobs/artifacts/#{ref_name}/raw/#{artifact_path}",
+          query: { job: job },
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          parser: proc { |body, _|
+                    if body.encoding == Encoding::ASCII_8BIT # binary response
+                      ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+                    else # error with json response
+                      ::Gitlab::Request.parse(body)
+                    end
+                  })
+    end
+    alias download_tag_artifact_file download_branch_artifact_file
 
     # Get Job Trace
     #
