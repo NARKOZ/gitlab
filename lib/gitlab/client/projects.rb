@@ -102,6 +102,22 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/members", query: options)
     end
 
+    # Gets a list of all project team members including inherited members.
+    #
+    # @example
+    #   Gitlab.all_members(42)
+    #   Gitlab.all_members('gitlab')
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :query The search query.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def all_members(project, options = {})
+      get("/projects/#{url_encode project}/members/all", query: options)
+    end
+
     # Gets a project team member.
     #
     # @example
