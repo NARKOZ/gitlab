@@ -36,6 +36,21 @@ class Gitlab::Client
       get("/projects/#{url_encode project_id}/pipelines/#{pipeline_id}/jobs", query: options)
     end
 
+    # Gets a list of Bridge Jobs from a pipeline
+    #
+    # @example
+    #   Gitlab.pipeline_bridges(1, 2)
+    #   Gitlab.pipeline_bridges("project", 2)
+    #
+    # @param  [Integer, String] The ID or name of a project.
+    # @param  [Integer]  the id of the pipeline
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Array] :scope The scope of bridge jobs to show, one or array of: created, pending, running, failed, success, canceled, skipped, manual; showing all bridge jobs if none provided.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def pipeline_bridges(project_id, pipeline_id, options = {})
+      get("/projects/#{url_encode project_id}/pipelines/#{pipeline_id}/bridges", query: options)
+    end
+
     # Gets a single job
     #
     # @example
