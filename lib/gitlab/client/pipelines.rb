@@ -31,6 +31,18 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/pipelines/#{id}")
     end
 
+    # Gets a single pipeline's test report.
+    #
+    # @example
+    #   Gitlab.pipeline_test_report(5, 36)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a pipeline.
+    # @return [Gitlab::ObjectifiedHash]
+    def pipeline_test_report(project, id)
+      get("/projects/#{url_encode project}/pipelines/#{id}/test_report")
+    end
+
     # Create a pipeline.
     #
     # @example
