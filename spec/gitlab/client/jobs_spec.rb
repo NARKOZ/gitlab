@@ -47,6 +47,28 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.pipeline_bridges' do
+    before do
+      stub_get('/projects/1/pipelines/1/bridges', 'pipeline_bridges')
+      @jobs = Gitlab.pipeline_bridges(1, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/1/pipelines/1/bridges')).to have_been_made
+    end
+  end
+
+  describe '.pipeline_bridges - with scope' do
+    before do
+      stub_get('/projects/1/pipelines/1/bridges?scope[]=running&scope[]=created', 'pipeline_bridges')
+      @jobs = Gitlab.pipeline_bridges(1, 1, scope: %w[running created])
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/1/pipelines/1/bridges?scope[]=running&scope[]=created')).to have_been_made
+    end
+  end
+
   describe '.job' do
     before do
       stub_get('/projects/1/jobs/1', 'job')
