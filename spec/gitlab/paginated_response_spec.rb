@@ -73,10 +73,9 @@ describe Gitlab::PaginatedResponse do
       allow(@paginated_response).to receive(:has_next_page?).and_return(true)
       allow(@paginated_response).to receive(:next_page).and_return(next_page)
       allow(next_page).to receive(:has_next_page?).and_return(true)
-      # NOTE:
-      # Do not define :next_page on the next_page double to prove that it is NOT
-      # called even though :has_next_page? has been defined to claim another
-      # page is available.
+      # NOTE: Do not define :next_page on the next_page double
+      # to prove that it is NOT called even though :has_next_page?
+      # has been defined to claim another page is available.
       allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
       expect(@paginated_response.lazy_paginate.take(8)).to contain_exactly(1, 2, 3, 4, 5, 6, 7, 8)
     end

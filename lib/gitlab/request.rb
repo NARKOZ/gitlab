@@ -25,8 +25,6 @@ module Gitlab
         true
       elsif !body
         false
-      elsif body.nil?
-        false
       else
         raise Error::Parsing, "Couldn't parse a response body"
       end

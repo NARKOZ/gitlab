@@ -38,6 +38,26 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.pipeline_test_report' do
+    before do
+      stub_get('/projects/3/pipelines/46/test_report', 'pipeline_test_report')
+      @report = Gitlab.pipeline_test_report(3, 46)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/pipelines/46/test_report')).to have_been_made
+    end
+
+    it 'returns a single pipeline' do
+      expect(@report).to be_a Gitlab::ObjectifiedHash
+    end
+
+    it 'returns information about a pipeline' do
+      expect(@report.total_time).to eq(5)
+      expect(@report.test_suites[0].name).to eq('Secure')
+    end
+  end
+
   describe '.create_pipeline' do
     let(:pipeline_path) { '/projects/3/pipeline?ref=master' }
 
