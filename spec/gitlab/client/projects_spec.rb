@@ -170,6 +170,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.all_members' do
+    before do
+      stub_get('/projects/3/members/all', 'team_members')
+      @all_members = Gitlab.all_members(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/members/all')).to have_been_made
+    end
+
+    it 'returns a paginated response of all team members including inherited' do
+      expect(@all_members).to be_a Gitlab::PaginatedResponse
+      expect(@all_members.first.name).to eq('John Smith')
+    end
+  end
+
   describe '.team_member' do
     before do
       stub_get('/projects/3/members/1', 'team_member')
