@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.group_milestones' do
     before do
       stub_get('/groups/3/milestones', 'group_milestones')

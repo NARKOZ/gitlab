@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'json'
 
-describe Gitlab::CLI do
+RSpec.describe Gitlab::CLI do
   describe '.run' do
     context 'when command is version' do
       it 'shows gem version' do
@@ -121,7 +121,7 @@ describe Gitlab::CLI do
       end
     end
 
-    context 'fetch project with namespace/repo' do
+    context 'when fetching project with namespace/repo' do
       it 'encodes delimiter' do
         stub_get('/projects/gitlab-org%2Fgitlab-ce', 'project')
         args = ['project', 'gitlab-org/gitlab-ce']

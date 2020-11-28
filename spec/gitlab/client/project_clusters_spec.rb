@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.project_clusters' do
     before do
       stub_get('/projects/3/clusters', 'project_clusters')

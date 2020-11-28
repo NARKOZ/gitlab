@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.project_merge_request_approvals' do
     before do
       stub_get('/projects/1/approvals', 'project_merge_request_approvals')

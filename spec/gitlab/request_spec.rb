@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Request do
+RSpec.describe Gitlab::Request do
   before do
     # Prevent tests modifying the `default_params` value from causing cross-test
     # pollution

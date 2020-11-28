@@ -1,7 +1,9 @@
 ---
 inherit_from: .rubocop_todo.yml
 
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -30,3 +32,12 @@ Style/ClassAndModuleChildren:
 
 Lint/NonDeterministicRequireOrder:
   Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/FilePath:
+  Exclude:
+    - 'spec/gitlab/cli_helpers_spec.rb'
+    - 'spec/gitlab/error_spec.rb'
+    - 'spec/gitlab/shell_history_spec.rb'
