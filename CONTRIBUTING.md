@@ -169,16 +169,22 @@ in order to craft an excellent pull request:
    rake
    ```
 
-6. Push your topic branch up to your fork:
+6. Make sure you comply with rubocop style guide. You can run the linter using
+
+  ```sh
+  rake rubocop
+  ```
+
+7. Push your topic branch up to your fork:
 
    ```sh
    git push origin <topic-branch-name>
    ```
 
-7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
+8. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
     with a clear title and description.
 
-8. If you haven't updated your pull request for a while, you should consider
+9. If you haven't updated your pull request for a while, you should consider
    rebasing on master and resolving any conflicts.
 
    **IMPORTANT**: _Never ever_ merge upstream `master` into your branches. You
