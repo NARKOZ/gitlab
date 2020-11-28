@@ -71,6 +71,21 @@ class Gitlab::Client
       get("/groups/#{url_encode id}/members", query: options)
     end
 
+    # Get a list of group members that are billable.
+    #
+    # @example
+    #   Gitlab.group_billable_members(1)
+    #   Gitlab.group_billable_members(1, { per_page: 40 })
+    #
+    # @param  [Integer] id The ID of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_billable_members(id, options = {})
+      get("/groups/#{url_encode id}/billable_members", query: options)
+    end
+
     # Get details of a single group member.
     #
     # @example

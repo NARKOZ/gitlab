@@ -126,6 +126,23 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.group_billable_members' do
+    before do
+      stub_get('/groups/3/billable_members', 'group_billable_members')
+      @members = Gitlab.group_billable_members(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/billable_members')).to have_been_made
+    end
+
+    it "returns information about a group's billable members" do
+      expect(@members).to be_a Gitlab::PaginatedResponse
+      expect(@members.size).to eq(2)
+      expect(@members[1].name).to eq('John Smith')
+    end
+  end
+
   describe '.group_member' do
     before do
       stub_get('/groups/3/members/2', 'group_member')
