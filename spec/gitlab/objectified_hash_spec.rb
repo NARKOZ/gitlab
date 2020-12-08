@@ -18,8 +18,8 @@ RSpec.describe Gitlab::ObjectifiedHash do
     end
 
     it 'warns about calling Hash methods' do
-      output = capture_output { oh.values }
-      expect(output).to eq("WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.\n")
+      warning = "WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.\n"
+      expect { oh.values }.to output(warning).to_stderr
     end
   end
 

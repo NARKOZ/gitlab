@@ -6,16 +6,6 @@ require 'webmock/rspec'
 require File.expand_path('../lib/gitlab', __dir__)
 require File.expand_path('../lib/gitlab/cli', __dir__)
 
-def capture_output
-  out = StringIO.new
-  $stdout = out
-  $stderr = out
-  yield
-  $stdout = STDOUT
-  $stderr = STDERR
-  out.string
-end
-
 def load_fixture(name)
   name, extension = name.split('.')
   File.new(File.dirname(__FILE__) + "/fixtures/#{name}.#{extension || 'json'}")
