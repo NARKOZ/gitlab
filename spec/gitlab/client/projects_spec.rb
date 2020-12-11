@@ -840,4 +840,79 @@ describe Gitlab::Client do
       expect(@unarchived_project.archived).to eq(false)
     end
   end
+
+  describe '.project_custom_attributes' do
+    before do
+      stub_get('/projects/2/custom_attributes', 'project_custom_attributes')
+      @custom_attributes = Gitlab.project_custom_attributes(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/custom_attributes')).to have_been_made
+    end
+
+    it 'returns a information about a custom_attribute of project' do
+      expect(@custom_attributes.first.key).to eq "somekey"
+      expect(@custom_attributes.last.value).to eq('somevalue2')
+    end
+  end
+
+  describe '.project_custom_attribute' do
+    before do
+      stub_get('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
+      @custom_attribute = Gitlab.project_custom_attribute("some_new_key",2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/custom_attributes/some_new_key')).to have_been_made
+    end
+
+    it 'returns a information about the single custom_attribute of project' do
+      expect(@custom_attribute.key).to eq "some_new_key"
+      expect(@custom_attribute.value).to eq('some_new_value')
+    end
+  end
+
+  describe '.add_custom_attribute' do
+
+    describe 'with project ID' do
+      before do
+
+        stub_put('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
+        @custom_attribute = Gitlab.add_project_custom_attribute('some_new_key','some_new_value', 2)
+      end
+
+      it 'gets the correct resource' do
+        #body = { key: 'some_new_key', value: 'some_new_value' }
+        #expect(a_put('/projects/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
+        expect(a_put('/projects/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a new custom attribute' do
+        expect(@custom_attribute.key).to eq 'some_new_key'
+        expect(@custom_attribute.value).to eq 'some_new_value'
+      end
+    end
+  end
+
+  describe '.delete_custom_attribute' do
+
+    describe 'with project ID' do
+      before do
+        stub_delete('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
+        @custom_attribute = Gitlab.delete_project_custom_attribute("some_new_key", 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_delete('/projects/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a deleted custom_attribute' do
+        expect(@custom_attribute).to be_truthy
+      end
+    end
+  end
+
+
+
 end

@@ -495,6 +495,22 @@ describe Gitlab::Client do
     end
   end
 
+  describe '.user_custom_attribute' do
+    before do
+      stub_get('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
+      @custom_attribute = Gitlab.user_custom_attribute("some_new_key",2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users/2/custom_attributes/some_new_key')).to have_been_made
+    end
+
+    it 'returns a information about the single custom_attribute of user' do
+      expect(@custom_attribute.key).to eq "some_new_key"
+      expect(@custom_attribute.value).to eq('some_new_value')
+    end
+  end
+
   describe '.add_custom_attribute' do
 
     describe 'with user ID' do
@@ -504,12 +520,13 @@ describe Gitlab::Client do
         @custom_attribute = Gitlab.add_user_custom_attribute('some_new_key','some_new_value', 2)
       end
 
-#      it 'gets the correct resource' do
-#        body = { key: 'some_new_key', value: 'some_new_value' }
-#        expect(a_put('/users/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
-#      end
+      it 'gets the correct resource' do
+        #body = { key: 'some_new_key', value: 'some_new_value' }
+        #expect(a_put('/users/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
+        expect(a_put('/users/2/custom_attributes/some_new_key')).to have_been_made
+      end
 
-      it 'returns information about a new email' do
+      it 'returns information about a new custom attribute' do
         expect(@custom_attribute.key).to eq 'some_new_key'
         expect(@custom_attribute.value).to eq 'some_new_value'
       end

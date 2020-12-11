@@ -292,13 +292,26 @@ class Gitlab::Client
       get(url)
     end
 
+    # Gets single user custom_attribute.
+    #
+    # @example
+    #   Gitlab.user_custom_attribute(key, 2)
+    #
+    # @param  [String] key The custom_attributes key
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def user_custom_attribute(key, user_id)
+      url = "/users/#{user_id}/custom_attributes/#{key}"
+      get(url)
+    end
+
     # Creates a new custom_attribute
     #
     # @example
     #   Gitlab.add_custom_attribute('some_new_key', 'some_new_value', 2)
     #
-    # @param  [String] custom_attributes key
-    # @param  [String] custom_attributes value
+    # @param  [String] key The custom_attributes key
+    # @param  [String] value The custom_attributes value
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
     def add_user_custom_attribute(key, value, user_id)

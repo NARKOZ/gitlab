@@ -640,5 +640,59 @@ class Gitlab::Client
     def unarchive_project(id)
       post("/projects/#{url_encode id}/unarchive")
     end
+
+    # Gets project custom_attributes.
+    #
+    # @example
+    #   Gitlab.project_custom_attributes(2)
+    #
+    # @param  [Integer] project_id The ID of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def project_custom_attributes(project_id)
+      url = "/projects/#{project_id}/custom_attributes"
+      get(url)
+    end
+
+    # Gets single project custom_attribute.
+    #
+    # @example
+    #   Gitlab.project_custom_attribute(key, 2)
+    #
+    # @param  [String] key The custom_attributes key
+    # @param  [Integer] project_id The ID of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def project_custom_attribute(key, project_id)
+      url = "/projects/#{project_id}/custom_attributes/#{key}"
+      get(url)
+    end
+
+    # Creates a new custom_attribute
+    #
+    # @example
+    #   Gitlab.add_custom_attribute('some_new_key', 'some_new_value', 2)
+    #
+    # @param  [String] key The custom_attributes key
+    # @param  [String] value The custom_attributes value
+    # @param  [Integer] project_id The ID of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def add_project_custom_attribute(key, value, project_id)
+      url =  "/projects/#{project_id}/custom_attributes/#{key}"
+      put(url, body: { value: value })
+    end
+
+    # Delete custom_attribute
+    # Will delete a custom_attribute
+    #
+    # @example
+    #   Gitlab.custom_attribute("somekey", 2)
+    #
+    # @param  [String] key The custom_attribute key to delete
+    # @param  [Integer] project_id The ID of a project.
+    # @return [Boolean]
+    def delete_project_custom_attribute(key, project_id = nil)
+      url = "/projects/#{project_id}/custom_attributes/#{key}"
+      delete(url)
+    end
+
   end
 end
