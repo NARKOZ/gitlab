@@ -279,5 +279,45 @@ class Gitlab::Client
       options[:search] = search
       get('/users', query: options)
     end
+
+    # Gets user custom_attributes.
+    #
+    # @example
+    #   Gitlab.user_custom_attributes(2)
+    #
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def user_custom_attributes(user_id)
+      url = "/users/#{user_id}/custom_attributes"
+      get(url)
+    end
+
+    # Creates a new custom_attribute
+    #
+    # @example
+    #   Gitlab.add_custom_attribute('some_new_key', 'some_new_value', 2)
+    #
+    # @param  [String] custom_attributes key
+    # @param  [String] custom_attributes value
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def add_user_custom_attribute(key, value, user_id)
+      url =  "/users/#{user_id}/custom_attributes/#{key}"
+      put(url, body: { value: value })
+    end
+
+    # Delete custom_attribute
+    # Will delete a custom_attribute
+    #
+    # @example
+    #   Gitlab.custom_attribute("somekey", 2)
+    #
+    # @param  [String] key The custom_attribute key to delete
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Boolean]
+    def delete_user_custom_attribute(key, user_id = nil)
+      url = "/users/#{user_id}/custom_attributes/#{key}"
+      delete(url)
+    end
   end
 end
