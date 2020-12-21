@@ -883,8 +883,8 @@ describe Gitlab::Client do
       end
 
       it 'gets the correct resource' do
-        #body = { key: 'some_new_key', value: 'some_new_value' }
-        #expect(a_put('/projects/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
+        body = { value: 'some_new_value' }
+        expect(a_put('/projects/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
         expect(a_put('/projects/2/custom_attributes/some_new_key')).to have_been_made
       end
 
