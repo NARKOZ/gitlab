@@ -4,7 +4,6 @@ class Gitlab::Client
   # Defines methods related to keys.
   # @see https://docs.gitlab.com/ce/api/keys.html
   module Keys
-
     # Gets information about a key.
     #
     # @example
@@ -24,7 +23,7 @@ class Gitlab::Client
     # @param  [String] fingerprint The Fingerprint of a key.
     # @return [Gitlab::ObjectifiedHash]
     def key_by_fingerprint(fingerprint)
-      get('/keys/', query: {fingerprint: fingerprint})
+      get('/keys/', query: { fingerprint: fingerprint })
     end
   end
 end

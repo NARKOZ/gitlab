@@ -22,7 +22,7 @@ describe Gitlab::Client do
   describe '.key_by_fingerprint' do
     before do
       stub_get('/keys/?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e', 'key')
-      @key = Gitlab.key_by_fingerprint("9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e")
+      @key = Gitlab.key_by_fingerprint('9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')
     end
 
     it 'gets the correct resource' do
@@ -34,5 +34,4 @@ describe Gitlab::Client do
       expect(@key.title).to eq('narkoz@helium')
     end
   end
-
 end
