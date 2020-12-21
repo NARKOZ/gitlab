@@ -490,7 +490,7 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about a custom_attribute of user' do
-      expect(@custom_attributes.first.key).to eq "somekey"
+      expect(@custom_attributes.first.key).to eq 'somekey'
       expect(@custom_attributes.last.value).to eq('somevalue2')
     end
   end
@@ -498,7 +498,7 @@ describe Gitlab::Client do
   describe '.user_custom_attribute' do
     before do
       stub_get('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
-      @custom_attribute = Gitlab.user_custom_attribute("some_new_key",2)
+      @custom_attribute = Gitlab.user_custom_attribute('some_new_key', 2)
     end
 
     it 'gets the correct resource' do
@@ -506,18 +506,16 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about the single custom_attribute of user' do
-      expect(@custom_attribute.key).to eq "some_new_key"
+      expect(@custom_attribute.key).to eq 'some_new_key'
       expect(@custom_attribute.value).to eq('some_new_value')
     end
   end
 
   describe '.add_custom_attribute' do
-
     describe 'with user ID' do
       before do
-
         stub_put('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
-        @custom_attribute = Gitlab.add_user_custom_attribute('some_new_key','some_new_value', 2)
+        @custom_attribute = Gitlab.add_user_custom_attribute('some_new_key', 'some_new_value', 2)
       end
 
       it 'gets the correct resource' do
@@ -534,11 +532,10 @@ describe Gitlab::Client do
   end
 
   describe '.delete_custom_attribute' do
-
     describe 'with user ID' do
       before do
         stub_delete('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
-        @custom_attribute = Gitlab.delete_user_custom_attribute("some_new_key", 2)
+        @custom_attribute = Gitlab.delete_user_custom_attribute('some_new_key', 2)
       end
 
       it 'gets the correct resource' do
@@ -550,7 +547,4 @@ describe Gitlab::Client do
       end
     end
   end
-
-
-
 end

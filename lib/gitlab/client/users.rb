@@ -288,8 +288,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
     def user_custom_attributes(user_id)
-      url = "/users/#{user_id}/custom_attributes"
-      get(url)
+      get("/users/#{user_id}/custom_attributes")
     end
 
     # Gets single user custom_attribute.
@@ -301,8 +300,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
     def user_custom_attribute(key, user_id)
-      url = "/users/#{user_id}/custom_attributes/#{key}"
-      get(url)
+      get("/users/#{user_id}/custom_attributes/#{key}")
     end
 
     # Creates a new custom_attribute
@@ -315,7 +313,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The ID of a user.
     # @return [Gitlab::ObjectifiedHash]
     def add_user_custom_attribute(key, value, user_id)
-      url =  "/users/#{user_id}/custom_attributes/#{key}"
+      url = "/users/#{user_id}/custom_attributes/#{key}"
       put(url, body: { value: value })
     end
 
@@ -329,8 +327,7 @@ class Gitlab::Client
     # @param  [Integer] user_id The ID of a user.
     # @return [Boolean]
     def delete_user_custom_attribute(key, user_id = nil)
-      url = "/users/#{user_id}/custom_attributes/#{key}"
-      delete(url)
+      delete("/users/#{user_id}/custom_attributes/#{key}")
     end
   end
 end

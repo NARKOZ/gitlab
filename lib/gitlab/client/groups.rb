@@ -279,8 +279,7 @@ class Gitlab::Client
     # @param  [Integer] group_id The ID of a group.
     # @return [Gitlab::ObjectifiedHash]
     def group_custom_attributes(group_id)
-      url = "/groups/#{group_id}/custom_attributes"
-      get(url)
+      get("/groups/#{group_id}/custom_attributes")
     end
 
     # Gets single group custom_attribute.
@@ -292,8 +291,7 @@ class Gitlab::Client
     # @param  [Integer] group_id The ID of a group.
     # @return [Gitlab::ObjectifiedHash]
     def group_custom_attribute(key, group_id)
-      url = "/groups/#{group_id}/custom_attributes/#{key}"
-      get(url)
+      get("/groups/#{group_id}/custom_attributes/#{key}")
     end
 
     # Creates a new custom_attribute
@@ -306,7 +304,7 @@ class Gitlab::Client
     # @param  [Integer] group_id The ID of a group.
     # @return [Gitlab::ObjectifiedHash]
     def add_group_custom_attribute(key, value, group_id)
-      url =  "/groups/#{group_id}/custom_attributes/#{key}"
+      url = "/groups/#{group_id}/custom_attributes/#{key}"
       put(url, body: { value: value })
     end
 
@@ -323,7 +321,5 @@ class Gitlab::Client
       url = "/groups/#{group_id}/custom_attributes/#{key}"
       delete(url)
     end
-
-
   end
 end

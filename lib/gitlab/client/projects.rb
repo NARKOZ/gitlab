@@ -676,7 +676,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     # @return [Gitlab::ObjectifiedHash]
     def add_project_custom_attribute(key, value, project_id)
-      url =  "/projects/#{project_id}/custom_attributes/#{key}"
+      url = "/projects/#{project_id}/custom_attributes/#{key}"
       put(url, body: { value: value })
     end
 
@@ -693,6 +693,5 @@ class Gitlab::Client
       url = "/projects/#{project_id}/custom_attributes/#{key}"
       delete(url)
     end
-
   end
 end

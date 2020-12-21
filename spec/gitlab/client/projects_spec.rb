@@ -852,7 +852,7 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about a custom_attribute of project' do
-      expect(@custom_attributes.first.key).to eq "somekey"
+      expect(@custom_attributes.first.key).to eq 'somekey'
       expect(@custom_attributes.last.value).to eq('somevalue2')
     end
   end
@@ -860,7 +860,7 @@ describe Gitlab::Client do
   describe '.project_custom_attribute' do
     before do
       stub_get('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
-      @custom_attribute = Gitlab.project_custom_attribute("some_new_key",2)
+      @custom_attribute = Gitlab.project_custom_attribute('some_new_key', 2)
     end
 
     it 'gets the correct resource' do
@@ -868,18 +868,16 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about the single custom_attribute of project' do
-      expect(@custom_attribute.key).to eq "some_new_key"
+      expect(@custom_attribute.key).to eq 'some_new_key'
       expect(@custom_attribute.value).to eq('some_new_value')
     end
   end
 
   describe '.add_custom_attribute' do
-
     describe 'with project ID' do
       before do
-
         stub_put('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
-        @custom_attribute = Gitlab.add_project_custom_attribute('some_new_key','some_new_value', 2)
+        @custom_attribute = Gitlab.add_project_custom_attribute('some_new_key', 'some_new_value', 2)
       end
 
       it 'gets the correct resource' do
@@ -896,11 +894,10 @@ describe Gitlab::Client do
   end
 
   describe '.delete_custom_attribute' do
-
     describe 'with project ID' do
       before do
         stub_delete('/projects/2/custom_attributes/some_new_key', 'project_custom_attribute')
-        @custom_attribute = Gitlab.delete_project_custom_attribute("some_new_key", 2)
+        @custom_attribute = Gitlab.delete_project_custom_attribute('some_new_key', 2)
       end
 
       it 'gets the correct resource' do
@@ -912,7 +909,4 @@ describe Gitlab::Client do
       end
     end
   end
-
-
-
 end

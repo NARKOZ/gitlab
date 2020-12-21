@@ -357,7 +357,7 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about a custom_attribute of group' do
-      expect(@custom_attributes.first.key).to eq "somekey"
+      expect(@custom_attributes.first.key).to eq 'somekey'
       expect(@custom_attributes.last.value).to eq('somevalue2')
     end
   end
@@ -365,7 +365,7 @@ describe Gitlab::Client do
   describe '.group_custom_attribute' do
     before do
       stub_get('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-      @custom_attribute = Gitlab.group_custom_attribute("some_new_key",2)
+      @custom_attribute = Gitlab.group_custom_attribute('some_new_key', 2)
     end
 
     it 'gets the correct resource' do
@@ -373,18 +373,16 @@ describe Gitlab::Client do
     end
 
     it 'returns a information about the single custom_attribute of group' do
-      expect(@custom_attribute.key).to eq "some_new_key"
+      expect(@custom_attribute.key).to eq 'some_new_key'
       expect(@custom_attribute.value).to eq('some_new_value')
     end
   end
 
   describe '.add_custom_attribute' do
-
     describe 'with group ID' do
       before do
-
         stub_put('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-        @custom_attribute = Gitlab.add_group_custom_attribute('some_new_key','some_new_value', 2)
+        @custom_attribute = Gitlab.add_group_custom_attribute('some_new_key', 'some_new_value', 2)
       end
 
       it 'gets the correct resource' do
@@ -401,11 +399,10 @@ describe Gitlab::Client do
   end
 
   describe '.delete_custom_attribute' do
-
     describe 'with group ID' do
       before do
         stub_delete('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-        @custom_attribute = Gitlab.delete_group_custom_attribute("some_new_key", 2)
+        @custom_attribute = Gitlab.delete_group_custom_attribute('some_new_key', 2)
       end
 
       it 'gets the correct resource' do
@@ -417,7 +414,4 @@ describe Gitlab::Client do
       end
     end
   end
-
-
-
 end
