@@ -318,8 +318,7 @@ class Gitlab::Client
     # @param  [Integer] group_id The ID of a group.
     # @return [Boolean]
     def delete_group_custom_attribute(key, group_id = nil)
-      url = "/groups/#{group_id}/custom_attributes/#{key}"
-      delete(url)
+      delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
   end
 end
