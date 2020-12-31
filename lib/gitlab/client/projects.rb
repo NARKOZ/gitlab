@@ -649,8 +649,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     # @return [Gitlab::ObjectifiedHash]
     def project_custom_attributes(project_id)
-      url = "/projects/#{project_id}/custom_attributes"
-      get(url)
+      get("/projects/#{project_id}/custom_attributes")
     end
 
     # Gets single project custom_attribute.
@@ -662,8 +661,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     # @return [Gitlab::ObjectifiedHash]
     def project_custom_attribute(key, project_id)
-      url = "/projects/#{project_id}/custom_attributes/#{key}"
-      get(url)
+      get("/projects/#{project_id}/custom_attributes/#{key}")
     end
 
     # Creates a new custom_attribute
@@ -684,14 +682,13 @@ class Gitlab::Client
     # Will delete a custom_attribute
     #
     # @example
-    #   Gitlab.custom_attribute("somekey", 2)
+    #   Gitlab.delete_project_custom_attribute('somekey', 2)
     #
     # @param  [String] key The custom_attribute key to delete
     # @param  [Integer] project_id The ID of a project.
     # @return [Boolean]
     def delete_project_custom_attribute(key, project_id = nil)
-      url = "/projects/#{project_id}/custom_attributes/#{key}"
-      delete(url)
+      delete("/projects/#{project_id}/custom_attributes/#{key}")
     end
   end
 end

@@ -285,7 +285,7 @@ class Gitlab::Client
     # Gets single group custom_attribute.
     #
     # @example
-    #   Gitlab.group_custom_attribute(key, 2)
+    #   Gitlab.group_custom_attribute('key', 2)
     #
     # @param  [String] key The custom_attributes key
     # @param  [Integer] group_id The ID of a group.
@@ -312,14 +312,13 @@ class Gitlab::Client
     # Will delete a custom_attribute
     #
     # @example
-    #   Gitlab.custom_attribute("somekey", 2)
+    #   Gitlab.delete_group_custom_attribute('somekey', 2)
     #
     # @param  [String] key The custom_attribute key to delete
     # @param  [Integer] group_id The ID of a group.
     # @return [Boolean]
     def delete_group_custom_attribute(key, group_id = nil)
-      url = "/groups/#{group_id}/custom_attributes/#{key}"
-      delete(url)
+      delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
   end
 end
