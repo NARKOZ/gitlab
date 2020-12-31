@@ -285,7 +285,7 @@ class Gitlab::Client
     # Gets single group custom_attribute.
     #
     # @example
-    #   Gitlab.group_custom_attribute(key, 2)
+    #   Gitlab.group_custom_attribute('key', 2)
     #
     # @param  [String] key The custom_attributes key
     # @param  [Integer] group_id The ID of a group.
