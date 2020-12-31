@@ -23,7 +23,7 @@ class Gitlab::Client
     # @param  [String] fingerprint The Fingerprint of a key.
     # @return [Gitlab::ObjectifiedHash]
     def key_by_fingerprint(fingerprint)
-      get('/keys/', query: { fingerprint: fingerprint })
+      get('/keys', query: { fingerprint: fingerprint })
     end
   end
 end

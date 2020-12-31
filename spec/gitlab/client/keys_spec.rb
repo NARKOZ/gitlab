@@ -21,12 +21,12 @@ describe Gitlab::Client do
 
   describe '.key_by_fingerprint' do
     before do
-      stub_get('/keys/?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e', 'key')
+      stub_get('/keys?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e', 'key')
       @key = Gitlab.key_by_fingerprint('9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')
     end
 
     it 'gets the correct resource' do
-      expect(a_get('/keys/?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')).to have_been_made
+      expect(a_get('/keys?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')).to have_been_made
     end
 
     it 'returns information about a key' do
