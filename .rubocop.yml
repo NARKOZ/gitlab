@@ -17,6 +17,9 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+Metrics/ParameterLists:
+  MaxOptionalParameters: 4
+
 Style/Documentation:
   Enabled: false
 
