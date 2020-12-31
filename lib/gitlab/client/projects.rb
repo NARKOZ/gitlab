@@ -649,8 +649,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     # @return [Gitlab::ObjectifiedHash]
     def project_custom_attributes(project_id)
-      url = "/projects/#{project_id}/custom_attributes"
-      get(url)
+      get("/projects/#{project_id}/custom_attributes")
     end
 
     # Gets single project custom_attribute.
