@@ -688,8 +688,7 @@ class Gitlab::Client
     # @param  [Integer] project_id The ID of a project.
     # @return [Boolean]
     def delete_project_custom_attribute(key, project_id = nil)
-      url = "/projects/#{project_id}/custom_attributes/#{key}"
-      delete(url)
+      delete("/projects/#{project_id}/custom_attributes/#{key}")
     end
   end
 end
