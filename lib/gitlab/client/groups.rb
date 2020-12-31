@@ -270,5 +270,55 @@ class Gitlab::Client
     def delete_ldap_group_links(id, commonname, provider)
       delete("/groups/#{url_encode id}/ldap_group_links/#{url_encode provider}/#{url_encode commonname}")
     end
+
+    # Gets group custom_attributes.
+    #
+    # @example
+    #   Gitlab.group_custom_attributes(2)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Gitlab::ObjectifiedHash]
+    def group_custom_attributes(group_id)
+      get("/groups/#{group_id}/custom_attributes")
+    end
+
+    # Gets single group custom_attribute.
+    #
+    # @example
+    #   Gitlab.group_custom_attribute('key', 2)
+    #
+    # @param  [String] key The custom_attributes key
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Gitlab::ObjectifiedHash]
+    def group_custom_attribute(key, group_id)
+      get("/groups/#{group_id}/custom_attributes/#{key}")
+    end
+
+    # Creates a new custom_attribute
+    #
+    # @example
+    #   Gitlab.add_custom_attribute('some_new_key', 'some_new_value', 2)
+    #
+    # @param  [String] key The custom_attributes key
+    # @param  [String] value The custom_attributes value
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Gitlab::ObjectifiedHash]
+    def add_group_custom_attribute(key, value, group_id)
+      url = "/groups/#{group_id}/custom_attributes/#{key}"
+      put(url, body: { value: value })
+    end
+
+    # Delete custom_attribute
+    # Will delete a custom_attribute
+    #
+    # @example
+    #   Gitlab.delete_group_custom_attribute('somekey', 2)
+    #
+    # @param  [String] key The custom_attribute key to delete
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Boolean]
+    def delete_group_custom_attribute(key, group_id = nil)
+      delete("/groups/#{group_id}/custom_attributes/#{key}")
+    end
   end
 end

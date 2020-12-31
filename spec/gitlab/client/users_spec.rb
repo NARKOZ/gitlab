@@ -478,4 +478,73 @@ describe Gitlab::Client do
       expect(@users.last.id).to eq(2)
     end
   end
+
+  describe '.user_custom_attributes' do
+    before do
+      stub_get('/users/2/custom_attributes', 'user_custom_attributes')
+      @custom_attributes = Gitlab.user_custom_attributes(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users/2/custom_attributes')).to have_been_made
+    end
+
+    it 'returns a information about a custom_attribute of user' do
+      expect(@custom_attributes.first.key).to eq 'somekey'
+      expect(@custom_attributes.last.value).to eq('somevalue2')
+    end
+  end
+
+  describe '.user_custom_attribute' do
+    before do
+      stub_get('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
+      @custom_attribute = Gitlab.user_custom_attribute('some_new_key', 2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users/2/custom_attributes/some_new_key')).to have_been_made
+    end
+
+    it 'returns a information about the single custom_attribute of user' do
+      expect(@custom_attribute.key).to eq 'some_new_key'
+      expect(@custom_attribute.value).to eq('some_new_value')
+    end
+  end
+
+  describe '.add_custom_attribute' do
+    describe 'with user ID' do
+      before do
+        stub_put('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
+        @custom_attribute = Gitlab.add_user_custom_attribute('some_new_key', 'some_new_value', 2)
+      end
+
+      it 'gets the correct resource' do
+        body = { value: 'some_new_value' }
+        expect(a_put('/users/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
+        expect(a_put('/users/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a new custom attribute' do
+        expect(@custom_attribute.key).to eq 'some_new_key'
+        expect(@custom_attribute.value).to eq 'some_new_value'
+      end
+    end
+  end
+
+  describe '.delete_custom_attribute' do
+    describe 'with user ID' do
+      before do
+        stub_delete('/users/2/custom_attributes/some_new_key', 'user_custom_attribute')
+        @custom_attribute = Gitlab.delete_user_custom_attribute('some_new_key', 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_delete('/users/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a deleted custom_attribute' do
+        expect(@custom_attribute).to be_truthy
+      end
+    end
+  end
 end

@@ -345,4 +345,73 @@ describe Gitlab::Client do
       expect(a_delete('/groups/1/ldap_group_links/ldap/all')).to have_been_made
     end
   end
+
+  describe '.group_custom_attributes' do
+    before do
+      stub_get('/groups/2/custom_attributes', 'group_custom_attributes')
+      @custom_attributes = Gitlab.group_custom_attributes(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/2/custom_attributes')).to have_been_made
+    end
+
+    it 'returns a information about a custom_attribute of group' do
+      expect(@custom_attributes.first.key).to eq 'somekey'
+      expect(@custom_attributes.last.value).to eq('somevalue2')
+    end
+  end
+
+  describe '.group_custom_attribute' do
+    before do
+      stub_get('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
+      @custom_attribute = Gitlab.group_custom_attribute('some_new_key', 2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/2/custom_attributes/some_new_key')).to have_been_made
+    end
+
+    it 'returns a information about the single custom_attribute of group' do
+      expect(@custom_attribute.key).to eq 'some_new_key'
+      expect(@custom_attribute.value).to eq('some_new_value')
+    end
+  end
+
+  describe '.add_custom_attribute' do
+    describe 'with group ID' do
+      before do
+        stub_put('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
+        @custom_attribute = Gitlab.add_group_custom_attribute('some_new_key', 'some_new_value', 2)
+      end
+
+      it 'gets the correct resource' do
+        body = { value: 'some_new_value' }
+        expect(a_put('/groups/2/custom_attributes/some_new_key').with(body: body)).to have_been_made
+        expect(a_put('/groups/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a new custom attribute' do
+        expect(@custom_attribute.key).to eq 'some_new_key'
+        expect(@custom_attribute.value).to eq 'some_new_value'
+      end
+    end
+  end
+
+  describe '.delete_custom_attribute' do
+    describe 'with group ID' do
+      before do
+        stub_delete('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
+        @custom_attribute = Gitlab.delete_group_custom_attribute('some_new_key', 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_delete('/groups/2/custom_attributes/some_new_key')).to have_been_made
+      end
+
+      it 'returns information about a deleted custom_attribute' do
+        expect(@custom_attribute).to be_truthy
+      end
+    end
+  end
 end
