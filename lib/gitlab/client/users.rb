@@ -326,7 +326,7 @@ class Gitlab::Client
     # @param  [String] key The custom_attribute key to delete
     # @param  [Integer] user_id The ID of a user.
     # @return [Boolean]
-    def delete_user_custom_attribute(key, user_id = nil)
+    def delete_user_custom_attribute(key, user_id)
       delete("/users/#{user_id}/custom_attributes/#{key}")
     end
   end
