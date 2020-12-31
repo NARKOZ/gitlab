@@ -312,7 +312,7 @@ class Gitlab::Client
     # Will delete a custom_attribute
     #
     # @example
-    #   Gitlab.custom_attribute("somekey", 2)
+    #   Gitlab.delete_group_custom_attribute('somekey', 2)
     #
     # @param  [String] key The custom_attribute key to delete
     # @param  [Integer] group_id The ID of a group.
