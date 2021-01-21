@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'gitlab/cli_helpers'
+require 'gitlab/cli/helpers'
 module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
