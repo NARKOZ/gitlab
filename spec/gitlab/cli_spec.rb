@@ -32,7 +32,7 @@ RSpec.describe Gitlab::CLI do
       before { stub_get('/user', 'user') }
 
       it 'shows executed command' do
-        expect { described_class.run('user') }.to output(/Gitlab.user/).to_stdout
+        expect { described_class.run('user') }.to output(/Gitlab::Client.user/).to_stdout
       end
 
       it 'shows user data' do
@@ -46,7 +46,7 @@ RSpec.describe Gitlab::CLI do
       before { stub_get('/users', 'users') }
 
       it 'shows executed command' do
-        expect { described_class.run('users') }.to output(/Gitlab.users/).to_stdout
+        expect { described_class.run('users') }.to output(/Gitlab::Client.users/).to_stdout
       end
 
       it 'shows users data' do
@@ -64,7 +64,7 @@ RSpec.describe Gitlab::CLI do
 
       it 'shows executed command' do
         command = expect { described_class.run('create_label', args) }
-        command.to output(/Gitlab.create_label Project, Backlog, #DD10AA/).to_stdout
+        command.to output(/Gitlab::Client.create_label Project, Backlog, #DD10AA/).to_stdout
       end
     end
   end
@@ -103,7 +103,7 @@ RSpec.describe Gitlab::CLI do
       it 'renders output as json' do
         expected = <<~OUT
           {
-            "cmd": "Gitlab.user",
+            "cmd": "Gitlab::Client.user",
             "result": {
               "bio": null,
               "blocked": false,
