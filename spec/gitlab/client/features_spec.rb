@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.features' do
     before do
       stub_get('/features', 'features')
-      @features = Gitlab.features
+      @features = described_class.features
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of features' do
-      expect(@features).to be_a Gitlab::PaginatedResponse
+      expect(@features).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
     context 'when setting boolean value' do
       before do
         stub_post('/features/new_library', 'feature')
-        @feature = Gitlab.set_feature('new_library', true)
+        @feature = described_class.set_feature('new_library', true)
       end
 
       it 'gets the correct resource' do
@@ -31,14 +31,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns information about the feature' do
-        expect(@feature).to be_a Gitlab::ObjectifiedHash
+        expect(@feature).to be_a Gitlab::Client::ObjectifiedHash
       end
     end
 
     context 'when setting percentage-of-time gate value' do
       before do
         stub_post('/features/new_library', 'feature')
-        @feature = Gitlab.set_feature('new_library', 30)
+        @feature = described_class.set_feature('new_library', 30)
       end
 
       it 'gets the correct resource' do
@@ -47,7 +47,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns information about the feature' do
-        expect(@feature).to be_a Gitlab::ObjectifiedHash
+        expect(@feature).to be_a Gitlab::Client::ObjectifiedHash
       end
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_feature' do
     before do
       stub_delete('/features/new_library', 'empty')
-      Gitlab.delete_feature('new_library')
+      described_class.delete_feature('new_library')
     end
 
     it 'gets the correct resource' do

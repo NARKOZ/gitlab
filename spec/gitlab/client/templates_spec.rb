@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.dockerfile_templates' do
     before do
       stub_get('/templates/dockerfiles', 'dockerfile_templates')
-      @dockerfile_templates = Gitlab.dockerfile_templates
+      @dockerfile_templates = described_class.dockerfile_templates
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of dockerfile templates' do
-      expect(@dockerfile_templates).to be_a Gitlab::PaginatedResponse
+      expect(@dockerfile_templates).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.dockerfile_template' do
     before do
       stub_get('/templates/dockerfiles/Binary', 'dockerfile_project_template')
-      @dockerfile_template = Gitlab.dockerfile_template('Binary')
+      @dockerfile_template = described_class.dockerfile_template('Binary')
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.gitignore_templates' do
     before do
       stub_get('/templates/gitignores', 'gitignore_templates')
-      @gitignore_templates = Gitlab.gitignore_templates
+      @gitignore_templates = described_class.gitignore_templates
     end
 
     it 'gets the correct resource' do
@@ -44,14 +44,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of gitignore templates' do
-      expect(@gitignore_templates).to be_a Gitlab::PaginatedResponse
+      expect(@gitignore_templates).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.gitignore_template' do
     before do
       stub_get('/templates/gitignores/Ruby', 'gitignore_template')
-      @gitignore_template = Gitlab.gitignore_template('Ruby')
+      @gitignore_template = described_class.gitignore_template('Ruby')
     end
 
     it 'gets the correct resource' do
@@ -66,7 +66,7 @@ RSpec.describe Gitlab::Client do
   describe '.gitlab_ci_yml_templates' do
     before do
       stub_get('/templates/gitlab_ci_ymls', 'gitlab_ci_yml_templates')
-      @gitlab_ci_yml_templates = Gitlab.gitlab_ci_yml_templates
+      @gitlab_ci_yml_templates = described_class.gitlab_ci_yml_templates
     end
 
     it 'gets the correct resource' do
@@ -74,14 +74,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of gitlab_ci_yml templates' do
-      expect(@gitlab_ci_yml_templates).to be_a Gitlab::PaginatedResponse
+      expect(@gitlab_ci_yml_templates).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.gitlab_ci_yml_template' do
     before do
       stub_get('/templates/gitlab_ci_ymls/Ruby', 'gitlab_ci_yml_template')
-      @gitlab_ci_yml_template = Gitlab.gitlab_ci_yml_template('Ruby')
+      @gitlab_ci_yml_template = described_class.gitlab_ci_yml_template('Ruby')
     end
 
     it 'gets the correct resource' do
@@ -96,7 +96,7 @@ RSpec.describe Gitlab::Client do
   describe '.license_templates' do
     before do
       stub_get('/templates/licenses', 'license_templates')
-      @license_templates = Gitlab.license_templates
+      @license_templates = described_class.license_templates
     end
 
     it 'gets the correct resource' do
@@ -104,14 +104,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of license templates' do
-      expect(@license_templates).to be_a Gitlab::PaginatedResponse
+      expect(@license_templates).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.license_template' do
     before do
       stub_get('/templates/licenses/mit', 'license_template')
-      @license_template = Gitlab.license_template('mit')
+      @license_template = described_class.license_template('mit')
     end
 
     it 'gets the correct resource' do

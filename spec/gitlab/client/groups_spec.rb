@@ -7,8 +7,8 @@ RSpec.describe Gitlab::Client do
     before do
       stub_get('/groups', 'groups')
       stub_get('/groups/3', 'group')
-      @group = Gitlab.group(3)
-      @groups = Gitlab.groups
+      @group = described_class.group(3)
+      @groups = described_class.groups
     end
 
     it 'gets the correct resource' do
@@ -17,7 +17,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of groups' do
-      expect(@groups).to be_a Gitlab::PaginatedResponse
+      expect(@groups).to be_a Gitlab::Client::PaginatedResponse
       expect(@groups.first.path).to eq('threegroup')
     end
   end
@@ -25,7 +25,7 @@ RSpec.describe Gitlab::Client do
   describe '.group' do
     before do
       stub_get('/groups/3?with_projects=false', 'group')
-      @group = Gitlab.group(3, with_projects: false)
+      @group = described_class.group(3, with_projects: false)
     end
 
     it 'gets the correct resource' do
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
     context 'without description' do
       before do
         stub_post('/groups', 'group_create')
-        @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+        @group = described_class.create_group('GitLab-Group', 'gitlab-path')
       end
 
       it 'gets the correct resource' do
@@ -54,7 +54,7 @@ RSpec.describe Gitlab::Client do
     context 'with description' do
       before do
         stub_post('/groups', 'group_create_with_description')
-        @group = Gitlab.create_group('GitLab-Group', 'gitlab-path', description: 'gitlab group description')
+        @group = described_class.create_group('GitLab-Group', 'gitlab-path', description: 'gitlab group description')
       end
 
       it 'gets the correct resource' do
@@ -74,7 +74,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_group' do
     before do
       stub_delete('/groups/42', 'group_delete')
-      @group = Gitlab.delete_group(42)
+      @group = described_class.delete_group(42)
     end
 
     it 'gets the correct resource' do
@@ -90,12 +90,12 @@ RSpec.describe Gitlab::Client do
   describe '.transfer_project_to_group' do
     before do
       stub_post('/projects', 'project')
-      @project = Gitlab.create_project('Gitlab')
+      @project = described_class.create_project('Gitlab')
       stub_post('/groups', 'group_create')
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+      @group = described_class.create_group('GitLab-Group', 'gitlab-path')
 
       stub_post("/groups/#{@group.id}/projects/#{@project.id}", 'group_create')
-      @group_transfer = Gitlab.transfer_project_to_group(@group.id, @project.id)
+      @group_transfer = described_class.transfer_project_to_group(@group.id, @project.id)
     end
 
     it 'posts to the correct resource' do
@@ -112,7 +112,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_members' do
     before do
       stub_get('/groups/3/members', 'group_members')
-      @members = Gitlab.group_members(3)
+      @members = described_class.group_members(3)
     end
 
     it 'gets the correct resource' do
@@ -120,7 +120,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns information about a group's members" do
-      expect(@members).to be_a Gitlab::PaginatedResponse
+      expect(@members).to be_a Gitlab::Client::PaginatedResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq('John Smith')
     end
@@ -129,7 +129,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_billable_members' do
     before do
       stub_get('/groups/3/billable_members', 'group_billable_members')
-      @members = Gitlab.group_billable_members(3)
+      @members = described_class.group_billable_members(3)
     end
 
     it 'gets the correct resource' do
@@ -137,7 +137,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns information about a group's billable members" do
-      expect(@members).to be_a Gitlab::PaginatedResponse
+      expect(@members).to be_a Gitlab::Client::PaginatedResponse
       expect(@members.size).to eq(2)
       expect(@members[1].name).to eq('John Smith')
     end
@@ -146,7 +146,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_member' do
     before do
       stub_get('/groups/3/members/2', 'group_member')
-      @member = Gitlab.group_member(3, 2)
+      @member = described_class.group_member(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -154,7 +154,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about a group member' do
-      expect(@member).to be_a Gitlab::ObjectifiedHash
+      expect(@member).to be_a Gitlab::Client::ObjectifiedHash
       expect(@member.access_level).to eq(10)
       expect(@member.name).to eq('John Smith')
     end
@@ -163,7 +163,7 @@ RSpec.describe Gitlab::Client do
   describe '.add_group_member' do
     before do
       stub_post('/groups/3/members', 'group_member')
-      @member = Gitlab.add_group_member(3, 1, 40)
+      @member = described_class.add_group_member(3, 1, 40)
     end
 
     it 'gets the correct resource' do
@@ -179,7 +179,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_group_member' do
     before do
       stub_put('/groups/3/members/1', 'group_member_edit')
-      @member = Gitlab.edit_group_member(3, 1, 50)
+      @member = described_class.edit_group_member(3, 1, 50)
     end
 
     it 'gets the correct resource' do
@@ -195,7 +195,7 @@ RSpec.describe Gitlab::Client do
   describe '.remove_group_member' do
     before do
       stub_delete('/groups/3/members/1', 'group_member_delete')
-      @group = Gitlab.remove_group_member(3, 1)
+      @group = described_class.remove_group_member(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -210,7 +210,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_projects' do
     before do
       stub_get('/groups/4/projects', 'group_projects')
-      @projects = Gitlab.group_projects(4)
+      @projects = described_class.group_projects(4)
     end
 
     it 'gets the list of projects' do
@@ -218,7 +218,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a list of of projects under a group' do
-      expect(@projects).to be_a Gitlab::PaginatedResponse
+      expect(@projects).to be_a Gitlab::Client::PaginatedResponse
       expect(@projects.size).to eq(1)
       expect(@projects[0].name).to eq('Diaspora Client')
     end
@@ -227,7 +227,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_search' do
     before do
       stub_get('/groups?search=Group', 'group_search')
-      @groups = Gitlab.group_search('Group')
+      @groups = described_class.group_search('Group')
     end
 
     it 'gets the correct resource' do
@@ -243,7 +243,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_subgroups' do
     before do
       stub_get('/groups/4/subgroups', 'group_subgroups')
-      @subgroups = Gitlab.group_subgroups(4)
+      @subgroups = described_class.group_subgroups(4)
     end
 
     it 'gets the list of subroups' do
@@ -251,7 +251,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns an array of subgroups under a group' do
-      expect(@subgroups).to be_a Gitlab::PaginatedResponse
+      expect(@subgroups).to be_a Gitlab::Client::PaginatedResponse
       expect(@subgroups.size).to eq(1)
       expect(@subgroups[0].name).to eq('Foobar Group')
     end
@@ -260,7 +260,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_group' do
     before do
       stub_put('/groups/1', 'group_edit').with(body: { description: 'An interesting group' })
-      @edited_project = Gitlab.edit_group(1, description: 'An interesting group')
+      @edited_project = described_class.edit_group(1, description: 'An interesting group')
     end
 
     it 'gets the correct resource' do
@@ -275,7 +275,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_issues' do
     before do
       stub_get('/groups/3/issues', 'group_issues')
-      @issues = Gitlab.group_issues(3)
+      @issues = described_class.group_issues(3)
     end
 
     it 'gets the correct resource' do
@@ -283,7 +283,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's issues" do
-      expect(@issues).to be_a Gitlab::PaginatedResponse
+      expect(@issues).to be_a Gitlab::Client::PaginatedResponse
       expect(@issues.first.project_id).to eq(4)
     end
   end
@@ -291,7 +291,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_merge_requests' do
     before do
       stub_get('/groups/3/merge_requests', 'group_merge_requests')
-      @merge_requests = Gitlab.group_merge_requests(3)
+      @merge_requests = described_class.group_merge_requests(3)
     end
 
     it 'gets the correct resource' do
@@ -299,7 +299,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns information about a group's merge requests" do
-      expect(@merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@merge_requests).to be_a Gitlab::Client::PaginatedResponse
       expect(@merge_requests.first.project_id).to eq(3)
     end
   end
@@ -307,7 +307,7 @@ RSpec.describe Gitlab::Client do
   describe '.sync_ldap_group' do
     before do
       stub_post('/groups/1/ldap_sync', 'group_ldap_sync')
-      Gitlab.sync_ldap_group(1)
+      described_class.sync_ldap_group(1)
     end
 
     it 'gets the correct resource' do
@@ -318,7 +318,7 @@ RSpec.describe Gitlab::Client do
   describe '.add_ldap_group_links' do
     before do
       stub_post('/groups/1/ldap_group_links', 'group_add_ldap_links')
-      @ldap_link = Gitlab.add_ldap_group_links(1, 'all', 50, 'ldap')
+      @ldap_link = described_class.add_ldap_group_links(1, 'all', 50, 'ldap')
     end
 
     it 'gets the correct resource' do
@@ -336,7 +336,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_ldap_group_links' do
     before do
       stub_delete('/groups/1/ldap_group_links/ldap/all', 'group_delete_ldap_links')
-      Gitlab.delete_ldap_group_links(1, 'all', 'ldap')
+      described_class.delete_ldap_group_links(1, 'all', 'ldap')
     end
 
     it 'gets the correct resource' do
@@ -347,7 +347,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_custom_attributes' do
     before do
       stub_get('/groups/2/custom_attributes', 'group_custom_attributes')
-      @custom_attributes = Gitlab.group_custom_attributes(2)
+      @custom_attributes = described_class.group_custom_attributes(2)
     end
 
     it 'gets the correct resource' do
@@ -363,7 +363,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_custom_attribute' do
     before do
       stub_get('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-      @custom_attribute = Gitlab.group_custom_attribute('some_new_key', 2)
+      @custom_attribute = described_class.group_custom_attribute('some_new_key', 2)
     end
 
     it 'gets the correct resource' do
@@ -380,7 +380,7 @@ RSpec.describe Gitlab::Client do
     describe 'with group ID' do
       before do
         stub_put('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-        @custom_attribute = Gitlab.add_group_custom_attribute('some_new_key', 'some_new_value', 2)
+        @custom_attribute = described_class.add_group_custom_attribute('some_new_key', 'some_new_value', 2)
       end
 
       it 'gets the correct resource' do
@@ -400,7 +400,7 @@ RSpec.describe Gitlab::Client do
     describe 'with group ID' do
       before do
         stub_delete('/groups/2/custom_attributes/some_new_key', 'group_custom_attribute')
-        @custom_attribute = Gitlab.delete_group_custom_attribute('some_new_key', 2)
+        @custom_attribute = described_class.delete_group_custom_attribute('some_new_key', 2)
       end
 
       it 'gets the correct resource' do

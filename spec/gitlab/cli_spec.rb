@@ -6,7 +6,7 @@ RSpec.describe Gitlab::CLI do
   describe '.run' do
     context 'when command is version' do
       it 'shows gem version' do
-        expect { described_class.run('-v') }.to output("Gitlab Ruby Gem #{Gitlab::VERSION}\n").to_stdout
+        expect { described_class.run('-v') }.to output("Gitlab Ruby Gem #{Gitlab::Client::VERSION}\n").to_stdout
       end
     end
 

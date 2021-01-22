@@ -7,13 +7,13 @@ class Gitlab::Client
     # Gets a list of system hooks.
     #
     # @example
-    #   Gitlab.hooks
-    #   Gitlab.system_hooks
+    #   Gitlab::Client.hooks
+    #   Gitlab::Client.system_hooks
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def hooks(options = {})
       get('/hooks', query: options)
     end
@@ -22,14 +22,14 @@ class Gitlab::Client
     # Adds a new system hook.
     #
     # @example
-    #   Gitlab.add_hook('http://example.com/hook')
-    #   Gitlab.add_system_hook('https://api.example.net/v1/hook')
+    #   Gitlab::Client.add_hook('http://example.com/hook')
+    #   Gitlab::Client.add_system_hook('https://api.example.net/v1/hook')
     #
     # @param  [String] url The hook URL.
     # @param  [Hash] options Additional options, as allowed by Gitlab API, including but not limited to:
     # @option options [String] :token A secret token for Gitlab to send in the `X-Gitlab-Token` header for authentication.
     # @option options [boolean] :enable_ssl_verification `false` will cause Gitlab to ignore invalid/unsigned certificate errors (default is `true`)
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def add_hook(url, options = {})
       post('/hooks', body: options.merge(url: url))
     end
@@ -38,11 +38,11 @@ class Gitlab::Client
     # Tests a system hook.
     #
     # @example
-    #   Gitlab.hook(3)
-    #   Gitlab.system_hook(12)
+    #   Gitlab::Client.hook(3)
+    #   Gitlab::Client.system_hook(12)
     #
     # @param  [Integer] id The ID of a system hook.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def hook(id)
       get("/hooks/#{id}")
     end
@@ -51,11 +51,11 @@ class Gitlab::Client
     # Deletes a new system hook.
     #
     # @example
-    #   Gitlab.delete_hook(3)
-    #   Gitlab.delete_system_hook(12)
+    #   Gitlab::Client.delete_hook(3)
+    #   Gitlab::Client.delete_system_hook(12)
     #
     # @param  [Integer] id The ID of a system hook.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def delete_hook(id)
       delete("/hooks/#{id}")
     end

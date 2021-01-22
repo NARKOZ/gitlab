@@ -9,8 +9,8 @@ class Gitlab::Client
     # Get the contents of a file
     #
     # @example
-    #   Gitlab.file_contents(42, 'Gemfile')
-    #   Gitlab.repo_file_contents(3, 'Gemfile', 'ed899a2f4b50b4370feeea94676502b42383c746')
+    #   Gitlab::Client.file_contents(42, 'Gemfile')
+    #   Gitlab::Client.repo_file_contents(3, 'Gemfile', 'ed899a2f4b50b4370feeea94676502b42383c746')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] filepath The relative path of the file in the repository
@@ -21,19 +21,19 @@ class Gitlab::Client
           query: { ref: ref },
           format: nil,
           headers: { Accept: 'text/plain' },
-          parser: ::Gitlab::Request::Parser
+          parser: ::Gitlab::Client::Parser
     end
     alias repo_file_contents file_contents
 
     # Get file blame from repository
     #
     # @example
-    #   Gitlab.get_file_blame(42, "README.md", "master")
+    #   Gitlab::Client.get_file_blame(42, "README.md", "master")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] file_path The full path of the file.
     # @param  [String] ref The name of branch, tag or commit.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     #
     def get_file_blame(project, file_path, ref)
       get("/projects/#{url_encode project}/repository/files/#{url_encode file_path}/blame", query: {
@@ -44,12 +44,12 @@ class Gitlab::Client
     # Gets a repository file.
     #
     # @example
-    #   Gitlab.get_file(42, "README.md", "master")
+    #   Gitlab::Client.get_file(42, "README.md", "master")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] file_path The full path of the file.
     # @param  [String] ref The name of branch, tag or commit.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def get_file(project, file_path, ref)
       get("/projects/#{url_encode project}/repository/files/#{url_encode file_path}", query: {
             ref: ref
@@ -59,7 +59,7 @@ class Gitlab::Client
     # Creates a new repository file.
     #
     # @example
-    #   Gitlab.create_file(42, "path", "branch", "content", "commit message")
+    #   Gitlab::Client.create_file(42, "path", "branch", "content", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] path full path to new file.
@@ -69,7 +69,7 @@ class Gitlab::Client
     # @param  [Hash] options Optional additional details for commit
     # @option options [String] :author_name Commit author's name
     # @option options [String] :author_email Commit author's email address
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def create_file(project, path, branch, content, commit_message, options = {})
       post("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
         branch: branch,
@@ -80,7 +80,7 @@ class Gitlab::Client
     # Edits an existing repository file.
     #
     # @example
-    #   Gitlab.edit_file(42, "path", "branch", "content", "commit message")
+    #   Gitlab::Client.edit_file(42, "path", "branch", "content", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] path full path of file to update.
@@ -90,7 +90,7 @@ class Gitlab::Client
     # @param  [Hash] options Optional additional details for commit
     # @option options [String] :author_name Commit author's name
     # @option options [String] :author_email Commit author's email address
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def edit_file(project, path, branch, content, commit_message, options = {})
       put("/projects/#{url_encode project}/repository/files/#{url_encode path}", body: {
         branch: branch,
@@ -101,7 +101,7 @@ class Gitlab::Client
     # Removes an existing repository file.
     #
     # @example
-    #   Gitlab.remove_file(42, "path", "branch", "commit message")
+    #   Gitlab::Client.remove_file(42, "path", "branch", "commit message")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] path full path of file to delete.
@@ -110,7 +110,7 @@ class Gitlab::Client
     # @param  [Hash] options Optional additional details for commit
     # @option options [String] :author_name Commit author's name
     # @option options [String] :author_email Commit author's email address
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def remove_file(project, path, branch, commit_message, options = {})
       delete("/projects/#{url_encode project}/repository/files/#{url_encode path}",
              body: {

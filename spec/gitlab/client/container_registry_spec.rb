@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.registry_repositories' do
     before do
       stub_get('/projects/3/registry/repositories', 'registry_repositories')
-      @registry_repositories = Gitlab.registry_repositories(3)
+      @registry_repositories = described_class.registry_repositories(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's registry repositories" do
-      expect(@registry_repositories).to be_a Gitlab::PaginatedResponse
+      expect(@registry_repositories).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.delete_registry_repository' do
     before do
       stub_delete('/projects/3/registry/repositories/1', 'empty')
-      Gitlab.delete_registry_repository(3, 1)
+      described_class.delete_registry_repository(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -32,7 +32,7 @@ RSpec.describe Gitlab::Client do
   describe '.registry_repository_tags' do
     before do
       stub_get('/projects/3/registry/repositories/1/tags', 'registry_repository_tags')
-      @registry_repository_tags = Gitlab.registry_repository_tags(3, 1)
+      @registry_repository_tags = described_class.registry_repository_tags(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -40,14 +40,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of a registry repository's tags" do
-      expect(@registry_repository_tags).to be_a Gitlab::PaginatedResponse
+      expect(@registry_repository_tags).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.registry_repository_tag' do
     before do
       stub_get('/projects/3/registry/repositories/1/tags/v10.0.0', 'registry_repository_tag')
-      @registry_repository_tag = Gitlab.registry_repository_tag(3, 1, 'v10.0.0')
+      @registry_repository_tag = described_class.registry_repository_tag(3, 1, 'v10.0.0')
     end
 
     it 'gets the correct resource' do
@@ -62,7 +62,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_registry_repository_tag' do
     before do
       stub_delete('/projects/3/registry/repositories/1/tags/v10.0.0', 'empty')
-      Gitlab.delete_registry_repository_tag(3, 1, 'v10.0.0')
+      described_class.delete_registry_repository_tag(3, 1, 'v10.0.0')
     end
 
     it 'gets the correct resource' do
@@ -74,7 +74,7 @@ RSpec.describe Gitlab::Client do
     context 'when just name_regex provided for deletion' do
       before do
         stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(body: { name_regex: '.*' })
-        Gitlab.bulk_delete_registry_repository_tags(3, 1, name_regex: '.*')
+        described_class.bulk_delete_registry_repository_tags(3, 1, name_regex: '.*')
       end
 
       it 'gets the correct resource' do
@@ -86,7 +86,7 @@ RSpec.describe Gitlab::Client do
     context 'when all options provided for deletion' do
       before do
         stub_delete('/projects/3/registry/repositories/1/tags', 'empty').with(body: { name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d' })
-        Gitlab.bulk_delete_registry_repository_tags(3, 1, name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d')
+        described_class.bulk_delete_registry_repository_tags(3, 1, name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d')
       end
 
       it 'gets the correct resource' do

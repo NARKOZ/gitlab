@@ -87,19 +87,19 @@ module Gitlab
       #
       # @return [String]
       def help(cmd = nil, &block)
-        if cmd.nil? || Gitlab::Help.help_map.key?(cmd)
-          Gitlab::Help.actions_table(cmd)
+        if cmd.nil? || Gitlab::Client::Help.help_map.key?(cmd)
+          Gitlab::Client::Help.actions_table(cmd)
         else
-          Gitlab::Help.get_help(cmd, &block)
+          Gitlab::Client::Help.get_help(cmd, &block)
         end
       end
 
       # Outputs a nicely formatted table or error message.
       def output_table(cmd, args, data)
         case data
-        when Gitlab::ObjectifiedHash, Gitlab::FileResponse
+        when Gitlab::Client::ObjectifiedHash, Gitlab::Client::FileResponse
           puts record_table([data], cmd, args)
-        when Gitlab::PaginatedResponse
+        when Gitlab::Client::PaginatedResponse
           puts record_table(data, cmd, args)
         else # probably just an error message
           puts data
@@ -111,9 +111,9 @@ module Gitlab
           puts '{}'
         else
           hash_result = case data
-                        when Gitlab::ObjectifiedHash, Gitlab::FileResponse
+                        when Gitlab::Client::ObjectifiedHash, Gitlab::Client::FileResponse
                           record_hash([data], cmd, args, single_value: true)
-                        when Gitlab::PaginatedResponse
+                        when Gitlab::Client::PaginatedResponse
                           record_hash(data, cmd, args)
                         else
                           { cmd: cmd, data: data, args: args }

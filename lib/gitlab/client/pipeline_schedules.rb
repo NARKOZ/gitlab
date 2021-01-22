@@ -7,13 +7,13 @@ class Gitlab::Client
     # Gets a list of project pipeline schedules.
     #
     # @example
-    #   Gitlab.pipeline_schedules(5)
-    #   Gitlab.pipeline_schedules(5, { scope: 'active' })
+    #   Gitlab::Client.pipeline_schedules(5)
+    #   Gitlab::Client.pipeline_schedules(5, { scope: 'active' })
     #
     # @param   [Integer, String] project the ID or name of a project.
     # @param   [Hash] options A customizable set of options.
     # @options options [String] :scope The scope of pipeline schedules, one of a 'active' or 'inactive'.
-    # @return  [Array<Gitlab::ObjectifiedHash>]
+    # @return  [Array<Gitlab::Client::ObjectifiedHash>]
     def pipeline_schedules(project, options = {})
       get("/projects/#{url_encode project}/pipeline_schedules", query: options)
     end
@@ -21,11 +21,11 @@ class Gitlab::Client
     # Gets a single pipeline schedule.
     #
     # @example
-    #   Gitlab.pipeline_schedule(5, 3)
+    #   Gitlab::Client.pipeline_schedule(5, 3)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of the pipeline schedule.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def pipeline_schedule(project, id)
       get("/projects/#{url_encode project}/pipeline_schedules/#{id}")
     end
@@ -33,7 +33,7 @@ class Gitlab::Client
     # Create a pipeline schedule.
     #
     # @example
-    #   Gitlab.create_pipeline_schedule(5, { description: 'example' })
+    #   Gitlab::Client.create_pipeline_schedule(5, { description: 'example' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
@@ -42,7 +42,7 @@ class Gitlab::Client
     # @option options [String] :cron The cron (e.g. 0 1 * * *).
     # @option options [String] :cron_timezone The timezone supproted by ActiveSupport::TimeZone (e.g. Pacific Time (US & Canada)) (default: 'UTC').
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def create_pipeline_schedule(project, options = {})
       post("/projects/#{url_encode project}/pipeline_schedules", body: options)
     end
@@ -50,7 +50,7 @@ class Gitlab::Client
     # Updates the pipeline schedule of a project.
     #
     # @example
-    #   Gitlab.edit_pipeline_schedule(3, 2, { description: 'example2' })
+    #   Gitlab::Client.edit_pipeline_schedule(3, 2, { description: 'example2' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] The pipeline schedule ID.
@@ -60,7 +60,7 @@ class Gitlab::Client
     # @option options [String] :cron The cron (e.g. 0 1 * * *).
     # @option options [String] :cron_timezone The timezone supproted by ActiveSupport::TimeZone (e.g. Pacific Time (US & Canada)) (default: 'UTC').
     # @option options [Boolean] :active The activation of pipeline schedule. If false is set, the pipeline schedule will deactivated initially (default: true).
-    # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] The updated pipeline schedule.
     def edit_pipeline_schedule(project, pipeline_schedule_id, options = {})
       put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}", body: options)
     end
@@ -68,11 +68,11 @@ class Gitlab::Client
     # Take ownership of a pipeline schedule.
     #
     # @example
-    #   Gitlab.pipeline_schedule_take_ownership(5, 1)
+    #   Gitlab::Client.pipeline_schedule_take_ownership(5, 1)
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [Integer] trigger_id The pipeline schedule ID.
-    # @return [Gitlab::ObjectifiedHash] The updated pipeline schedule.
+    # @return [Gitlab::Client::ObjectifiedHash] The updated pipeline schedule.
     def pipeline_schedule_take_ownership(project, pipeline_schedule_id)
       post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/take_ownership")
     end
@@ -80,11 +80,11 @@ class Gitlab::Client
     # Delete a pipeline schedule.
     #
     # @example
-    #   Gitlab.delete_pipeline_schedule(5, 1)
+    #   Gitlab::Client.delete_pipeline_schedule(5, 1)
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [Integer] trigger_id The pipeline schedule ID.
-    # @return [Gitlab::ObjectifiedHash] The deleted pipeline schedule.
+    # @return [Gitlab::Client::ObjectifiedHash] The deleted pipeline schedule.
     def delete_pipeline_schedule(project, pipeline_schedule_id)
       delete("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}")
     end
@@ -92,14 +92,14 @@ class Gitlab::Client
     # Create a pipeline schedule variable.
     #
     # @example
-    #   Gitlab.create_pipeline_schedule_variable(5, 1, { key: 'foo', value: 'bar' })
+    #   Gitlab::Client.create_pipeline_schedule_variable(5, 1, { key: 'foo', value: 'bar' })
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [Integer] trigger_id The pipeline schedule ID.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :key The key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed.
     # @option options [String] :value The value of a variable
-    # @return [Array<Gitlab::ObjectifiedHash>] The created pipeline schedule variable.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] The created pipeline schedule variable.
     def create_pipeline_schedule_variable(project, pipeline_schedule_id, options = {})
       post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables", body: options)
     end
@@ -107,14 +107,14 @@ class Gitlab::Client
     # Updates the variable of a pipeline schedule.
     #
     # @example
-    #   Gitlab.edit_pipeline_schedule_variable(3, 2, "foo" { value: 'bar' })
+    #   Gitlab::Client.edit_pipeline_schedule_variable(3, 2, "foo" { value: 'bar' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] The pipeline schedule ID.
     # @param  [String] The key of a variable.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :value The value of a variable.
-    # @return [Array<Gitlab::ObjectifiedHash>] The updated pipeline schedule variable.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] The updated pipeline schedule variable.
     def edit_pipeline_schedule_variable(project, pipeline_schedule_id, key, options = {})
       put("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}", body: options)
     end
@@ -122,12 +122,12 @@ class Gitlab::Client
     # Delete the variable of a pipeline schedule
     #
     # @example
-    #   Gitlab.delete_pipeline_schedule_variable(3, 2, "foo")
+    #   Gitlab::Client.delete_pipeline_schedule_variable(3, 2, "foo")
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] The pipeline schedule ID.
     # @param  [String] The key of a variable.
-    # @return [Array<Gitlab::ObjectifiedHash>] The deleted pipeline schedule variable.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] The deleted pipeline schedule variable.
     def delete_pipeline_schedule_variable(project, pipeline_schedule_id, key, _options = {})
       delete("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/variables/#{url_encode key}")
     end

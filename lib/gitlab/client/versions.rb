@@ -8,9 +8,9 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/version.html
     #
     # @example
-    #   Gitlab.version
+    #   Gitlab::Client.version
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def version
       get('/version')
     end

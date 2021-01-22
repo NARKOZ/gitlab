@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_access_requests' do
     before do
       stub_get('/projects/1/access_requests', 'access_requests')
-      @access_requests = Gitlab.project_access_requests(1)
+      @access_requests = described_class.project_access_requests(1)
     end
 
     it 'gets the correct resources' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of project access requests' do
-      expect(@access_requests).to be_a Gitlab::PaginatedResponse
+      expect(@access_requests).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.group_access_requests' do
     before do
       stub_get('/groups/1/access_requests', 'access_requests')
-      @access_requests = Gitlab.group_access_requests(1)
+      @access_requests = described_class.group_access_requests(1)
     end
 
     it 'gets the correct resources' do
@@ -29,14 +29,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of group access requests' do
-      expect(@access_requests).to be_a Gitlab::PaginatedResponse
+      expect(@access_requests).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.request_project_access' do
     before do
       stub_post('/projects/1/access_requests', 'access_request')
-      @access_request = Gitlab.request_project_access(1)
+      @access_request = described_class.request_project_access(1)
     end
 
     it 'gets the correct resource' do
@@ -47,7 +47,7 @@ RSpec.describe Gitlab::Client do
   describe '.request_group_access' do
     before do
       stub_post('/groups/1/access_requests', 'access_request')
-      @access_request = Gitlab.request_group_access(1)
+      @access_request = described_class.request_group_access(1)
     end
 
     it 'gets the correct resource' do
@@ -59,7 +59,7 @@ RSpec.describe Gitlab::Client do
     context 'when no access level is given' do
       before do
         stub_put('/projects/1/access_requests/1/approve', 'default_approved_access_request')
-        @access_request = Gitlab.approve_project_access_request(1, 1)
+        @access_request = described_class.approve_project_access_request(1, 1)
       end
 
       it 'gets the correct resource' do
@@ -74,7 +74,7 @@ RSpec.describe Gitlab::Client do
     context 'when access level is given' do
       before do
         stub_put('/projects/1/access_requests/1/approve', 'approved_access_request').with(body: { access_level: '20' })
-        @access_request = Gitlab.approve_project_access_request(1, 1, access_level: '20')
+        @access_request = described_class.approve_project_access_request(1, 1, access_level: '20')
       end
 
       it 'gets the correct resource' do
@@ -92,7 +92,7 @@ RSpec.describe Gitlab::Client do
     context 'when no access level is given' do
       before do
         stub_put('/groups/1/access_requests/1/approve', 'default_approved_access_request')
-        @access_request = Gitlab.approve_group_access_request(1, 1)
+        @access_request = described_class.approve_group_access_request(1, 1)
       end
 
       it 'gets the correct resource' do
@@ -107,7 +107,7 @@ RSpec.describe Gitlab::Client do
     context 'when access level is given' do
       before do
         stub_put('/groups/1/access_requests/1/approve', 'approved_access_request').with(body: { access_level: '20' })
-        @access_request = Gitlab.approve_group_access_request(1, 1, access_level: '20')
+        @access_request = described_class.approve_group_access_request(1, 1, access_level: '20')
       end
 
       it 'gets the correct resource' do
@@ -124,7 +124,7 @@ RSpec.describe Gitlab::Client do
   describe '.deny_project_access_request' do
     before do
       stub_delete('/projects/1/access_requests/1', 'access_request')
-      @access_request = Gitlab.deny_project_access_request(1, 1)
+      @access_request = described_class.deny_project_access_request(1, 1)
     end
 
     it 'gets the correct resource' do
@@ -135,7 +135,7 @@ RSpec.describe Gitlab::Client do
   describe '.deny_group_access_request' do
     before do
       stub_delete('/groups/1/access_requests/1', 'access_request')
-      @access_request = Gitlab.deny_group_access_request(1, 1)
+      @access_request = described_class.deny_group_access_request(1, 1)
     end
 
     it 'gets the correct resource' do

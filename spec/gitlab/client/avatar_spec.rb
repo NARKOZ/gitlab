@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.avatar' do
     before do
       stub_get('/avatar', 'avatar').with(query: { email: 'admin@example.com', size: 32 })
-      @avatar = Gitlab.avatar(email: 'admin@example.com', size: 32)
+      @avatar = described_class.avatar(email: 'admin@example.com', size: 32)
     end
 
     it 'gets the correct resource' do

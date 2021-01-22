@@ -7,13 +7,13 @@ class Gitlab::Client
     # Gets a list of project repositiory branches.
     #
     # @example
-    #   Gitlab.branches(42)
+    #   Gitlab::Client.branches(42)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def branches(project, options = {})
       get("/projects/#{url_encode project}/repository/branches", query: options)
     end
@@ -22,12 +22,12 @@ class Gitlab::Client
     # Gets information about a repository branch.
     #
     # @example
-    #   Gitlab.branch(3, 'api')
-    #   Gitlab.repo_branch(5, 'master')
+    #   Gitlab::Client.branch(3, 'api')
+    #   Gitlab::Client.repo_branch(5, 'master')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def branch(project, branch)
       get("/projects/#{url_encode project}/repository/branches/#{url_encode branch}")
     end
@@ -36,9 +36,9 @@ class Gitlab::Client
     # Protects a repository branch.
     #
     # @example
-    #   Gitlab.protect_branch(3, 'api')
-    #   Gitlab.repo_protect_branch(5, 'master')
-    #   Gitlab.protect_branch(5, 'api', developers_can_push: true)
+    #   Gitlab::Client.protect_branch(3, 'api')
+    #   Gitlab::Client.repo_protect_branch(5, 'master')
+    #   Gitlab::Client.protect_branch(5, 'api', developers_can_push: true)
     #
     # To update options, call `protect_branch` again with new options (i.e. `developers_can_push: false`)
     #
@@ -47,7 +47,7 @@ class Gitlab::Client
     # @param  [Hash] options A customizable set of options.
     # @option options [Boolean] :developers_can_push True to allow developers to push to the branch (default = false)
     # @option options [Boolean] :developers_can_merge True to allow developers to merge into the branch (default = false)
-    # @return [Gitlab::ObjectifiedHash] Details about the branch
+    # @return [Gitlab::Client::ObjectifiedHash] Details about the branch
     def protect_branch(project, branch, options = {})
       post("/projects/#{url_encode project}/protected_branches", body: { name: branch }.merge(options))
     end
@@ -56,12 +56,12 @@ class Gitlab::Client
     # Unprotects a repository branch.
     #
     # @example
-    #   Gitlab.unprotect_branch(3, 'api')
-    #   Gitlab.repo_unprotect_branch(5, 'master')
+    #   Gitlab::Client.unprotect_branch(3, 'api')
+    #   Gitlab::Client.repo_unprotect_branch(5, 'master')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch.
-    # @return [Gitlab::ObjectifiedHash] Details about the branch
+    # @return [Gitlab::Client::ObjectifiedHash] Details about the branch
     def unprotect_branch(project, branch)
       delete("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
     end
@@ -70,13 +70,13 @@ class Gitlab::Client
     # Creates a repository branch.  Requires Gitlab >= 6.8.x
     #
     # @example
-    #   Gitlab.create_branch(3, 'api', 'feat/new-api')
-    #   Gitlab.repo_create_branch(5, 'master', 'develop')
+    #   Gitlab::Client.create_branch(3, 'api', 'feat/new-api')
+    #   Gitlab::Client.repo_create_branch(5, 'master', 'develop')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the new branch.
     # @param  [String] ref Create branch from commit sha or existing branch
-    # @return [Gitlab::ObjectifiedHash] Details about the branch
+    # @return [Gitlab::Client::ObjectifiedHash] Details about the branch
     def create_branch(project, branch, ref)
       post("/projects/#{url_encode project}/repository/branches", query: { branch: branch, ref: ref })
     end
@@ -85,8 +85,8 @@ class Gitlab::Client
     # Deletes a repository branch.  Requires Gitlab >= 6.8.x
     #
     # @example
-    #   Gitlab.delete_branch(3, 'api')
-    #   Gitlab.repo_delete_branch(5, 'master')
+    #   Gitlab::Client.delete_branch(3, 'api')
+    #   Gitlab::Client.repo_delete_branch(5, 'master')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch to delete
@@ -98,7 +98,7 @@ class Gitlab::Client
     # Delete all branches that are merged into the project default branch. Protected branches will not be deleted as part of this operation.
     #
     # @example
-    #   Gitlab.delete_merged_branches(3)
+    #   Gitlab::Client.delete_merged_branches(3)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @return [nil] This API call returns an empty response body.
@@ -110,10 +110,10 @@ class Gitlab::Client
     # Gets a list of protected branches from a project.
     #
     # @example
-    #   Gitlab.protected_branches(42)
+    #   Gitlab::Client.protected_branches(42)
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def protected_branches(project)
       get("/projects/#{url_encode project}/protected_branches")
     end
@@ -122,11 +122,11 @@ class Gitlab::Client
     # Gets a single protected branch or wildcard protected branch
     #
     # @example
-    #   Gitlab.protected_branch(3, 'api')
+    #   Gitlab::Client.protected_branch(3, 'api')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] name The name of the branch or wildcard
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def protected_branch(project, branch)
       get("/projects/#{url_encode project}/protected_branches/#{url_encode branch}")
     end

@@ -38,7 +38,7 @@ brew install gitlab-gem
 Configuration example:
 
 ```ruby
-Gitlab.configure do |config|
+Gitlab::Client.configure do |config|
   config.endpoint       = 'https://example.net/api/v4' # API endpoint URL, default: ENV['GITLAB_API_ENDPOINT'] and falls back to ENV['CI_API_V4_URL']
   config.private_token  = 'qEsq1pt6HJPaNciie3MG'       # user's private token or OAuth2 access token, default: ENV['GITLAB_API_PRIVATE_TOKEN']
   # Optional
@@ -53,26 +53,26 @@ Usage examples:
 
 ```ruby
 # set an API endpoint
-Gitlab.endpoint = 'https://example.net/api/v4'
+Gitlab::Client.endpoint = 'https://example.net/api/v4'
 # => "https://example.net/api/v4"
 
 # set a user private token
-Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
+Gitlab::Client.private_token = 'qEsq1pt6HJPaNciie3MG'
 # => "qEsq1pt6HJPaNciie3MG"
 
 # configure a proxy server
-Gitlab.http_proxy('proxyhost', 8888)
+Gitlab::Client.http_proxy('proxyhost', 8888)
 # proxy server with basic auth
-Gitlab.http_proxy('proxyhost', 8888, 'proxyuser', 'strongpasswordhere')
+Gitlab::Client.http_proxy('proxyhost', 8888, 'proxyuser', 'strongpasswordhere')
 # set timeout for responses
 ENV['GITLAB_API_HTTPARTY_OPTIONS'] = '{read_timeout: 60}'
 
 # list projects
-Gitlab.projects(per_page: 5)
-# => [#<Gitlab::ObjectifiedHash:0x000000023326e0 @data={"id"=>1, "code"=>"brute", "name"=>"Brute", "description"=>nil, "path"=>"brute", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x00000002331600 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:56Z"}>, #<Gitlab::ObjectifiedHash:0x000000023450d8 @data={"id"=>2, "code"=>"mozart", "name"=>"Mozart", "description"=>nil, "path"=>"mozart", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x00000002344ca0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:57Z"}>, #<Gitlab::ObjectifiedHash:0x00000002344958 @data={"id"=>3, "code"=>"gitlab", "name"=>"Gitlab", "description"=>nil, "path"=>"gitlab", "default_branch"=>nil, "owner"=>#<Gitlab::ObjectifiedHash:0x000000023447a0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:58Z"}>]
+Gitlab::Client.projects(per_page: 5)
+# => [#<Gitlab::Client::ObjectifiedHash:0x000000023326e0 @data={"id"=>1, "code"=>"brute", "name"=>"Brute", "description"=>nil, "path"=>"brute", "default_branch"=>nil, "owner"=>#<Gitlab::Client::ObjectifiedHash:0x00000002331600 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:56Z"}>, #<Gitlab::Client::ObjectifiedHash:0x000000023450d8 @data={"id"=>2, "code"=>"mozart", "name"=>"Mozart", "description"=>nil, "path"=>"mozart", "default_branch"=>nil, "owner"=>#<Gitlab::Client::ObjectifiedHash:0x00000002344ca0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:57Z"}>, #<Gitlab::Client::ObjectifiedHash:0x00000002344958 @data={"id"=>3, "code"=>"gitlab", "name"=>"Gitlab", "description"=>nil, "path"=>"gitlab", "default_branch"=>nil, "owner"=>#<Gitlab::Client::ObjectifiedHash:0x000000023447a0 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>, "private"=>true, "issues_enabled"=>true, "merge_requests_enabled"=>true, "wall_enabled"=>true, "wiki_enabled"=>true, "created_at"=>"2012-09-17T09:41:58Z"}>]
 
 # initialize a new client with custom headers
-g = Gitlab.client(
+g = Gitlab::Client.client(
   endpoint: 'https://example.com/api/v4',
   private_token: 'qEsq1pt6HJPaNciie3MG',
   httparty: {
@@ -83,22 +83,22 @@ g = Gitlab.client(
 
 # get a user
 user = g.user
-# => #<Gitlab::ObjectifiedHash:0x00000002217990 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "bio"=>nil, "skype"=>"", "linkedin"=>"", "twitter"=>"john", "dark_scheme"=>false, "theme_id"=>1, "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>
+# => #<Gitlab::Client::ObjectifiedHash:0x00000002217990 @data={"id"=>1, "email"=>"john@example.com", "name"=>"John Smith", "bio"=>nil, "skype"=>"", "linkedin"=>"", "twitter"=>"john", "dark_scheme"=>false, "theme_id"=>1, "blocked"=>false, "created_at"=>"2012-09-17T09:41:56Z"}>
 
 # get a user's email
 user.email
 # => "john@example.com"
 
 # set a sudo mode to perform API calls as another user
-Gitlab.sudo = 'other_user'
+Gitlab::Client.sudo = 'other_user'
 # => "other_user"
 
 # disable a sudo mode
-Gitlab.sudo = nil
+Gitlab::Client.sudo = nil
 # => nil
 
 # a paginated response
-projects = Gitlab.projects(per_page: 5)
+projects = Gitlab::Client.projects(per_page: 5)
 
 # check existence of the next page
 projects.has_next_page?
@@ -209,8 +209,8 @@ docker-compose run app
 ```
 
 ```ruby
-Gitlab.users
-=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+Gitlab::Client.users
+=> [#<Gitlab::Client::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
 ```
 
 To launch the specs:
@@ -234,8 +234,8 @@ docker-compose run app
 ```
 
 ```ruby
-Gitlab.users
-=> [#<Gitlab::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
+Gitlab::Client.users
+=> [#<Gitlab::Client::ObjectifiedHash:47231290771040 {hash: {"id"=>1, "name"=>"Administrator", "username"=>"root", ...]
 ```
 
 To launch the specs,

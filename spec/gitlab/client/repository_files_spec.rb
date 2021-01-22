@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.file_contents' do
     before do
       stub_get('/projects/3/repository/files/Gemfile/raw?ref=master', 'raw_file.txt')
-      @file_contents = Gitlab.file_contents(3, 'Gemfile')
+      @file_contents = described_class.file_contents(3, 'Gemfile')
     end
 
     it 'gets the correct resource' do
@@ -21,7 +21,7 @@ RSpec.describe Gitlab::Client do
   describe '.get_file_blame' do
     before do
       stub_get('/projects/3/repository/files/README%2Emd/blame?ref=master', 'get_file_blame')
-      @blames = Gitlab.get_file_blame(3, 'README.md', 'master')
+      @blames = described_class.get_file_blame(3, 'README.md', 'master')
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.get_file' do
     before do
       stub_get('/projects/3/repository/files/README%2Emd?ref=master', 'get_repository_file')
-      @file = Gitlab.get_file(3, 'README.md', 'master')
+      @file = described_class.get_file(3, 'README.md', 'master')
     end
 
     it 'gets the correct resource' do
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
 
     before do
       stub_post(api_path, 'repository_file')
-      @file = Gitlab.create_file(3, 'path', 'branch', 'content', 'commit message', author_name: 'joe')
+      @file = described_class.create_file(3, 'path', 'branch', 'content', 'commit message', author_name: 'joe')
     end
 
     it 'creates the correct resource' do
@@ -78,7 +78,7 @@ RSpec.describe Gitlab::Client do
 
     before do
       stub_put(api_path, 'repository_file')
-      @file = Gitlab.edit_file(3, 'path', 'branch', 'content', 'commit message', author_name: 'joe')
+      @file = described_class.edit_file(3, 'path', 'branch', 'content', 'commit message', author_name: 'joe')
     end
 
     it 'updates the correct resource' do
@@ -101,7 +101,7 @@ RSpec.describe Gitlab::Client do
 
     before do
       stub_delete(api_path, 'repository_file')
-      @file = Gitlab.remove_file(3, 'path', 'branch', 'commit message', author_name: 'joe')
+      @file = described_class.remove_file(3, 'path', 'branch', 'commit message', author_name: 'joe')
     end
 
     it 'updates the correct resource' do

@@ -7,7 +7,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope projects' do
       before do
         stub_get('/search', 'search_projects_results').with(query: { scope: 'projects', search: 'flight' })
-        @search = Gitlab.search_globally('projects', 'flight')
+        @search = described_class.search_globally('projects', 'flight')
       end
 
       it 'gets the correct resource' do
@@ -16,14 +16,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope issues' do
       before do
         stub_get('/search', 'search_issues_results').with(query: { scope: 'issues', search: 'file' })
-        @search = Gitlab.search_globally('issues', 'file')
+        @search = described_class.search_globally('issues', 'file')
       end
 
       it 'gets the correct resource' do
@@ -32,14 +32,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope merge_requests' do
       before do
         stub_get('/search', 'search_merge_requests_results').with(query: { scope: 'merge_requests', search: 'file' })
-        @search = Gitlab.search_globally('merge_requests', 'file')
+        @search = described_class.search_globally('merge_requests', 'file')
       end
 
       it 'gets the correct resource' do
@@ -48,14 +48,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope milestones' do
       before do
         stub_get('/search', 'search_milestones_results').with(query: { scope: 'milestones', search: 'release' })
-        @search = Gitlab.search_globally('milestones', 'release')
+        @search = described_class.search_globally('milestones', 'release')
       end
 
       it 'gets the correct resource' do
@@ -64,14 +64,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope snippet_titles' do
       before do
         stub_get('/search', 'search_snippet_titles_results').with(query: { scope: 'snippet_titles', search: 'sample' })
-        @search = Gitlab.search_globally('snippet_titles', 'sample')
+        @search = described_class.search_globally('snippet_titles', 'sample')
       end
 
       it 'gets the correct resource' do
@@ -80,14 +80,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope snippet_blobs' do
       before do
         stub_get('/search', 'search_snippet_blobs_results').with(query: { scope: 'snippet_blobs', search: 'test' })
-        @search = Gitlab.search_globally('snippet_blobs', 'test')
+        @search = described_class.search_globally('snippet_blobs', 'test')
       end
 
       it 'gets the correct resource' do
@@ -96,7 +96,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
   end
@@ -105,7 +105,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope projects' do
       before do
         stub_get('/groups/3/search', 'search_projects_results').with(query: { scope: 'projects', search: 'flight' })
-        @search = Gitlab.search_in_group(3, 'projects', 'flight')
+        @search = described_class.search_in_group(3, 'projects', 'flight')
       end
 
       it 'gets the correct resource' do
@@ -114,14 +114,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope issues' do
       before do
         stub_get('/groups/3/search', 'search_issues_results').with(query: { scope: 'issues', search: 'file' })
-        @search = Gitlab.search_in_group(3, 'issues', 'file')
+        @search = described_class.search_in_group(3, 'issues', 'file')
       end
 
       it 'gets the correct resource' do
@@ -130,14 +130,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope merge_requests' do
       before do
         stub_get('/groups/3/search', 'search_merge_requests_results').with(query: { scope: 'merge_requests', search: 'file' })
-        @search = Gitlab.search_in_group(3, 'merge_requests', 'file')
+        @search = described_class.search_in_group(3, 'merge_requests', 'file')
       end
 
       it 'gets the correct resource' do
@@ -146,14 +146,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope milestones' do
       before do
         stub_get('/groups/3/search', 'search_milestones_results').with(query: { scope: 'milestones', search: 'release' })
-        @search = Gitlab.search_in_group(3, 'milestones', 'release')
+        @search = described_class.search_in_group(3, 'milestones', 'release')
       end
 
       it 'gets the correct resource' do
@@ -162,7 +162,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
   end
@@ -171,7 +171,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope issues' do
       before do
         stub_get('/projects/12/search', 'search_issues_results').with(query: { scope: 'issues', search: 'file' })
-        @search = Gitlab.search_in_project(12, 'issues', 'file')
+        @search = described_class.search_in_project(12, 'issues', 'file')
       end
 
       it 'gets the correct resource' do
@@ -180,7 +180,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(12)
       end
     end
@@ -188,7 +188,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope merge_requests' do
       before do
         stub_get('/projects/6/search', 'search_merge_requests_results').with(query: { scope: 'merge_requests', search: 'file' })
-        @search = Gitlab.search_in_project(6, 'merge_requests', 'file')
+        @search = described_class.search_in_project(6, 'merge_requests', 'file')
       end
 
       it 'gets the correct resource' do
@@ -197,7 +197,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(6)
       end
     end
@@ -205,7 +205,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope milestones' do
       before do
         stub_get('/projects/12/search', 'search_milestones_results').with(query: { scope: 'milestones', search: 'release' })
-        @search = Gitlab.search_in_project(12, 'milestones', 'release')
+        @search = described_class.search_in_project(12, 'milestones', 'release')
       end
 
       it 'gets the correct resource' do
@@ -214,7 +214,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(12)
       end
     end
@@ -222,7 +222,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope notes' do
       before do
         stub_get('/projects/6/search', 'search_notes_results').with(query: { scope: 'notes', search: 'maxime' })
-        @search = Gitlab.search_in_project(6, 'notes', 'maxime')
+        @search = described_class.search_in_project(6, 'notes', 'maxime')
       end
 
       it 'gets the correct resource' do
@@ -231,14 +231,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'when scope wiki_blobs' do
       before do
         stub_get('/projects/6/search', 'search_wiki_blobs_results').with(query: { scope: 'wiki_blobs', search: 'bye' })
-        @search = Gitlab.search_in_project(6, 'wiki_blobs', 'bye')
+        @search = described_class.search_in_project(6, 'wiki_blobs', 'bye')
       end
 
       it 'gets the correct resource' do
@@ -247,7 +247,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(6)
       end
     end
@@ -255,7 +255,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope commits' do
       before do
         stub_get('/projects/6/search', 'search_commits_results').with(query: { scope: 'commits', search: 'bye' })
-        @search = Gitlab.search_in_project(6, 'commits', 'bye')
+        @search = described_class.search_in_project(6, 'commits', 'bye')
       end
 
       it 'gets the correct resource' do
@@ -264,7 +264,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(6)
       end
     end
@@ -272,7 +272,7 @@ RSpec.describe Gitlab::Client do
     context 'when scope blobs' do
       before do
         stub_get('/projects/6/search', 'search_blobs_results').with(query: { scope: 'blobs', search: 'installation' })
-        @search = Gitlab.search_in_project(6, 'blobs', 'installation')
+        @search = described_class.search_in_project(6, 'blobs', 'installation')
       end
 
       it 'gets the correct resource' do
@@ -281,7 +281,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of search results' do
-        expect(@search).to be_a Gitlab::PaginatedResponse
+        expect(@search).to be_a Gitlab::Client::PaginatedResponse
         expect(@search[0].project_id).to eq(6)
       end
     end

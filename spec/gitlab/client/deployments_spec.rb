@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.deployments' do
     before do
       stub_get('/projects/3/deployments', 'deployments')
-      @deployments = Gitlab.deployments(3)
+      @deployments = described_class.deployments(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's deployments" do
-      expect(@deployments).to be_a Gitlab::PaginatedResponse
+      expect(@deployments).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.deployment' do
     before do
       stub_get('/projects/3/deployments/42', 'deployment')
-      @deployment = Gitlab.deployment(3, 42)
+      @deployment = described_class.deployment(3, 42)
     end
 
     it 'gets the correct resource' do
@@ -29,7 +29,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single deployment' do
-      expect(@deployment).to be_a Gitlab::ObjectifiedHash
+      expect(@deployment).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about an deployment' do

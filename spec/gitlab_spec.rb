@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-RSpec.describe Gitlab do
+RSpec.describe Gitlab::Client do
   after { described_class.reset }
 
   describe '.client' do
     it 'is a Gitlab::Client' do
       described_class.endpoint = 'https://api.example.com'
-      expect(described_class.client).to be_a Gitlab::Client
+      expect(described_class.client).to be_a described_class
     end
 
     it 'does not override each other' do
@@ -65,7 +65,7 @@ RSpec.describe Gitlab do
 
   describe '.user_agent' do
     it 'returns default user_agent' do
-      expect(described_class.user_agent).to eq(Gitlab::Configuration::DEFAULT_USER_AGENT)
+      expect(described_class.user_agent).to eq(Gitlab::Client::Configuration::DEFAULT_USER_AGENT)
     end
   end
 
@@ -77,23 +77,13 @@ RSpec.describe Gitlab do
   end
 
   describe '.configure' do
-    Gitlab::Configuration::VALID_OPTIONS_KEYS.each do |key|
+    Gitlab::Client::Configuration::VALID_OPTIONS_KEYS.each do |key|
       it "sets #{key}" do
         described_class.configure do |config|
           config.send("#{key}=", key)
           expect(described_class.send(key)).to eq(key)
         end
       end
-    end
-  end
-
-  describe '.http_proxy' do
-    it 'delegates the method to Gitlab::Request' do
-      described_class.endpoint = 'https://api.example.com'
-      request = class_spy(Gitlab::Request).as_stubbed_const
-
-      described_class.http_proxy('proxy.example.net', 1987, 'user', 'pass')
-      expect(request).to have_received(:http_proxy).with('proxy.example.net', 1987, 'user', 'pass')
     end
   end
 end

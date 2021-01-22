@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Gitlab::Help do
+RSpec.describe Gitlab::Client::Help do
   describe '.ri_cmd' do
     context 'when ri command found' do
       it 'returns the path to RI' do
@@ -22,18 +22,18 @@ RSpec.describe Gitlab::Help do
   describe '.change_help_output!' do
     before do
       @cmd = 'create_branch'
-      @help_output = "Gitlab.#{@cmd}(4, 'new-branch', 'master')"
-      @help_output_with_options = 'Gitlab.groups({ per_page: 3 })'
+      @help_output = "Gitlab::Client.#{@cmd}(4, 'new-branch', 'master')"
+      @help_output_with_options = 'Gitlab::Client.groups({ per_page: 3 })'
     end
 
     it 'returns a String of modified output' do
       described_class.change_help_output! @cmd, @help_output
-      expect(@help_output).to eq("Gitlab.create_branch(4, 'new-branch', 'master')")
+      expect(@help_output).to eq("Gitlab::Client.create_branch(4, 'new-branch', 'master')")
     end
 
     it 'formats options hash and return a String of modified output' do
       described_class.change_help_output! 'groups', @help_output_with_options
-      expect(@help_output_with_options).to eq('Gitlab.groups({ per_page: 3 })')
+      expect(@help_output_with_options).to eq('Gitlab::Client.groups({ per_page: 3 })')
     end
   end
 

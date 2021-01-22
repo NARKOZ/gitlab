@@ -10,7 +10,7 @@ RSpec.describe Gitlab::Client do
   describe '.issue_links' do
     before do
       stub_get('/projects/4/issues/14/links', 'project_issue_links')
-      @issue_link = Gitlab.issue_links(4, 14)
+      @issue_link = described_class.issue_links(4, 14)
     end
 
     it 'gets the correct resource' do
@@ -18,7 +18,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of projects' do
-      expect(@issue_link).to be_a Gitlab::PaginatedResponse
+      expect(@issue_link).to be_a Gitlab::Client::PaginatedResponse
       expect(@issue_link.first.title).to eq('Issues with auth')
       expect(@issue_link.first.author.name).to eq('Alexandra Bashirian')
     end
@@ -27,7 +27,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_issue_link' do
     before do
       stub_post('/projects/3/issues/14/links', 'create_issue_link')
-      @issue_link = Gitlab.create_issue_link(3, 14, 4, 11)
+      @issue_link = described_class.create_issue_link(3, 14, 4, 11)
     end
 
     it 'gets the correct resource' do
@@ -44,7 +44,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_issue_link' do
     before do
       stub_delete('/projects/3/issues/14/links/1', 'delete_issue_link')
-      @issue_link = Gitlab.delete_issue_link(3, 14, 1)
+      @issue_link = described_class.delete_issue_link(3, 14, 1)
     end
 
     it 'deletes the correct resource' do

@@ -7,7 +7,7 @@ RSpec.describe Gitlab::Client do
     context 'when wall notes' do
       before do
         stub_get('/projects/3/notes', 'notes')
-        @notes = Gitlab.notes(3)
+        @notes = described_class.notes(3)
       end
 
       it 'gets the correct resource' do
@@ -15,7 +15,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of notes' do
-        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes).to be_a Gitlab::Client::PaginatedResponse
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue notes' do
       before do
         stub_get('/projects/3/issues/7/notes', 'notes')
-        @notes = Gitlab.issue_notes(3, 7)
+        @notes = described_class.issue_notes(3, 7)
       end
 
       it 'gets the correct resource' do
@@ -31,7 +31,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of notes' do
-        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes).to be_a Gitlab::Client::PaginatedResponse
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet notes' do
       before do
         stub_get('/projects/3/snippets/7/notes', 'notes')
-        @notes = Gitlab.snippet_notes(3, 7)
+        @notes = described_class.snippet_notes(3, 7)
       end
 
       it 'gets the correct resource' do
@@ -47,7 +47,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of notes' do
-        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes).to be_a Gitlab::Client::PaginatedResponse
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge_request notes' do
       before do
         stub_get('/projects/3/merge_requests/7/notes', 'notes')
-        @notes = Gitlab.merge_request_notes(3, 7)
+        @notes = described_class.merge_request_notes(3, 7)
       end
 
       it 'gets the correct resource' do
@@ -63,7 +63,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of notes' do
-        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes).to be_a Gitlab::Client::PaginatedResponse
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe Gitlab::Client do
     context 'when epic notes' do
       before do
         stub_get('/groups/3/epics/7/notes', 'notes')
-        @notes = Gitlab.epic_notes(3, 7)
+        @notes = described_class.epic_notes(3, 7)
       end
 
       it 'gets the correct resource' do
@@ -79,7 +79,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of notes' do
-        expect(@notes).to be_a Gitlab::PaginatedResponse
+        expect(@notes).to be_a Gitlab::Client::PaginatedResponse
         expect(@notes.first.author.name).to eq('John Smith')
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe Gitlab::Client do
     context 'when wall note' do
       before do
         stub_get('/projects/3/notes/1201', 'note')
-        @note = Gitlab.note(3, 1201)
+        @note = described_class.note(3, 1201)
       end
 
       it 'gets the correct resource' do
@@ -105,7 +105,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note' do
       before do
         stub_get('/projects/3/issues/7/notes/1201', 'note')
-        @note = Gitlab.issue_note(3, 7, 1201)
+        @note = described_class.issue_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -121,7 +121,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note' do
       before do
         stub_get('/projects/3/snippets/7/notes/1201', 'note')
-        @note = Gitlab.snippet_note(3, 7, 1201)
+        @note = described_class.snippet_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -137,7 +137,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note' do
       before do
         stub_get('/projects/3/merge_requests/7/notes/1201', 'note')
-        @note = Gitlab.merge_request_note(3, 7, 1201)
+        @note = described_class.merge_request_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -155,7 +155,7 @@ RSpec.describe Gitlab::Client do
     context 'when wall note' do
       before do
         stub_post('/projects/3/notes', 'note')
-        @note = Gitlab.create_note(3, 'The solution is rather tricky')
+        @note = described_class.create_note(3, 'The solution is rather tricky')
       end
 
       it 'gets the correct resource' do
@@ -172,7 +172,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note' do
       before do
         stub_post('/projects/3/issues/7/notes', 'note')
-        @note = Gitlab.create_issue_note(3, 7, 'The solution is rather tricky')
+        @note = described_class.create_issue_note(3, 7, 'The solution is rather tricky')
       end
 
       it 'gets the correct resource' do
@@ -189,7 +189,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note' do
       before do
         stub_post('/projects/3/snippets/7/notes', 'note')
-        @note = Gitlab.create_snippet_note(3, 7, 'The solution is rather tricky')
+        @note = described_class.create_snippet_note(3, 7, 'The solution is rather tricky')
       end
 
       it 'gets the correct resource' do
@@ -206,7 +206,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge_request note' do
       before do
         stub_post('/projects/3/merge_requests/7/notes', 'note')
-        @note = Gitlab.create_merge_request_note(3, 7, 'The solution is rather tricky')
+        @note = described_class.create_merge_request_note(3, 7, 'The solution is rather tricky')
       end
 
       it 'gets the correct resource' do
@@ -223,7 +223,7 @@ RSpec.describe Gitlab::Client do
     context 'when epic note' do
       before do
         stub_post('/groups/3/epics/7/notes', 'note')
-        @note = Gitlab.create_epic_note(3, 7, 'The solution is rather tricky')
+        @note = described_class.create_epic_note(3, 7, 'The solution is rather tricky')
       end
 
       it 'gets the correct resource' do
@@ -242,7 +242,7 @@ RSpec.describe Gitlab::Client do
     context 'when wall note' do
       before do
         stub_delete('/projects/3/notes/1201', 'note')
-        @note = Gitlab.delete_note(3, 1201)
+        @note = described_class.delete_note(3, 1201)
       end
 
       it 'gets the correct resource' do
@@ -257,7 +257,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note' do
       before do
         stub_delete('/projects/3/issues/7/notes/1201', 'note')
-        @note = Gitlab.delete_issue_note(3, 7, 1201)
+        @note = described_class.delete_issue_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -272,7 +272,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note' do
       before do
         stub_delete('/projects/3/snippets/7/notes/1201', 'note')
-        @note = Gitlab.delete_snippet_note(3, 7, 1201)
+        @note = described_class.delete_snippet_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -287,7 +287,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note' do
       before do
         stub_delete('/projects/3/merge_requests/7/notes/1201', 'note')
-        @note = Gitlab.delete_merge_request_note(3, 7, 1201)
+        @note = described_class.delete_merge_request_note(3, 7, 1201)
       end
 
       it 'gets the correct resource' do
@@ -304,7 +304,7 @@ RSpec.describe Gitlab::Client do
     context 'when wall note' do
       before do
         stub_put('/projects/3/notes/1201', 'note')
-        @note = Gitlab.edit_note(3, 1201, 'edited wall note content')
+        @note = described_class.edit_note(3, 1201, 'edited wall note content')
       end
 
       it 'gets the correct resource' do
@@ -320,7 +320,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note' do
       before do
         stub_put('/projects/3/issues/7/notes/1201', 'note')
-        @note = Gitlab.edit_issue_note(3, 7, 1201, 'edited issue note content')
+        @note = described_class.edit_issue_note(3, 7, 1201, 'edited issue note content')
       end
 
       it 'gets the correct resource' do
@@ -336,7 +336,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note' do
       before do
         stub_put('/projects/3/snippets/7/notes/1201', 'note')
-        @note = Gitlab.edit_snippet_note(3, 7, 1201, 'edited snippet note content')
+        @note = described_class.edit_snippet_note(3, 7, 1201, 'edited snippet note content')
       end
 
       it 'gets the correct resource' do
@@ -352,7 +352,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note' do
       before do
         stub_put('/projects/3/merge_requests/7/notes/1201', 'note')
-        @note = Gitlab.edit_merge_request_note(3, 7, 1201, 'edited merge request note content')
+        @note = described_class.edit_merge_request_note(3, 7, 1201, 'edited merge request note content')
       end
 
       it 'gets the correct resource' do

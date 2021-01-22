@@ -7,7 +7,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue award emojis' do
       before do
         stub_get('/projects/1/issues/80/award_emoji', 'issue_award_emojis')
-        @emojis = Gitlab.award_emojis(1, 80, 'issue')
+        @emojis = described_class.award_emojis(1, 80, 'issue')
       end
 
       it 'gets the correct resources' do
@@ -15,7 +15,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of issue award emojis' do
-        expect(@emojis).to be_a Gitlab::PaginatedResponse
+        expect(@emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@emojis.first.awardable_id).to eq(80)
         expect(@emojis.first.awardable_type).to eq('Issue')
       end
@@ -24,7 +24,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request award emojis' do
       before do
         stub_get('/projects/1/merge_requests/80/award_emoji', 'merge_request_award_emojis')
-        @emojis = Gitlab.award_emojis(1, 80, 'merge_request')
+        @emojis = described_class.award_emojis(1, 80, 'merge_request')
       end
 
       it 'gets the correct resources' do
@@ -32,7 +32,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of merge request award emojis' do
-        expect(@emojis).to be_a Gitlab::PaginatedResponse
+        expect(@emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@emojis.first.awardable_id).to eq(80)
         expect(@emojis.first.awardable_type).to eq('MergeRequest')
       end
@@ -41,7 +41,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet award emojis' do
       before do
         stub_get('/projects/1/snippets/80/award_emoji', 'snippet_award_emojis')
-        @emojis = Gitlab.award_emojis(1, 80, 'snippet')
+        @emojis = described_class.award_emojis(1, 80, 'snippet')
       end
 
       it 'gets the correct resources' do
@@ -49,7 +49,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of snippet award emojis' do
-        expect(@emojis).to be_a Gitlab::PaginatedResponse
+        expect(@emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@emojis.first.awardable_id).to eq(80)
         expect(@emojis.first.awardable_type).to eq('Snippet')
       end
@@ -60,7 +60,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note award emojis' do
       before do
         stub_get('/projects/1/issues/80/notes/1/award_emoji', 'note_award_emojis')
-        @note_emojis = Gitlab.note_award_emojis(1, 80, 'issue', 1)
+        @note_emojis = described_class.note_award_emojis(1, 80, 'issue', 1)
       end
 
       it 'gets the correct resources' do
@@ -68,7 +68,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of issue note award emojis' do
-        expect(@note_emojis).to be_a Gitlab::PaginatedResponse
+        expect(@note_emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@note_emojis.first.awardable_id).to eq(1)
         expect(@note_emojis.first.awardable_type).to eq('Note')
       end
@@ -77,7 +77,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note award emojis' do
       before do
         stub_get('/projects/1/merge_requests/80/notes/1/award_emoji', 'note_award_emojis')
-        @note_emojis = Gitlab.note_award_emojis(1, 80, 'merge_request', 1)
+        @note_emojis = described_class.note_award_emojis(1, 80, 'merge_request', 1)
       end
 
       it 'gets the correct resources' do
@@ -85,7 +85,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of merge request note award emojis' do
-        expect(@note_emojis).to be_a Gitlab::PaginatedResponse
+        expect(@note_emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@note_emojis.first.awardable_id).to eq(1)
         expect(@note_emojis.first.awardable_type).to eq('Note')
       end
@@ -94,7 +94,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note award emojis' do
       before do
         stub_get('/projects/1/snippets/80/notes/1/award_emoji', 'note_award_emojis')
-        @note_emojis = Gitlab.note_award_emojis(1, 80, 'snippet', 1)
+        @note_emojis = described_class.note_award_emojis(1, 80, 'snippet', 1)
       end
 
       it 'gets the correct resources' do
@@ -102,7 +102,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of snippet note award emojis' do
-        expect(@note_emojis).to be_a Gitlab::PaginatedResponse
+        expect(@note_emojis).to be_a Gitlab::Client::PaginatedResponse
         expect(@note_emojis.first.awardable_id).to eq(1)
         expect(@note_emojis.first.awardable_type).to eq('Note')
       end
@@ -113,7 +113,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue award emoji' do
       before do
         stub_get('/projects/1/issues/80/award_emoji/4', 'issue_award_emoji')
-        @emoji = Gitlab.award_emoji(1, 80, 'issue', 4)
+        @emoji = described_class.award_emoji(1, 80, 'issue', 4)
       end
 
       it 'gets the correct resource' do
@@ -130,7 +130,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request award emoji' do
       before do
         stub_get('/projects/1/merge_requests/80/award_emoji/4', 'merge_request_award_emoji')
-        @emoji = Gitlab.award_emoji(1, 80, 'merge_request', 4)
+        @emoji = described_class.award_emoji(1, 80, 'merge_request', 4)
       end
 
       it 'gets the correct resource' do
@@ -147,7 +147,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet award emoji' do
       before do
         stub_get('/projects/1/snippets/80/award_emoji/4', 'snippet_award_emoji')
-        @emoji = Gitlab.award_emoji(1, 80, 'snippet', 4)
+        @emoji = described_class.award_emoji(1, 80, 'snippet', 4)
       end
 
       it 'gets the correct resource' do
@@ -166,7 +166,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note award emoji' do
       before do
         stub_get('/projects/1/issues/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.note_award_emoji(1, 80, 'issue', 1, 4)
+        @note_emoji = described_class.note_award_emoji(1, 80, 'issue', 1, 4)
       end
 
       it 'gets the correct resource' do
@@ -183,7 +183,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note award emoji' do
       before do
         stub_get('/projects/1/merge_requests/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.note_award_emoji(1, 80, 'merge_request', 1, 4)
+        @note_emoji = described_class.note_award_emoji(1, 80, 'merge_request', 1, 4)
       end
 
       it 'gets the correct resource' do
@@ -200,7 +200,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note award emoji' do
       before do
         stub_get('/projects/1/snippets/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.note_award_emoji(1, 80, 'snippet', 1, 4)
+        @note_emoji = described_class.note_award_emoji(1, 80, 'snippet', 1, 4)
       end
 
       it 'gets the correct resource' do
@@ -219,7 +219,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue award emoji' do
       before do
         stub_post('/projects/1/issues/80/award_emoji', 'issue_award_emoji')
-        @emoji = Gitlab.create_award_emoji(1, 80, 'issue', 'blowfish')
+        @emoji = described_class.create_award_emoji(1, 80, 'issue', 'blowfish')
       end
 
       it 'gets the correct resource' do
@@ -236,7 +236,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request award emoji' do
       before do
         stub_post('/projects/1/merge_requests/80/award_emoji', 'merge_request_award_emoji')
-        @emoji = Gitlab.create_award_emoji(1, 80, 'merge_request', 'blowfish')
+        @emoji = described_class.create_award_emoji(1, 80, 'merge_request', 'blowfish')
       end
 
       it 'gets the correct resource' do
@@ -253,7 +253,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet award emoji' do
       before do
         stub_post('/projects/1/snippets/80/award_emoji', 'snippet_award_emoji')
-        @emoji = Gitlab.create_award_emoji(1, 80, 'snippet', 'blowfish')
+        @emoji = described_class.create_award_emoji(1, 80, 'snippet', 'blowfish')
       end
 
       it 'gets the correct resource' do
@@ -272,7 +272,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note award emoji' do
       before do
         stub_post('/projects/1/issues/80/notes/1/award_emoji', 'note_award_emoji')
-        @note_emoji = Gitlab.create_note_award_emoji(1, 80, 'issue', 1, 'mood_bubble_lightning')
+        @note_emoji = described_class.create_note_award_emoji(1, 80, 'issue', 1, 'mood_bubble_lightning')
       end
 
       it 'gets the correct resource' do
@@ -289,7 +289,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note award emoji' do
       before do
         stub_post('/projects/1/merge_requests/80/notes/1/award_emoji', 'note_award_emoji')
-        @note_emoji = Gitlab.create_note_award_emoji(1, 80, 'merge_request', 1, 'mood_bubble_lightning')
+        @note_emoji = described_class.create_note_award_emoji(1, 80, 'merge_request', 1, 'mood_bubble_lightning')
       end
 
       it 'gets the correct resource' do
@@ -306,7 +306,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note award emoji' do
       before do
         stub_post('/projects/1/snippets/80/notes/1/award_emoji', 'note_award_emoji')
-        @note_emoji = Gitlab.create_note_award_emoji(1, 80, 'snippet', 1, 'mood_bubble_lightning')
+        @note_emoji = described_class.create_note_award_emoji(1, 80, 'snippet', 1, 'mood_bubble_lightning')
       end
 
       it 'gets the correct resource' do
@@ -325,7 +325,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue award emoji' do
       before do
         stub_delete('/projects/1/issues/80/award_emoji/4', 'issue_award_emoji')
-        @emoji = Gitlab.delete_award_emoji(1, 80, 'issue', 4)
+        @emoji = described_class.delete_award_emoji(1, 80, 'issue', 4)
       end
 
       it 'gets the correct resource' do
@@ -336,7 +336,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request award emoji' do
       before do
         stub_delete('/projects/1/merge_requests/80/award_emoji/4', 'merge_request_award_emoji')
-        @emoji = Gitlab.delete_award_emoji(1, 80, 'merge_request', 4)
+        @emoji = described_class.delete_award_emoji(1, 80, 'merge_request', 4)
       end
 
       it 'gets the correct resource' do
@@ -347,7 +347,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet award emoji' do
       before do
         stub_delete('/projects/1/snippets/80/award_emoji/4', 'snippet_award_emoji')
-        @emoji = Gitlab.delete_award_emoji(1, 80, 'snippet', 4)
+        @emoji = described_class.delete_award_emoji(1, 80, 'snippet', 4)
       end
 
       it 'gets the correct resource' do
@@ -360,7 +360,7 @@ RSpec.describe Gitlab::Client do
     context 'when issue note award emoji' do
       before do
         stub_delete('/projects/1/issues/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.delete_note_award_emoji(1, 80, 'issue', 1, 4)
+        @note_emoji = described_class.delete_note_award_emoji(1, 80, 'issue', 1, 4)
       end
 
       it 'gets the correct resource' do
@@ -371,7 +371,7 @@ RSpec.describe Gitlab::Client do
     context 'when merge request note award emoji' do
       before do
         stub_delete('/projects/1/merge_requests/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.delete_note_award_emoji(1, 80, 'merge_request', 1, 4)
+        @note_emoji = described_class.delete_note_award_emoji(1, 80, 'merge_request', 1, 4)
       end
 
       it 'gets the correct resource' do
@@ -382,7 +382,7 @@ RSpec.describe Gitlab::Client do
     context 'when snippet note award emoji' do
       before do
         stub_delete('/projects/1/snippets/80/notes/1/award_emoji/4', 'note_award_emoji')
-        @note_emoji = Gitlab.delete_note_award_emoji(1, 80, 'snippet', 1, 4)
+        @note_emoji = described_class.delete_note_award_emoji(1, 80, 'snippet', 1, 4)
       end
 
       it 'gets the correct resource' do

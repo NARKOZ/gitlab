@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.pipelines' do
     before do
       stub_get('/projects/3/pipelines', 'pipelines')
-      @pipelines = Gitlab.pipelines(3)
+      @pipelines = described_class.pipelines(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's pipelines" do
-      expect(@pipelines).to be_a Gitlab::PaginatedResponse
+      expect(@pipelines).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.pipeline' do
     before do
       stub_get('/projects/3/pipelines/46', 'pipeline')
-      @pipeline = Gitlab.pipeline(3, 46)
+      @pipeline = described_class.pipeline(3, 46)
     end
 
     it 'gets the correct resource' do
@@ -29,7 +29,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@pipeline).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -41,7 +41,7 @@ RSpec.describe Gitlab::Client do
   describe '.pipeline_test_report' do
     before do
       stub_get('/projects/3/pipelines/46/test_report', 'pipeline_test_report')
-      @report = Gitlab.pipeline_test_report(3, 46)
+      @report = described_class.pipeline_test_report(3, 46)
     end
 
     it 'gets the correct resource' do
@@ -49,7 +49,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@report).to be_a Gitlab::ObjectifiedHash
+      expect(@report).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -63,7 +63,7 @@ RSpec.describe Gitlab::Client do
 
     before do
       stub_post(pipeline_path, 'pipeline_create')
-      @pipeline_create = Gitlab.create_pipeline(3, 'master')
+      @pipeline_create = described_class.create_pipeline(3, 'master')
     end
 
     it 'gets the correct resource' do
@@ -71,7 +71,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@pipeline_create).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_create).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -82,7 +82,7 @@ RSpec.describe Gitlab::Client do
       before do
         stub_post(pipeline_path, 'pipeline_create')
         variables = { 'VAR1' => 'value', VAR2: :value }
-        @pipeline_create = Gitlab.create_pipeline(3, 'master', variables)
+        @pipeline_create = described_class.create_pipeline(3, 'master', variables)
       end
 
       it 'calls with the correct body' do
@@ -95,7 +95,7 @@ RSpec.describe Gitlab::Client do
   describe '.cancel_pipeline' do
     before do
       stub_post('/projects/3/pipelines/46/cancel', 'pipeline_cancel')
-      @pipeline_cancel = Gitlab.cancel_pipeline(3, 46)
+      @pipeline_cancel = described_class.cancel_pipeline(3, 46)
     end
 
     it 'gets the correct resource' do
@@ -103,7 +103,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@pipeline_cancel).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_cancel).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -114,7 +114,7 @@ RSpec.describe Gitlab::Client do
   describe '.retry_pipeline' do
     before do
       stub_post('/projects/3/pipelines/46/retry', 'pipeline_retry')
-      @pipeline_retry = Gitlab.retry_pipeline(3, 46)
+      @pipeline_retry = described_class.retry_pipeline(3, 46)
     end
 
     it 'gets the correct resource' do
@@ -122,7 +122,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@pipeline_retry).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_retry).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -133,7 +133,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_pipeline' do
     before do
       stub_delete('/projects/3/pipelines/46', 'empty')
-      Gitlab.delete_pipeline(3, 46)
+      described_class.delete_pipeline(3, 46)
     end
 
     it 'gets the correct resource' do

@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.service' do
     before do
       stub_get('/projects/3/services/redmine', 'service')
-      @service = Gitlab.service(3, :redmine)
+      @service = described_class.service(3, :redmine)
     end
 
     it 'gets the correct resource' do
@@ -23,9 +23,9 @@ RSpec.describe Gitlab::Client do
   describe '.change_service' do
     before do
       stub_put('/projects/3/services/redmine', 'service')
-      @service = Gitlab.change_service(3, :redmine, new_issue_url: 'https://example.com/projects/test_project/issues/new',
-                                                    project_url: 'https://example.com/projects/test_project/issues',
-                                                    issues_url: 'https://example.com/issues/:id')
+      @service = described_class.change_service(3, :redmine, new_issue_url: 'https://example.com/projects/test_project/issues/new',
+                                                             project_url: 'https://example.com/projects/test_project/issues',
+                                                             issues_url: 'https://example.com/issues/:id')
     end
 
     it 'gets the correct resource' do
@@ -43,7 +43,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_servoce' do
     before do
       stub_delete('/projects/3/services/redmine', 'service')
-      @service = Gitlab.delete_service(3, :redmine)
+      @service = described_class.delete_service(3, :redmine)
     end
 
     it 'gets the correct resource' do

@@ -10,7 +10,7 @@ RSpec.describe Gitlab::Client do
 
     context 'without extra queries' do
       before do
-        @runner = Gitlab.runners
+        @runner = described_class.runners
       end
 
       it 'gets the correct resource' do
@@ -18,7 +18,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runner).to be_a Gitlab::PaginatedResponse
+        expect(@runner).to be_a Gitlab::Client::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
       end
@@ -27,7 +27,7 @@ RSpec.describe Gitlab::Client do
     context 'with queries' do
       before do
         stub_get('/runners?type=instance_type', 'runners')
-        @runner = Gitlab.runners(type: :instance_type)
+        @runner = described_class.runners(type: :instance_type)
       end
 
       it 'gets the correct resource' do
@@ -35,7 +35,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runner).to be_a Gitlab::PaginatedResponse
+        expect(@runner).to be_a Gitlab::Client::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
       end
@@ -49,7 +49,7 @@ RSpec.describe Gitlab::Client do
 
     context 'without extra queries' do
       before do
-        @runner = Gitlab.all_runners
+        @runner = described_class.all_runners
       end
 
       it 'gets the correct resource' do
@@ -57,7 +57,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runner).to be_a Gitlab::PaginatedResponse
+        expect(@runner).to be_a Gitlab::Client::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
       end
@@ -66,7 +66,7 @@ RSpec.describe Gitlab::Client do
     context 'with queries' do
       before do
         stub_get('/runners/all?type=instance_type', 'runners')
-        @runner = Gitlab.all_runners(type: :instance_type)
+        @runner = described_class.all_runners(type: :instance_type)
       end
 
       it 'gets the correct resource' do
@@ -74,7 +74,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runner).to be_a Gitlab::PaginatedResponse
+        expect(@runner).to be_a Gitlab::Client::PaginatedResponse
         expect(@runner.first.id).to eq(6)
         expect(@runner.first.description).to eq('test-1-20150125')
       end
@@ -84,7 +84,7 @@ RSpec.describe Gitlab::Client do
   describe '.runner' do
     before do
       stub_get('/runners/6', 'runner')
-      @runners = Gitlab.runner(6)
+      @runners = described_class.runner(6)
     end
 
     it 'gets the correct resource' do
@@ -92,7 +92,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a response of a runner' do
-      expect(@runners).to be_a Gitlab::ObjectifiedHash
+      expect(@runners).to be_a Gitlab::Client::ObjectifiedHash
       expect(@runners.id).to eq(6)
       expect(@runners.description).to eq('test-1-20150125')
     end
@@ -101,7 +101,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_runner' do
     before do
       stub_put('/runners/6', 'runner_edit').with(body: { description: 'abcefg' })
-      @runner = Gitlab.update_runner(6, description: 'abcefg')
+      @runner = described_class.update_runner(6, description: 'abcefg')
     end
 
     it 'gets the correct resource' do
@@ -109,7 +109,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns an updated response of a runner' do
-      expect(@runner).to be_a Gitlab::ObjectifiedHash
+      expect(@runner).to be_a Gitlab::Client::ObjectifiedHash
       expect(@runner.description).to eq('abcefg')
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_runner' do
     before do
       stub_delete('/runners/6', 'runner_delete')
-      @runner = Gitlab.delete_runner(6)
+      @runner = described_class.delete_runner(6)
     end
 
     it 'gets the correct resource' do
@@ -125,7 +125,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a response of the deleted runner' do
-      expect(@runner).to be_a Gitlab::ObjectifiedHash
+      expect(@runner).to be_a Gitlab::Client::ObjectifiedHash
       expect(@runner.id).to eq(6)
     end
   end
@@ -133,7 +133,7 @@ RSpec.describe Gitlab::Client do
   describe '.runner_jobs' do
     before do
       stub_get('/runners/1/jobs?status=running', 'runner_jobs')
-      @jobs = Gitlab.runner_jobs(1, status: :running)
+      @jobs = described_class.runner_jobs(1, status: :running)
     end
 
     it 'gets the correct resource' do
@@ -144,7 +144,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_runners' do
     before do
       stub_get('/projects/1/runners', 'project_runners')
-      @runners = Gitlab.project_runners(1)
+      @runners = described_class.project_runners(1)
     end
 
     it 'gets the correct resource' do
@@ -152,7 +152,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of runners' do
-      expect(@runners).to be_a Gitlab::PaginatedResponse
+      expect(@runners).to be_a Gitlab::Client::PaginatedResponse
       expect(@runners.first.id).to eq(8)
       expect(@runners.first.description).to eq('test-2-20150125')
     end
@@ -161,7 +161,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_enable_runner' do
     before do
       stub_post('/projects/1/runners', 'runner')
-      @runner = Gitlab.project_enable_runner(1, 6)
+      @runner = described_class.project_enable_runner(1, 6)
     end
 
     it 'gets the correct resource' do
@@ -169,7 +169,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a response of the enabled runner' do
-      expect(@runner).to be_a Gitlab::ObjectifiedHash
+      expect(@runner).to be_a Gitlab::Client::ObjectifiedHash
       expect(@runner.id).to eq(6)
       expect(@runner.description).to eq('test-1-20150125')
     end
@@ -178,7 +178,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_disable_runner' do
     before do
       stub_delete('/projects/1/runners/6', 'runner')
-      @runner = Gitlab.project_disable_runner(1, 6)
+      @runner = described_class.project_disable_runner(1, 6)
     end
 
     it 'gets the correct resource' do
@@ -186,7 +186,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a response of the disabled runner' do
-      expect(@runner).to be_a Gitlab::ObjectifiedHash
+      expect(@runner).to be_a Gitlab::Client::ObjectifiedHash
       expect(@runner.id).to eq(6)
       expect(@runner.description).to eq('test-1-20150125')
     end
@@ -199,7 +199,7 @@ RSpec.describe Gitlab::Client do
 
     context 'without extra queries' do
       before do
-        @runners = Gitlab.group_runners(9)
+        @runners = described_class.group_runners(9)
       end
 
       it 'gets the correct resource' do
@@ -207,14 +207,14 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runners).to be_a Gitlab::PaginatedResponse
+        expect(@runners).to be_a Gitlab::Client::PaginatedResponse
       end
     end
 
     context 'with queries' do
       before do
         stub_get('/groups/9/runners?type=instance_type', 'group_runners')
-        @runner = Gitlab.group_runners(9, type: :instance_type)
+        @runner = described_class.group_runners(9, type: :instance_type)
       end
 
       it 'gets the correct resource' do
@@ -222,7 +222,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a paginated response of runners' do
-        expect(@runner).to be_a Gitlab::PaginatedResponse
+        expect(@runner).to be_a Gitlab::Client::PaginatedResponse
       end
     end
   end
@@ -230,7 +230,7 @@ RSpec.describe Gitlab::Client do
   describe '.register_runner' do
     before do
       stub_post('/runners', 'register_runner_response').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false })
-      @register_runner_response = Gitlab.register_runner('6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false)
+      @register_runner_response = described_class.register_runner('6337ff461c94fd3fa32ba3b1ff4125', description: 'Some Description', active: true, locked: false)
     end
 
     it 'gets the correct resource' do
@@ -246,7 +246,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_registered_runner' do
     before do
       stub_delete('/runners', 'empty').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })
-      Gitlab.delete_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
+      described_class.delete_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
     end
 
     it 'gets the correct resource' do
@@ -258,7 +258,7 @@ RSpec.describe Gitlab::Client do
   describe '.verify_auth_registered_runner' do
     before do
       stub_post('/runners/verify', 'empty').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })
-      Gitlab.verify_auth_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
+      described_class.verify_auth_registered_runner('6337ff461c94fd3fa32ba3b1ff4125')
     end
 
     it 'gets the correct resource' do

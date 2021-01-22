@@ -97,11 +97,11 @@ If possible include examples. For example:
 # Gets information about a project.
 #
 # @example
-#   Gitlab.project(3)
-#   Gitlab.project('gitlab')
+#   Gitlab::Client.project(3)
+#   Gitlab::Client.project('gitlab')
 #
 # @param  [Integer, String] id The ID or name of a project.
-# @return [Gitlab::ObjectifiedHash]
+# @return [Gitlab::Client::ObjectifiedHash]
 def project(id)
 ```
 

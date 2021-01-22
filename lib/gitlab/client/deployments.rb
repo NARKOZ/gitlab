@@ -7,14 +7,14 @@ class Gitlab::Client
     # Gets a list of project deployments.
     #
     # @example
-    #   Gitlab.deployments(5)
-    #   Gitlab.deployments(5, { per_page: 10, page:  2 })
+    #   Gitlab::Client.deployments(5)
+    #   Gitlab::Client.deployments(5, { per_page: 10, page:  2 })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def deployments(project, options = {})
       get("/projects/#{url_encode project}/deployments", query: options)
     end
@@ -22,11 +22,11 @@ class Gitlab::Client
     # Gets a single deployment.
     #
     # @example
-    #   Gitlab.deployment(5, 36)
+    #   Gitlab::Client.deployment(5, 36)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of an deployment.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def deployment(project, id)
       get("/projects/#{url_encode project}/deployments/#{id}")
     end

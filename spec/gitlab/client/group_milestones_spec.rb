@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_milestones' do
     before do
       stub_get('/groups/3/milestones', 'group_milestones')
-      @milestones = Gitlab.group_milestones(3)
+      @milestones = described_class.group_milestones(3)
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of group's milestones" do
-      expect(@milestones).to be_a Gitlab::PaginatedResponse
+      expect(@milestones).to be_a Gitlab::Client::PaginatedResponse
       expect(@milestones.first.group_id).to eq(3)
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_milestone' do
     before do
       stub_get('/groups/3/milestones/1', 'group_milestone')
-      @milestone = Gitlab.group_milestone(3, 1)
+      @milestone = described_class.group_milestone(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_group_milestone' do
     before do
       stub_post('/groups/3/milestones', 'group_milestone')
-      @milestone = Gitlab.create_group_milestone(3, 'title')
+      @milestone = described_class.create_group_milestone(3, 'title')
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_group_milestone' do
     before do
       stub_put('/groups/3/milestones/33', 'group_milestone')
-      @milestone = Gitlab.edit_group_milestone(3, 33, title: 'title')
+      @milestone = described_class.edit_group_milestone(3, 33, title: 'title')
     end
 
     it 'gets the correct resource' do
@@ -69,7 +69,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_milestone_issues' do
     before do
       stub_get('/groups/3/milestones/1/issues', 'group_milestone_issues')
-      @milestone_issues = Gitlab.group_milestone_issues(3, 1)
+      @milestone_issues = described_class.group_milestone_issues(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -77,7 +77,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of milestone's issues" do
-      expect(@milestone_issues).to be_a Gitlab::PaginatedResponse
+      expect(@milestone_issues).to be_a Gitlab::Client::PaginatedResponse
       expect(@milestone_issues.first.milestone.id).to eq(1)
     end
   end
@@ -85,7 +85,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_milestone_merge_requests' do
     before do
       stub_get('/groups/3/milestones/1/merge_requests', 'group_milestone_merge_requests')
-      @milestone_merge_requests = Gitlab.group_milestone_merge_requests(3, 1)
+      @milestone_merge_requests = described_class.group_milestone_merge_requests(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -93,7 +93,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of milestone's merge_requests" do
-      expect(@milestone_merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@milestone_merge_requests).to be_a Gitlab::Client::PaginatedResponse
       expect(@milestone_merge_requests.first.milestone.id).to eq(1)
     end
   end

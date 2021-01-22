@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.environments' do
     before do
       stub_get('/projects/3/environments', 'environments')
-      @environments = Gitlab.environments(3)
+      @environments = described_class.environments(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's environments" do
-      expect(@environments).to be_a Gitlab::PaginatedResponse
+      expect(@environments).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.environment' do
     before do
       stub_get('/projects/3/environments/12', 'environment')
-      @environment = Gitlab.environment(3, 12)
+      @environment = described_class.environment(3, 12)
     end
 
     it 'gets the correct resource' do
@@ -29,7 +29,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single environment' do
-      expect(@environment).to be_a Gitlab::ObjectifiedHash
+      expect(@environment).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about an environment' do
@@ -42,7 +42,7 @@ RSpec.describe Gitlab::Client do
     context 'without external_url' do
       before do
         stub_post('/projects/3/environments', 'environment')
-        @environment = Gitlab.create_environment(3, 'staging')
+        @environment = described_class.create_environment(3, 'staging')
       end
 
       it 'gets the correct resource' do
@@ -50,7 +50,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a single environment' do
-        expect(@environment).to be_a Gitlab::ObjectifiedHash
+        expect(@environment).to be_a Gitlab::Client::ObjectifiedHash
       end
 
       it 'returns information about an environment' do
@@ -61,7 +61,7 @@ RSpec.describe Gitlab::Client do
     context 'with external_url' do
       before do
         stub_post('/projects/3/environments', 'environment')
-        @environment = Gitlab.create_environment(3, 'staging', external_url: 'https://staging.example.gitlab.com')
+        @environment = described_class.create_environment(3, 'staging', external_url: 'https://staging.example.gitlab.com')
       end
 
       it 'gets the correct resource' do
@@ -74,9 +74,9 @@ RSpec.describe Gitlab::Client do
   describe '.edit_environment' do
     before do
       stub_put('/projects/3/environments/12', 'environment')
-      @environment = Gitlab.edit_environment(3, 12,
-                                             name: 'staging',
-                                             external_url: 'https://staging.example.gitlab.com')
+      @environment = described_class.edit_environment(3, 12,
+                                                      name: 'staging',
+                                                      external_url: 'https://staging.example.gitlab.com')
     end
 
     it 'gets the correct resource' do
@@ -85,7 +85,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single environment' do
-      expect(@environment).to be_a Gitlab::ObjectifiedHash
+      expect(@environment).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about an environment' do
@@ -96,7 +96,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_environment' do
     before do
       stub_delete('/projects/3/environments/12', 'environment')
-      @environment = Gitlab.delete_environment(3, 12)
+      @environment = described_class.delete_environment(3, 12)
     end
 
     it 'gets the correct resource' do
@@ -104,7 +104,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@environment).to be_a Gitlab::ObjectifiedHash
+      expect(@environment).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do
@@ -115,7 +115,7 @@ RSpec.describe Gitlab::Client do
   describe '.stop_environment' do
     before do
       stub_post('/projects/3/environments/12/stop', 'environment')
-      @environment = Gitlab.stop_environment(3, 12)
+      @environment = described_class.stop_environment(3, 12)
     end
 
     it 'gets the correct resource' do
@@ -123,7 +123,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@environment).to be_a Gitlab::ObjectifiedHash
+      expect(@environment).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline' do

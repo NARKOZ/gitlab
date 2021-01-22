@@ -11,7 +11,7 @@ RSpec.describe Gitlab::Client do
   describe '.hooks' do
     before do
       stub_get('/hooks', 'system_hooks')
-      @hooks = Gitlab.hooks
+      @hooks = described_class.hooks
     end
 
     it 'gets the correct resource' do
@@ -19,7 +19,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of system hooks' do
-      expect(@hooks).to be_a Gitlab::PaginatedResponse
+      expect(@hooks).to be_a Gitlab::Client::PaginatedResponse
       expect(@hooks.first.url).to eq('http://example.com/hook')
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe Gitlab::Client do
   describe '.add_hook' do
     before do
       stub_post('/hooks', 'system_hook')
-      @hook = Gitlab.add_hook('http://example.com/hook', token: 'secret-token')
+      @hook = described_class.add_hook('http://example.com/hook', token: 'secret-token')
     end
 
     it 'gets the correct resource' do
@@ -42,7 +42,7 @@ RSpec.describe Gitlab::Client do
   describe '.hook' do
     before do
       stub_get('/hooks/3', 'system_hook')
-      @hook = Gitlab.hook(3)
+      @hook = described_class.hook(3)
     end
 
     it 'gets the correct resource' do
@@ -57,7 +57,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_hook' do
     before do
       stub_delete('/hooks/3', 'system_hook')
-      @hook = Gitlab.delete_hook(3)
+      @hook = described_class.delete_hook(3)
     end
 
     it 'gets the correct resource' do

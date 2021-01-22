@@ -7,9 +7,9 @@ class Gitlab::Client
     # Get all broadcast messages
     #
     # @example
-    #   Gitlab.broadcast_messages
+    #   Gitlab::Client.broadcast_messages
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def broadcast_messages
       get('/broadcast_messages')
     end
@@ -17,10 +17,10 @@ class Gitlab::Client
     # Get a specific broadcast message
     #
     # @example
-    #   Gitlab.broadcast_message(3)
+    #   Gitlab::Client.broadcast_message(3)
     #
     # @param  [Integer] id The ID of broadcast message
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def broadcast_message(id)
       get("/broadcast_messages/#{id}")
     end
@@ -28,8 +28,8 @@ class Gitlab::Client
     # Create a broadcast message.
     #
     # @example
-    #   Gitlab.create_broadcast_message('Mayday')
-    #   Gitlab.create_broadcast_message('Mayday', {starts_at: Time.zone.now, ends_at: Time.zone.now + 30.minutes, color: '#cecece', font: '#FFFFFF'})
+    #   Gitlab::Client.create_broadcast_message('Mayday')
+    #   Gitlab::Client.create_broadcast_message('Mayday', {starts_at: Time.zone.now, ends_at: Time.zone.now + 30.minutes, color: '#cecece', font: '#FFFFFF'})
     #
     # @param  [String] message Message to display
     # @param  [Hash] options A customizable set of options.
@@ -37,7 +37,7 @@ class Gitlab::Client
     # @option options [DateTime] :ends_at(optional) Ending time (defaults to one hour from current time)
     # @option options [String] :color(optional) Background color hex code
     # @option options [String] :font(optional) Foreground color hex code
-    # @return [Gitlab::ObjectifiedHash] Information about created broadcast message.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created broadcast message.
     def create_broadcast_message(message, options = {})
       body = { message: message }.merge(options)
       post('/broadcast_messages', body: body)
@@ -46,8 +46,8 @@ class Gitlab::Client
     # Update a broadcast message
     #
     # @example
-    #   Gitlab.edit_broadcast_message(6, { message: 'No Mayday' })
-    #   Gitlab.edit_broadcast_message(6, { font: '#FEFEFE' })
+    #   Gitlab::Client.edit_broadcast_message(6, { message: 'No Mayday' })
+    #   Gitlab::Client.edit_broadcast_message(6, { font: '#FEFEFE' })
     #
     # @param  [Integer] id The ID of a broadcast message
     # @param  [Hash] options A customizable set of options.
@@ -56,7 +56,7 @@ class Gitlab::Client
     # @option options [DateTime] :ends_at(optional) Ending time (defaults to one hour from current time)
     # @option options [String] :color(optional) Background color hex code
     # @option options [String] :font(optional) Foreground color hex code
-    # @return [Gitlab::ObjectifiedHash] Information about updated broadcast message.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about updated broadcast message.
     def edit_broadcast_message(id, options = {})
       put("/broadcast_messages/#{id}", body: options)
     end
@@ -64,7 +64,7 @@ class Gitlab::Client
     # Delete a broadcast message.
     #
     # @example
-    #   Gitlab.delete_broadcast_message(3)
+    #   Gitlab::Client.delete_broadcast_message(3)
     #
     # @param  [Integer] id The ID of a broadcast message.
     # @return [nil] This API call returns an empty response body.

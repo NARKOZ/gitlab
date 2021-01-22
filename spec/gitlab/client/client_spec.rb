@@ -10,14 +10,4 @@ RSpec.describe Gitlab::Client do
       expect(inspected).to include('****************cEBx')
     end
   end
-
-  describe '.http_proxy' do
-    it 'delegates the method to Gitlab::Request' do
-      described_class.endpoint = 'https://api.example.com'
-      request = class_spy(Gitlab::Request).as_stubbed_const
-
-      described_class.http_proxy('proxy.example.net', 1987, 'user', 'pass')
-      expect(request).to have_received(:http_proxy).with('proxy.example.net', 1987, 'user', 'pass')
-    end
-  end
 end

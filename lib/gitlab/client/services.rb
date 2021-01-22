@@ -8,7 +8,7 @@ class Gitlab::Client
     # Full service params documentation: https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/services.md
     #
     # @example
-    #   Gitlab.change_service(42, :redmine, { new_issue_url: 'https://example.com/projects/test_project/issues/new',
+    #   Gitlab::Client.change_service(42, :redmine, { new_issue_url: 'https://example.com/projects/test_project/issues/new',
     #                                         project_url: 'https://example.com/projects/test_project/issues',
     #                                         issues_url: 'https://example.com/issues/:id' })
     #
@@ -23,7 +23,7 @@ class Gitlab::Client
     # Delete service
     #
     # @example
-    #   Gitlab.delete_service(42, :redmine)
+    #   Gitlab::Client.delete_service(42, :redmine)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] service A service code name.
@@ -35,11 +35,11 @@ class Gitlab::Client
     # Get service
     #
     # @example
-    #   Gitlab.service(42, :redmine)
+    #   Gitlab::Client.service(42, :redmine)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] service A service code name.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def service(project, service)
       get("/projects/#{url_encode project}/services/#{correct_service_name(service)}")
     end

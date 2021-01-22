@@ -7,7 +7,7 @@ RSpec.describe Gitlab::Client do
     context 'with project ID passed' do
       before do
         stub_get('/projects/3/issues', 'project_issues')
-        @issues = Gitlab.issues(3)
+        @issues = described_class.issues(3)
       end
 
       it 'gets the correct resource' do
@@ -15,7 +15,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it "returns a paginated response of project's issues" do
-        expect(@issues).to be_a Gitlab::PaginatedResponse
+        expect(@issues).to be_a Gitlab::Client::PaginatedResponse
         expect(@issues.first.project_id).to eq(3)
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe Gitlab::Client do
     context 'with literal project ID passed' do
       before do
         stub_get('/projects/gitlab-org%2Fgitlab-ce/issues', 'project_issues')
-        @issues = Gitlab.issues('gitlab-org/gitlab-ce')
+        @issues = described_class.issues('gitlab-org/gitlab-ce')
       end
 
       it 'gets the correct resource' do
@@ -31,7 +31,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it "returns a paginated response of project's issues" do
-        expect(@issues).to be_a Gitlab::PaginatedResponse
+        expect(@issues).to be_a Gitlab::Client::PaginatedResponse
         expect(@issues.first.project_id).to eq(3)
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Gitlab::Client do
     context 'without project ID passed' do
       before do
         stub_get('/issues', 'issues')
-        @issues = Gitlab.issues
+        @issues = described_class.issues
       end
 
       it 'gets the correct resource' do
@@ -47,7 +47,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it "returns a paginated response of user's issues" do
-        expect(@issues).to be_a Gitlab::PaginatedResponse
+        expect(@issues).to be_a Gitlab::Client::PaginatedResponse
         expect(@issues.first.closed).to be_falsey
         expect(@issues.first.author.name).to eq('John Smith')
       end
@@ -57,7 +57,7 @@ RSpec.describe Gitlab::Client do
   describe '.issue' do
     before do
       stub_get('/projects/3/issues/33', 'issue')
-      @issue = Gitlab.issue(3, 33)
+      @issue = described_class.issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -73,7 +73,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_issue' do
     before do
       stub_post('/projects/3/issues', 'issue')
-      @issue = Gitlab.create_issue(3, 'title')
+      @issue = described_class.create_issue(3, 'title')
     end
 
     it 'gets the correct resource' do
@@ -90,7 +90,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_issue' do
     before do
       stub_put('/projects/3/issues/33', 'issue')
-      @issue = Gitlab.edit_issue(3, 33, title: 'title')
+      @issue = described_class.edit_issue(3, 33, title: 'title')
     end
 
     it 'gets the correct resource' do
@@ -107,7 +107,7 @@ RSpec.describe Gitlab::Client do
   describe '.close_issue' do
     before do
       stub_put('/projects/3/issues/33', 'issue')
-      @issue = Gitlab.close_issue(3, 33)
+      @issue = described_class.close_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -124,7 +124,7 @@ RSpec.describe Gitlab::Client do
   describe '.reopen_issue' do
     before do
       stub_put('/projects/3/issues/33', 'issue')
-      @issue = Gitlab.reopen_issue(3, 33)
+      @issue = described_class.reopen_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -141,7 +141,7 @@ RSpec.describe Gitlab::Client do
   describe '.subscribe_to_issue' do
     before do
       stub_post('/projects/3/issues/33/subscribe', 'issue')
-      @issue = Gitlab.subscribe_to_issue(3, 33)
+      @issue = described_class.subscribe_to_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -157,7 +157,7 @@ RSpec.describe Gitlab::Client do
   describe '.unsubscribe_from_issue' do
     before do
       stub_post('/projects/3/issues/33/unsubscribe', 'issue')
-      @issue = Gitlab.unsubscribe_from_issue(3, 33)
+      @issue = described_class.unsubscribe_from_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -173,7 +173,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_issue' do
     before do
       stub_delete('/projects/3/issues/33', 'issue')
-      @issue = Gitlab.delete_issue(3, 33)
+      @issue = described_class.delete_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -189,7 +189,7 @@ RSpec.describe Gitlab::Client do
   describe '.move_issue' do
     before do
       stub_post('/projects/3/issues/33/move', 'issue')
-      @issue = Gitlab.move_issue(3, 33, to_project_id: '4')
+      @issue = described_class.move_issue(3, 33, to_project_id: '4')
     end
 
     it 'gets the correct resource' do
@@ -206,7 +206,7 @@ RSpec.describe Gitlab::Client do
   describe '.estimate_time_of_issue' do
     before do
       stub_post('/projects/3/issues/33/time_estimate', 'issue')
-      @issue = Gitlab.estimate_time_of_issue(3, 33, '3h30m')
+      @issue = described_class.estimate_time_of_issue(3, 33, '3h30m')
     end
 
     it 'gets the correct resource' do
@@ -223,7 +223,7 @@ RSpec.describe Gitlab::Client do
   describe '.reset_time_estimate_of_issue' do
     before do
       stub_post('/projects/3/issues/33/reset_time_estimate', 'issue')
-      @issue = Gitlab.reset_time_estimate_of_issue(3, 33)
+      @issue = described_class.reset_time_estimate_of_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -240,7 +240,7 @@ RSpec.describe Gitlab::Client do
     context 'with positive value' do
       before do
         stub_post('/projects/3/issues/33/add_spent_time', 'issue')
-        @issue = Gitlab.add_time_spent_on_issue(3, 33, '3h30m')
+        @issue = described_class.add_time_spent_on_issue(3, 33, '3h30m')
       end
 
       it 'gets the correct resource' do
@@ -257,7 +257,7 @@ RSpec.describe Gitlab::Client do
     context 'with negative value' do
       before do
         stub_post('/projects/3/issues/33/add_spent_time', 'issue')
-        @issue = Gitlab.add_time_spent_on_issue(3, 33, '-30m')
+        @issue = described_class.add_time_spent_on_issue(3, 33, '-30m')
       end
 
       it 'gets the correct resource' do
@@ -275,7 +275,7 @@ RSpec.describe Gitlab::Client do
   describe '.reset_time_spent_on_issue' do
     before do
       stub_post('/projects/3/issues/33/reset_spent_time', 'issue')
-      @issue = Gitlab.reset_time_spent_on_issue(3, 33)
+      @issue = described_class.reset_time_spent_on_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -291,7 +291,7 @@ RSpec.describe Gitlab::Client do
   describe '.time_stats_for_issue' do
     before do
       stub_get('/projects/3/issues/33/time_stats', 'issue')
-      @issue = Gitlab.time_stats_for_issue(3, 33)
+      @issue = described_class.time_stats_for_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -307,7 +307,7 @@ RSpec.describe Gitlab::Client do
   describe '.participants_on_issue' do
     before do
       stub_get('/projects/3/issues/33/participants', 'participants_on_issue')
-      @participants = Gitlab.participants_on_issue(3, 33)
+      @participants = described_class.participants_on_issue(3, 33)
     end
 
     it 'gets the correct resource' do
@@ -323,7 +323,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_requests_closing_issue_on_merge' do
     before do
       stub_get('/projects/3/issues/33/closed_by', 'merge_requests_closing_issue_on_merge')
-      @merge_requests = Gitlab.merge_requests_closing_issue_on_merge(3, 33)
+      @merge_requests = described_class.merge_requests_closing_issue_on_merge(3, 33)
     end
 
     it 'gets the correct resource' do

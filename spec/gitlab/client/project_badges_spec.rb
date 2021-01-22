@@ -8,7 +8,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_badges' do
     before do
       stub_get('/projects/3/badges', 'project_badges')
-      @project_badges = Gitlab.project_badges(3)
+      @project_badges = described_class.project_badges(3)
     end
 
     it 'gets the correct resource' do
@@ -16,14 +16,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's badges" do
-      expect(@project_badges).to be_a Gitlab::PaginatedResponse
+      expect(@project_badges).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.project_badge' do
     before do
       stub_get('/projects/3/badges/3', 'project_badge')
-      @project_badge = Gitlab.project_badge(3, 3)
+      @project_badge = described_class.project_badge(3, 3)
     end
 
     it 'gets the correct resource' do
@@ -38,7 +38,7 @@ RSpec.describe Gitlab::Client do
   describe '.add_project_badge' do
     before do
       stub_post('/projects/3/badges', 'project_badge')
-      @project_badge = Gitlab.add_project_badge(3, link_url: 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', image_url: 'https://shields.io/my/badge')
+      @project_badge = described_class.add_project_badge(3, link_url: 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', image_url: 'https://shields.io/my/badge')
     end
 
     it 'gets the correct resource' do
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_project_badge' do
     before do
       stub_put('/projects/3/badges/1', 'project_badge')
-      @project_badge = Gitlab.edit_project_badge(3, 1, link_url: 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', image_url: 'https://shields.io/my/badge')
+      @project_badge = described_class.edit_project_badge(3, 1, link_url: 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', image_url: 'https://shields.io/my/badge')
     end
 
     it 'gets the correct resource' do
@@ -72,7 +72,7 @@ RSpec.describe Gitlab::Client do
   describe '.remove_project_badge' do
     before do
       stub_delete('/projects/3/badges/3', 'empty')
-      @project_badge = Gitlab.remove_project_badge(3, 3)
+      @project_badge = described_class.remove_project_badge(3, 3)
     end
 
     it 'gets the correct resource' do
@@ -83,7 +83,7 @@ RSpec.describe Gitlab::Client do
   describe '.preview_project_badge' do
     before do
       stub_get('/projects/3/badges/render?image_url=https://shields.io/my/badge&link_url=http://example.com/ci_status.svg?project=%25%7Bproject_path%7D%26ref=%25%7Bdefault_branch%7D', 'preview_project_badge')
-      @preview_project_badge = Gitlab.preview_project_badge(3, 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', 'https://shields.io/my/badge')
+      @preview_project_badge = described_class.preview_project_badge(3, 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}', 'https://shields.io/my/badge')
     end
 
     it 'gets the correct resource' do

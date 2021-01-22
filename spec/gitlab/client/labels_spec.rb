@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.labels' do
     before do
       stub_get('/projects/3/labels', 'labels')
-      @labels = Gitlab.labels(3)
+      @labels = described_class.labels(3)
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's labels" do
-      expect(@labels).to be_a Gitlab::PaginatedResponse
+      expect(@labels).to be_a Gitlab::Client::PaginatedResponse
       expect(@labels.first.name).to eq('Backlog')
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete' do
     before do
       stub_delete('/projects/3/labels/Backlog', 'label')
-      @label = Gitlab.delete_label(3, 'Backlog')
+      @label = described_class.delete_label(3, 'Backlog')
     end
 
     it 'gets the correct resource' do
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_label' do
     before do
       stub_put('/projects/3/labels', 'label')
-      @label = Gitlab.edit_label(3, 'TODO', new_name: 'Backlog')
+      @label = described_class.edit_label(3, 'TODO', new_name: 'Backlog')
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_label' do
     before do
       stub_post('/projects/3/labels', 'label')
-      @label = Gitlab.create_label(3, 'Backlog', '#DD10AA')
+      @label = described_class.create_label(3, 'Backlog', '#DD10AA')
     end
 
     it 'gets the correct resource' do
@@ -70,7 +70,7 @@ RSpec.describe Gitlab::Client do
   describe '.subscribe_to_label' do
     before do
       stub_post('/projects/3/labels/Backlog/subscribe', 'label')
-      @label = Gitlab.subscribe_to_label(3, 'Backlog')
+      @label = described_class.subscribe_to_label(3, 'Backlog')
     end
 
     it 'gets the correct resource' do
@@ -86,7 +86,7 @@ RSpec.describe Gitlab::Client do
   describe '.unsubscribe_from_label' do
     before do
       stub_post('/projects/3/labels/Backlog/unsubscribe', 'label_unsubscribe')
-      @label = Gitlab.unsubscribe_from_label(3, 'Backlog')
+      @label = described_class.unsubscribe_from_label(3, 'Backlog')
     end
 
     it 'gets the correct resource' do

@@ -7,9 +7,9 @@ class Gitlab::Client
     # Get a list of all persisted features, with its gate values.
     #
     # @example
-    #   Gitlab.features
+    #   Gitlab::Client.features
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def features
       get('/features')
     end
@@ -18,9 +18,9 @@ class Gitlab::Client
     # If a feature with the given name does not exist yet it will be created. The value can be a boolean, or an integer to indicate percentage of time.
     #
     # @example
-    #   Gitlab.set_feature('new_library', true)
-    #   Gitlab.set_feature('new_library', 8)
-    #   Gitlab.set_feature('new_library', true, {user: 'gitlab'})
+    #   Gitlab::Client.set_feature('new_library', true)
+    #   Gitlab::Client.set_feature('new_library', 8)
+    #   Gitlab::Client.set_feature('new_library', true, {user: 'gitlab'})
     #
     # @param  [String] name(required) Name of the feature to create or update
     # @param  [String, Integer] value(required) true or false to enable/disable, or an integer for percentage of time
@@ -28,7 +28,7 @@ class Gitlab::Client
     # @option options [String] :feature_group(optional) A Feature group name
     # @option options [String] :user(optional) A GitLab username
     # @option options [String] :project(optional) A projects path, for example "gitlab-org/gitlab-ce"
-    # @return [Gitlab::ObjectifiedHash] Information about the set/created/updated feature.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about the set/created/updated feature.
     def set_feature(name, value, options = {})
       body = { value: value }.merge(options)
       post("/features/#{name}", body: body)
@@ -37,7 +37,7 @@ class Gitlab::Client
     # Delete a feature.
     #
     # @example
-    #   Gitlab.delete_feature('new_library')
+    #   Gitlab::Client.delete_feature('new_library')
     #
     # @param  [String] name Name of the feature to delete
     # @return [void] This API call returns an empty response body.

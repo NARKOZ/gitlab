@@ -8,12 +8,12 @@ class Gitlab::Client
     # Gets a list of users.
     #
     # @example
-    #   Gitlab.users
+    #   Gitlab::Client.users
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def users(options = {})
       get('/users', query: options)
     end
@@ -22,11 +22,11 @@ class Gitlab::Client
     # Will return information about an authorized user if no ID passed.
     #
     # @example
-    #   Gitlab.user
-    #   Gitlab.user(2)
+    #   Gitlab::Client.user
+    #   Gitlab::Client.user(2)
     #
     # @param  [Integer] id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def user(id = nil)
       id.to_i.zero? ? get('/user') : get("/users/#{id}")
     end
@@ -35,9 +35,9 @@ class Gitlab::Client
     # Requires authentication from an admin account.
     #
     # @example
-    #   Gitlab.create_user('joe@foo.org', 'secret', 'joe', { name: 'Joe Smith' })
+    #   Gitlab::Client.create_user('joe@foo.org', 'secret', 'joe', { name: 'Joe Smith' })
     #   or
-    #   Gitlab.create_user('joe@foo.org', 'secret', 'joe')
+    #   Gitlab::Client.create_user('joe@foo.org', 'secret', 'joe')
     #
     # @param  [String] email(required) The email of a user.
     # @param  [String] password(required) The password of a user.
@@ -48,7 +48,7 @@ class Gitlab::Client
     # @option options [String] :linkedin The linkedin of a user.
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
-    # @return [Gitlab::ObjectifiedHash] Information about created user.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created user.
     def create_user(*args)
       options = args.last.is_a?(Hash) ? args.pop : {}
       raise ArgumentError, 'Missing required parameters' unless args[2]
@@ -61,7 +61,7 @@ class Gitlab::Client
     # Updates a user.
     #
     # @example
-    #   Gitlab.edit_user(15, { email: 'joe.smith@foo.org', projects_limit: 20 })
+    #   Gitlab::Client.edit_user(15, { email: 'joe.smith@foo.org', projects_limit: 20 })
     #
     # @param  [Integer] id The ID of a user.
     # @param  [Hash] options A customizable set of options.
@@ -72,7 +72,7 @@ class Gitlab::Client
     # @option options [String] :linkedin The linkedin of a user.
     # @option options [String] :twitter The twitter of a user.
     # @option options [Integer] :projects_limit The limit of projects for a user.
-    # @return [Gitlab::ObjectifiedHash] Information about created user.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created user.
     def edit_user(user_id, options = {})
       put("/users/#{user_id}", body: options)
     end
@@ -80,10 +80,10 @@ class Gitlab::Client
     # Deletes a user.
     #
     # @example
-    #   Gitlab.delete_user(1)
+    #   Gitlab::Client.delete_user(1)
     #
     # @param [Integer] id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash] Information about deleted user.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about deleted user.
     def delete_user(user_id)
       delete("/users/#{user_id}")
     end
@@ -91,7 +91,7 @@ class Gitlab::Client
     # Blocks the specified user. Available only for admin.
     #
     # @example
-    #   Gitlab.block_user(15)
+    #   Gitlab::Client.block_user(15)
     #
     # @param [Integer] user_id The Id of user
     # @return [Boolean] success or not
@@ -102,7 +102,7 @@ class Gitlab::Client
     # Unblocks the specified user. Available only for admin.
     #
     # @example
-    #   Gitlab.unblock_user(15)
+    #   Gitlab::Client.unblock_user(15)
     #
     # @param [Integer] user_id The Id of user
     # @return [Boolean] success or not
@@ -113,11 +113,11 @@ class Gitlab::Client
     # Creates a new user session.
     #
     # @example
-    #   Gitlab.session('jack@example.com', 'secret12345')
+    #   Gitlab::Client.session('jack@example.com', 'secret12345')
     #
     # @param  [String] email The email of a user.
     # @param  [String] password The password of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     # @note This method doesn't require private_token to be set.
     def session(email, password)
       post('/session', body: { email: email, password: password }, unauthenticated: true)
@@ -126,13 +126,13 @@ class Gitlab::Client
     # Gets a list of user activities (for admin access only).
     #
     # @example
-    #   Gitlab.activities
+    #   Gitlab::Client.activities
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @option options [String] :from The start date for paginated results.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def activities(options = {})
       get('/user/activities', query: options)
     end
@@ -140,14 +140,14 @@ class Gitlab::Client
     # Gets a list of user's SSH keys.
     #
     # @example
-    #   Gitlab.ssh_keys
-    #   Gitlab.ssh_keys({ user_id: 2 })
+    #   Gitlab::Client.ssh_keys
+    #   Gitlab::Client.ssh_keys({ user_id: 2 })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
     # @option options [Integer] :user_id The ID of the user to retrieve the keys for.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def ssh_keys(options = {})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
@@ -160,10 +160,10 @@ class Gitlab::Client
     # Gets information about SSH key.
     #
     # @example
-    #   Gitlab.ssh_key(1)
+    #   Gitlab::Client.ssh_key(1)
     #
     # @param  [Integer] id The ID of a user's SSH key.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def ssh_key(id)
       get("/user/keys/#{id}")
     end
@@ -171,13 +171,13 @@ class Gitlab::Client
     # Creates a new SSH key.
     #
     # @example
-    #   Gitlab.create_ssh_key('key title', 'key body')
+    #   Gitlab::Client.create_ssh_key('key title', 'key body')
     #
     # @param  [String] title The title of an SSH key.
     # @param  [String] key The SSH key body.
     # @param  [Hash] options A customizable set of options.
     # @option options  [Integer] :user_id id of the user to associate the key with
-    # @return [Gitlab::ObjectifiedHash] Information about created SSH key.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created SSH key.
     def create_ssh_key(title, key, options = {})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
@@ -190,12 +190,12 @@ class Gitlab::Client
     # Deletes an SSH key.
     #
     # @example
-    #   Gitlab.delete_ssh_key(1)
+    #   Gitlab::Client.delete_ssh_key(1)
     #
     # @param  [Integer] id The ID of a user's SSH key.
     # @param  [Hash] options A customizable set of options.
     # @option options  [Integer] :user_id id of the user to associate the key with
-    # @return [Gitlab::ObjectifiedHash] Information about deleted SSH key.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about deleted SSH key.
     def delete_ssh_key(id, options = {})
       user_id = options.delete :user_id
       if user_id.to_i.zero?
@@ -209,11 +209,11 @@ class Gitlab::Client
     # Will return emails an authorized user if no user ID passed.
     #
     # @example
-    #   Gitlab.emails
-    #   Gitlab.emails(2)
+    #   Gitlab::Client.emails
+    #   Gitlab::Client.emails(2)
     #
     # @param  [Integer] user_id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def emails(user_id = nil)
       url = user_id.to_i.zero? ? '/user/emails' : "/users/#{user_id}/emails"
       get(url)
@@ -222,10 +222,10 @@ class Gitlab::Client
     # Get a single email.
     #
     # @example
-    #   Gitlab.email(3)
+    #   Gitlab::Client.email(3)
     #
     # @param  [Integer] id The ID of a email.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def email(id)
       get("/user/emails/#{id}")
     end
@@ -234,13 +234,13 @@ class Gitlab::Client
     # Will create a new email an authorized user if no user ID passed.
     #
     # @example
-    #   Gitlab.add_email('email@example.com')
-    #   Gitlab.add_email('email@example.com', 2)
+    #   Gitlab::Client.add_email('email@example.com')
+    #   Gitlab::Client.add_email('email@example.com', 2)
     #
     # @param  [String] email Email address
     # @param  [Integer] user_id The ID of a user.
     # @param  [Boolean] skip_confirmation     Skip confirmation and assume e-mail is verified
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def add_email(email, user_id = nil, skip_confirmation = nil)
       url = user_id.to_i.zero? ? '/user/emails' : "/users/#{user_id}/emails"
       if skip_confirmation.nil?
@@ -254,8 +254,8 @@ class Gitlab::Client
     # Will delete a email an authorized user if no user ID passed.
     #
     # @example
-    #   Gitlab.delete_email(2)
-    #   Gitlab.delete_email(3, 2)
+    #   Gitlab::Client.delete_email(2)
+    #   Gitlab::Client.delete_email(3, 2)
     #
     # @param  [Integer] id Email address ID
     # @param  [Integer] user_id The ID of a user.
@@ -268,13 +268,13 @@ class Gitlab::Client
     # Search for groups by name
     #
     # @example
-    #   Gitlab.user_search('gitlab')
+    #   Gitlab::Client.user_search('gitlab')
     #
     # @param  [String] search A string to search for in user names and paths.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :per_page Number of user to return per page
     # @option options [String] :page The page to retrieve
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def user_search(search, options = {})
       options[:search] = search
       get('/users', query: options)
@@ -283,10 +283,10 @@ class Gitlab::Client
     # Gets user custom_attributes.
     #
     # @example
-    #   Gitlab.user_custom_attributes(2)
+    #   Gitlab::Client.user_custom_attributes(2)
     #
     # @param  [Integer] user_id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def user_custom_attributes(user_id)
       get("/users/#{user_id}/custom_attributes")
     end
@@ -294,11 +294,11 @@ class Gitlab::Client
     # Gets single user custom_attribute.
     #
     # @example
-    #   Gitlab.user_custom_attribute(key, 2)
+    #   Gitlab::Client.user_custom_attribute(key, 2)
     #
     # @param  [String] key The custom_attributes key
     # @param  [Integer] user_id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def user_custom_attribute(key, user_id)
       get("/users/#{user_id}/custom_attributes/#{key}")
     end
@@ -306,12 +306,12 @@ class Gitlab::Client
     # Creates a new custom_attribute
     #
     # @example
-    #   Gitlab.add_custom_attribute('some_new_key', 'some_new_value', 2)
+    #   Gitlab::Client.add_custom_attribute('some_new_key', 'some_new_value', 2)
     #
     # @param  [String] key The custom_attributes key
     # @param  [String] value The custom_attributes value
     # @param  [Integer] user_id The ID of a user.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def add_user_custom_attribute(key, value, user_id)
       url = "/users/#{user_id}/custom_attributes/#{key}"
       put(url, body: { value: value })
@@ -321,7 +321,7 @@ class Gitlab::Client
     # Will delete a custom_attribute
     #
     # @example
-    #   Gitlab.delete_user_custom_attribute('somekey', 2)
+    #   Gitlab::Client.delete_user_custom_attribute('somekey', 2)
     #
     # @param  [String] key The custom_attribute key to delete
     # @param  [Integer] user_id The ID of a user.

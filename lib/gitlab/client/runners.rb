@@ -8,15 +8,15 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
     #
     # @example
-    #   Gitlab.runners
-    #   Gitlab.runners(type: 'instance_type', status: 'active')
-    #   Gitlab.runners(tag_list: 'tag1,tag2')
+    #   Gitlab::Client.runners
+    #   Gitlab::Client.runners(type: 'instance_type', status: 'active')
+    #   Gitlab::Client.runners(tag_list: 'tag1,tag2')
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
     # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
     # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def runners(options = {})
       get('/runners', query: options)
     end
@@ -25,15 +25,15 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#list-all-runners
     #
     # @example
-    #   Gitlab.all_runners
-    #   Gitlab.all_runners(type: 'instance_type', status: 'active')
-    #   Gitlab.all_runners(tag_list: 'tag1,tag2')
+    #   Gitlab::Client.all_runners
+    #   Gitlab::Client.all_runners(type: 'instance_type', status: 'active')
+    #   Gitlab::Client.all_runners(tag_list: 'tag1,tag2')
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
     # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
     # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def all_runners(options = {})
       get('/runners/all', query: options)
     end
@@ -42,10 +42,10 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#get-runners-details
     #
     # @example
-    #   Gitlab.runner(42)
+    #   Gitlab::Client.runner(42)
     #
     # @param  [Integer, String] id The ID of a runner
-    # @return <Gitlab::ObjectifiedHash>
+    # @return <Gitlab::Client::ObjectifiedHash>
     def runner(id)
       get("/runners/#{id}")
     end
@@ -54,8 +54,8 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#update-runners-details
     #
     # @example
-    #   Gitlab.update_runner(42, { description: 'Awesome runner' })
-    #   Gitlab.update_runner(42, { active: false })
+    #   Gitlab::Client.update_runner(42, { description: 'Awesome runner' })
+    #   Gitlab::Client.update_runner(42, { active: false })
     #
     # @param  [Integer, String] id The ID of a runner
     # @param  [Hash] options A customizable set of options.
@@ -66,7 +66,7 @@ class Gitlab::Client
     # @option options [Boolean] :locked(optional) Flag indicating the runner is locked
     # @option options [String] :access_level(optional) The access_level of the runner; not_protected or ref_protected
     # @option options [Integer] :maximum_timeout(optional) Maximum timeout set when this runner will handle the job
-    # @return <Gitlab::ObjectifiedHash>
+    # @return <Gitlab::Client::ObjectifiedHash>
     def update_runner(id, options = {})
       put("/runners/#{id}", body: options)
     end
@@ -75,7 +75,7 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#remove-a-runner
     #
     # @example
-    #   Gitlab.delete_runner(42)
+    #   Gitlab::Client.delete_runner(42)
     #
     # @param  [Integer, String] id The ID of a runner
     # @return [nil] This API call returns an empty response body.
@@ -86,16 +86,16 @@ class Gitlab::Client
     # List jobs that are being processed or were processed by specified runner.
     #
     # @example
-    #   Gitlab.runner_jobs(1)
-    #   Gitlab.runner_jobs(1, status: 'success')
-    #   Gitlab.runner_jobs(1, sort: 'desc')
+    #   Gitlab::Client.runner_jobs(1)
+    #   Gitlab::Client.runner_jobs(1, status: 'success')
+    #   Gitlab::Client.runner_jobs(1, sort: 'desc')
     #
     # @param  [Integer] id The ID of a runner.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :status(optional) Status of the job; one of: running, success, failed, canceled
     # @option options [String] :order_by(optional) Order jobs by id.
     # @option options [String] :sort(optional) Sort jobs in asc or desc order (default: desc)
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def runner_jobs(runner_id, options = {})
       get("/runners/#{url_encode runner_id}/jobs", query: options)
     end
@@ -104,16 +104,16 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#list-projects-runners
     #
     # @example
-    #   Gitlab.project_runners(42)
-    #   Gitlab.project_runners(42, type: 'instance_type', status: 'active')
-    #   Gitlab.project_runners(42, tag_list: 'tag1,tag2')
+    #   Gitlab::Client.project_runners(42)
+    #   Gitlab::Client.project_runners(42, type: 'instance_type', status: 'active')
+    #   Gitlab::Client.project_runners(42, tag_list: 'tag1,tag2')
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
     # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
     # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def project_runners(project_id, options = {})
       get("/projects/#{url_encode project_id}/runners", query: options)
     end
@@ -122,11 +122,11 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#enable-a-runner-in-project
     #
     # @example
-    #   Gitlab.project_enable_runner(2, 42)
+    #   Gitlab::Client.project_enable_runner(2, 42)
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @param  [Integer, String] id The ID of a runner.
-    # @return <Gitlab::ObjectifiedHash>
+    # @return <Gitlab::Client::ObjectifiedHash>
     def project_enable_runner(project_id, id)
       body = { runner_id: id }
       post("/projects/#{url_encode project_id}/runners", body: body)
@@ -136,11 +136,11 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/runners.html#disable-a-runner-from-project
     #
     # @example
-    #   Gitlab.project_disable_runner(2, 42)
+    #   Gitlab::Client.project_disable_runner(2, 42)
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @param  [Integer, String] runner_id The ID of a runner.
-    # @return <Gitlab::ObjectifiedHash>
+    # @return <Gitlab::Client::ObjectifiedHash>
     def project_disable_runner(id, runner_id)
       delete("/projects/#{url_encode id}/runners/#{runner_id}")
     end
@@ -149,16 +149,16 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ee/api/runners.html#list-groups-runners
     #
     # @example
-    #   Gitlab.group_runners(9)
-    #   Gitlab.group_runners(9, type: 'instance_type', status: 'active')
-    #   Gitlab.group_runners(9, tag_list: 'tag1,tag2')
+    #   Gitlab::Client.group_runners(9)
+    #   Gitlab::Client.group_runners(9, type: 'instance_type', status: 'active')
+    #   Gitlab::Client.group_runners(9, tag_list: 'tag1,tag2')
     #
     # @param  [Integer, String] id The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :type(optional) The type of runners to show, one of: instance_type, group_type, project_type
     # @option options [String] :status(optional) The status of runners to show, one of: active, paused, online, offline
     # @option options [String] :tag_list(optional) List of the runners tags (separated by comma)
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def group_runners(group, options = {})
       get("/groups/#{url_encode group}/runners", query: options)
     end
@@ -166,8 +166,8 @@ class Gitlab::Client
     # Register a new Runner for the instance.
     #
     # @example
-    #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e')
-    #   Gitlab.register_runner('9142c16ea169eaaea3d752313a434a6e', description: 'Some Description', active: true, locked: false)
+    #   Gitlab::Client.register_runner('9142c16ea169eaaea3d752313a434a6e')
+    #   Gitlab::Client.register_runner('9142c16ea169eaaea3d752313a434a6e', description: 'Some Description', active: true, locked: false)
     #
     # @param  [String] token(required) Registration token.
     # @param  [Hash] options A customizable set of options.
@@ -178,7 +178,7 @@ class Gitlab::Client
     # @option options [Boolean] :run_untagged(optional) Whether the Runner should handle untagged jobs.
     # @option options [Array<String>] :tag_list(optional) List of Runner tags.
     # @option options [Integer] :maximum_timeout(optional) Maximum timeout set when this Runner will handle the job.
-    # @return <Gitlab::ObjectifiedHash> Response against runner registration
+    # @return <Gitlab::Client::ObjectifiedHash> Response against runner registration
     def register_runner(token, options = {})
       body = { token: token }.merge(options)
       post('/runners', body: body)
@@ -187,7 +187,7 @@ class Gitlab::Client
     # Deletes a registed Runner.
     #
     # @example
-    #   Gitlab.delete_registered_runner('9142c16ea169eaaea3d752313a434a6e')
+    #   Gitlab::Client.delete_registered_runner('9142c16ea169eaaea3d752313a434a6e')
     #
     # @param  [String] token Runner authentication token.
     # @return [nil] This API call returns an empty response body.
@@ -199,7 +199,7 @@ class Gitlab::Client
     # Validates authentication credentials for a registered Runner.
     #
     # @example
-    #   Gitlab.verify_auth_registered_runner('9142c16ea169eaaea3d752313a434a6e')
+    #   Gitlab::Client.verify_auth_registered_runner('9142c16ea169eaaea3d752313a434a6e')
     #
     # @param  [String] token Runner authentication token.
     # @return [nil] This API call returns an empty response body.

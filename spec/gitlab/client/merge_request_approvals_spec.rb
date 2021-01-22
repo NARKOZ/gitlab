@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_merge_request_approvals' do
     before do
       stub_get('/projects/1/approvals', 'project_merge_request_approvals')
-      @project_mr_approvals = Gitlab.project_merge_request_approvals(1)
+      @project_mr_approvals = described_class.project_merge_request_approvals(1)
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct objectified hash' do
-      expect(@project_mr_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@project_mr_approvals).to be_a Gitlab::Client::ObjectifiedHash
     end
   end
 
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
     before do
       body = { approvals_before_merge: '3', reset_approvals_on_push: 'false', disable_overriding_approvers_per_merge_request: 'true' }
       stub_post('/projects/1/approvals', 'project_merge_request_approvals').with(body: body)
-      @project_mr_approvals = Gitlab.edit_project_merge_request_approvals(1, approvals_before_merge: 3, reset_approvals_on_push: false, disable_overriding_approvers_per_merge_request: true)
+      @project_mr_approvals = described_class.edit_project_merge_request_approvals(1, approvals_before_merge: 3, reset_approvals_on_push: false, disable_overriding_approvers_per_merge_request: true)
     end
 
     it 'gets the correct resource' do
@@ -32,7 +32,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct updated configuration' do
-      expect(@project_mr_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@project_mr_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@project_mr_approvals.approvals_before_merge).to eq 3
       expect(@project_mr_approvals.reset_approvals_on_push).to eq false
       expect(@project_mr_approvals.disable_overriding_approvers_per_merge_request).to eq true
@@ -42,7 +42,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_merge_request_approval_rules' do
     before do
       stub_get('/projects/1/approval_rules', 'project_merge_request_approval_rules')
-      @project_mr_approval_rules = Gitlab.project_merge_request_approval_rules(1)
+      @project_mr_approval_rules = described_class.project_merge_request_approval_rules(1)
     end
 
     it 'gets the correct resource' do
@@ -50,14 +50,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the paginated list of approval rules' do
-      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+      expect(@project_mr_approval_rules).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.create_project_merge_request_approval_rule' do
     before do
       stub_post('/projects/1/approval_rules', 'project_merge_request_approval_rules')
-      @project_mr_approval_rules = Gitlab.create_project_merge_request_approval_rule(1, name: 'security', approvals_required: 1)
+      @project_mr_approval_rules = described_class.create_project_merge_request_approval_rule(1, name: 'security', approvals_required: 1)
     end
 
     it 'creates the correct resource' do
@@ -65,7 +65,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the paginated list of approval rules' do
-      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+      expect(@project_mr_approval_rules).to be_a Gitlab::Client::PaginatedResponse
       expect(@project_mr_approval_rules.first.id).to eq(1)
       expect(@project_mr_approval_rules.first.name).to eq('security')
       expect(@project_mr_approval_rules.first.approvals_required).to eq(3)
@@ -75,7 +75,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_project_merge_request_approval_rule' do
     before do
       stub_put('/projects/1/approval_rules/1', 'project_merge_request_approval_rules')
-      @project_mr_approval_rules = Gitlab.update_project_merge_request_approval_rule(1, 1, name: 'security', approvals_required: 1)
+      @project_mr_approval_rules = described_class.update_project_merge_request_approval_rule(1, 1, name: 'security', approvals_required: 1)
     end
 
     it 'updates the correct resource' do
@@ -83,7 +83,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the paginated list of approval rules' do
-      expect(@project_mr_approval_rules).to be_a Gitlab::PaginatedResponse
+      expect(@project_mr_approval_rules).to be_a Gitlab::Client::PaginatedResponse
       expect(@project_mr_approval_rules.first.id).to eq(1)
       expect(@project_mr_approval_rules.first.name).to eq('security')
       expect(@project_mr_approval_rules.first.approvals_required).to eq(3)
@@ -93,7 +93,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_project_merge_request_approval_rule' do
     before do
       stub_delete('/projects/1/approval_rules/1', 'empty')
-      Gitlab.delete_project_merge_request_approval_rule(1, 1)
+      described_class.delete_project_merge_request_approval_rule(1, 1)
     end
 
     it 'deletes the correct resource' do
@@ -105,7 +105,7 @@ RSpec.describe Gitlab::Client do
     before do
       body = { "approver_ids": ['5'], "approver_group_ids": ['1'] }
       stub_put('/projects/1/approvers', 'project_merge_request_approvals').with(body: body)
-      @project_mr_approvals = Gitlab.edit_project_approvers(1, approver_ids: [5], approver_group_ids: [1])
+      @project_mr_approvals = described_class.edit_project_approvers(1, approver_ids: [5], approver_group_ids: [1])
     end
 
     it 'gets the correct resource' do
@@ -115,7 +115,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct updated configuration' do
-      expect(@project_mr_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@project_mr_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@project_mr_approvals.approvers.map { |approver| approver['user']['id'] }).to eq [5]
       expect(@project_mr_approvals.approver_groups.map { |approver_group| approver_group['group']['id'] }).to eq [1]
     end
@@ -124,7 +124,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_approvals' do
     before do
       stub_get('/projects/1/merge_requests/5/approvals', 'merge_request_approvals')
-      @merge_request_approvals = Gitlab.merge_request_approvals(1, 5)
+      @merge_request_approvals = described_class.merge_request_approvals(1, 5)
     end
 
     it 'gets the correct resource' do
@@ -132,7 +132,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct objectified hash' do
-      expect(@merge_request_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@merge_request_approvals.project_id).to eq 1
       expect(@merge_request_approvals.iid).to eq 5
     end
@@ -142,7 +142,7 @@ RSpec.describe Gitlab::Client do
     before do
       body = { approvals_required: '2' }
       stub_post('/projects/1/merge_requests/5/approvals', 'merge_request_approvals').with(body: body)
-      @merge_request_approvals = Gitlab.edit_merge_request_approvals(1, 5, approvals_required: 2)
+      @merge_request_approvals = described_class.edit_merge_request_approvals(1, 5, approvals_required: 2)
     end
 
     it 'gets the correct resource' do
@@ -151,7 +151,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct objectified hash' do
-      expect(@merge_request_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@merge_request_approvals.approvals_required).to eq 2
     end
   end
@@ -160,7 +160,7 @@ RSpec.describe Gitlab::Client do
     before do
       body = { "approver_ids": ['1'], "approver_group_ids": ['5'] }
       stub_put('/projects/1/merge_requests/5/approvers', 'merge_request_approvals').with(body: body)
-      @merge_request_approvals = Gitlab.edit_merge_request_approvers(1, 5, approver_ids: [1], approver_group_ids: [5])
+      @merge_request_approvals = described_class.edit_merge_request_approvers(1, 5, approver_ids: [1], approver_group_ids: [5])
     end
 
     it 'gets the correct resource' do
@@ -170,7 +170,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct updated configuration' do
-      expect(@merge_request_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@merge_request_approvals.approvers.map { |approver| approver['user']['id'] }).to eq [1]
       expect(@merge_request_approvals.approver_groups.map { |approver_group| approver_group['group']['id'] }).to eq [5]
     end
@@ -179,7 +179,7 @@ RSpec.describe Gitlab::Client do
   describe '.approve_merge_request' do
     before do
       stub_post('/projects/1/merge_requests/5/approve', 'merge_request_approvals')
-      @merge_request_approvals = Gitlab.approve_merge_request(1, 5)
+      @merge_request_approvals = described_class.approve_merge_request(1, 5)
     end
 
     it 'gets the correct resource' do
@@ -187,7 +187,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the correct updated configuration' do
-      expect(@merge_request_approvals).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_approvals).to be_a Gitlab::Client::ObjectifiedHash
       expect(@merge_request_approvals.merge_status).to eq 'can_be_merged'
     end
   end
@@ -195,7 +195,7 @@ RSpec.describe Gitlab::Client do
   describe '.unapprove_merge_request' do
     before do
       stub_post('/projects/1/merge_requests/5/unapprove', 'merge_request_approvals')
-      @merge_request_approvals = Gitlab.unapprove_merge_request(1, 5)
+      @merge_request_approvals = described_class.unapprove_merge_request(1, 5)
     end
 
     it 'gets the correct resource' do
@@ -206,7 +206,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_approval_state' do
     before do
       stub_get('/projects/3/merge_requests/1/approval_state', 'merge_request_approval_state')
-      @approval_state = Gitlab.merge_request_approval_state(3, 1)
+      @approval_state = described_class.merge_request_approval_state(3, 1)
     end
 
     it 'gets the correct resource' do
