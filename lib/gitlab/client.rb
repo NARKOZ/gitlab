@@ -25,6 +25,7 @@ module Gitlab
     include Features
     include GroupBadges
     include GroupBoards
+    include GroupInvites
     include GroupLabels
     include GroupMilestones
     include Groups
