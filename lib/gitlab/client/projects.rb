@@ -44,9 +44,12 @@ class Gitlab::Client
     #   Gitlab.project('gitlab')
     #
     # @param  [Integer, String] id The ID or path of a project.
+    # @param  options [string] :license Include project license data
+    # @param  options [string] :statistics Include project statistics.
+    # @param  options [string] :with_custom_attributes Include custom attributes in response. (admins only)
     # @return [Gitlab::ObjectifiedHash]
-    def project(id)
-      get("/projects/#{url_encode id}")
+    def project(id, options = {})
+      get("/projects/#{url_encode id}", query: options.merge(search: query))
     end
 
     # Creates a new project.
