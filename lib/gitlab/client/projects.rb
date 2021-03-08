@@ -49,7 +49,7 @@ class Gitlab::Client
     # @param  options [string] :with_custom_attributes Include custom attributes in response. (admins only)
     # @return [Gitlab::ObjectifiedHash]
     def project(id, options = {})
-      get("/projects/#{url_encode id}", query: options.merge(search: query))
+      get("/projects/#{url_encode id}", query: options)
     end
 
     # Creates a new project.
