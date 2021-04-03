@@ -5,7 +5,7 @@ require: rubocop-performance
 
 AllCops:
   TargetRubyVersion: 2.5
-  NewCops: enable
+  NewCops: disable
 
 Layout/LineLength:
   Max: 123
