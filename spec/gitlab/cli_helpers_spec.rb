@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::CLI::Helpers do
+RSpec.describe Gitlab::CLI::Helpers do
   describe '.method_owners' do
     let(:methods) { described_class.method_owners }
 

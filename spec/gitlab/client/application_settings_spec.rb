@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :application_settings }
   it { is_expected.to respond_to :edit_application_settings }
 

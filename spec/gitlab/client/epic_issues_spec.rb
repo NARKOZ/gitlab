@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.epic_issues' do
     before do
       stub_get('/groups/7/epics/3/issues', 'epic_issues')

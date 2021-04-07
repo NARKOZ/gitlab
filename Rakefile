@@ -4,7 +4,7 @@ require 'bundler/gem_tasks'
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.rspec_opts = ['--color', '--format d']
+  spec.rspec_opts = ['--color', '--format d'] if ENV['CI']
 end
 
 require 'rubocop/rake_task'

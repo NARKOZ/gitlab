@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :repo_tags }
   it { is_expected.to respond_to :repo_tag }
   it { is_expected.to respond_to :repo_create_tag }
@@ -27,20 +27,22 @@ describe Gitlab::Client do
   end
 
   describe '.tag' do
-    before do
-      stub_get('/projects/3/repository/tags/0.0.1', 'tag')
-      @tag = Gitlab.tag(3, '0.0.1')
+    context 'without special character' do
+      before do
+        stub_get('/projects/3/repository/tags/0.0.1', 'tag')
+        @tag = Gitlab.tag(3, '0.0.1')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/projects/3/repository/tags/0.0.1')).to have_been_made
+      end
+
+      it 'returns information about a repository tag' do
+        expect(@tag.name).to eq('0.0.1')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_get('/projects/3/repository/tags/0.0.1')).to have_been_made
-    end
-
-    it 'returns information about a repository tag' do
-      expect(@tag.name).to eq('0.0.1')
-    end
-
-    context 'tag with special character' do
+    context 'with special character' do
       before do
         stub_get('/projects/3/repository/tags/test%2Fme', 'tag')
         @tag = Gitlab.tag(3, 'test/me')
@@ -73,20 +75,22 @@ describe Gitlab::Client do
   end
 
   describe '.delete_tag' do
-    before do
-      stub_delete('/projects/3/repository/tags/0.0.1', 'tag_delete')
-      @tag = Gitlab.delete_tag(3, '0.0.1')
+    context 'without special character' do
+      before do
+        stub_delete('/projects/3/repository/tags/0.0.1', 'tag_delete')
+        @tag = Gitlab.delete_tag(3, '0.0.1')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_delete('/projects/3/repository/tags/0.0.1')).to have_been_made
+      end
+
+      it 'returns information about the deleted repository tag' do
+        expect(@tag.tag_name).to eq('0.0.1')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_delete('/projects/3/repository/tags/0.0.1')).to have_been_made
-    end
-
-    it 'returns information about the deleted repository tag' do
-      expect(@tag.tag_name).to eq('0.0.1')
-    end
-
-    context 'tag with special character' do
+    context 'with special character' do
       before do
         stub_delete('/projects/3/repository/tags/test%2Fme', 'tag_delete')
         @tag = Gitlab.delete_tag(3, 'test/me')
@@ -99,21 +103,23 @@ describe Gitlab::Client do
   end
 
   describe '.create_release' do
-    before do
-      stub_post('/projects/3/repository/tags/0.0.1/release', 'release_create')
-      @tag = Gitlab.create_release(3, '0.0.1', 'Amazing release. Wow')
+    context 'without special character' do
+      before do
+        stub_post('/projects/3/repository/tags/0.0.1/release', 'release_create')
+        @tag = Gitlab.create_release(3, '0.0.1', 'Amazing release. Wow')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/projects/3/repository/tags/0.0.1/release')).to have_been_made
+      end
+
+      it 'returns information about the tag and the release' do
+        expect(@tag.tag_name).to eq('0.0.1')
+        expect(@tag.description).to eq('Amazing release. Wow')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_post('/projects/3/repository/tags/0.0.1/release')).to have_been_made
-    end
-
-    it 'returns information about the tag and the release' do
-      expect(@tag.tag_name).to eq('0.0.1')
-      expect(@tag.description).to eq('Amazing release. Wow')
-    end
-
-    context 'tag with special character' do
+    context 'with special character' do
       before do
         stub_post('/projects/3/repository/tags/test%2Fme/release', 'release_create')
         @tag = Gitlab.create_release(3, 'test/me', 'Amazing release. Wow')
@@ -126,21 +132,23 @@ describe Gitlab::Client do
   end
 
   describe '.update_release' do
-    before do
-      stub_put('/projects/3/repository/tags/0.0.1/release', 'release_update')
-      @tag = Gitlab.update_release(3, '0.0.1', 'Amazing release. Wow')
+    context 'without special character' do
+      before do
+        stub_put('/projects/3/repository/tags/0.0.1/release', 'release_update')
+        @tag = Gitlab.update_release(3, '0.0.1', 'Amazing release. Wow')
+      end
+
+      it 'updates the correct resource' do
+        expect(a_put('/projects/3/repository/tags/0.0.1/release')).to have_been_made
+      end
+
+      it 'returns information about the tag' do
+        expect(@tag.tag_name).to eq('0.0.1')
+        expect(@tag.description).to eq('Amazing release. Wow')
+      end
     end
 
-    it 'updates the correct resource' do
-      expect(a_put('/projects/3/repository/tags/0.0.1/release')).to have_been_made
-    end
-
-    it 'returns information about the tag' do
-      expect(@tag.tag_name).to eq('0.0.1')
-      expect(@tag.description).to eq('Amazing release. Wow')
-    end
-
-    context 'tag with special character' do
+    context 'with special character' do
       before do
         stub_put('/projects/3/repository/tags/test%2Fme/release', 'release_update')
         @tag = Gitlab.update_release(3, 'test/me', 'Amazing release. Wow')
