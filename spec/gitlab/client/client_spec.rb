@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '#inspect' do
     it 'masks tokens on inspect' do
       client = described_class.new(private_token: 'ui3gIYf4MMzTx-Oh5cEBx')

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.project_release_links' do
     before do
       stub_get('/projects/3/releases/v0.1/assets/links', 'project_release_links')

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :repo_branches }
   it { is_expected.to respond_to :repo_branch }
   it { is_expected.to respond_to :repo_protect_branch }

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :repo_commits }
   it { is_expected.to respond_to :repo_commit }
   it { is_expected.to respond_to :repo_commit_diff }
@@ -65,7 +65,7 @@ describe Gitlab::Client do
   end
 
   describe '.cherry_pick_commit' do
-    context 'on success' do
+    context 'when success' do
       before do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
         @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
@@ -83,7 +83,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'on failure' do
+    context 'when failure' do
       it 'includes the error_code' do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'cherry_pick_commit_failure', 400)
 
@@ -108,7 +108,7 @@ describe Gitlab::Client do
   end
 
   describe '.revert_commit' do
-    context 'on success' do
+    context 'when success' do
       before do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'project_commit').with(body: { branch: 'master' })
         @revert_commit = Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
@@ -126,7 +126,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'on failure' do
+    context 'when failure' do
       it 'includes the error_code' do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'revert_commit_failure', 400)
 
@@ -208,7 +208,7 @@ describe Gitlab::Client do
 
     it 'gets the correct resource' do
       expect(a_get('/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses')
-        .with(query: { all: true }))
+        .with(query: { all: true })).to have_been_made
     end
 
     it 'gets statuses of a commit' do
@@ -230,7 +230,7 @@ describe Gitlab::Client do
 
     it 'gets the correct resource' do
       expect(a_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8')
-        .with(body: { name: 'test', ref: 'decreased-spec', state: 'failed' }))
+        .with(body: { name: 'test', ref: 'decreased-spec', state: 'failed' })).to have_been_made
     end
 
     it 'returns information about the newly created status' do

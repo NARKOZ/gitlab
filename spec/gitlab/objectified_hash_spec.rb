@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::ObjectifiedHash do
+RSpec.describe Gitlab::ObjectifiedHash do
   before do
     @hash = { a: 1, b: 2, 'string' => 'string', symbol: :symbol, array: ['string', { a: 1, b: 2 }] }
     @oh = described_class.new @hash
@@ -18,8 +18,8 @@ describe Gitlab::ObjectifiedHash do
     end
 
     it 'warns about calling Hash methods' do
-      output = capture_output { oh.values }
-      expect(output).to eq("WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.\n")
+      warning = "WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.\n"
+      expect { oh.values }.to output(warning).to_stderr
     end
   end
 
@@ -57,20 +57,16 @@ describe Gitlab::ObjectifiedHash do
   end
 
   describe '#respond_to' do
-    it 'returns true for methods this object responds to through method_missing as sym' do
+    it 'returns true for methods object responds to through method_missing' do
       expect(@oh).to respond_to(:a)
     end
 
-    it 'returns true for methods this object responds to through method_missing as string' do
+    it 'allows to use a symbol to reference a method' do
+      expect(@oh).to respond_to(:symbol)
+    end
+
+    it 'allows to use a string to reference a method' do
       expect(@oh).to respond_to('string')
-    end
-
-    it 'does not care if you use a string or symbol to reference a method' do
-      expect(@oh).to respond_to(:string)
-    end
-
-    it 'does not care if you use a string or symbol to reference a method' do
-      expect(@oh).to respond_to('symbol')
     end
   end
 end

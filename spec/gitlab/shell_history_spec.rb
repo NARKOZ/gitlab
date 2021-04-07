@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'tempfile'
 
-describe Gitlab::Shell::History do
-  context 'saving to a file' do
+RSpec.describe Gitlab::Shell::History do
+  context 'when saving to a file' do
     before do
       @file = Tempfile.new('.gitlab_shell_history')
       @history = described_class.new(file_path: @file.path)
@@ -40,7 +40,7 @@ describe Gitlab::Shell::History do
     end
   end
 
-  context 'loading a file' do
+  context 'when loading a file' do
     before do
       @file = load_fixture('shell_history.txt')
       @history = described_class.new(file_path: @file.path)

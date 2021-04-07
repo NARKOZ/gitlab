@@ -48,7 +48,7 @@ module Gitlab
           params[:headers].merge!(authorization_header)
         end
 
-        validate self.class.send(method, @endpoint + path, params)
+        validate self.class.send(method, endpoint + path, params)
       end
     end
 
@@ -67,7 +67,7 @@ module Gitlab
     # Sets a base_uri and default_params for requests.
     # @raise [Error::MissingCredentials] if endpoint not set.
     def request_defaults(sudo = nil)
-      raise Error::MissingCredentials, 'Please set an endpoint to API' unless @endpoint
+      raise Error::MissingCredentials, 'Please set an endpoint to API' unless endpoint
 
       self.class.default_params sudo: sudo
       self.class.default_params.delete(:sudo) if sudo.nil?
@@ -79,12 +79,12 @@ module Gitlab
     #
     # @raise [Error::MissingCredentials] if private_token and auth_token are not set.
     def authorization_header
-      raise Error::MissingCredentials, 'Please provide a private_token or auth_token for user' unless @private_token
+      raise Error::MissingCredentials, 'Please provide a private_token or auth_token for user' unless private_token
 
-      if @private_token.size < 21
-        { 'PRIVATE-TOKEN' => @private_token }
+      if private_token.size < 21
+        { 'PRIVATE-TOKEN' => private_token }
       else
-        { 'Authorization' => "Bearer #{@private_token}" }
+        { 'Authorization' => "Bearer #{private_token}" }
       end
     end
 

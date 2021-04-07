@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.edit_submodule' do
     let(:api_path) { '/projects/3/repository/submodules/submodule' }
     let(:options) do

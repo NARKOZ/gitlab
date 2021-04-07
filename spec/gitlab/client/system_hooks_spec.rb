@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :system_hooks }
   it { is_expected.to respond_to :add_system_hook }
   it { is_expected.to respond_to :system_hook }

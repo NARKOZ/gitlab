@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::API do
+RSpec.describe Gitlab::API do
   let(:default_headers) { subject.class.default_options[:headers] }
 
   describe '.default_options[:headers]' do

@@ -1,11 +1,13 @@
 ---
 inherit_from: .rubocop_todo.yml
 
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
-  NewCops: enable
+  NewCops: disable
 
 Layout/LineLength:
   Max: 123
@@ -29,4 +31,10 @@ Style/ClassAndModuleChildren:
     - 'lib/gitlab/client/*'
 
 Lint/NonDeterministicRequireOrder:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/FilePath:
   Enabled: false
