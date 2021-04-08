@@ -4,7 +4,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.project_badges' do
     before do
       stub_get('/projects/3/badges', 'project_badges')

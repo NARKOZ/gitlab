@@ -17,6 +17,7 @@ jobs:
           - 2.5
           - 2.6
           - 2.7
+          - 3.0
     name: Ruby ${{ matrix.ruby }} test
     steps:
     - uses: actions/checkout@v2
