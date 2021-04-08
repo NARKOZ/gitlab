@@ -129,4 +129,21 @@ RSpec.describe Gitlab::Client do
       expect(@contributors.first.commits).to eq(117)
     end
   end
+
+  describe '.generate_changelog' do
+    before do
+      stub_post('/projects/3/repository/changelog', 'changelog')
+        .with(body: { version: 'v1.0.0', branch: 'main' })
+      @changelog = Gitlab.generate_changelog(3, 'v1.0.0', branch: 'main')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/3/repository/changelog')
+        .with(body: { version: 'v1.0.0', branch: 'main' })).to have_been_made
+    end
+
+    it 'returns successful result' do
+      expect(@changelog).to be_truthy
+    end
+  end
 end

@@ -88,5 +88,26 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/repository/contributors", query: options)
     end
     alias repo_contributors contributors
+
+    # Generate changelog data
+    #
+    # @example
+    #   Gitlab.generate_changelog(42, 'v1.0.0')
+    #   Gitlab.generate_changelog(42, 'v1.0.0', branch: 'main')
+    #
+    # @param [Integer, String] project The ID or name of a project
+    # @param [String] version The version to generate the changelog for
+    # @param [Hash] options A customizable set of options
+    # @option options [String] :from The start of the range of commits (SHA)
+    # @option options [String] :to The end of the range of commits (as a SHA) to use for the changelog
+    # @option options [String] :date The date and time of the release, defaults to the current time
+    # @option options [String] :branch The branch to commit the changelog changes to
+    # @option options [String] :trailer The Git trailer to use for including commits
+    # @option options [String] :file The file to commit the changes to
+    # @option options [String] :message The commit message to produce when committing the changes
+    # @return [bool]
+    def generate_changelog(project, version, options = {})
+      post("/projects/#{url_encode project}/repository/changelog", body: options.merge(version: version))
+    end
   end
 end
