@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.events' do
     before do
       stub_get('/events', 'user_events')

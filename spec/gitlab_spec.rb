@@ -2,11 +2,12 @@
 
 require 'spec_helper'
 
-describe Gitlab do
+RSpec.describe Gitlab do
   after { described_class.reset }
 
   describe '.client' do
     it 'is a Gitlab::Client' do
+      described_class.endpoint = 'https://api.example.com'
       expect(described_class.client).to be_a Gitlab::Client
     end
 
@@ -49,7 +50,7 @@ describe Gitlab do
   end
 
   describe '.auth_token=' do
-    it 'sets auth_token', focus: true do
+    it 'sets auth_token' do
       described_class.auth_token = 'auth_secret'
       expect(described_class.private_token).to eq('auth_secret')
     end

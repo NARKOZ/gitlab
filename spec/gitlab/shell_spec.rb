@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-describe Gitlab::Shell do
+RSpec.describe Gitlab::Shell do
   before do
     described_class.setup
   end
 
   describe '.execute' do
-    context 'invalid command' do
+    context 'when invalid command' do
       it 'raises RuntimeError' do
         expect { described_class.execute 'foobar', [] }.to raise_error(RuntimeError)
       end
@@ -59,7 +59,7 @@ describe Gitlab::Shell do
       expect(@comp).to be_a Proc
     end
 
-    context 'called with an argument' do
+    context 'when called with an argument' do
       it 'returns an Array of matching commands' do
         completed_cmds = @comp.call 'issue'
         expect(completed_cmds).to be_a Array

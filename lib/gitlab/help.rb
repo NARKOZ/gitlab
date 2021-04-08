@@ -45,14 +45,13 @@ module Gitlab::Help
     #
     # @return [Hash<Array>]
     def help_map
-      @help_map ||= begin
+      @help_map ||=
         actions.each_with_object({}) do |action, hsh|
           key = client.method(action)
                       .owner.to_s.gsub(/Gitlab::(?:Client::)?/, '')
           hsh[key] ||= []
           hsh[key] << action.to_s
         end
-      end
     end
 
     # Table with available commands.

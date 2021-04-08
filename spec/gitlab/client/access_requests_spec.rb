@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.project_access_requests' do
     before do
       stub_get('/projects/1/access_requests', 'access_requests')
@@ -56,7 +56,7 @@ describe Gitlab::Client do
   end
 
   describe '.approve_project_access_request' do
-    context 'When no access level is given' do
+    context 'when no access level is given' do
       before do
         stub_put('/projects/1/access_requests/1/approve', 'default_approved_access_request')
         @access_request = Gitlab.approve_project_access_request(1, 1)
@@ -71,7 +71,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'When access level is given' do
+    context 'when access level is given' do
       before do
         stub_put('/projects/1/access_requests/1/approve', 'approved_access_request').with(body: { access_level: '20' })
         @access_request = Gitlab.approve_project_access_request(1, 1, access_level: '20')
@@ -89,7 +89,7 @@ describe Gitlab::Client do
   end
 
   describe '.approve_group_access_request' do
-    context 'When no access level is given' do
+    context 'when no access level is given' do
       before do
         stub_put('/groups/1/access_requests/1/approve', 'default_approved_access_request')
         @access_request = Gitlab.approve_group_access_request(1, 1)
@@ -104,7 +104,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'When access level is given' do
+    context 'when access level is given' do
       before do
         stub_put('/groups/1/access_requests/1/approve', 'approved_access_request').with(body: { access_level: '20' })
         @access_request = Gitlab.approve_group_access_request(1, 1, access_level: '20')

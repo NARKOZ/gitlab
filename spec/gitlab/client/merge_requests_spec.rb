@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.user_merge_requests' do
     before do
       stub_get('/merge_requests', 'merge_requests')

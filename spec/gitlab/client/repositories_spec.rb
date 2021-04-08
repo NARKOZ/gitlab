@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :repo_tags }
   it { is_expected.to respond_to :repo_create_tag }
   it { is_expected.to respond_to :repo_branches }
@@ -112,21 +112,21 @@ describe Gitlab::Client do
       expect(@response.id).to eq '1a0b36b3cdad1d2ee32457c102a8c0b7056fa863'
     end
   end
-end
 
-describe '.contributors' do
-  before do
-    stub_get('/projects/3/repository/contributors', 'contributors')
-    @contributors = Gitlab.contributors(3)
-  end
+  describe '.contributors' do
+    before do
+      stub_get('/projects/3/repository/contributors', 'contributors')
+      @contributors = Gitlab.contributors(3)
+    end
 
-  it 'gets the correct resource' do
-    expect(a_get('/projects/3/repository/contributors')).to have_been_made
-  end
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/contributors')).to have_been_made
+    end
 
-  it 'returns a paginated response of repository contributors' do
-    expect(@contributors).to be_a Gitlab::PaginatedResponse
-    expect(@contributors.first.name).to eq('Dmitriy Zaporozhets')
-    expect(@contributors.first.commits).to eq(117)
+    it 'returns a paginated response of repository contributors' do
+      expect(@contributors).to be_a Gitlab::PaginatedResponse
+      expect(@contributors.first.name).to eq('Dmitriy Zaporozhets')
+      expect(@contributors.first.commits).to eq(117)
+    end
   end
 end

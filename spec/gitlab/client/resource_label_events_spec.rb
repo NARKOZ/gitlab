@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.issue_label_events' do
     before do
       stub_get('/projects/5/issues/42/resource_label_events', 'resource_label_events')

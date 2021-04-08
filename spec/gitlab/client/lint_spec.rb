@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.validate_gitlab_ci_yml' do
     context 'when valid content' do
       before do
