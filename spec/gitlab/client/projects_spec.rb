@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :search_projects }
 
   describe '.projects' do
@@ -332,7 +332,7 @@ describe Gitlab::Client do
   end
 
   describe '.edit_project' do
-    context 'using project ID' do
+    context 'with project ID' do
       before do
         stub_put('/projects/3', 'project_edit').with(body: { name: 'Gitlab-edit' })
         @edited_project = Gitlab.edit_project(3, name: 'Gitlab-edit')
@@ -347,7 +347,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'using namespaced project path' do
+    context 'with namespaced project path' do
       it 'encodes the path properly' do
         stub = stub_put('/projects/namespace%2Fpath', 'project_edit').with(body: { name: 'Gitlab-edit' })
         Gitlab.edit_project('namespace/path', name: 'Gitlab-edit')
@@ -536,7 +536,7 @@ describe Gitlab::Client do
   end
 
   describe '.create_deploy_key' do
-    context 'no options' do
+    context 'without options' do
       before do
         stub_post('/projects/42/deploy_keys', 'project_key')
         @deploy_key = Gitlab.create_deploy_key(42, 'My Key', 'Key contents')
@@ -552,7 +552,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'some options' do
+    context 'with options' do
       before do
         stub_post('/projects/42/deploy_keys', 'project_key')
         @deploy_key = Gitlab.create_deploy_key(42, 'My Key', 'Key contents', can_push: true)
@@ -617,7 +617,7 @@ describe Gitlab::Client do
   end
 
   describe '.edit_deploy_key' do
-    context 'no options' do
+    context 'without options' do
       before do
         body = { title: 'New key name' }
         stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)
@@ -636,7 +636,7 @@ describe Gitlab::Client do
       end
     end
 
-    context 'some options' do
+    context 'with options' do
       before do
         body = { title: 'New key name', can_push: true }
         stub_put('/projects/42/deploy_keys/2', 'project_key_edit').with(body: body)

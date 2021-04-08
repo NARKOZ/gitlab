@@ -43,7 +43,7 @@ module Gitlab
     end
 
     def lazy_paginate
-      to_enum(:each_page).lazy.flat_map(&:to_ary) # rubocop:disable Lint/ToEnumArguments
+      to_enum(:each_page).lazy.flat_map(&:to_ary)
     end
 
     def auto_paginate(&block)

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.avatar' do
     before do
       stub_get('/avatar', 'avatar').with(query: { email: 'admin@example.com', size: 32 })
