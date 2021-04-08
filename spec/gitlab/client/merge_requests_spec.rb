@@ -407,4 +407,21 @@ RSpec.describe Gitlab::Client do
       expect(@diff.diffs.first['old_path']).to eq('LICENSE')
     end
   end
+
+  describe '.rebase_merge_request' do
+    before do
+      stub_put('/projects/3/merge_requests/105/rebase', 'merge_request_rebase')
+        .with(body: { skip_ci: true })
+      @response = Gitlab.rebase_merge_request(3, 105, skip_ci: true)
+    end
+
+    it 'gets correct resource' do
+      expect(a_put('/projects/3/merge_requests/105/rebase')
+        .with(body: { skip_ci: true })).to have_been_made
+    end
+
+    it 'returns rebase in progress response' do
+      expect(@response.rebase_in_progress).to be_truthy
+    end
+  end
 end
