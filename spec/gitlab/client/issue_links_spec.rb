@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   it { is_expected.to respond_to :issue_links }
   it { is_expected.to respond_to :create_issue_link }
   it { is_expected.to respond_to :delete_issue_link }

@@ -1,132 +1,134 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'json'
 
-describe Gitlab::CLI do
+RSpec.describe Gitlab::CLI do
   describe '.run' do
     context 'when command is version' do
       it 'shows gem version' do
-        output = capture_output { described_class.run('-v') }
-        expect(output).to eq("Gitlab Ruby Gem #{Gitlab::VERSION}\n")
+        expect { described_class.run('-v') }.to output("Gitlab Ruby Gem #{Gitlab::VERSION}\n").to_stdout
       end
     end
 
     context 'when command is info' do
       it 'shows environment info' do
-        output = capture_output { described_class.run('info') }
-        expect(output).to include('Gitlab endpoint is')
-        expect(output).to include('Gitlab private token is')
-        expect(output).to include('Ruby Version is')
-        expect(output).to include('Gitlab Ruby Gem')
+        command = expect { described_class.run('info') }
+        command.to output(/Gitlab endpoint is/).to_stdout
+        command.to output(/Gitlab private token is/).to_stdout
+        command.to output(/Ruby Version is/).to_stdout
+        command.to output(/Gitlab Ruby Gem/).to_stdout
       end
     end
 
     context 'when command is help' do
       it 'shows available actions' do
-        output = capture_output { described_class.run('help') }
-        expect(output).to include('Help Topics')
-        expect(output).to include('MergeRequests')
+        command = expect { described_class.run('help') }
+        command.to output(/Help Topics/).to_stdout
+        command.to output(/MergeRequests/).to_stdout
       end
     end
 
     context 'when command is user' do
-      before do
-        stub_get('/user', 'user')
-        @output = capture_output { described_class.run('user') }
-      end
+      before { stub_get('/user', 'user') }
 
       it 'shows executed command' do
-        expect(@output).to include('Gitlab.user')
+        expect { described_class.run('user') }.to output(/Gitlab.user/).to_stdout
       end
 
       it 'shows user data' do
-        expect(@output).to include('name')
-        expect(@output).to include('John Smith')
+        command = expect { described_class.run('user') }
+        command.to output(/name/).to_stdout
+        command.to output(/John Smith/).to_stdout
       end
     end
 
     context 'when command is users' do
-      before do
-        stub_get('/users', 'users')
-        @output = capture_output { described_class.run('users') }
-      end
+      before { stub_get('/users', 'users') }
 
       it 'shows executed command' do
-        expect(@output).to include('Gitlab.users')
+        expect { described_class.run('users') }.to output(/Gitlab.users/).to_stdout
       end
 
       it 'shows users data' do
-        expect(@output).to include('name')
-        expect(@output).to include('John Smith')
-        expect(@output).to include('Jack Smith')
+        command = expect { described_class.run('users') }
+        command.to output(/name/).to_stdout
+        command.to output(/John Smith/).to_stdout
+        command.to output(/Jack Smith/).to_stdout
       end
     end
 
     context 'when command is create_label' do
-      before do
-        stub_post('/projects/Project/labels', 'label')
-        args = ['Project', 'Backlog', '#DD10AA']
-        @output = capture_output { described_class.run('create_label', args) }
-      end
+      before { stub_post('/projects/Project/labels', 'label') }
+
+      let(:args) { ['Project', 'Backlog', '#DD10AA'] }
 
       it 'shows executed command' do
-        expect(@output).to include('Gitlab.create_label Project, Backlog, #DD10AA')
+        command = expect { described_class.run('create_label', args) }
+        command.to output(/Gitlab.create_label Project, Backlog, #DD10AA/).to_stdout
       end
     end
   end
 
   describe '.start' do
+    before { stub_get('/user', 'user') }
+
     context 'when command with excluded fields' do
-      before do
-        stub_get('/user', 'user')
-        args = ['user', '--except=id,email,name']
-        @output = capture_output { described_class.start(args) }
-      end
+      let(:args) { ['user', '--except=id,email,name'] }
 
       it 'shows user data with excluded fields' do
-        expect(@output).not_to include('John Smith')
-        expect(@output).to include('bio')
-        expect(@output).to include('created_at')
-      end
-    end
-
-    context 'when command with json output' do
-      before do
-        stub_get('/user', 'user')
-        args = ['user', '--json']
-        @output = capture_output { described_class.start(args) }
-      end
-
-      it 'renders output as json' do
-        expect(JSON.parse(@output)['result']).to eq(JSON.parse(File.read("#{File.dirname(__FILE__)}/../fixtures/user.json")))
-        expect(JSON.parse(@output)['cmd']).to eq('Gitlab.user')
+        command = expect { described_class.start(args) }
+        command.not_to output(/John Smith/).to_stdout
+        command.to output(/bio/).to_stdout
+        command.to output(/created_at/).to_stdout
       end
     end
 
     context 'when command with required fields' do
-      before do
-        stub_get('/user', 'user')
-        args = ['user', '--only=id,email,name']
-        @output = capture_output { described_class.start(args) }
-      end
+      let(:args) { ['user', '--only=id,email,name'] }
 
       it 'shows user data with required fields' do
-        expect(@output).to include('id')
-        expect(@output).to include('name')
-        expect(@output).to include('email')
-        expect(@output).to include('John Smith')
-        expect(@output).not_to include('bio')
-        expect(@output).not_to include('created_at')
+        command = expect { described_class.start(args) }
+        command.to output(/id/).to_stdout
+        command.to output(/name/).to_stdout
+        command.to output(/email/).to_stdout
+        command.to output(/John Smith/).to_stdout
+        command.not_to output(/bio/).to_stdout
+        command.not_to output(/created_at/).to_stdout
       end
     end
 
-    context 'fetch project with namespace/repo' do
+    context 'when command with json output' do
+      let(:args) { ['user', '--json'] }
+
+      it 'renders output as json' do
+        expected = <<~OUT
+          {
+            "cmd": "Gitlab.user",
+            "result": {
+              "bio": null,
+              "blocked": false,
+              "created_at": "2012-09-17T09:41:56Z",
+              "dark_scheme": false,
+              "email": "john@example.com",
+              "id": 1,
+              "linkedin": "",
+              "name": "John Smith",
+              "skype": "",
+              "theme_id": 1,
+              "twitter": "john",
+              "username": "john.smith"
+            }
+          }
+        OUT
+        expect { described_class.start(args) }.to output(expected).to_stdout
+      end
+    end
+
+    context 'when fetching project with namespace/repo' do
       it 'encodes delimiter' do
         stub_get('/projects/gitlab-org%2Fgitlab-ce', 'project')
         args = ['project', 'gitlab-org/gitlab-ce']
-        @output = capture_output { described_class.start(args) }
-        expect(@output).to include('id')
+        expect { described_class.start(args) }.to output(/id/).to_stdout
       end
     end
   end

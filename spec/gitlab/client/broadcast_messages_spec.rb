@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.broadcast_messages' do
     before do
       stub_get('/broadcast_messages', 'broadcast_messages')

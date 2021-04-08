@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.dockerfile_templates' do
     before do
       stub_get('/templates/dockerfiles', 'dockerfile_templates')

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.sidekiq_queue_metrics' do
     before do
       stub_get('/sidekiq/queue_metrics', 'sidekiq_queue_metrics')

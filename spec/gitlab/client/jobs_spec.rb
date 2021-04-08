@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Gitlab::Client do
+RSpec.describe Gitlab::Client do
   describe '.jobs' do
     before do
       stub_get('/projects/1/jobs', 'jobs')
