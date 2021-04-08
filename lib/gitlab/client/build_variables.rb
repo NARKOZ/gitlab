@@ -63,9 +63,10 @@ class Gitlab::Client
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] key The key of a variable.
+    # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def remove_variable(project, key)
-      delete("/projects/#{url_encode project}/variables/#{key}")
+    def remove_variable(project, key, **opts)
+      delete("/projects/#{url_encode project}/variables/#{key}", query: opts)
     end
 
     # Gets a list of the group's build variables
