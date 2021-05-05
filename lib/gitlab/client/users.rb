@@ -329,5 +329,58 @@ class Gitlab::Client
     def delete_user_custom_attribute(key, user_id)
       delete("/users/#{user_id}/custom_attributes/#{key}")
     end
+
+    # Get all impersonation tokens for a user
+    #
+    # @example
+    #   Gitlab.user_impersonation_tokens(1)
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @param  [String] state Filter impersonation tokens by state {}
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_impersonation_tokens(user_id)
+      get("/users/#{user_id}/impersonation_tokens")
+    end
+
+    # Get impersonation token information
+    #
+    # @example
+    #   Gitlab.user_impersonation_token(1, 1)
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @param  [Integer] impersonation_token_id ID of the impersonation token.
+    # @return [Gitlab::ObjectifiedHash]
+    def user_impersonation_token(user_id, impersonation_token_id)
+      get("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
+    end
+
+    # Create impersonation token
+    #
+    # @example
+    #   Gitlab.create_user_impersonation_token(2, "token", ["api", "read_user"])
+    #   Gitlab.create_user_impersonation_token(2, "token", ["api", "read_user"], "1970-01-01")
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @param  [String] name Name for impersonation token.
+    # @param  [Array<String>] scopes Array of scopes for the impersonation token
+    # @param  [String] expires_at Date for impersonation token expiration in ISO format.
+    # @return [Gitlab::ObjectifiedHash]
+    def create_user_impersonation_token(user_id, name, scopes, expires_at = nil)
+      body = { name: name, scopes: scopes }
+      body[:expires_at] = expires_at if expires_at
+      post("/users/#{user_id}/impersonation_tokens", body: body)
+    end
+
+    # Revoke an impersonation token
+    #
+    # @example
+    #   Gitlab.revoke_user_impersonation_token(1, 1)
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @param  [Integer] impersonation_token_id ID of the impersonation token.
+    # @return [Gitlab::ObjectifiedHash]
+    def revoke_user_impersonation_token(user_id, impersonation_token_id)
+      delete("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
+    end
   end
 end
