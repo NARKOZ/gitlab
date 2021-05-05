@@ -547,4 +547,74 @@ RSpec.describe Gitlab::Client do
       end
     end
   end
+
+  describe 'impersonation tokens' do
+    describe 'get all' do
+      before do
+        stub_get('/users/2/impersonation_tokens', 'impersonation_get_all')
+        @tokens = Gitlab.user_impersonation_tokens(2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/users/2/impersonation_tokens')).to have_been_made
+      end
+
+      it 'gets an array of user impersonation tokens' do
+        expect(@tokens.first.id).to eq(2)
+        expect(@tokens.last.id).to eq(3)
+        expect(@tokens.first.impersonation).to be_truthy
+        expect(@tokens.last.impersonation).to be_truthy
+      end
+    end
+  end
+
+  describe 'get one' do
+    before do
+      stub_get('/users/2/impersonation_tokens/2', 'impersonation_get')
+      @token = Gitlab.user_impersonation_token(2, 2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users/2/impersonation_tokens/2')).to have_been_made
+    end
+
+    it 'gets a user impersonation token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.impersonation).to be_truthy
+    end
+  end
+
+  describe 'create' do
+    before do
+      stub_post('/users/2/impersonation_tokens', 'impersonation_create')
+      @token = Gitlab.create_user_impersonation_token(2, 'mytoken', scopes)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/users/2/impersonation_tokens').with(body: 'name=mytoken&scopes%5B%5D=api')).to have_been_made
+    end
+
+    it 'returns a valid impersonation token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.impersonation).to be_truthy
+      expect(@token.active).to be_truthy
+      expect(@token.token).to eq('EsMo-vhKfXGwX9RKrwiy')
+    end
+  end
+
+  describe 'revoke' do
+    before do
+      stub_request(:delete, "#{Gitlab.endpoint}/users/2/impersonation_tokens/2")
+        .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        .to_return(status: 204)
+      @token = Gitlab.revoke_user_impersonation_token(2, 2)
+    end
+
+    it 'removes a token' do
+      expect(a_delete('/users/2/impersonation_tokens/2')).to have_been_made
+      expect(@token).to be_empty
+    end
+  end
 end

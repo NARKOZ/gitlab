@@ -380,7 +380,7 @@ class Gitlab::Client
     # @param  [Integer] impersonation_token_id ID of the impersonation token.
     # @return [Gitlab::ObjectifiedHash]
     def revoke_user_impersonation_token(user_id, impersonation_token_id)
-      delete("/users/#{user_id}/impersonations_tokens/#{impersonation_token_id}")
+      delete("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
     end
   end
 end
