@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'gitlab'
-require 'gitlab/cli_helpers'
+require_relative '../gitlab'
+require 'gitlab/cli/helpers'
 
 module Gitlab::Help
   extend Gitlab::CLI::Helpers

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'gitlab'
+require_relative '../gitlab'
 require 'gitlab/help'
-require 'gitlab/cli_helpers'
+require 'gitlab/cli/helpers'
 require 'gitlab/shell_history'
 require 'readline'
 require 'shellwords'

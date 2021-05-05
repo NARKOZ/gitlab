@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require 'gitlab/configuration'
+
 module Gitlab
   # Wrapper for the Gitlab REST API.
   class Client < API
+    extend Configuration
+
     Dir[File.expand_path('client/*.rb', __dir__)].each { |f| require f }
 
     # Please keep in alphabetical order
@@ -68,6 +72,13 @@ module Gitlab
     include Versions
     include Wikis
 
+    # Alias for Gitlab::Client.new
+    #
+    # @return [Gitlab::Client]
+    def self.client(options = {})
+      Gitlab::Client.new(options)
+    end
+
     # Text representation of the client, masking private token.
     #
     # @return [String]
@@ -83,6 +94,35 @@ module Gitlab
     # @return [String]
     def url_encode(url)
       url.to_s.b.gsub(/[^a-zA-Z0-9_\-.~]/n) { |m| sprintf('%%%02X', m.unpack1('C')) } # rubocop:disable Style/FormatString
+    end
+
+    # Delegate to HTTParty.http_proxy
+    def self.http_proxy(address = nil, port = nil, username = nil, password = nil)
+      Gitlab::Request.http_proxy(address, port, username, password)
+    end
+
+    # Returns an unsorted array of available client methods.
+    #
+    # @return [Array<Symbol>]
+    def self.actions
+      hidden =
+        /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate\z|request_defaults|httparty/
+      (Gitlab::Client.instance_methods - Object.methods).reject { |e| e[hidden] }
+    end
+
+    # Delegate to Gitlab::Client
+    # @deprecated To be removed from [Gitlab] and accessed only from [Gitlab::Client]
+    def self.method_missing(method, *args, &block)
+      if Gitlab::Client.client.respond_to?(method)
+        Gitlab::Client.client.send(method, *args, &block)
+      else
+        super
+      end
+    end
+
+    # Delegate to Gitlab::Client
+    def self.respond_to_missing?(method_name, include_private = false)
+      Gitlab::Client.client.respond_to?(method_name, include_private) || super
     end
 
     private

@@ -12,7 +12,7 @@ module Gitlab
     # @raise [Error:MissingCredentials]
     # rubocop:disable Lint/MissingSuper
     def initialize(options = {})
-      options = Gitlab.options.merge(options)
+      options = Gitlab::Client.options.merge(options)
       (Configuration::VALID_OPTIONS_KEYS + [:auth_token]).each do |key|
         send("#{key}=", options[key]) if options[key]
       end
