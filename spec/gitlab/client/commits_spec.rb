@@ -16,7 +16,7 @@ RSpec.describe Gitlab::Client do
     before do
       stub_get('/projects/3/repository/commits', 'project_commits')
         .with(query: { ref: 'api' })
-      @commits = Gitlab.commits(3, ref: 'api')
+      @commits = described_class.commits(3, ref: 'api')
     end
 
     it 'gets the correct resource' do
@@ -25,7 +25,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of repository commits' do
-      expect(@commits).to be_a Gitlab::PaginatedResponse
+      expect(@commits).to be_a Gitlab::Client::PaginatedResponse
       expect(@commits.first.id).to eq('f7dd067490fe57505f7226c3b54d3127d2f7fd46')
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe Gitlab::Client do
   describe '.commit' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6', 'project_commit')
-      @commit = Gitlab.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @commit = described_class.commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it 'gets the correct resource' do
@@ -49,7 +49,7 @@ RSpec.describe Gitlab::Client do
   describe '.commit_refs' do
     before do
       stub_get('/projects/3/repository/commits/0b4cd14ccc6a5c392526df719d29baf4315a4bbb/refs', 'project_commit_refs')
-      @refs = Gitlab.commit_refs(3, '0b4cd14ccc6a5c392526df719d29baf4315a4bbb')
+      @refs = described_class.commit_refs(3, '0b4cd14ccc6a5c392526df719d29baf4315a4bbb')
     end
 
     it 'gets the correct resource' do
@@ -68,7 +68,7 @@ RSpec.describe Gitlab::Client do
     context 'when success' do
       before do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit').with(body: { branch: 'master' })
-        @cherry_pick_commit = Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+        @cherry_pick_commit = described_class.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
       end
 
       it 'gets the correct resource' do
@@ -78,7 +78,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns the correct response' do
-        expect(@cherry_pick_commit).to be_a Gitlab::ObjectifiedHash
+        expect(@cherry_pick_commit).to be_a Gitlab::Client::ObjectifiedHash
         expect(@cherry_pick_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe Gitlab::Client do
       it 'includes the error_code' do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'cherry_pick_commit_failure', 400)
 
-        expect { Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Error::BadRequest) do |ex|
+        expect { described_class.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Client::Error::BadRequest) do |ex|
           expect(ex.error_code).to eq('conflict')
         end
       end
@@ -98,7 +98,7 @@ RSpec.describe Gitlab::Client do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick', 'project_commit')
           .with(body: { branch: 'master', dry_run: true })
 
-        Gitlab.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
+        described_class.cherry_pick_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
 
         expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/cherry_pick')
           .with(body: { branch: 'master', dry_run: true }))
@@ -111,7 +111,7 @@ RSpec.describe Gitlab::Client do
     context 'when success' do
       before do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'project_commit').with(body: { branch: 'master' })
-        @revert_commit = Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
+        @revert_commit = described_class.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master')
       end
 
       it 'gets the correct resource' do
@@ -121,7 +121,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns the correct response' do
-        expect(@revert_commit).to be_a Gitlab::ObjectifiedHash
+        expect(@revert_commit).to be_a Gitlab::Client::ObjectifiedHash
         expect(@revert_commit.id).to eq('6104942438c14ec7bd21c6cd5bd995272b3faff6')
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe Gitlab::Client do
       it 'includes the error_code' do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'revert_commit_failure', 400)
 
-        expect { Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Error::BadRequest) do |ex|
+        expect { described_class.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master') }.to raise_error(Gitlab::Client::Error::BadRequest) do |ex|
           expect(ex.error_code).to eq('empty')
         end
       end
@@ -141,7 +141,7 @@ RSpec.describe Gitlab::Client do
         stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert', 'project_commit')
           .with(body: { branch: 'master', dry_run: true })
 
-        Gitlab.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
+        described_class.revert_commit(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'master', dry_run: true)
 
         expect(a_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/revert')
           .with(body: { branch: 'master', dry_run: true }))
@@ -153,7 +153,7 @@ RSpec.describe Gitlab::Client do
   describe '.commit_diff' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/diff', 'project_commit_diff')
-      @diff = Gitlab.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @diff = described_class.commit_diff(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it 'gets the correct resource' do
@@ -169,7 +169,7 @@ RSpec.describe Gitlab::Client do
   describe '.commit_comments' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments', 'project_commit_comments')
-      @commit_comments = Gitlab.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @commit_comments = described_class.commit_comments(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it 'gets the correct resource' do
@@ -178,7 +178,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns commit's comments" do
-      expect(@commit_comments).to be_a Gitlab::PaginatedResponse
+      expect(@commit_comments).to be_a Gitlab::Client::PaginatedResponse
       expect(@commit_comments.length).to eq(2)
       expect(@commit_comments[0].note).to eq('this is the 1st comment on commit 6104942438c14ec7bd21c6cd5bd995272b3faff6')
       expect(@commit_comments[0].author.id).to eq(11)
@@ -190,7 +190,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_commit_comment' do
     before do
       stub_post('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/comments', 'project_commit_comment')
-      @merge_request = Gitlab.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
+      @merge_request = described_class.create_commit_comment(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6', 'Nice code!')
     end
 
     it 'returns information about the newly created comment' do
@@ -203,7 +203,7 @@ RSpec.describe Gitlab::Client do
     before do
       stub_get('/projects/6/repository/commits/7d938cb8ac15788d71f4b67c035515a160ea76d8/statuses', 'project_commit_status')
         .with(query: { all: 'true' })
-      @statuses = Gitlab.commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', all: true)
+      @statuses = described_class.commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', all: true)
     end
 
     it 'gets the correct resource' do
@@ -212,7 +212,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'gets statuses of a commit' do
-      expect(@statuses).to be_kind_of Gitlab::PaginatedResponse
+      expect(@statuses).to be_kind_of Gitlab::Client::PaginatedResponse
       expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@statuses.first.ref).to eq('decreased-spec')
       expect(@statuses.first.status).to eq('failed')
@@ -225,7 +225,7 @@ RSpec.describe Gitlab::Client do
     before do
       stub_post('/projects/6/statuses/7d938cb8ac15788d71f4b67c035515a160ea76d8', 'project_update_commit_status')
         .with(body: { name: 'test', ref: 'decreased-spec', state: 'failed' })
-      @status = Gitlab.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
+      @status = described_class.update_commit_status(6, '7d938cb8ac15788d71f4b67c035515a160ea76d8', 'failed', name: 'test', ref: 'decreased-spec')
     end
 
     it 'gets the correct resource' do
@@ -234,7 +234,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about the newly created status' do
-      expect(@status).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@status).to be_kind_of Gitlab::Client::ObjectifiedHash
       expect(@status.id).to eq(498)
       expect(@status.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@status.status).to eq('failed')
@@ -265,7 +265,7 @@ RSpec.describe Gitlab::Client do
 
     before do
       stub_post('/projects/6/repository/commits', 'project_commit_create').with(body: query)
-      @commit = Gitlab.create_commit(6, 'dev', 'refactors everything', actions, author_email: 'joe@sample.org', author_name: 'Joe Sample')
+      @commit = described_class.create_commit(6, 'dev', 'refactors everything', actions, author_email: 'joe@sample.org', author_name: 'Joe Sample')
     end
 
     it 'returns id of a created commit' do
@@ -276,7 +276,7 @@ RSpec.describe Gitlab::Client do
   describe '.repo_commit_merge_requests' do
     before do
       stub_get('/projects/3/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6/merge_requests', 'project_commit_merge_requests')
-      @commit_merge_requests = Gitlab.commit_merge_requests(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
+      @commit_merge_requests = described_class.commit_merge_requests(3, '6104942438c14ec7bd21c6cd5bd995272b3faff6')
     end
 
     it 'gets the correct resource' do
@@ -285,7 +285,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns commit's associated merge_requests" do
-      expect(@commit_merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@commit_merge_requests).to be_a Gitlab::Client::PaginatedResponse
       expect(@commit_merge_requests.length).to eq(2)
       expect(@commit_merge_requests[0].iid).to eq(1)
       expect(@commit_merge_requests[0].author.id).to eq(1)

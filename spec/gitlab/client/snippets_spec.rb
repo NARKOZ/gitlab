@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.snippets' do
     before do
       stub_get('/projects/3/snippets', 'snippets')
-      @snippets = Gitlab.snippets(3)
+      @snippets = described_class.snippets(3)
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's snippets" do
-      expect(@snippets).to be_a Gitlab::PaginatedResponse
+      expect(@snippets).to be_a Gitlab::Client::PaginatedResponse
       expect(@snippets.first.file_name).to eq('mailer_test.rb')
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.snippet' do
     before do
       stub_get('/projects/3/snippets/1', 'snippet')
-      @snippet = Gitlab.snippet(3, 1)
+      @snippet = described_class.snippet(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -38,7 +38,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_snippet' do
     before do
       stub_post('/projects/3/snippets', 'snippet')
-      @snippet = Gitlab.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public')
+      @snippet = described_class.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public')
     end
 
     it 'gets the correct resource' do
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_snippet' do
     before do
       stub_put('/projects/3/snippets/1', 'snippet')
-      @snippet = Gitlab.edit_snippet(3, 1, file_name: 'mailer_test.rb')
+      @snippet = described_class.edit_snippet(3, 1, file_name: 'mailer_test.rb')
     end
 
     it 'gets the correct resource' do
@@ -72,7 +72,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_snippet' do
     before do
       stub_delete('/projects/3/snippets/1', 'snippet')
-      @snippet = Gitlab.delete_snippet(3, 1)
+      @snippet = described_class.delete_snippet(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -88,7 +88,7 @@ RSpec.describe Gitlab::Client do
   describe '.snippet_content' do
     before do
       stub_get('/projects/3/snippets/1/raw', 'snippet_content')
-      @snippet_content = Gitlab.snippet_content(3, 1)
+      @snippet_content = described_class.snippet_content(3, 1)
     end
 
     it 'gets the correct resource' do

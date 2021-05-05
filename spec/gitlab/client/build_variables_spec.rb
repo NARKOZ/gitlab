@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.variables' do
     before do
       stub_get('/projects/3/variables', 'variables')
-      @variables = Gitlab.variables(3)
+      @variables = described_class.variables(3)
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns an array of project's variables" do
-      expect(@variables).to be_a Gitlab::PaginatedResponse
+      expect(@variables).to be_a Gitlab::Client::PaginatedResponse
       expect(@variables.first.key).to eq('TEST_VARIABLE_1')
       expect(@variables.first.value).to eq('TEST_1')
     end
@@ -23,7 +23,7 @@ RSpec.describe Gitlab::Client do
   describe '.variable' do
     before do
       stub_get('/projects/3/variables/VARIABLE', 'variable')
-      @variable = Gitlab.variable(3, 'VARIABLE')
+      @variable = described_class.variable(3, 'VARIABLE')
     end
 
     it 'gets the correct resource' do
@@ -39,7 +39,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_variable' do
     before do
       stub_post('/projects/3/variables', 'variable')
-      @variable = Gitlab.create_variable(3, 'NEW_VARIABLE', 'new value')
+      @variable = described_class.create_variable(3, 'NEW_VARIABLE', 'new value')
     end
 
     it 'gets the correct resource' do
@@ -56,7 +56,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_variable' do
     before do
       stub_put('/projects/3/variables/UPD_VARIABLE', 'variable')
-      @variable = Gitlab.update_variable(3, 'UPD_VARIABLE', 'updated value')
+      @variable = described_class.update_variable(3, 'UPD_VARIABLE', 'updated value')
     end
 
     it 'puts the correct resource' do
@@ -73,7 +73,7 @@ RSpec.describe Gitlab::Client do
   describe '.remove_variable' do
     before do
       stub_delete('/projects/3/variables/DEL_VARIABLE', 'variable')
-      @variable = Gitlab.remove_variable(3, 'DEL_VARIABLE')
+      @variable = described_class.remove_variable(3, 'DEL_VARIABLE')
     end
 
     it 'gets the correct resource' do
@@ -89,7 +89,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_variables' do
     before do
       stub_get('/groups/3/variables', 'variables')
-      @variables = Gitlab.group_variables(3)
+      @variables = described_class.group_variables(3)
     end
 
     it 'gets the correct resource' do
@@ -97,7 +97,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns an array of group's variables" do
-      expect(@variables).to be_a Gitlab::PaginatedResponse
+      expect(@variables).to be_a Gitlab::Client::PaginatedResponse
       expect(@variables.first.key).to eq('TEST_VARIABLE_1')
       expect(@variables.first.value).to eq('TEST_1')
     end
@@ -106,7 +106,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_variable' do
     before do
       stub_get('/groups/3/variables/VARIABLE', 'variable')
-      @variable = Gitlab.group_variable(3, 'VARIABLE')
+      @variable = described_class.group_variable(3, 'VARIABLE')
     end
 
     it 'gets the correct resource' do
@@ -122,7 +122,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_group_variable' do
     before do
       stub_post('/groups/3/variables', 'variable')
-      @variable = Gitlab.create_group_variable(3, 'NEW_VARIABLE', 'new value')
+      @variable = described_class.create_group_variable(3, 'NEW_VARIABLE', 'new value')
     end
 
     it 'gets the correct resource' do
@@ -139,7 +139,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_group_variable' do
     before do
       stub_put('/groups/3/variables/UPD_VARIABLE', 'variable')
-      @variable = Gitlab.update_group_variable(3, 'UPD_VARIABLE', 'updated value')
+      @variable = described_class.update_group_variable(3, 'UPD_VARIABLE', 'updated value')
     end
 
     it 'puts the correct resource' do
@@ -156,7 +156,7 @@ RSpec.describe Gitlab::Client do
   describe '.remove_group_variable' do
     before do
       stub_delete('/groups/3/variables/DEL_VARIABLE', 'variable')
-      @variable = Gitlab.remove_group_variable(3, 'DEL_VARIABLE')
+      @variable = described_class.remove_group_variable(3, 'DEL_VARIABLE')
     end
 
     it 'gets the correct resource' do

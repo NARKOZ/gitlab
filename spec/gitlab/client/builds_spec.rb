@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.builds' do
     before do
       stub_get('/projects/3/builds', 'builds')
-      @builds = Gitlab.builds(3)
+      @builds = described_class.builds(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's builds" do
-      expect(@builds).to be_a Gitlab::PaginatedResponse
+      expect(@builds).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.build' do
     before do
       stub_get('/projects/3/builds/8', 'build')
-      @build = Gitlab.build(3, 8)
+      @build = described_class.build(3, 8)
     end
 
     it 'gets the correct resource' do
@@ -29,7 +29,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single build' do
-      expect(@build).to be_a Gitlab::ObjectifiedHash
+      expect(@build).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a build' do
@@ -43,10 +43,10 @@ RSpec.describe Gitlab::Client do
       before do
         fixture = load_fixture('build_artifacts.zip')
         fixture.set_encoding(Encoding::ASCII_8BIT)
-        stub_request(:get, "#{Gitlab.endpoint}/projects/3/builds/8/artifacts")
-          .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        stub_request(:get, "#{described_class.endpoint}/projects/3/builds/8/artifacts")
+          .with(headers: { 'PRIVATE-TOKEN' => described_class.private_token })
           .to_return(body: fixture.read, headers: { 'Content-Disposition' => 'attachment; filename=artifacts.zip' })
-        @build_artifacts = Gitlab.build_artifacts(3, 8)
+        @build_artifacts = described_class.build_artifacts(3, 8)
       end
 
       it 'gets the correct resource' do
@@ -54,7 +54,7 @@ RSpec.describe Gitlab::Client do
       end
 
       it 'returns a FileResponse' do
-        expect(@build_artifacts).to be_a Gitlab::FileResponse
+        expect(@build_artifacts).to be_a Gitlab::Client::FileResponse
       end
 
       it 'returns a file with filename' do
@@ -65,7 +65,7 @@ RSpec.describe Gitlab::Client do
     context 'when bad request' do
       it 'throws an exception' do
         stub_get('/projects/3/builds/8/artifacts', 'error_project_not_found', 404)
-        expect { Gitlab.build_artifacts(3, 8) }.to raise_error(Gitlab::Error::NotFound, "Server responded with code 404, message: 404 Project Not Found. Request URI: #{Gitlab.endpoint}/projects/3/builds/8/artifacts")
+        expect { described_class.build_artifacts(3, 8) }.to raise_error(Gitlab::Client::Error::NotFound, "Server responded with code 404, message: 404 Project Not Found. Request URI: #{described_class.endpoint}/projects/3/builds/8/artifacts")
       end
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe Gitlab::Client do
   describe '.builds_commits' do
     before do
       stub_get('/projects/3/repository/commits/0ff3ae198f8601a285adcf5c0fff204ee6fba5fd/builds', 'builds_commits')
-      @builds_commits = Gitlab.commit_builds(3, '0ff3ae198f8601a285adcf5c0fff204ee6fba5fd')
+      @builds_commits = described_class.commit_builds(3, '0ff3ae198f8601a285adcf5c0fff204ee6fba5fd')
     end
 
     it 'gets the correct resource' do
@@ -81,7 +81,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of commit builds' do
-      expect(@builds_commits).to be_a Gitlab::PaginatedResponse
+      expect(@builds_commits).to be_a Gitlab::Client::PaginatedResponse
     end
 
     it 'returns information about the builds' do
@@ -92,7 +92,7 @@ RSpec.describe Gitlab::Client do
   describe '.build_cancel' do
     before do
       stub_post('/projects/3/builds/8/cancel', 'build_cancel')
-      @build_cancel = Gitlab.build_cancel(3, 8)
+      @build_cancel = described_class.build_cancel(3, 8)
     end
 
     it 'gets the correct resource' do
@@ -100,7 +100,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single build' do
-      expect(@build_cancel).to be_a Gitlab::ObjectifiedHash
+      expect(@build_cancel).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a build' do
@@ -111,7 +111,7 @@ RSpec.describe Gitlab::Client do
   describe '.build_retry' do
     before do
       stub_post('/projects/3/builds/69/retry', 'build_retry')
-      @build_retry = Gitlab.build_retry(3, 69)
+      @build_retry = described_class.build_retry(3, 69)
     end
 
     it 'gets the correct resource' do
@@ -119,7 +119,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single build' do
-      expect(@build_retry).to be_a Gitlab::ObjectifiedHash
+      expect(@build_retry).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a build' do
@@ -130,7 +130,7 @@ RSpec.describe Gitlab::Client do
   describe '.build_erase' do
     before do
       stub_post('/projects/3/builds/69/erase', 'build_erase')
-      @build_retry = Gitlab.build_erase(3, 69)
+      @build_retry = described_class.build_erase(3, 69)
     end
 
     it 'gets the correct resource' do
@@ -138,7 +138,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single build' do
-      expect(@build_retry).to be_a Gitlab::ObjectifiedHash
+      expect(@build_retry).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a build' do

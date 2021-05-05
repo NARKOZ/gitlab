@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'gitlab'
+require 'gitlab/client'
 require 'terminal-table/import'
-require_relative 'cli_helpers'
+require_relative 'cli/helpers'
 require_relative 'shell'
 
 class Gitlab::CLI
@@ -38,16 +38,16 @@ class Gitlab::CLI
     when 'help'
       puts help(args.shift) { |out| out.gsub!(/Gitlab\./, 'gitlab ') }
     when 'info'
-      endpoint = Gitlab.endpoint || 'not set'
-      private_token = Gitlab.private_token || 'not set'
+      endpoint = Gitlab::Client.endpoint || 'not set'
+      private_token = Gitlab::Client.private_token || 'not set'
       puts "Gitlab endpoint is #{endpoint}"
       puts "Gitlab private token is #{private_token}"
       puts "Ruby Version is #{RUBY_VERSION}"
-      puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
+      puts "Gitlab Ruby Gem #{Gitlab::Client::VERSION}"
     when '-v', '--version'
-      puts "Gitlab Ruby Gem #{Gitlab::VERSION}"
+      puts "Gitlab Ruby Gem #{Gitlab::Client::VERSION}"
     when 'shell'
-      Gitlab::Shell.start
+      Gitlab::Client::Shell.start
     else
       if args.include? '--json'
         @json_output = true

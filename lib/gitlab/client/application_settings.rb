@@ -4,20 +4,20 @@ class Gitlab::Client
   # Defines methods related to application settings.
   # @see https://docs.gitlab.com/ee/api/settings.html
   module ApplicationSettings
-    # Retrives the application settings of Gitlab.
+    # Retrives the application settings of Gitlab::Client.
     #
     # @example
-    #   Gitlab.application_settings
+    #   Gitlab::Client.application_settings
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def application_settings
       get('/application/settings')
     end
 
-    # Edit the applications settings of Gitlab.
+    # Edit the applications settings of Gitlab::Client.
     #
     # @example
-    #   Gitlab.edit_application_settings({ signup_enabled: false })
+    #   Gitlab::Client.edit_application_settings({ signup_enabled: false })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :admin_notification_email
@@ -164,7 +164,7 @@ class Gitlab::Client
     # @option options [Integer] :local_markdown_version
     # @option options [String] :geo_node_allowed_ips
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def edit_application_settings(options = {})
       put('/application/settings', body: options)
     end

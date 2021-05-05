@@ -8,13 +8,13 @@ class Gitlab::Client
     # @see https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
     #
     # @example
-    #   Gitlab.namespaces
+    #   Gitlab::Client.namespaces
     #
     # @param  [Hash] options A customizable set of options.
     # @options options [Integer] :page The page number.
     # @options options [Integer] :per_page The number of results per page.
     # @options opttion [String]  :search The string to search for.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def namespaces(options = {})
       get('/namespaces', query: options)
     end

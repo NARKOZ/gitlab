@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.sidekiq_queue_metrics' do
     before do
       stub_get('/sidekiq/queue_metrics', 'sidekiq_queue_metrics')
-      @sidekiq_queue_metrics = Gitlab.sidekiq_queue_metrics
+      @sidekiq_queue_metrics = described_class.sidekiq_queue_metrics
     end
 
     it 'gets the correct resource' do
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.sidekiq_process_metrics' do
     before do
       stub_get('/sidekiq/process_metrics', 'sidekiq_process_metrics')
-      @sidekiq_process_metrics = Gitlab.sidekiq_process_metrics
+      @sidekiq_process_metrics = described_class.sidekiq_process_metrics
     end
 
     it 'gets the correct resource' do
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
   describe '.sidekiq_job_stats' do
     before do
       stub_get('/sidekiq/job_stats', 'sidekiq_job_stats')
-      @sidekiq_job_stats = Gitlab.sidekiq_job_stats
+      @sidekiq_job_stats = described_class.sidekiq_job_stats
     end
 
     it 'gets the correct resource' do
@@ -52,7 +52,7 @@ RSpec.describe Gitlab::Client do
   describe '.sidekiq_compound_metrics' do
     before do
       stub_get('/sidekiq/compound_metrics', 'sidekiq_compound_metrics')
-      @sidekiq_compound_metrics = Gitlab.sidekiq_compound_metrics
+      @sidekiq_compound_metrics = described_class.sidekiq_compound_metrics
     end
 
     it 'gets the correct resource' do

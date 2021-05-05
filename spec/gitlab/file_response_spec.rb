@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Gitlab::FileResponse do
+RSpec.describe Gitlab::Client::FileResponse do
   before do
     @file_response = described_class.new StringIO.new(+'', 'rb+')
   end

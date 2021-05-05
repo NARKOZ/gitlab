@@ -7,9 +7,9 @@ class Gitlab::Client
     # Gets a list of todos.
     #
     # @example
-    #   Gitlab.todos
-    #   Gitlab.todos({ action: 'assigned' })
-    #   Gitlab.todos({ state: 'pending' })
+    #   Gitlab::Client.todos
+    #   Gitlab::Client.todos({ action: 'assigned' })
+    #   Gitlab::Client.todos({ state: 'pending' })
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :action The action to be filtered. Can be `assigned`, `mentioned`, `build_failed`, `marked`, or `approval_required`.
@@ -17,7 +17,7 @@ class Gitlab::Client
     # @option options [Integer] :project_id The ID of a project
     # @option options [Integer] :state The state of the todo. Can be either `pending` or `done`
     # @option options [Integer] :type The type of a todo. Can be either `Issue` or `MergeRequest`
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def todos(options = {})
       get('/todos', query: options)
     end
@@ -25,10 +25,10 @@ class Gitlab::Client
     # Marks a single pending todo for the current user as done.
     #
     # @example
-    #   Gitlab.mark_todo_as_done(42)
+    #   Gitlab::Client.mark_todo_as_done(42)
     #
     # @param  [Integer] id The ID of the todo.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def mark_todo_as_done(id)
       post("/todos/#{id}/mark_as_done")
     end
@@ -36,7 +36,7 @@ class Gitlab::Client
     # Marks all todos for the current user as done
     #
     # @example
-    #   Gitlab.mark_all_todos_as_done
+    #   Gitlab::Client.mark_all_todos_as_done
     #
     # @return [void] This API call returns an empty response body.
     def mark_all_todos_as_done

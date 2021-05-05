@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_clusters' do
     before do
       stub_get('/projects/3/clusters', 'project_clusters')
-      @project_clusters = Gitlab.project_clusters(3)
+      @project_clusters = described_class.project_clusters(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's clusters" do
-      expect(@project_clusters).to be_a Gitlab::PaginatedResponse
+      expect(@project_clusters).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.project_cluster' do
     before do
       stub_get('/projects/3/clusters/18', 'project_cluster')
-      @project_cluster = Gitlab.project_cluster(3, 18)
+      @project_cluster = described_class.project_cluster(3, 18)
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.add_project_cluster' do
     before do
       stub_post('/projects/3/clusters/user', 'project_cluster')
-      @project_cluster = Gitlab.add_project_cluster(3, 'cluster-1', enabled: false, platform_kubernetes_attributes: { api_url: 'https://104.197.68.152', token: '12345', ca_cert: "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----", namespace: 'cluster-1-namespace', authorization_type: 'rbac' })
+      @project_cluster = described_class.add_project_cluster(3, 'cluster-1', enabled: false, platform_kubernetes_attributes: { api_url: 'https://104.197.68.152', token: '12345', ca_cert: "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----", namespace: 'cluster-1-namespace', authorization_type: 'rbac' })
     end
 
     it 'gets the correct resource' do
@@ -56,7 +56,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_project_cluster' do
     before do
       stub_put('/projects/3/clusters/18', 'project_cluster')
-      @project_cluster = Gitlab.edit_project_cluster(3, 18, name: 'cluster-1', platform_kubernetes_attributes: { api_url: 'https://104.197.68.152' })
+      @project_cluster = described_class.edit_project_cluster(3, 18, name: 'cluster-1', platform_kubernetes_attributes: { api_url: 'https://104.197.68.152' })
     end
 
     it 'gets the correct resource' do
@@ -73,7 +73,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_project_cluster' do
     before do
       stub_delete('/projects/3/clusters/18', 'empty')
-      Gitlab.delete_project_cluster(3, 18)
+      described_class.delete_project_cluster(3, 18)
     end
 
     it 'gets the correct resource' do

@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.user_snippets' do
     before do
       stub_get('/snippets', 'user_snippets')
-      @snippets = Gitlab.user_snippets
+      @snippets = described_class.user_snippets
     end
 
     it 'gets the correct resource' do
@@ -14,7 +14,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of user's snippets" do
-      expect(@snippets).to be_a Gitlab::PaginatedResponse
+      expect(@snippets).to be_a Gitlab::Client::PaginatedResponse
       expect(@snippets.first.file_name).to eq('mclaughlin.rb')
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.user_snippet' do
     before do
       stub_get('/snippets/1', 'user_snippet')
-      @snippet = Gitlab.user_snippet(1)
+      @snippet = described_class.user_snippet(1)
     end
 
     it 'gets the correct resource' do
@@ -38,7 +38,7 @@ RSpec.describe Gitlab::Client do
   describe '.user_snippet_raw' do
     before do
       stub_get('/snippets/1/raw', 'snippet_content')
-      @snippet_content = Gitlab.user_snippet_raw(1)
+      @snippet_content = described_class.user_snippet_raw(1)
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_user_snippet' do
     before do
       stub_post('/snippets', 'created_user_snippet')
-      @snippet = Gitlab.create_user_snippet(title: 'This is a snippet', content: 'Hello world', description: 'Hello World snippet', file_name: 'test.txt', visibility: 'internal')
+      @snippet = described_class.create_user_snippet(title: 'This is a snippet', content: 'Hello world', description: 'Hello World snippet', file_name: 'test.txt', visibility: 'internal')
     end
 
     it 'gets the correct resource' do
@@ -71,7 +71,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_user_snippet' do
     before do
       stub_put('/snippets/1', 'updated_user_snippet')
-      @snippet = Gitlab.edit_user_snippet(1, file_name: 'add.rb')
+      @snippet = described_class.edit_user_snippet(1, file_name: 'add.rb')
     end
 
     it 'gets the correct resource' do
@@ -87,7 +87,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_user_snippet' do
     before do
       stub_delete('/snippets/1', 'empty')
-      @snippet = Gitlab.delete_user_snippet(1)
+      @snippet = described_class.delete_user_snippet(1)
     end
 
     it 'gets the correct resource' do
@@ -98,7 +98,7 @@ RSpec.describe Gitlab::Client do
   describe '.public_snippets' do
     before do
       stub_get('/snippets/public', 'public_snippets').with(query: { per_page: 2, page: 1 })
-      @snippets = Gitlab.public_snippets(per_page: 2, page: 1)
+      @snippets = described_class.public_snippets(per_page: 2, page: 1)
     end
 
     it 'gets the correct resource' do
@@ -107,7 +107,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of public snippets' do
-      expect(@snippets).to be_a Gitlab::PaginatedResponse
+      expect(@snippets).to be_a Gitlab::Client::PaginatedResponse
       expect(@snippets.last.visibility).to eq('public')
     end
   end
@@ -115,7 +115,7 @@ RSpec.describe Gitlab::Client do
   describe '.snippet_user_agent_details' do
     before do
       stub_get('/snippets/1/user_agent_detail', 'snippet_user_agent_details')
-      @detail = Gitlab.snippet_user_agent_details(1)
+      @detail = described_class.snippet_user_agent_details(1)
     end
 
     it 'gets the correct resource' do

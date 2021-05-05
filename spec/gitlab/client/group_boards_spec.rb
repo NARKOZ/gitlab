@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_boards' do
     before do
       stub_get('/groups/5/boards', 'group_boards')
-      @group_boards = Gitlab.group_boards(5)
+      @group_boards = described_class.group_boards(5)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of group's boards" do
-      expect(@group_boards).to be_a Gitlab::PaginatedResponse
+      expect(@group_boards).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.group_board' do
     before do
       stub_get('/groups/5/boards/1', 'group_board')
-      @group_board = Gitlab.group_board(5, 1)
+      @group_board = described_class.group_board(5, 1)
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_group_board' do
     before do
       stub_post('/groups/5/boards', 'group_board')
-      @group_board = Gitlab.create_group_board(5, 'group issue board')
+      @group_board = described_class.create_group_board(5, 'group issue board')
     end
 
     it 'gets the correct resource' do
@@ -52,7 +52,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_group_board' do
     before do
       stub_put('/groups/5/boards/1', 'updated_group_board')
-      @group_board = Gitlab.edit_group_board(5, 1, assignee_id: 1, milestone_id: 44)
+      @group_board = described_class.edit_group_board(5, 1, assignee_id: 1, milestone_id: 44)
     end
 
     it 'gets the correct resource' do
@@ -69,7 +69,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_group_board' do
     before do
       stub_delete('/groups/5/boards/1', 'empty')
-      Gitlab.delete_group_board(5, 1)
+      described_class.delete_group_board(5, 1)
     end
 
     it 'gets the correct resource' do
@@ -80,7 +80,7 @@ RSpec.describe Gitlab::Client do
   describe '.group_board_lists' do
     before do
       stub_get('/groups/5/boards/1/lists', 'group_board_lists')
-      @group_board_lists = Gitlab.group_board_lists(5, 1)
+      @group_board_lists = described_class.group_board_lists(5, 1)
     end
 
     it 'gets the correct resource' do
@@ -88,14 +88,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of group's board lists" do
-      expect(@group_board_lists).to be_a Gitlab::PaginatedResponse
+      expect(@group_board_lists).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.group_board_list' do
     before do
       stub_get('/groups/5/boards/1/lists/1', 'group_board_list')
-      @group_board_list = Gitlab.group_board_list(5, 1, 1)
+      @group_board_list = described_class.group_board_list(5, 1, 1)
     end
 
     it 'gets the correct resource' do
@@ -110,7 +110,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_group_board_list' do
     before do
       stub_post('/groups/5/boards/1/lists', 'group_board_list')
-      @group_board_list = Gitlab.create_group_board_list(5, 1, 5)
+      @group_board_list = described_class.create_group_board_list(5, 1, 5)
     end
 
     it 'gets the correct resource' do
@@ -126,7 +126,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_group_board_list' do
     before do
       stub_put('/groups/5/boards/1/lists/1', 'group_board_list')
-      @group_board_list = Gitlab.edit_group_board_list(5, 1, 1, position: 1)
+      @group_board_list = described_class.edit_group_board_list(5, 1, 1, position: 1)
     end
 
     it 'gets the correct resource' do
@@ -142,7 +142,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_group_board_list' do
     before do
       stub_delete('/groups/5/boards/1/lists/1', 'empty')
-      Gitlab.delete_group_board_list(5, 1, 1)
+      described_class.delete_group_board_list(5, 1, 1)
     end
 
     it 'gets the correct resource' do

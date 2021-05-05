@@ -10,9 +10,9 @@ class Gitlab::Client
     # Get all Dockerfile templates.
     #
     # @example
-    #   Gitlab.dockerfile_templates
+    #   Gitlab::Client.dockerfile_templates
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def dockerfile_templates
       get('/templates/dockerfiles')
     end
@@ -20,10 +20,10 @@ class Gitlab::Client
     # Get a single Dockerfile template.
     #
     # @example
-    #   Gitlab.dockerfile_template('Binary')
+    #   Gitlab::Client.dockerfile_template('Binary')
     #
     # @param  [String] key The key of the Dockerfile template
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def dockerfile_template(key)
       get("/templates/dockerfiles/#{key}")
     end
@@ -31,9 +31,9 @@ class Gitlab::Client
     # Get all gitignore templates.
     #
     # @example
-    #   Gitlab.gitignore_templates
+    #   Gitlab::Client.gitignore_templates
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def gitignore_templates
       get('/templates/gitignores')
     end
@@ -41,10 +41,10 @@ class Gitlab::Client
     # Get a single gitignore template.
     #
     # @example
-    #   Gitlab.gitignore_template('Ruby')
+    #   Gitlab::Client.gitignore_template('Ruby')
     #
     # @param  [String] key The key of the gitignore template
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def gitignore_template(key)
       get("/templates/gitignores/#{key}")
     end
@@ -52,9 +52,9 @@ class Gitlab::Client
     # Get all `gitlab_ci.yml` templates.
     #
     # @example
-    #   Gitlab.gitlab_ci_yml_templates
+    #   Gitlab::Client.gitlab_ci_yml_templates
     #
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def gitlab_ci_yml_templates
       get('/templates/gitlab_ci_ymls')
     end
@@ -62,10 +62,10 @@ class Gitlab::Client
     # Get a single `gitlab_ci.yml` template.
     #
     # @example
-    #   Gitlab.gitlab_ci_yml_template('Ruby')
+    #   Gitlab::Client.gitlab_ci_yml_template('Ruby')
     #
     # @param  [String] key The key of the gitlab_ci_yml template
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def gitlab_ci_yml_template(key)
       get("/templates/gitlab_ci_ymls/#{key}")
     end
@@ -73,12 +73,12 @@ class Gitlab::Client
     # Get all license templates.
     #
     # @example
-    #   Gitlab.license_templates
-    #   Gitlab.license_templates(popular: true)
+    #   Gitlab::Client.license_templates
+    #   Gitlab::Client.license_templates(popular: true)
     #
     # @param  [Hash] options A customizable set of options.
     # @option options [Boolean] popular(optional) If passed, returns only popular licenses.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def license_templates(options = {})
       get('/templates/licenses', query: options)
     end
@@ -86,13 +86,13 @@ class Gitlab::Client
     # Get a single license template. You can pass parameters to replace the license placeholder.
     #
     # @example
-    #   Gitlab.license_template('Ruby')
+    #   Gitlab::Client.license_template('Ruby')
     #
     # @param  [String] key The key of the license template
     # @param  [Hash] options A customizable set of options.
     # @option options [String] project(optional) The copyrighted project name.
     # @option options [String] fullname(optional) The full-name of the copyright holder
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def license_template(key, options = {})
       get("/templates/licenses/#{key}", query: options)
     end

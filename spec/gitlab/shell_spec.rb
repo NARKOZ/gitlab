@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
-RSpec.describe Gitlab::Shell do
+RSpec.describe Gitlab::Client::Shell do
   before do
     described_class.setup
   end
@@ -20,8 +20,8 @@ RSpec.describe Gitlab::Shell do
       @history = described_class.history
     end
 
-    it 'returns a Gitlab::Shell::History instance' do
-      expect(@history).to be_a Gitlab::Shell::History
+    it 'returns a Gitlab::Client::Shell::History instance' do
+      expect(@history).to be_a Gitlab::Client::Shell::History
     end
 
     it 'responds to :save' do

@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'gitlab/version'
+require 'gitlab/client/version'
 
 Gem::Specification.new do |gem|
   gem.name          = 'gitlab'
-  gem.version       = Gitlab::VERSION
+  gem.version       = Gitlab::Client::VERSION
   gem.authors       = ['Nihad Abbasov', 'Sean Edge']
   gem.email         = ['nihad@42na.in', 'asedge@gmail.com']
   gem.description   = 'Ruby client and CLI for GitLab API'

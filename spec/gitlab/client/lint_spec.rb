@@ -7,7 +7,7 @@ RSpec.describe Gitlab::Client do
     context 'when valid content' do
       before do
         stub_post('/lint', 'valid_content_gitlab_ci_yml')
-        @lint_response = Gitlab.validate_gitlab_ci_yml('{ "image": "ruby:2.6", "services": ["postgres"], "before_script": ["bundle install", "bundle exec rake db:create"], "variables": {"DB_NAME": "postgres"}, "types": ["test", "deploy", "notify"], "rspec": { "script": "rake spec", "tags": ["ruby", "postgres"], "only": ["branches"]}}')
+        @lint_response = described_class.validate_gitlab_ci_yml('{ "image": "ruby:2.6", "services": ["postgres"], "before_script": ["bundle install", "bundle exec rake db:create"], "variables": {"DB_NAME": "postgres"}, "types": ["test", "deploy", "notify"], "rspec": { "script": "rake spec", "tags": ["ruby", "postgres"], "only": ["branches"]}}')
       end
 
       it 'gets the correct resource' do
@@ -24,7 +24,7 @@ RSpec.describe Gitlab::Client do
     context 'when invalid content' do
       before do
         stub_post('/lint', 'invalid_content_gitlab_ci_yml')
-        @lint_response = Gitlab.validate_gitlab_ci_yml('Not a valid content')
+        @lint_response = described_class.validate_gitlab_ci_yml('Not a valid content')
       end
 
       it 'gets the correct resource' do
@@ -41,7 +41,7 @@ RSpec.describe Gitlab::Client do
     context 'when without content attribute' do
       before do
         stub_post('/lint', 'no_content_gitlab_ci_yml')
-        @lint_response = Gitlab.validate_gitlab_ci_yml(nil)
+        @lint_response = described_class.validate_gitlab_ci_yml(nil)
       end
 
       it 'gets the correct resource' do

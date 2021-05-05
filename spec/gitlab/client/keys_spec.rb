@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.key' do
     before do
       stub_get('/keys/1', 'key')
-      @key = Gitlab.key(1)
+      @key = described_class.key(1)
     end
 
     it 'gets the correct resource' do
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::Client do
   describe '.key_by_fingerprint' do
     before do
       stub_get('/keys?fingerprint=9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e', 'key')
-      @key = Gitlab.key_by_fingerprint('9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')
+      @key = described_class.key_by_fingerprint('9f:70:33:b3:50:4d:9a:a3:ef:ea:13:9b:87:0f:7f:7e')
     end
 
     it 'gets the correct resource' do

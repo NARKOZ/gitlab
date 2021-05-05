@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.user_merge_requests' do
     before do
       stub_get('/merge_requests', 'merge_requests')
-      @user_merge_requests = Gitlab.user_merge_requests
+      @user_merge_requests = described_class.user_merge_requests
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of user merge requests' do
-      expect(@user_merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@user_merge_requests).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.merge_requests' do
     before do
       stub_get('/projects/3/merge_requests', 'merge_requests')
-      @merge_requests = Gitlab.merge_requests(3)
+      @merge_requests = described_class.merge_requests(3)
     end
 
     it 'gets the correct resource' do
@@ -29,7 +29,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's merge requests" do
-      expect(@merge_requests).to be_a Gitlab::PaginatedResponse
+      expect(@merge_requests).to be_a Gitlab::Client::PaginatedResponse
       expect(@merge_requests.first.project_id).to eq(3)
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request' do
     before do
       stub_get('/projects/3/merge_requests/1', 'merge_request')
-      @merge_request = Gitlab.merge_request(3, 1)
+      @merge_request = described_class.merge_request(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_participants' do
     before do
       stub_get('/projects/3/merge_requests/1/participants', 'participants')
-      Gitlab.merge_request_participants(3, 1)
+      described_class.merge_request_participants(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -64,7 +64,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_pipelines' do
     before do
       stub_get('/projects/3/merge_requests/1/pipelines', 'pipelines')
-      @pipelines = Gitlab.merge_request_pipelines(3, 1)
+      @pipelines = described_class.merge_request_pipelines(3, 1)
     end
 
     it 'gets the correct resource' do
@@ -83,9 +83,9 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about a merge request' do
-      @merge_request = Gitlab.create_merge_request(3, 'New feature',
-                                                   source_branch: 'api',
-                                                   target_branch: 'master')
+      @merge_request = described_class.create_merge_request(3, 'New feature',
+                                                            source_branch: 'api',
+                                                            target_branch: 'master')
       expect(@merge_request.project_id).to eq(3)
       expect(@merge_request.assignee.name).to eq('Jack Smith')
     end
@@ -99,10 +99,10 @@ RSpec.describe Gitlab::Client do
                 target_branch: 'master',
                 title: 'A different new feature'
               })
-      @merge_request = Gitlab.update_merge_request(3, 2,
-                                                   assignee_id: '1',
-                                                   target_branch: 'master',
-                                                   title: 'A different new feature')
+      @merge_request = described_class.update_merge_request(3, 2,
+                                                            assignee_id: '1',
+                                                            target_branch: 'master',
+                                                            title: 'A different new feature')
     end
 
     it 'gets the correct resource' do
@@ -124,7 +124,7 @@ RSpec.describe Gitlab::Client do
     before do
       stub_put('/projects/5/merge_requests/42/merge', 'merge_request')
         .with(body: { merge_commit_message: 'Nice!' })
-      @merge_request = Gitlab.accept_merge_request(5, 42, merge_commit_message: 'Nice!')
+      @merge_request = described_class.accept_merge_request(5, 42, merge_commit_message: 'Nice!')
     end
 
     it 'gets the correct resource' do
@@ -141,7 +141,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_comments' do
     before do
       stub_get('/projects/3/merge_requests/2/notes', 'merge_request_comments')
-      @merge_request = Gitlab.merge_request_comments(3, 2)
+      @merge_request = described_class.merge_request_comments(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -149,7 +149,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns merge request's comments" do
-      expect(@merge_request).to be_an Gitlab::PaginatedResponse
+      expect(@merge_request).to be_an Gitlab::Client::PaginatedResponse
       expect(@merge_request.length).to eq(2)
       expect(@merge_request[0].note).to eq('this is the 1st comment on the 2merge merge request')
       expect(@merge_request[0].author.id).to eq(11)
@@ -161,7 +161,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_merge_request_comment' do
     before do
       stub_post('/projects/3/merge_requests/2/notes', 'merge_request_comment')
-      @merge_request = Gitlab.create_merge_request_comment(3, 2, 'Cool Merge Request!')
+      @merge_request = described_class.create_merge_request_comment(3, 2, 'Cool Merge Request!')
     end
 
     it 'gets the correct resource' do
@@ -177,7 +177,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_changes' do
     before do
       stub_get('/projects/3/merge_requests/2/changes', 'merge_request_changes')
-      @mr_changes = Gitlab.merge_request_changes(3, 2)
+      @mr_changes = described_class.merge_request_changes(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -197,7 +197,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_commits' do
     before do
       stub_get('/projects/3/merge_requests/2/commits', 'merge_request_commits')
-      @mr_commits = Gitlab.merge_request_commits(3, 2)
+      @mr_commits = described_class.merge_request_commits(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -205,7 +205,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns the merge request commits' do
-      expect(@mr_commits).to be_a Gitlab::PaginatedResponse
+      expect(@mr_commits).to be_a Gitlab::Client::PaginatedResponse
       expect(@mr_commits.size).to eq 2
       expect(@mr_commits.first.id).to eq 'a2da7552f26d5b46a6a09bb8b7b066e3a102be7d'
       expect(@mr_commits.first.short_id).to eq 'a2da7552'
@@ -220,7 +220,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_closes_issues' do
     before do
       stub_get('/projects/5/merge_requests/1/closes_issues', 'merge_request_closes_issues')
-      @issues = Gitlab.merge_request_closes_issues(5, 1)
+      @issues = described_class.merge_request_closes_issues(5, 1)
     end
 
     it 'gets the correct resource' do
@@ -228,7 +228,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of the issues the merge_request will close' do
-      expect(@issues).to be_a(Gitlab::PaginatedResponse)
+      expect(@issues).to be_a(Gitlab::Client::PaginatedResponse)
       expect(@issues.first.title).to eq('Merge request 1 issue 1')
       expect(@issues.size).to eq(2)
     end
@@ -237,7 +237,7 @@ RSpec.describe Gitlab::Client do
   describe '.subscribe_to_merge_request' do
     before do
       stub_post('/projects/3/merge_requests/2/subscribe', 'merge_request')
-      @merge_request = Gitlab.subscribe_to_merge_request(3, 2)
+      @merge_request = described_class.subscribe_to_merge_request(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -252,7 +252,7 @@ RSpec.describe Gitlab::Client do
   describe '.unsubscribe_from_merge_request' do
     before do
       stub_post('/projects/3/merge_requests/2/unsubscribe', 'merge_request')
-      @merge_request = Gitlab.unsubscribe_from_merge_request(3, 2)
+      @merge_request = described_class.unsubscribe_from_merge_request(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -267,7 +267,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_discussions' do
     before do
       stub_get('/projects/3/merge_requests/2/discussions', 'merge_request_discussions')
-      @discussions = Gitlab.merge_request_discussions(3, 2)
+      @discussions = described_class.merge_request_discussions(3, 2)
     end
 
     it 'gets the correct resource' do
@@ -283,7 +283,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_discussion' do
     before do
       stub_get('/projects/3/merge_requests/2/discussions/1', 'merge_request_discussion')
-      @discussion = Gitlab.merge_request_discussion(3, 2, 1)
+      @discussion = described_class.merge_request_discussion(3, 2, 1)
     end
 
     it 'gets the correct resource' do
@@ -298,7 +298,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_merge_request_discussion' do
     before do
       stub_post('/projects/3/merge_requests/2/discussions', 'merge_request_discussion')
-      @discussion = Gitlab.create_merge_request_discussion(3, 2, body: 'Discussion', position: { old_line: 1 })
+      @discussion = described_class.create_merge_request_discussion(3, 2, body: 'Discussion', position: { old_line: 1 })
     end
 
     it 'posts the correct resource' do
@@ -314,7 +314,7 @@ RSpec.describe Gitlab::Client do
   describe '.resolve_merge_request_discussion' do
     before do
       stub_put('/projects/3/merge_requests/2/discussions/1', 'merge_request_discussion')
-      @discussion = Gitlab.resolve_merge_request_discussion(3, 2, 1, resolved: true)
+      @discussion = described_class.resolve_merge_request_discussion(3, 2, 1, resolved: true)
     end
 
     it 'puts the correct resource' do
@@ -332,7 +332,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_merge_request_discussion_note' do
     before do
       stub_post('/projects/3/merge_requests/2/discussions/1/notes', 'merge_request_discussion_note')
-      @note = Gitlab.create_merge_request_discussion_note(3, 2, 1, body: 'note')
+      @note = described_class.create_merge_request_discussion_note(3, 2, 1, body: 'note')
     end
 
     it 'posts the correct resource' do
@@ -348,7 +348,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_merge_request_discussion_note' do
     before do
       stub_put('/projects/3/merge_requests/2/discussions/1/notes/1', 'merge_request_discussion_note')
-      @note = Gitlab.update_merge_request_discussion_note(3, 2, 1, 1, body: 'note2')
+      @note = described_class.update_merge_request_discussion_note(3, 2, 1, 1, body: 'note2')
     end
 
     it 'puts the correct resource' do
@@ -364,7 +364,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_merge_request_discussion_note' do
     before do
       stub_request(:delete, 'https://api.example.com/projects/3/merge_requests/2/discussions/1/notes/1').to_return(body: '')
-      @note = Gitlab.delete_merge_request_discussion_note(3, 2, 1, 1)
+      @note = described_class.delete_merge_request_discussion_note(3, 2, 1, 1)
     end
 
     it 'deletes the correct resource' do
@@ -379,7 +379,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_diff_versions' do
     before do
       stub_get('/projects/3/merge_requests/105/versions', 'merge_request_diff_versions')
-      @versions = Gitlab.merge_request_diff_versions(3, 105)
+      @versions = described_class.merge_request_diff_versions(3, 105)
     end
 
     it 'gets the correct resource' do
@@ -395,7 +395,7 @@ RSpec.describe Gitlab::Client do
   describe '.merge_request_diff_version' do
     before do
       stub_get('/projects/3/merge_requests/105/versions/1', 'merge_request_diff_version')
-      @diff = Gitlab.merge_request_diff_version(3, 105, 1)
+      @diff = described_class.merge_request_diff_version(3, 105, 1)
     end
 
     it 'gets the correct resource' do
@@ -412,7 +412,7 @@ RSpec.describe Gitlab::Client do
     before do
       stub_put('/projects/3/merge_requests/105/rebase', 'merge_request_rebase')
         .with(body: { skip_ci: true })
-      @response = Gitlab.rebase_merge_request(3, 105, skip_ci: true)
+      @response = described_class.rebase_merge_request(3, 105, skip_ci: true)
     end
 
     it 'gets correct resource' do

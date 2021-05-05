@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_release_links' do
     before do
       stub_get('/projects/3/releases/v0.1/assets/links', 'project_release_links')
-      @project_release_links = Gitlab.project_release_links(3, 'v0.1')
+      @project_release_links = described_class.project_release_links(3, 'v0.1')
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's release links" do
-      expect(@project_release_links).to be_a Gitlab::PaginatedResponse
+      expect(@project_release_links).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.project_release_link' do
     before do
       stub_get('/projects/3/releases/v0.1/assets/links/1', 'project_release_link')
-      @project_release_link = Gitlab.project_release_link(3, 'v0.1', 1)
+      @project_release_link = described_class.project_release_link(3, 'v0.1', 1)
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_project_release_link' do
     before do
       stub_post('/projects/5/releases/v0.1/assets/links', 'project_release_link')
-      @project_release_link = Gitlab.create_project_release_link(5, 'v0.1', name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000')
+      @project_release_link = described_class.create_project_release_link(5, 'v0.1', name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000')
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_project_release_link' do
     before do
       stub_put('/projects/5/releases/v0.1/assets/links/1', 'project_release_link')
-      @project_release_link = Gitlab.update_project_release_link(5, 'v0.1', 1, url: 'http://192.168.10.15:3000')
+      @project_release_link = described_class.update_project_release_link(5, 'v0.1', 1, url: 'http://192.168.10.15:3000')
     end
 
     it 'gets the correct resource' do
@@ -69,7 +69,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_project_release_link' do
     before do
       stub_delete('/projects/3/releases/v0.1/assets/links/1', 'project_release_link')
-      @project_release_link = Gitlab.delete_project_release_link(3, 'v0.1', 1)
+      @project_release_link = described_class.delete_project_release_link(3, 'v0.1', 1)
     end
 
     it 'gets the correct resource' do

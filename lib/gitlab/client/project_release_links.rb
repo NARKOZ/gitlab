@@ -7,11 +7,11 @@ class Gitlab::Client
     # Get assets as links from a Release.
     #
     # @example
-    #   Gitlab.project_release_links(5, 'v0.3')
+    #   Gitlab::Client.project_release_links(5, 'v0.3')
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [String] tag_name The tag associated with the Release.
-    # @return [Array<Gitlab::ObjectifiedHash>] List of assets as links from a Release.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] List of assets as links from a Release.
     def project_release_links(project, tag_name)
       get("/projects/#{url_encode project}/releases/#{tag_name}/assets/links")
     end
@@ -19,12 +19,12 @@ class Gitlab::Client
     # Get an asset as link from a Release.
     #
     # @example
-    #   Gitlab.project_release_link(5, 'v0.3', 1)
+    #   Gitlab::Client.project_release_link(5, 'v0.3', 1)
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [String] tag_name The tag associated with the Release.
     # @param [Integer] link_id The id of the link.
-    # @return [Gitlab::ObjectifiedHash] Information about the release link
+    # @return [Gitlab::Client::ObjectifiedHash] Information about the release link
     def project_release_link(project, tag_name, link_id)
       get("/projects/#{url_encode project}/releases/#{tag_name}/assets/links/#{link_id}")
     end
@@ -32,14 +32,14 @@ class Gitlab::Client
     # Create an asset as a link from a Release.
     #
     # @example
-    #   Gitlab.create_project_release_link(5, 'v0.1', { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' })
+    #   Gitlab::Client.create_project_release_link(5, 'v0.1', { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' })
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [String] tag_name The tag associated with the Release.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :name(required)  The name of the link.
     # @option options [String] :url(required)  The URL of the link.
-    # @return [Gitlab::ObjectifiedHash] Information about the created release link.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about the created release link.
     def create_project_release_link(project, tag_name, options = {})
       post("/projects/#{url_encode project}/releases/#{tag_name}/assets/links", body: options)
     end
@@ -47,7 +47,7 @@ class Gitlab::Client
     # Update an asset as a link from a Release. You have to specify at least one of name or url
     #
     # @example
-    #   Gitlab.update_project_release_link(5, 'v0.3', 1, { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' })
+    #   Gitlab::Client.update_project_release_link(5, 'v0.3', 1, { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' })
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [String] tag_name  The tag where the release will be created from.
@@ -55,7 +55,7 @@ class Gitlab::Client
     # @param [Hash] options A customizable set of options.
     # @option options [String] :name(optional)  The name of the link.
     # @option options [String] :url(optional)  The URL of the link.
-    # @return [Gitlab::ObjectifiedHash] Information about the updated release link.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about the updated release link.
     def update_project_release_link(project, tag_name, link_id, options = {})
       put("/projects/#{url_encode project}/releases/#{tag_name}/assets/links/#{link_id}", body: options)
     end
@@ -63,12 +63,12 @@ class Gitlab::Client
     # Delete an asset as a link from a Release.
     #
     # @example
-    #   Gitlab.delete_project_release_link(5, 'v0.3', 1)
+    #   Gitlab::Client.delete_project_release_link(5, 'v0.3', 1)
     #
     # @param [Integer, String] project The ID or name of a project.
     # @param [String] tag_name  The tag where the release will be created from.
     # @param [Integer] link_id The id of the link.
-    # @return [Gitlab::ObjectifiedHash] Information about the deleted release link.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about the deleted release link.
     def delete_project_release_link(project, tag_name, link_id)
       delete("/projects/#{url_encode project}/releases/#{tag_name}/assets/links/#{link_id}")
     end

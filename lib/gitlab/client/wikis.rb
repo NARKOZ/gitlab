@@ -7,13 +7,13 @@ class Gitlab::Client
     # Get all wiki pages for a given project.
     #
     # @example
-    #   Gitlab.wikis(3)
-    #   Gitlab.wikis(3, {with_content: 'Some wiki content'})
+    #   Gitlab::Client.wikis(3)
+    #   Gitlab::Client.wikis(3, {with_content: 'Some wiki content'})
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] with_content(optional) Include pages content
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def wikis(project, options = {})
       get("/projects/#{url_encode project}/wikis", query: options)
     end
@@ -21,11 +21,11 @@ class Gitlab::Client
     # Get a wiki page for a given project.
     #
     # @example
-    #   Gitlab.wiki(3, 'home')
+    #   Gitlab::Client.wiki(3, 'home')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] slug The slug (a unique string) of the wiki page
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def wiki(project, slug)
       get("/projects/#{url_encode project}/wikis/#{slug}")
     end
@@ -33,15 +33,15 @@ class Gitlab::Client
     # Creates a new wiki page for the given repository with the given title, slug, and content.
     #
     # @example
-    #   Gitlab.create_wiki(3, 'Some Title', 'Some Content')
-    #   Gitlab.create_wiki(3, 'Some Title', 'Some Content', { format: 'rdoc' })
+    #   Gitlab::Client.create_wiki(3, 'Some Title', 'Some Content')
+    #   Gitlab::Client.create_wiki(3, 'Some Title', 'Some Content', { format: 'rdoc' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] content The content of the wiki page.
     # @param  [String] title The title of the wiki page.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] format (optional) The format of the wiki page. Available formats are: markdown (default), rdoc, and asciidoc.
-    # @return [Gitlab::ObjectifiedHash] Information about created wiki page.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created wiki page.
     def create_wiki(project, title, content, options = {})
       body = { content: content, title: title }.merge(options)
       post("/projects/#{url_encode project}/wikis", body: body)
@@ -50,8 +50,8 @@ class Gitlab::Client
     # Updates an existing wiki page. At least one parameter is required to update the wiki page.
     #
     # @example
-    #   Gitlab.update_wiki(6, 'home', { title: 'New title' })
-    #   Gitlab.update_wiki(6, 'home', { title: 'New title', content: 'New Message', format: 'rdoc' })
+    #   Gitlab::Client.update_wiki(6, 'home', { title: 'New title' })
+    #   Gitlab::Client.update_wiki(6, 'home', { title: 'New title', content: 'New Message', format: 'rdoc' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] slug The slug (a unique string) of the wiki page.
@@ -59,7 +59,7 @@ class Gitlab::Client
     # @option options [String] content The content of the wiki page.
     # @option options [String] title The title of the wiki page.
     # @option options [String] format (optional) The format of the wiki page. Available formats are: markdown (default), rdoc, and asciidoc.
-    # @return [Gitlab::ObjectifiedHash] Information about updated wiki page.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about updated wiki page.
     def update_wiki(project, slug, options = {})
       put("/projects/#{url_encode project}/wikis/#{slug}", body: options)
     end
@@ -67,11 +67,11 @@ class Gitlab::Client
     # Deletes a wiki page with a given slug.
     #
     # @example
-    #   Gitlab.delete_wiki(42, 'foo')
+    #   Gitlab::Client.delete_wiki(42, 'foo')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] slug The slug (a unique string) of the wiki page.
-    # @return [Gitlab::ObjectifiedHash] An empty objectified hash
+    # @return [Gitlab::Client::ObjectifiedHash] An empty objectified hash
     def delete_wiki(project, slug)
       delete("/projects/#{url_encode project}/wikis/#{slug}")
     end

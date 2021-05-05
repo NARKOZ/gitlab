@@ -7,15 +7,15 @@ class Gitlab::Client
     # Get file tree project (root level).
     #
     # @example
-    #   Gitlab.tree(42)
-    #   Gitlab.tree(42, { path: 'Gemfile' })
+    #   Gitlab::Client.tree(42)
+    #   Gitlab::Client.tree(42, { path: 'Gemfile' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :path The path inside repository.
     # @option options [String] :ref The name of a repository branch or tag.
     # @option options [Integer] :per_page Number of results to show per page (default = 20)
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def tree(project, options = {})
       get("/projects/#{url_encode project}/repository/tree", query: options)
     end
@@ -24,13 +24,13 @@ class Gitlab::Client
     # Get project repository archive
     #
     # @example
-    #   Gitlab.repo_archive(42)
-    #   Gitlab.repo_archive(42, 'deadbeef')
+    #   Gitlab::Client.repo_archive(42)
+    #   Gitlab::Client.repo_archive(42, 'deadbeef')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref The commit sha, branch, or tag to download.
     # @param  [String] format The archive format. Options are: tar.gz (default), tar.bz2, tbz, tbz2, tb2, bz2, tar, and zip
-    # @return [Gitlab::FileResponse]
+    # @return [Gitlab::Client::FileResponse]
     def repo_archive(project, ref = 'master', format = 'tar.gz')
       get("/projects/#{url_encode project}/repository/archive.#{format}",
           format: nil,
@@ -38,9 +38,9 @@ class Gitlab::Client
           query: { sha: ref },
           parser: proc { |body, _|
             if body.encoding == Encoding::ASCII_8BIT # binary response
-              ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+              ::Gitlab::Client::FileResponse.new StringIO.new(body, 'rb+')
             else # error with json response
-              ::Gitlab::Request.parse(body)
+              ::Gitlab::Client.parse(body)
             end
           })
     end
@@ -48,13 +48,13 @@ class Gitlab::Client
     # Compares branches, tags or commits.
     #
     # @example
-    #   Gitlab.compare(42, 'master', 'feature/branch')
-    #   Gitlab.repo_compare(42, 'master', 'feature/branch')
+    #   Gitlab::Client.compare(42, 'master', 'feature/branch')
+    #   Gitlab::Client.repo_compare(42, 'master', 'feature/branch')
     #
     # @param [Integer] project The ID of a project.
     # @param [String] from The commit SHA or branch name of from branch.
     # @param [String] to The commit SHA or branch name of to branch.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def compare(project, from, to)
       get("/projects/#{url_encode project}/repository/compare", query: { from: from, to: to })
     end
@@ -63,12 +63,12 @@ class Gitlab::Client
     # Get the common ancestor for 2 refs (commit SHAs, branch names or tags).
     #
     # @example
-    #   Gitlab.merge_base(42, ['master', 'feature/branch'])
-    #   Gitlab.merge_base(42, ['master', 'feature/branch'])
+    #   Gitlab::Client.merge_base(42, ['master', 'feature/branch'])
+    #   Gitlab::Client.merge_base(42, ['master', 'feature/branch'])
     #
     # @param [Integer, String] project The ID or URL-encoded path of the project.
     # @param [Array] refs Array containing 2 commit SHAs, branch names, or tags.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def merge_base(project, refs)
       get("/projects/#{url_encode project}/repository/merge_base", query: { refs: refs })
     end
@@ -76,14 +76,14 @@ class Gitlab::Client
     # Get project repository contributors.
     #
     # @example
-    #   Gitlab.contributors(42)
-    #   Gitlab.contributors(42, { order: 'name' })
+    #   Gitlab::Client.contributors(42)
+    #   Gitlab::Client.contributors(42, { order: 'name' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :order_by Order by name, email or commits (default = commits).
     # @option options [String] :sort Sort order asc or desc (default = asc).
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def contributors(project, options = {})
       get("/projects/#{url_encode project}/repository/contributors", query: options)
     end
@@ -92,8 +92,8 @@ class Gitlab::Client
     # Generate changelog data
     #
     # @example
-    #   Gitlab.generate_changelog(42, 'v1.0.0')
-    #   Gitlab.generate_changelog(42, 'v1.0.0', branch: 'main')
+    #   Gitlab::Client.generate_changelog(42, 'v1.0.0')
+    #   Gitlab::Client.generate_changelog(42, 'v1.0.0', branch: 'main')
     #
     # @param [Integer, String] project The ID or name of a project
     # @param [String] version The version to generate the changelog for

@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.pipeline_schedules' do
     before do
       stub_get('/projects/3/pipeline_schedules', 'pipeline_schedules')
-      @pipeline_schedules = Gitlab.pipeline_schedules(3)
+      @pipeline_schedules = described_class.pipeline_schedules(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a response of project's pipeline schedules" do
-      expect(@pipeline_schedules).to be_a Gitlab::PaginatedResponse
+      expect(@pipeline_schedules).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.pipeline_schedule' do
     before do
       stub_get('/projects/3/pipeline_schedules/5', 'pipeline_schedule')
-      @pipeline_schedule = Gitlab.pipeline_schedule(3, 5)
+      @pipeline_schedule = described_class.pipeline_schedule(3, 5)
     end
 
     it 'gets the correct resource' do
@@ -29,14 +29,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a response of project's pipeline schedules" do
-      expect(@pipeline_schedule).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule).to be_a Gitlab::Client::ObjectifiedHash
     end
   end
 
   describe '.create_pipeline_schedule' do
     before do
       stub_post('/projects/3/pipeline_schedules', 'pipeline_schedule_create')
-      @pipeline_schedule_create = Gitlab.create_pipeline_schedule(3)
+      @pipeline_schedule_create = described_class.create_pipeline_schedule(3)
     end
 
     it 'gets the correct resource' do
@@ -44,7 +44,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline schedule' do
-      expect(@pipeline_schedule_create).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule_create).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline schedule' do
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_pipeline_schedule' do
     before do
       stub_put('/projects/3/pipeline_schedules/13', 'pipeline_schedule_update')
-      @pipeline_schedule_update = Gitlab.edit_pipeline_schedule(3, 13)
+      @pipeline_schedule_update = described_class.edit_pipeline_schedule(3, 13)
     end
 
     it 'gets the correct resource' do
@@ -63,7 +63,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline schedule' do
-      expect(@pipeline_schedule_update).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule_update).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about a pipeline schedule' do
@@ -74,7 +74,7 @@ RSpec.describe Gitlab::Client do
   describe '.pipeline_schedule_take_ownership' do
     before do
       stub_post('/projects/3/pipeline_schedules/13/take_ownership', 'pipeline_schedule')
-      @pipeline_schedule = Gitlab.pipeline_schedule_take_ownership(3, 13)
+      @pipeline_schedule = described_class.pipeline_schedule_take_ownership(3, 13)
     end
 
     it 'gets the correct resource' do
@@ -90,7 +90,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_pipeline_schedule' do
     before do
       stub_delete('/projects/3/pipeline_schedules/13', 'pipeline_schedule')
-      @pipeline_schedule = Gitlab.delete_pipeline_schedule(3, 13)
+      @pipeline_schedule = described_class.delete_pipeline_schedule(3, 13)
     end
 
     it 'gets the correct resource' do
@@ -98,7 +98,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single pipeline' do
-      expect(@pipeline_schedule).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns information about the deleted pipeline' do
@@ -110,9 +110,9 @@ RSpec.describe Gitlab::Client do
     before do
       stub_post('/projects/3/pipeline_schedules/13/variables', 'pipeline_schedule_variable')
         .with(body: { key: 'NEW VARIABLE', value: 'new value' })
-      @pipeline_schedule_variable = Gitlab.create_pipeline_schedule_variable(3, 13,
-                                                                             key: 'NEW VARIABLE',
-                                                                             value: 'new value')
+      @pipeline_schedule_variable = described_class.create_pipeline_schedule_variable(3, 13,
+                                                                                      key: 'NEW VARIABLE',
+                                                                                      value: 'new value')
     end
 
     it 'gets the correct resource' do
@@ -121,7 +121,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a single variable' do
-      expect(@pipeline_schedule_variable).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule_variable).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'returns the created variable' do
@@ -133,11 +133,11 @@ RSpec.describe Gitlab::Client do
     before do
       stub_put('/projects/3/pipeline_schedules/13/variables/NEW%20VARIABLE', 'pipeline_schedule_variable_update')
         .with(body: { value: 'update value' })
-      @pipeline_schedule_variable = Gitlab.edit_pipeline_schedule_variable(3, 13, 'NEW VARIABLE', value: 'update value')
+      @pipeline_schedule_variable = described_class.edit_pipeline_schedule_variable(3, 13, 'NEW VARIABLE', value: 'update value')
     end
 
     it 'returns a single variable' do
-      expect(@pipeline_schedule_variable).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule_variable).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'has the updated value' do
@@ -148,11 +148,11 @@ RSpec.describe Gitlab::Client do
   describe '.delete_pipeline_schedule_variable' do
     before do
       stub_delete('/projects/3/pipeline_schedules/13/variables/NEW%20VARIABLE', 'pipeline_schedule_variable')
-      @pipeline_schedule_variable = Gitlab.delete_pipeline_schedule_variable(3, 13, 'NEW VARIABLE')
+      @pipeline_schedule_variable = described_class.delete_pipeline_schedule_variable(3, 13, 'NEW VARIABLE')
     end
 
     it 'returns a single variable' do
-      expect(@pipeline_schedule_variable).to be_a Gitlab::ObjectifiedHash
+      expect(@pipeline_schedule_variable).to be_a Gitlab::Client::ObjectifiedHash
     end
 
     it 'has the value of the deleted variable' do

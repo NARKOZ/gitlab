@@ -3,8 +3,8 @@
 require 'rspec'
 require 'webmock/rspec'
 
-require File.expand_path('../lib/gitlab', __dir__)
-require File.expand_path('../lib/gitlab/cli', __dir__)
+require File.expand_path('../lib/gitlab/client', __dir__)
+require File.expand_path('../lib/gitlab/client/cli', __dir__)
 
 def load_fixture(name)
   name, extension = name.split('.')
@@ -13,8 +13,8 @@ end
 
 RSpec.configure do |config|
   config.before(:all) do
-    Gitlab.endpoint = 'https://api.example.com'
-    Gitlab.private_token = 'secret'
+    Gitlab::Client.endpoint = 'https://api.example.com'
+    Gitlab::Client.private_token = 'secret'
   end
 
   config.expect_with :rspec do |expectations|
@@ -38,13 +38,13 @@ end
 
 %i[get post put delete].each do |method|
   define_method "stub_#{method}" do |path, fixture, status_code = 200|
-    stub_request(method, "#{Gitlab.endpoint}#{path}")
-      .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+    stub_request(method, "#{Gitlab::Client.endpoint}#{path}")
+      .with(headers: { 'PRIVATE-TOKEN' => Gitlab::Client.private_token })
       .to_return(body: load_fixture(fixture), status: status_code)
   end
 
   define_method "a_#{method}" do |path|
-    a_request(method, "#{Gitlab.endpoint}#{path}")
-      .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+    a_request(method, "#{Gitlab::Client.endpoint}#{path}")
+      .with(headers: { 'PRIVATE-TOKEN' => Gitlab::Client.private_token })
   end
 end

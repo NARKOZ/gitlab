@@ -7,10 +7,10 @@ class Gitlab::Client
     # Get a list of registry repositories in a project.
     #
     # @example
-    #   Gitlab.registry_repositories(5)
+    #   Gitlab::Client.registry_repositories(5)
     #
     # @param  [Integer, String] project The ID or name of a project.
-    # @return [Array<Gitlab::ObjectifiedHash>] Returns list of registry repositories in a project.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] Returns list of registry repositories in a project.
     def registry_repositories(project)
       get("/projects/#{url_encode project}/registry/repositories")
     end
@@ -18,7 +18,7 @@ class Gitlab::Client
     # Delete a repository in registry.
     #
     # @example
-    #   Gitlab.delete_registry_repository(5, 2)
+    #   Gitlab::Client.delete_registry_repository(5, 2)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of registry repository.
@@ -30,11 +30,11 @@ class Gitlab::Client
     # Get a list of tags for given registry repository.
     #
     # @example
-    #   Gitlab.registry_repository_tags(5, 2)
+    #   Gitlab::Client.registry_repository_tags(5, 2)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] repository_id The ID of registry repository.
-    # @return [Array<Gitlab::ObjectifiedHash>] Returns list of tags of a registry repository.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] Returns list of tags of a registry repository.
     def registry_repository_tags(project, repository_id)
       get("/projects/#{url_encode project}/registry/repositories/#{repository_id}/tags")
     end
@@ -42,12 +42,12 @@ class Gitlab::Client
     # Get details of a registry repository tag.
     #
     # @example
-    #   Gitlab.registry_repository_tag(5, 2, 'v10.0.0')
+    #   Gitlab::Client.registry_repository_tag(5, 2, 'v10.0.0')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] repository_id The ID of registry repository.
     # @param  [String] tag_name The name of tag.
-    # @return <Gitlab::ObjectifiedHash> Returns details about the registry repository tag
+    # @return <Gitlab::Client::ObjectifiedHash> Returns details about the registry repository tag
     def registry_repository_tag(project, repository_id, tag_name)
       get("/projects/#{url_encode project}/registry/repositories/#{repository_id}/tags/#{tag_name}")
     end
@@ -55,7 +55,7 @@ class Gitlab::Client
     # Delete a registry repository tag.
     #
     # @example
-    #   Gitlab.delete_registry_repository_tag(5, 2, 'v10.0.0')
+    #   Gitlab::Client.delete_registry_repository_tag(5, 2, 'v10.0.0')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] repository_id The ID of registry repository.
@@ -68,8 +68,8 @@ class Gitlab::Client
     # Delete repository tags in bulk based on given criteria.
     #
     # @example
-    #   Gitlab.bulk_delete_registry_repository_tags(5, 2, name_regex: '.*')
-    #   Gitlab.bulk_delete_registry_repository_tags(5, 2, name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d')
+    #   Gitlab::Client.bulk_delete_registry_repository_tags(5, 2, name_regex: '.*')
+    #   Gitlab::Client.bulk_delete_registry_repository_tags(5, 2, name_regex: '[0-9a-z]{40}', keep_n: 5, older_than: '1d')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] repository_id The ID of registry repository.

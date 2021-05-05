@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.project_releases' do
     before do
       stub_get('/projects/3/releases', 'project_releases')
-      @project_releases = Gitlab.project_releases(3)
+      @project_releases = described_class.project_releases(3)
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns a paginated response of project's releases" do
-      expect(@project_releases).to be_a Gitlab::PaginatedResponse
+      expect(@project_releases).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.project_release' do
     before do
       stub_get('/projects/3/releases/v0.1', 'project_release')
-      @project_release = Gitlab.project_release(3, 'v0.1')
+      @project_release = described_class.project_release(3, 'v0.1')
     end
 
     it 'gets the correct resource' do
@@ -37,7 +37,7 @@ RSpec.describe Gitlab::Client do
     context 'without asset links' do
       before do
         stub_post('/projects/5/releases', 'project_release')
-        @project_release = Gitlab.create_project_release(5, name: 'Awesome app v0.1 alpha', tag_name: 'v0.1', description: "## CHANGELOG\r\n\r\n- Remove limit of 100 when searching repository code. !8671\r\n- Show error message when attempting to reopen an MR and there is an open MR for the same branch. !16447 (Akos Gyimesi)\r\n- Fix a bug where internal email pattern wasn't respected. !22516")
+        @project_release = described_class.create_project_release(5, name: 'Awesome app v0.1 alpha', tag_name: 'v0.1', description: "## CHANGELOG\r\n\r\n- Remove limit of 100 when searching repository code. !8671\r\n- Show error message when attempting to reopen an MR and there is an open MR for the same branch. !16447 (Akos Gyimesi)\r\n- Fix a bug where internal email pattern wasn't respected. !22516")
       end
 
       it 'gets the correct resource' do
@@ -55,7 +55,7 @@ RSpec.describe Gitlab::Client do
     context 'with asset links' do
       before do
         stub_post('/projects/5/releases', 'project_release_with_assets')
-        @project_release = Gitlab.create_project_release(5, name: 'Awesome app v0.1 alpha', tag_name: 'v0.1', description: "## CHANGELOG\r\n\r\n- Remove limit of 100 when searching repository code. !8671\r\n- Show error message when attempting to reopen an MR and there is an open MR for the same branch. !16447 (Akos Gyimesi)\r\n- Fix a bug where internal email pattern wasn't respected. !22516", assets: { links: [{ name: 'awesome-v0.2.msi', url: 'http://192.168.10.15:3000/msi' }, { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' }] })
+        @project_release = described_class.create_project_release(5, name: 'Awesome app v0.1 alpha', tag_name: 'v0.1', description: "## CHANGELOG\r\n\r\n- Remove limit of 100 when searching repository code. !8671\r\n- Show error message when attempting to reopen an MR and there is an open MR for the same branch. !16447 (Akos Gyimesi)\r\n- Fix a bug where internal email pattern wasn't respected. !22516", assets: { links: [{ name: 'awesome-v0.2.msi', url: 'http://192.168.10.15:3000/msi' }, { name: 'awesome-v0.2.dmg', url: 'http://192.168.10.15:3000' }] })
       end
 
       it 'gets the correct resource' do
@@ -78,7 +78,7 @@ RSpec.describe Gitlab::Client do
   describe '.update_project_release' do
     before do
       stub_put('/projects/5/releases/v0.1', 'project_release')
-      @project_release = Gitlab.update_project_release(5, 'v0.1', name: 'Awesome app v0.1 alpha')
+      @project_release = described_class.update_project_release(5, 'v0.1', name: 'Awesome app v0.1 alpha')
     end
 
     it 'gets the correct resource' do
@@ -94,7 +94,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_project_release' do
     before do
       stub_delete('/projects/3/releases/v0.1', 'project_release')
-      @project_release = Gitlab.delete_project_release(3, 'v0.1')
+      @project_release = described_class.delete_project_release(3, 'v0.1')
     end
 
     it 'gets the correct resource' do

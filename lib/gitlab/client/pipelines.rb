@@ -7,14 +7,14 @@ class Gitlab::Client
     # Gets a list of project pipelines.
     #
     # @example
-    #   Gitlab.pipelines(5)
-    #   Gitlab.pipelines(5, { per_page: 10, page:  2 })
+    #   Gitlab::Client.pipelines(5)
+    #   Gitlab::Client.pipelines(5, { per_page: 10, page:  2 })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def pipelines(project, options = {})
       get("/projects/#{url_encode project}/pipelines", query: options)
     end
@@ -22,11 +22,11 @@ class Gitlab::Client
     # Gets a single pipeline.
     #
     # @example
-    #   Gitlab.pipeline(5, 36)
+    #   Gitlab::Client.pipeline(5, 36)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a pipeline.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def pipeline(project, id)
       get("/projects/#{url_encode project}/pipelines/#{id}")
     end
@@ -34,11 +34,11 @@ class Gitlab::Client
     # Gets a single pipeline's test report.
     #
     # @example
-    #   Gitlab.pipeline_test_report(5, 36)
+    #   Gitlab::Client.pipeline_test_report(5, 36)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a pipeline.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def pipeline_test_report(project, id)
       get("/projects/#{url_encode project}/pipelines/#{id}/test_report")
     end
@@ -46,12 +46,12 @@ class Gitlab::Client
     # Create a pipeline.
     #
     # @example
-    #   Gitlab.create_pipeline(5, 'master')
+    #   Gitlab::Client.create_pipeline(5, 'master')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref Reference to commit.
     # @param  [Hash] variables Variables passed to pipelines
-    # @return [Gitlab::ObjectifiedHash] The pipelines changes.
+    # @return [Gitlab::Client::ObjectifiedHash] The pipelines changes.
     def create_pipeline(project, ref, variables = {})
       body = {}
 
@@ -69,11 +69,11 @@ class Gitlab::Client
     # Cancels a pipeline.
     #
     # @example
-    #   Gitlab.cancel_pipeline(5, 1)
+    #   Gitlab::Client.cancel_pipeline(5, 1)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a pipeline.
-    # @return [Gitlab::ObjectifiedHash] The pipelines changes.
+    # @return [Gitlab::Client::ObjectifiedHash] The pipelines changes.
     def cancel_pipeline(project, id)
       post("/projects/#{url_encode project}/pipelines/#{id}/cancel")
     end
@@ -81,11 +81,11 @@ class Gitlab::Client
     # Retry a pipeline.
     #
     # @example
-    #   Gitlab.retry_pipeline(5, 1)
+    #   Gitlab::Client.retry_pipeline(5, 1)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a pipeline.
-    # @return [Array<Gitlab::ObjectifiedHash>] The pipelines changes.
+    # @return [Array<Gitlab::Client::ObjectifiedHash>] The pipelines changes.
     def retry_pipeline(project, id)
       post("/projects/#{url_encode project}/pipelines/#{id}/retry")
     end
@@ -93,7 +93,7 @@ class Gitlab::Client
     # Delete a pipeline
     #
     # @example
-    #   Gitlab.delete_pipeline(5, 1)
+    #   Gitlab::Client.delete_pipeline(5, 1)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a pipeline.

@@ -7,13 +7,13 @@ class Gitlab::Client
     # Gets a list of project's milestones.
     #
     # @example
-    #   Gitlab.milestones(5)
+    #   Gitlab::Client.milestones(5)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Hash] options A customizable set of options.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def milestones(project, options = {})
       get("/projects/#{url_encode project}/milestones", query: options)
     end
@@ -21,11 +21,11 @@ class Gitlab::Client
     # Gets a single milestone.
     #
     # @example
-    #   Gitlab.milestone(5, 36)
+    #   Gitlab::Client.milestone(5, 36)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a milestone.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Gitlab::Client::ObjectifiedHash]
     def milestone(project, id)
       get("/projects/#{url_encode project}/milestones/#{id}")
     end
@@ -33,13 +33,13 @@ class Gitlab::Client
     # Gets the issues of a given milestone.
     #
     # @example
-    #   Gitlab.milestone_issues(5, 2)
+    #   Gitlab::Client.milestone_issues(5, 2)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer, String] milestone The ID of a milestone.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def milestone_issues(project, milestone, options = {})
       get("/projects/#{url_encode project}/milestones/#{milestone}/issues", query: options)
     end
@@ -47,13 +47,13 @@ class Gitlab::Client
     # Gets the merge_requests of a given milestone.
     #
     # @example
-    #   Gitlab.milestone_merge_requests(5, 2)
+    #   Gitlab::Client.milestone_merge_requests(5, 2)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer, String] milestone The ID of a milestone.
     # @option options [Integer] :page The page number.
     # @option options [Integer] :per_page The number of results per page.
-    # @return [Array<Gitlab::ObjectifiedHash>]
+    # @return [Array<Gitlab::Client::ObjectifiedHash>]
     def milestone_merge_requests(project, milestone, options = {})
       get("/projects/#{url_encode project}/milestones/#{milestone}/merge_requests", query: options)
     end
@@ -61,14 +61,14 @@ class Gitlab::Client
     # Creates a new milestone.
     #
     # @example
-    #   Gitlab.create_milestone(5, 'v1.0')
+    #   Gitlab::Client.create_milestone(5, 'v1.0')
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] title The title of a milestone.
     # @param  [Hash] options A customizable set of options.
     # @option options [String] :description The description of a milestone.
     # @option options [String] :due_date The due date of a milestone.
-    # @return [Gitlab::ObjectifiedHash] Information about created milestone.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about created milestone.
     def create_milestone(project, title, options = {})
       body = { title: title }.merge(options)
       post("/projects/#{url_encode project}/milestones", body: body)
@@ -77,7 +77,7 @@ class Gitlab::Client
     # Updates a milestone.
     #
     # @example
-    #   Gitlab.edit_milestone(5, 2, { state_event: 'activate' })
+    #   Gitlab::Client.edit_milestone(5, 2, { state_event: 'activate' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a milestone.
@@ -86,7 +86,7 @@ class Gitlab::Client
     # @option options [String] :description The description of a milestone.
     # @option options [String] :due_date The due date of a milestone.
     # @option options [String] :state_event The state of a milestone ('close' or 'activate').
-    # @return [Gitlab::ObjectifiedHash] Information about updated milestone.
+    # @return [Gitlab::Client::ObjectifiedHash] Information about updated milestone.
     def edit_milestone(project, id, options = {})
       put("/projects/#{url_encode project}/milestones/#{id}", body: options)
     end
@@ -94,7 +94,7 @@ class Gitlab::Client
     # Delete a project milestone.
     #
     # @example
-    #   Gitlab.delete_milestone(5, 2)
+    #   Gitlab::Client.delete_milestone(5, 2)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a milestone.

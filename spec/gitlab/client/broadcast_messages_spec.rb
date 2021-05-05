@@ -6,7 +6,7 @@ RSpec.describe Gitlab::Client do
   describe '.broadcast_messages' do
     before do
       stub_get('/broadcast_messages', 'broadcast_messages')
-      @broadcast_messages = Gitlab.broadcast_messages
+      @broadcast_messages = described_class.broadcast_messages
     end
 
     it 'gets the correct resource' do
@@ -14,14 +14,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns a paginated response of broadcast messages' do
-      expect(@broadcast_messages).to be_a Gitlab::PaginatedResponse
+      expect(@broadcast_messages).to be_a Gitlab::Client::PaginatedResponse
     end
   end
 
   describe '.broadcast_message' do
     before do
       stub_get('/broadcast_messages/1', 'broadcast_message')
-      @broadcast_message = Gitlab.broadcast_message(1)
+      @broadcast_message = described_class.broadcast_message(1)
     end
 
     it 'gets the correct resource' do
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
   describe '.create_broadcast_message' do
     before do
       stub_post('/broadcast_messages', 'broadcast_message')
-      @broadcast_message = Gitlab.create_broadcast_message('Deploy in progress', color: '#cecece')
+      @broadcast_message = described_class.create_broadcast_message('Deploy in progress', color: '#cecece')
     end
 
     it 'gets the correct resource' do
@@ -53,7 +53,7 @@ RSpec.describe Gitlab::Client do
   describe '.edit_broadcast_message' do
     before do
       stub_put('/broadcast_messages/1', 'broadcast_message')
-      @broadcast_message = Gitlab.edit_broadcast_message(1, font: '#FFFFFF')
+      @broadcast_message = described_class.edit_broadcast_message(1, font: '#FFFFFF')
     end
 
     it 'gets the correct resource' do
@@ -69,7 +69,7 @@ RSpec.describe Gitlab::Client do
   describe '.delete_broadcast_message' do
     before do
       stub_delete('/broadcast_messages/1', 'empty')
-      @broadcast_message = Gitlab.delete_broadcast_message(1)
+      @broadcast_message = described_class.delete_broadcast_message(1)
     end
 
     it 'gets the correct resource' do
