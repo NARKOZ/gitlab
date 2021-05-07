@@ -80,15 +80,15 @@ module Gitlab::Help
     # Massage output from 'ri'.
     def change_help_output!(cmd, output_str)
       output_str = +output_str
-      output_str.gsub!(/#{cmd}\((.*?)\)/m, "#{cmd} \1")
-      output_str.gsub!(/,\s*/, ' ')
+      output_str.gsub!(/#{cmd}(\(.*?\))/m, "#{cmd}\\1")
+      output_str.gsub!(/,\s*/, ', ')
 
       # Ensure @option descriptions are on a single line
       output_str.gsub!(/\n\[/, " \[")
       output_str.gsub!(/\s(@)/, "\n@")
-      output_str.gsub!(/(\])\n(:)/, '\1 \2')
-      output_str.gsub!(/(:.*)(\n)(.*\.)/, '\1 \3')
-      output_str.gsub!(/\{(.+)\}/, '"{\1}"')
+      output_str.gsub!(/(\])\n(:)/, '\\1 \\2')
+      output_str.gsub!(/(:.*)(\n)(.*\.)/, '\\1 \\3')
+      output_str.gsub!(/\{(.+)\}/, '"{\\1}"')
     end
   end
 end
