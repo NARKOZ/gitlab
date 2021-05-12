@@ -42,13 +42,6 @@ module Gitlab
   end
 
   # Delegate to Gitlab::Client
-  def self.method_missing(method, *args, &block)
-    return super unless client.respond_to?(method)
-
-    client.send(method, *args, &block)
-  end
-
-  # Delegate to Gitlab::Client
   def self.respond_to_missing?(method_name, include_private = false)
     client.respond_to?(method_name) || super
   end
