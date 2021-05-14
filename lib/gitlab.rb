@@ -35,7 +35,7 @@ module Gitlab
     end
   )
 
-  if RUBY_VERSION >= "3.0.0"
+  if RUBY_VERSION >= '3.0.0'
     eval(method_missing_ruby3)
   else
     eval(method_missing_ruby2)
