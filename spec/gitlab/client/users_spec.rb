@@ -614,7 +614,7 @@ RSpec.describe Gitlab::Client do
 
     it 'removes a token' do
       expect(a_delete('/users/2/impersonation_tokens/2')).to have_been_made
-      expect(@token.to_hash()).to be_empty
+      expect(@token.to_hash).to be_empty
     end
   end
 end
