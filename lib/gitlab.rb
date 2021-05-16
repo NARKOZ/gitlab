@@ -24,11 +24,13 @@ module Gitlab
   if RUBY_VERSION >= '3.0.0'
     def self.method_missing(method, *args, **keywargs, &block)
       return super unless client.respond_to?(method)
+
       client.send(method, *args, **keywargs, &block)
     end
   else
     def self.method_missing(method, *args, &block)
       return super unless client.respond_to?(method)
+  
       client.send(method, *args, &block)
     end
   end
