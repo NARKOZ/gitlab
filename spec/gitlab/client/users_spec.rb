@@ -588,7 +588,7 @@ RSpec.describe Gitlab::Client do
   describe 'create' do
     before do
       stub_post('/users/2/impersonation_tokens', 'impersonation_create')
-      @token = Gitlab.create_user_impersonation_token(2, 'mytoken', scopes)
+      @token = Gitlab.create_user_impersonation_token(2, 'mytoken', ['api'])
     end
 
     it 'gets the correct resource' do
@@ -614,7 +614,7 @@ RSpec.describe Gitlab::Client do
 
     it 'removes a token' do
       expect(a_delete('/users/2/impersonation_tokens/2')).to have_been_made
-      expect(@token).to be_empty
+      expect(@token.to_hash).to be_empty
     end
   end
 end
