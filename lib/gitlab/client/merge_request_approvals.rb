@@ -167,6 +167,28 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules", body: options)
     end
 
+    # Update merge request level rule
+    #
+    # @example
+    #   Gitlab.update_merge_request_level_rule(1, 2, 69, {
+    #     name: "devs",
+    #     approvals_required: 2,
+    #     user_ids: [3, 4],
+    #     group_ids: [5, 6],
+    #   })
+    #
+    # @param [Integer] project(required) The ID of a project.
+    # @param [Integer] merge_request(required) The IID of a merge request.
+    # @param [Integer] appr_rule_id(required) The ID of a approval rule
+    # @option options [String] :name(required) The name of the approval rule
+    # @option options [Integer] :approvals_required(required) The number of required approvals for this rule
+    # @option options [Array] :user_ids(optional) The ids of users as approvers
+    # @option options [Array] :group_ids(optional) The ids of groups as approvers
+    # @return [Gitlab::ObjectifiedHash] Updated MR level approval rule
+    def update_merge_request_level_rule(project, merge_request, appr_rule_id, options = {})
+      put("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules/#{appr_rule_id}", body: options)
+    end
+
     # Approve a merge request
     #
     # @example
