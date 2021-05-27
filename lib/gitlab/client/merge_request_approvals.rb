@@ -126,6 +126,8 @@ class Gitlab::Client
     end
 
     # Change allowed approvers and approver groups for a merge request
+    # @deprecated Since Gitlab 13.12 /approvers endpoints are removed!!!
+    # See Gitlab.create_merge_request_level_rule
     #
     # @example
     #    Gitlab.edit_merge_request_approvers(1, 5, {approver_ids: [5], approver_groups: [1]})
@@ -137,6 +139,32 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] MR approval configuration information about the project
     def edit_merge_request_approvers(project, merge_request, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/approvers", body: options)
+    end
+
+    # Create merge request level rule
+    #
+    # @example
+    #   Gitlab.create_merge_request_level_rule(1, 2, {
+    #     name: "devs",
+    #     approvals_required: 2,
+    #     approval_project_rule_id: 99,
+    #     user_ids: [3, 4],
+    #     group_ids: [5, 6],
+    #   })
+    #
+    # Important: When approval_project_rule_id is set, the name, users and groups of project-level rule are copied.
+    # The approvals_required specified is used.
+    #
+    # @param [Integer] project(required) The ID of a project.
+    # @param [Integer] merge_request(required) The IID of a merge request.
+    # @option options [String] :name(required) The name of the approval rule
+    # @option options [Integer] :approvals_required(required) The number of required approvals for this rule
+    # @option options [Integer] :approval_project_rule_id(optional) The ID of a project-level approval rule
+    # @option options [Array] :user_ids(optional) The ids of users as approvers
+    # @option options [Array] :group_ids(optional) The ids of groups as approvers
+    # @return [Gitlab::ObjectifiedHash] New MR level approval rule
+    def create_merge_request_level_rule(project, merge_request, options = {})
+      post("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules", body: options)
     end
 
     # Approve a merge request
