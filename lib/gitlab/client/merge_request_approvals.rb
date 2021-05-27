@@ -177,6 +177,10 @@ class Gitlab::Client
     #     group_ids: [5, 6],
     #   })
     #
+    # Important: Approvers and groups not in the users/groups parameters are removed
+    # Important: Updating a report_approver or code_owner rule is not allowed.
+    # These are system generated rules.
+    #
     # @param [Integer] project(required) The ID of a project.
     # @param [Integer] merge_request(required) The IID of a merge request.
     # @param [Integer] appr_rule_id(required) The ID of a approval rule
@@ -187,6 +191,22 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] Updated MR level approval rule
     def update_merge_request_level_rule(project, merge_request, appr_rule_id, options = {})
       put("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules/#{appr_rule_id}", body: options)
+    end
+
+    # Delete merge request level rule
+    #
+    # @example
+    #   Gitlab.delete_merge_request_level_rule(1, 2, 69)
+    #
+    # Important: Deleting a report_approver or code_owner rule is not allowed.
+    # These are system generated rules.
+    #
+    # @param [Integer] project(required) The ID of a project.
+    # @param [Integer] merge_request(required) The IID of a merge request.
+    # @param [Integer] appr_rule_id(required) The ID of a approval rule
+    # @return [void] This API call returns an empty response body
+    def delete_merge_request_level_rule(project, merge_request, appr_rule_id)
+      delete("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules/#{appr_rule_id}")
     end
 
     # Approve a merge request

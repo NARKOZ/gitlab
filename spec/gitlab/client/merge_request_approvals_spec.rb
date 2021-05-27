@@ -216,6 +216,17 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.delete_merge_request_level_rule' do
+    before do
+      stub_delete('/projects/1/merge_requests/5/approval_rules/69', 'empty')
+      Gitlab.delete_merge_request_level_rule(1, 5, 69)
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/1/merge_requests/5/approval_rules/69')).to have_been_made
+    end
+  end
+
   describe '.approve_merge_request' do
     before do
       stub_post('/projects/1/merge_requests/5/approve', 'merge_request_approvals')
