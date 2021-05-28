@@ -196,6 +196,22 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.merge_request_level_rule' do
+    before do
+      stub_get('/projects/3/merge_requests/1/approval_rules', 'merge_request_level_rule')
+      @approval_state = Gitlab.merge_request_level_rule(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/1/approval_rules')).to have_been_made
+    end
+
+    it 'returns information about all merge request level approval rules' do
+      expect(@approval_state.approvals_required).to eq(1)
+      expect(@approval_state.id).to eq(1)
+    end
+  end
+
   describe '.update_merge_request_level_rule' do
     before do
       body = { name: 'security', approvals_required: 1, user_ids: [3, 4], group_ids: [5, 6] }

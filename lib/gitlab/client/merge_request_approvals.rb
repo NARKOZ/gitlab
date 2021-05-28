@@ -88,6 +88,8 @@ class Gitlab::Client
     end
 
     # Change allowed approvers and approver groups for a project
+    # @deprecated Since Gitlab 13.12 /approvers endpoints are removed!!!
+    # See Gitlab.create_project_merge_request_approval_rule
     #
     # @example
     #    Gitlab.edit_project_approvers(1, {approver_ids: [5], approver_groups: [1]})
@@ -165,6 +167,18 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash] New MR level approval rule
     def create_merge_request_level_rule(project, merge_request, options = {})
       post("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules", body: options)
+    end
+
+    # Get merge request level rule
+    #
+    # @example
+    #   Gitlab.merge_request_level_rule(1, 2)
+    #
+    # @param [Integer] project(required) The ID of a project.
+    # @param [Integer] merge_request(required) The IID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] New MR level approval rule
+    def merge_request_level_rule(project, merge_request)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request}/approval_rules")
     end
 
     # Update merge request level rule
