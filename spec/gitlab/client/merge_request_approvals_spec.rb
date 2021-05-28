@@ -178,20 +178,20 @@ RSpec.describe Gitlab::Client do
 
   describe '.create_merge_request_level_rule' do
     before do
-      body = { name: "security", approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
+      body = { name: 'security', approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
       stub_post('/projects/1/merge_requests/5/approval_rules', 'merge_request_level_rule').with(body: body)
       @merge_request_lvl_rule = Gitlab.create_merge_request_level_rule(1, 5, body)
     end
 
     it 'gets the correct resource' do
-      body = { name: "security", approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
+      body = { name: 'security', approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
       expect(a_post('/projects/1/merge_requests/5/approval_rules')
                .with(body: body)).to have_been_made
     end
 
     it 'returns the correct updated configuration' do
       expect(@merge_request_lvl_rule).to be_a Gitlab::ObjectifiedHash
-      expect(@merge_request_lvl_rule.name).to eq "security"
+      expect(@merge_request_lvl_rule.name).to eq 'security'
       expect(@merge_request_lvl_rule.approvals_required).to eq 1
     end
   end
@@ -220,14 +220,14 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'gets the correct resource' do
-      body = { name: "security", approvals_required: 1, user_ids: [3, 4], group_ids: [5, 6] }
+      body = { name: 'security', approvals_required: 1, user_ids: [3, 4], group_ids: [5, 6] }
       expect(a_put('/projects/1/merge_requests/5/approval_rules/69')
                .with(body: body)).to have_been_made
     end
 
     it 'returns the correct updated configuration' do
       expect(@merge_request_lvl_rule).to be_a Gitlab::ObjectifiedHash
-      expect(@merge_request_lvl_rule.name).to eq "security"
+      expect(@merge_request_lvl_rule.name).to eq 'security'
       expect(@merge_request_lvl_rule.approvals_required).to eq 1
     end
   end
