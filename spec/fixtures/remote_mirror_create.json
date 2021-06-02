@@ -1,0 +1,12 @@
+{
+    "enabled": false,
+    "id": 123456,
+    "last_error": null,
+    "last_successful_update_at": null,
+    "last_update_at": null,
+    "last_update_started_at": null,
+    "only_protected_branches": false,
+    "keep_divergent_refs": false,
+    "update_status": "none",
+    "url": "https://*****:*****@example.com/gitlab/example.git"
+}
