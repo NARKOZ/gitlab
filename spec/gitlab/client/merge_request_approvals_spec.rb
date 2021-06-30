@@ -176,6 +176,73 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.create_merge_request_level_rule' do
+    before do
+      body = { name: 'security', approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
+      stub_post('/projects/1/merge_requests/5/approval_rules', 'merge_request_level_rule').with(body: body)
+      @merge_request_lvl_rule = Gitlab.create_merge_request_level_rule(1, 5, body)
+    end
+
+    it 'gets the correct resource' do
+      body = { name: 'security', approvals_required: 1, approval_project_rule_id: 99, user_ids: [3, 4], group_ids: [5, 6] }
+      expect(a_post('/projects/1/merge_requests/5/approval_rules')
+               .with(body: body)).to have_been_made
+    end
+
+    it 'returns the correct updated configuration' do
+      expect(@merge_request_lvl_rule).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_lvl_rule.name).to eq 'security'
+      expect(@merge_request_lvl_rule.approvals_required).to eq 1
+    end
+  end
+
+  describe '.merge_request_level_rule' do
+    before do
+      stub_get('/projects/3/merge_requests/1/approval_rules', 'merge_request_level_rule')
+      @approval_state = Gitlab.merge_request_level_rule(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/1/approval_rules')).to have_been_made
+    end
+
+    it 'returns information about all merge request level approval rules' do
+      expect(@approval_state.approvals_required).to eq(1)
+      expect(@approval_state.id).to eq(1)
+    end
+  end
+
+  describe '.update_merge_request_level_rule' do
+    before do
+      body = { name: 'security', approvals_required: 1, user_ids: [3, 4], group_ids: [5, 6] }
+      stub_put('/projects/1/merge_requests/5/approval_rules/69', 'merge_request_level_rule').with(body: body)
+      @merge_request_lvl_rule = Gitlab.update_merge_request_level_rule(1, 5, 69, body)
+    end
+
+    it 'gets the correct resource' do
+      body = { name: 'security', approvals_required: 1, user_ids: [3, 4], group_ids: [5, 6] }
+      expect(a_put('/projects/1/merge_requests/5/approval_rules/69')
+               .with(body: body)).to have_been_made
+    end
+
+    it 'returns the correct updated configuration' do
+      expect(@merge_request_lvl_rule).to be_a Gitlab::ObjectifiedHash
+      expect(@merge_request_lvl_rule.name).to eq 'security'
+      expect(@merge_request_lvl_rule.approvals_required).to eq 1
+    end
+  end
+
+  describe '.delete_merge_request_level_rule' do
+    before do
+      stub_delete('/projects/1/merge_requests/5/approval_rules/69', 'empty')
+      Gitlab.delete_merge_request_level_rule(1, 5, 69)
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/1/merge_requests/5/approval_rules/69')).to have_been_made
+    end
+  end
+
   describe '.approve_merge_request' do
     before do
       stub_post('/projects/1/merge_requests/5/approve', 'merge_request_approvals')
