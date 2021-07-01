@@ -693,5 +693,16 @@ class Gitlab::Client
     def delete_project_custom_attribute(key, project_id = nil)
       delete("/projects/#{project_id}/custom_attributes/#{key}")
     end
+
+    # List project deploy tokens
+    #
+    # @example
+    #   Gitlab.project_deploy_tokens(42)
+    #
+    # @param [Integer, String] id The ID or path of a project.
+    # @option options [Boolean] :active Limit by active status. Optional.
+    def project_deploy_tokens(project, options = {})
+      get("/projects/#{url_encode project}/deploy_tokens", query: options)
+    end
   end
 end

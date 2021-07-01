@@ -909,4 +909,20 @@ RSpec.describe Gitlab::Client do
       end
     end
   end
+
+  describe '.project_deploy_tokens' do
+    before do
+      stub_get('/projects/2/deploy_tokens', 'project_deploy_tokens')
+      @custom_attributes = Gitlab.project_deploy_tokens(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/deploy_tokens')).to have_been_made
+    end
+
+    it 'returns a information about deploy tokens of project' do
+      expect(@custom_attributes.first.name).to eq 'foo'
+      expect(@custom_attributes.first.username).to eq 'gitlab+deploy-token-93'
+    end
+  end
 end
