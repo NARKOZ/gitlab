@@ -25,6 +25,7 @@ module Gitlab
     include Features
     include GroupBadges
     include GroupBoards
+    include GroupImportExport
     include GroupLabels
     include GroupMilestones
     include Groups
@@ -45,6 +46,7 @@ module Gitlab
     include Pipelines
     include ProjectBadges
     include ProjectClusters
+    include ProjectImportExport
     include ProjectReleaseLinks
     include ProjectReleases
     include Projects
