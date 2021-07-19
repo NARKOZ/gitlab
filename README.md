@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
 [website](https://narkoz.github.io/gitlab) |
-[documentation](https://www.rubydoc.info/gems/gitlab/frames) |
+[documentation](https://www.rubydoc.info/github/NARKOZ/gitlab) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
 Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
@@ -115,7 +115,7 @@ end
 projects.auto_paginate
 ```
 
-For more information, refer to [documentation](https://www.rubydoc.info/gems/gitlab/frames).
+For more information, refer to [documentation](https://www.rubydoc.info/github/NARKOZ/gitlab).
 
 ## CLI
 
@@ -131,21 +131,21 @@ export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
 
 Usage:
 
-When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
+When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](https://www.rubydoc.info/github/NARKOZ/gitlab/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
 
 Usage examples:
 
 ```sh
 # list users
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#users-instance_method
+# see: https://www.rubydoc.info/github/NARKOZ/gitlab/Gitlab/Client/Users#users-instance_method
 gitlab users
 
 # get current user
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/github/NARKOZ/gitlab/Gitlab/Client/Users#user-instance_method
 gitlab user
 
 # get a user
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/github/NARKOZ/gitlab/Gitlab/Client/Users#user-instance_method
 gitlab user 2
 
 # filter output
@@ -157,7 +157,7 @@ gitlab user --except=email,bio
 gitlab user 2 --json
 
 # passing options hash to a command (use YAML)
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
+# see: https://www.rubydoc.info/github/NARKOZ/gitlab/Gitlab/Client/MergeRequests#create_merge_request-instance_method
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
