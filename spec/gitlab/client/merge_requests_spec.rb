@@ -77,6 +77,18 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.create_merge_request_pipeline' do
+    before do
+      stub_post('/projects/3/merge_requests/2/pipelines', 'pipeline_create')
+    end
+
+    it 'returns information about created merge request pipeline' do
+      @pipeline = Gitlab.create_merge_request_pipeline(3, 2)
+      expect(@pipeline.yaml_errors).to be_nil
+      expect(@pipeline.status).to eq('pending')
+    end
+  end
+
   describe '.create_merge_request' do
     before do
       stub_post('/projects/3/merge_requests', 'merge_request')

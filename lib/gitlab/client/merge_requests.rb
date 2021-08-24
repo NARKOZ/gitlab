@@ -59,6 +59,25 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/merge_requests/#{id}/pipelines")
     end
 
+    # Create a new pipeline for a merge request.
+    # A pipeline created via this endpoint doesnt run a regular branch/tag pipeline.
+    # It requires .gitlab-ci.yml to be configured with only: [merge_requests] to create jobs.
+    #
+    # The new pipeline can be:
+    #
+    # A detached merge request pipeline.
+    # A pipeline for merged results if the project setting is enabled.
+    #
+    # @example
+    #   Gitlab.create_merge_request_pipeline(5, 36)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] iid The internal ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash]
+    def create_merge_request_pipeline(project, iid)
+      post("/projects/#{url_encode project}/merge_requests/#{iid}/pipelines")
+    end
+
     # Get a list of merge request participants.
     #
     # @example
