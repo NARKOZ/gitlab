@@ -1,0 +1,14 @@
+[
+    {
+        "enabled": true,
+        "id": 123456,
+        "keep_divergent_refs": true,
+        "last_error": "Some refs have diverged and have not been updated on the remote:\n\nrefs/heads/master",
+        "last_successful_update_at": "2020-08-11T15:36:04.668Z",
+        "last_update_at": "2020-08-11T15:37:20.701Z",
+        "last_update_started_at": "2020-08-11T15:37:17.659Z",
+        "only_protected_branches": true,
+        "update_status": "failed",
+        "url": "https://*****:*****@gitlab.com/mirror/target.git"
+    }
+]

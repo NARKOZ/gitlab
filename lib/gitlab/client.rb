@@ -49,6 +49,7 @@ module Gitlab
     include ProjectReleases
     include Projects
     include ProtectedTags
+    include RemoteMirrors
     include Repositories
     include RepositoryFiles
     include RepositorySubmodules
