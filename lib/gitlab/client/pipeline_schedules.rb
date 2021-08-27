@@ -77,6 +77,18 @@ class Gitlab::Client
       post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/take_ownership")
     end
 
+    # Run a scheduled pipeline immediately.
+    #
+    # @example
+    #   Gitlab.run_pipeline_schedule(5, 1)
+    #
+    # @param [Integer, String] project The ID or name of a project.
+    # @param [Integer] trigger_id The pipeline schedule ID.
+    # @return [Gitlab::ObjectifiedHash] Pipeline created message.
+    def run_pipeline_schedule(project, pipeline_schedule_id)
+      post("/projects/#{url_encode project}/pipeline_schedules/#{pipeline_schedule_id}/play")
+    end
+
     # Delete a pipeline schedule.
     #
     # @example

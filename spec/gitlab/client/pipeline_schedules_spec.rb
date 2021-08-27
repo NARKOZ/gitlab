@@ -87,6 +87,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.run_pipeline_schedule' do
+    before do
+      stub_post('/projects/3/pipeline_schedules/13/play', 'pipeline_schedule_run')
+      @pipeline_schedule_run = Gitlab.run_pipeline_schedule(3, 13)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/3/pipeline_schedules/13/play')).to have_been_made
+    end
+
+    it 'returns created message' do
+      expect(@pipeline_schedule_run).to be_a Gitlab::ObjectifiedHash
+    end
+  end
+
   describe '.delete_pipeline_schedule' do
     before do
       stub_delete('/projects/3/pipeline_schedules/13', 'pipeline_schedule')
