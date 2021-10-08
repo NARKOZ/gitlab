@@ -114,4 +114,77 @@ RSpec.describe Gitlab::Request do
       expect(@request.send(:authorization_header)).to eq('Authorization' => 'Bearer 3225e2804d31fea13fc41fc83bffef00cfaedc463118646b154acc6f94747603')
     end
   end
+
+  describe 'ratelimiting' do
+    before do
+      @request.private_token = 'token'
+      @request.endpoint = 'https://example.com/api/v4'
+      @rpath = "#{@request.endpoint}/version"
+
+      allow(@request).to receive(:httparty)
+    end
+
+    it 'tries 3 times when ratelimited by default' do
+      stub_request(:get, @rpath)
+        .to_return(
+          status: 429,
+          headers: { 'Retry-After' => 1 }
+        )
+
+      expect do
+        @request.get('/version')
+      end.to raise_error(Gitlab::Error::TooManyRequests)
+
+      expect(a_request(:get, @rpath).with(headers: {
+        'PRIVATE_TOKEN' => 'token'
+      }.merge(described_class.headers))).to have_been_made.times(3)
+    end
+
+    it 'tries 4 times when ratelimited with option' do
+      stub_request(:get, @rpath)
+        .to_return(
+          status: 429,
+          headers: { 'Retry-After' => 1 }
+        )
+      expect do
+        @request.get('/version', { ratelimit_retries: 4 })
+      end.to raise_error(Gitlab::Error::TooManyRequests)
+
+      expect(a_request(:get, @rpath).with(headers: {
+        'PRIVATE_TOKEN' => 'token'
+      }.merge(described_class.headers))).to have_been_made.times(4)
+    end
+
+    it 'handles one retry then success' do
+      stub_request(:get, @rpath)
+        .to_return(
+          status: 429,
+          headers: { 'Retry-After' => 1 }
+        ).times(1).then
+        .to_return(
+          status: 200
+        ).times(1)
+
+      @request.get('/version')
+
+      expect(a_request(:get, @rpath).with(headers: {
+        'PRIVATE_TOKEN' => 'token'
+      }.merge(described_class.headers))).to have_been_made.times(2)
+    end
+
+    it 'survives a 429 with no Retry-After header' do
+      stub_request(:get, @rpath)
+        .to_return(
+          status: 429
+        )
+
+      expect do
+        @request.get('/version')
+      end.to raise_error(Gitlab::Error::TooManyRequests)
+
+      expect(a_request(:get, @rpath).with(headers: {
+        'PRIVATE_TOKEN' => 'token'
+      }.merge(described_class.headers))).to have_been_made.times(3)
+    end
+  end
 end

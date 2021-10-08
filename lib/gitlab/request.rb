@@ -48,7 +48,18 @@ module Gitlab
           params[:headers].merge!(authorization_header)
         end
 
-        validate self.class.send(method, endpoint + path, params)
+        retries_left = params[:ratelimit_retries] || 3
+        begin
+          response = self.class.send(method, endpoint + path, params)
+          validate response
+        rescue Gitlab::Error::TooManyRequests => e
+          retries_left -= 1
+          raise e if retries_left.zero?
+
+          wait_time = response.headers['Retry-After'] || 2
+          sleep(wait_time.to_i)
+          retry
+        end
       end
     end
 
