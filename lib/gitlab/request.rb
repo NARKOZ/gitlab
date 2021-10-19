@@ -8,6 +8,7 @@ module Gitlab
   class Request
     include HTTParty
     format :json
+    maintain_method_across_redirects true
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
     parser(proc { |body, _| parse(body) })
 

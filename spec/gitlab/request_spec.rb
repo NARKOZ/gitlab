@@ -187,4 +187,73 @@ RSpec.describe Gitlab::Request do
       }.merge(described_class.headers))).to have_been_made.times(3)
     end
   end
+
+  describe 'redirection' do
+    it 'redirect GET' do
+      http_endpoint = 'http://example.com/api/v4'
+      https_endpoint = 'https://example.com:443/api/v4'
+      http_path = "#{http_endpoint}/version"
+      https_path = "#{https_endpoint}/version"
+      token = 'token'
+      @request.private_token = token
+      @request.endpoint = http_endpoint
+
+      allow(@request).to receive(:httparty)
+
+      stub_request(:get, http_path)
+        .to_return(
+          status: [301, 'Moved Permanently'],
+          headers: { location: https_path }
+        )
+      stub_request(:get, https_path)
+        .to_return(status: 200)
+      @request.get('/version')
+      expect(a_request(:get, http_path).with(headers: {
+        'PRIVATE_TOKEN' => token
+      }.merge(described_class.headers))).to have_been_made
+      expect(a_request(:get, https_path).with(headers: {
+        'PRIVATE_TOKEN' => token
+      }.merge(described_class.headers))).to have_been_made
+    end
+
+    it 'redirect PUT' do
+      http_endpoint = 'http://example.com/api/v4'
+      https_endpoint = 'https://example.com:443/api/v4'
+      http_path = "#{http_endpoint}/application/settings"
+      https_path = "#{https_endpoint}/application/settings"
+      token = 'token'
+      body = 'signup_enabled=true'
+      @request.private_token = token
+      @request.endpoint = http_endpoint
+
+      allow(@request).to receive(:httparty)
+
+      stub_request(:put, http_path)
+        .with(body: body)
+        .to_return(
+          status: [301, 'Moved Permanently'],
+          headers: { location: https_path },
+        )
+      stub_request(:put, https_path)
+        .with(body: body)
+        .to_return(
+          status: 200,
+          body: '{}'
+        )
+
+      # simulate Gitlab.edit_application_settings(signup_enabled: true)
+      @request.put('/application/settings', :body => body)
+
+      expect(a_request(:put, http_path).with(
+        body: body,
+        headers: {
+          'PRIVATE_TOKEN' => token
+        }.merge(described_class.headers))).to have_been_made
+      expect(a_request(:put, https_path).with(
+        body: body,
+        headers: {
+          'PRIVATE_TOKEN' => token
+        }.merge(described_class.headers))).to have_been_made
+    end
+  end
 end
