@@ -187,7 +187,7 @@ class Gitlab::Client
     # @param [Integer] project The ID of a project
     # @param [Integer] iid The internal ID of a merge request
     def merge_request_closes_issues(project_id, merge_request_iid)
-      get("/projects/#{project_id}/merge_requests/#{merge_request_iid}/closes_issues")
+      get("/projects/#{url_encode project_id}/merge_requests/#{merge_request_iid}/closes_issues")
     end
 
     # Subscribes to a merge request.
