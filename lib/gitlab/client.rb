@@ -89,7 +89,7 @@ module Gitlab
     private
 
     def only_show_last_four_chars(token)
-      "#{'*' * (token.size - 4)}#{token[-4..-1]}"
+      "#{'*' * (token.size - 4)}#{token[-4..]}"
     end
   end
 end

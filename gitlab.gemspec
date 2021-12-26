@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.license       = 'BSD-2-Clause'
 
-  gem.required_ruby_version = '>= 2.5'
+  gem.required_ruby_version = '>= 2.6'
 
   gem.add_runtime_dependency 'httparty', '~> 0.20'
   gem.add_runtime_dependency 'terminal-table', '>= 1.5.1'
