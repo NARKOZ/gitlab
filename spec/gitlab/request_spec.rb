@@ -232,7 +232,7 @@ RSpec.describe Gitlab::Request do
         .with(body: body)
         .to_return(
           status: [301, 'Moved Permanently'],
-          headers: { location: https_path },
+          headers: { location: https_path }
         )
       stub_request(:put, https_path)
         .with(body: body)
@@ -242,18 +242,24 @@ RSpec.describe Gitlab::Request do
         )
 
       # simulate Gitlab.edit_application_settings(signup_enabled: true)
-      @request.put('/application/settings', :body => body)
+      @request.put('/application/settings', body: body)
 
-      expect(a_request(:put, http_path).with(
-        body: body,
-        headers: {
-          'PRIVATE_TOKEN' => token
-        }.merge(described_class.headers))).to have_been_made
-      expect(a_request(:put, https_path).with(
-        body: body,
-        headers: {
-          'PRIVATE_TOKEN' => token
-        }.merge(described_class.headers))).to have_been_made
+      expect(
+        a_request(:put, http_path).with(
+          body: body,
+          headers: {
+            'PRIVATE_TOKEN' => token
+          }.merge(described_class.headers)
+        )
+      ).to have_been_made
+      expect(
+        a_request(:put, https_path).with(
+          body: body,
+          headers: {
+            'PRIVATE_TOKEN' => token
+          }.merge(described_class.headers)
+        )
+      ).to have_been_made
     end
   end
 end
