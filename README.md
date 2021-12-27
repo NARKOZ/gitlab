@@ -9,8 +9,7 @@
 [documentation](https://www.rubydoc.info/gems/gitlab/frames) |
 [gitlab-live](https://github.com/NARKOZ/gitlab-live)
 
-Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ce/api/README.html).  
-As of version `4.0.0` this gem only supports GitLab API v4.
+Gitlab is a Ruby wrapper and CLI for the [GitLab API](https://docs.gitlab.com/ee/api/index.html).
 
 ## Installation
 
@@ -121,7 +120,7 @@ For more information, refer to [documentation](https://www.rubydoc.info/gems/git
 
 It is possible to use this gem as a command line interface to GitLab. In order to make that work you need to set a few environment variables:
 ```sh
-export GITLAB_API_ENDPOINT=https://gitlab.yourcompany.com/api/v4
+export GITLAB_API_ENDPOINT=https://gitlab.example.com/api/v4
 export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account or /profile/personal_access_tokens in newer version>
 # This one is optional and can be used to set any HTTParty option you may need
 # using YAML hash syntax. For example, this is how you would disable SSL
