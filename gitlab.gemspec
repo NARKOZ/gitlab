@@ -20,6 +20,14 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.license       = 'BSD-2-Clause'
 
+  gem.metadata = {
+    'homepage_uri' => gem.homepage,
+    'source_code_uri' => gem.homepage,
+    'bug_tracker_uri' => 'https://github.com/NARKOZ/gitlab/issues',
+    'changelog_uri' => 'https://github.com/NARKOZ/gitlab/releases',
+    'funding_uri' => 'https://github.com/NARKOZ/SponsorMe'
+  }
+
   gem.required_ruby_version = '>= 2.6'
 
   gem.add_runtime_dependency 'httparty', '~> 0.20'
