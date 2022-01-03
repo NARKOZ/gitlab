@@ -1,7 +1,6 @@
 # Gitlab
 
 [![Build Status](https://img.shields.io/github/workflow/status/NARKOZ/gitlab/CI/master)](https://github.com/NARKOZ/gitlab/actions/workflows/ci.yml)
-[![Inline docs](https://inch-ci.org/github/NARKOZ/gitlab.svg)](https://inch-ci.org/github/NARKOZ/gitlab)
 [![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 
@@ -125,7 +124,8 @@ For more information, refer to [documentation](https://www.rubydoc.info/gems/git
 It is possible to use this gem as a command line interface to GitLab. In order to make that work you need to set a few environment variables:
 ```sh
 export GITLAB_API_ENDPOINT=https://gitlab.example.com/api/v4
-export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/account or /profile/personal_access_tokens in newer version>
+export GITLAB_API_PRIVATE_TOKEN=<your private token from /profile/personal_access_tokens>
+
 # This one is optional and can be used to set any HTTParty option you may need
 # using YAML hash syntax. For example, this is how you would disable SSL
 # verification (useful if using a self-signed cert).
@@ -134,21 +134,21 @@ export GITLAB_API_HTTPARTY_OPTIONS="{verify: false}"
 
 Usage:
 
-When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
+When you want to know which CLI commands are supported, take a look at the client [commands implemented in this gem](https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client). Any of those methods can be called as a command by passing the parameters of the commands as parameters of the CLI.
 
 Usage examples:
 
 ```sh
 # list users
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#users-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#users-instance_method
 gitlab users
 
 # get current user
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#user-instance_method
 gitlab user
 
 # get a user
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#user-instance_method
 gitlab user 2
 
 # filter output
@@ -160,7 +160,7 @@ gitlab user --except=email,bio
 gitlab user 2 --json
 
 # passing options hash to a command (use YAML)
-# see: https://www.rubydoc.info/gems/gitlab/4.5.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
