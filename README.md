@@ -96,6 +96,10 @@ Gitlab.sudo = 'other_user'
 Gitlab.sudo = nil
 # => nil
 
+# set the private token to an empty string to make unauthenticated API requests
+Gitlab.private_token = ''
+# => ""
+
 # a paginated response
 projects = Gitlab.projects(per_page: 5)
 
