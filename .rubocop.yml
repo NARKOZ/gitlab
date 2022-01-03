@@ -19,6 +19,7 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'gitlab.gemspec'
 
 Metrics/ParameterLists:
   MaxOptionalParameters: 4
