@@ -140,15 +140,15 @@ Usage examples:
 
 ```sh
 # list users
-# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#users-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/Gitlab/Client/Users#users-instance_method
 gitlab users
 
 # get current user
-# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/Gitlab/Client/Users#user-instance_method
 gitlab user
 
 # get a user
-# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/Users#user-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/Gitlab/Client/Users#user-instance_method
 gitlab user 2
 
 # filter output
@@ -160,7 +160,7 @@ gitlab user --except=email,bio
 gitlab user 2 --json
 
 # passing options hash to a command (use YAML)
-# see: https://www.rubydoc.info/gems/gitlab/4.18.0/Gitlab/Client/MergeRequests#create_merge_request-instance_method
+# see: https://www.rubydoc.info/gems/gitlab/Gitlab/Client/MergeRequests#create_merge_request-instance_method
 gitlab create_merge_request 4 "New merge request" "{source_branch: 'new_branch', target_branch: 'master', assignee_id: 42}"
 
 ```
