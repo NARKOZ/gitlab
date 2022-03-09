@@ -110,6 +110,17 @@ class Gitlab::Client
       post("/users/#{user_id}/unblock")
     end
 
+    # Approves the specified user. Available only for admin.
+    #
+    # @example
+    #   Gitlab.approve_user(15)
+    #
+    # @param [Integer] user_id The Id of user
+    # @return [Boolean] success or not
+    def approve_user(user_id)
+      post("/users/#{user_id}/approve")
+    end
+
     # Creates a new user session.
     #
     # @example
