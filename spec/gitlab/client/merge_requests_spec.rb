@@ -388,6 +388,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.delete_merge_request' do
+    before do
+      stub_request(:delete, 'https://api.example.com/projects/3/merge_requests/2').to_return(body: '')
+      @merge_request = Gitlab.delete_merge_request(3, 2)
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/3/merge_requests/2')).to have_been_made
+    end
+
+    it 'returns nothing' do
+      expect(@merge_request).to be_falsy
+    end
+  end
+
   describe '.merge_request_diff_versions' do
     before do
       stub_get('/projects/3/merge_requests/105/versions', 'merge_request_diff_versions')
