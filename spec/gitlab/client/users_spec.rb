@@ -170,6 +170,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.approve_user' do
+    before do
+      stub_post('/users/1/approve', 'user_approve')
+      @result = Gitlab.approve_user(1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/users/1/approve')).to have_been_made
+    end
+
+    it 'returns boolean' do
+      expect(@result).to eq(true)
+    end
+  end
+
   describe '.session' do
     after do
       Gitlab.endpoint = 'https://api.example.com'
