@@ -332,6 +332,18 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions/#{discussion_id}/notes/#{note_id}")
     end
 
+    # Delete a merge request
+    #
+    # @example
+    #   Gitlab.delete_merge_request(5, 1)
+    #   Gitlab.delete_merge_request('gitlab', 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] An empty response.
+    def delete_merge_request(project, merge_request_id)
+      delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}")
+    end
+
     # Gets a list of merge request diff versions
     #
     # @example
