@@ -71,6 +71,20 @@ class Gitlab::Client
       get("/groups/#{url_encode id}/members", query: options)
     end
 
+    # Get a list of descendant groups of a group.
+    #
+    # @example
+    #   Gitlab.group_descendants(42)
+    #
+    # @param  [Integer] id The ID of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def group_descendants(id, options = {})
+      get("/groups/#{url_encode id}/descendant_groups", query: options)
+    end
+
     # Get a list of group members that are billable.
     #
     # @example
