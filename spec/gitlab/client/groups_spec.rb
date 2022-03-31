@@ -126,6 +126,23 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.group_descendants' do
+    before do
+      stub_get('/groups/3/descendant_groups', 'group_descendants')
+      @descendants = Gitlab.group_descendants(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/descendant_groups')).to have_been_made
+    end
+
+    it "returns information about a group's descendants" do
+      expect(@descendants).to be_a Gitlab::PaginatedResponse
+      expect(@descendants.size).to eq(2)
+      expect(@descendants[1].name).to eq('Foobar Group 2')
+    end
+  end
+
   describe '.group_billable_members' do
     before do
       stub_get('/groups/3/billable_members', 'group_billable_members')
