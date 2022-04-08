@@ -135,6 +135,9 @@ module Gitlab
     # Raised when API endpoint returns the HTTP status code 503.
     class ServiceUnavailable < ResponseError; end
 
+    # Raised when API endpoint returns the HTTP status code 522.
+    class ConnectionTimedOut < ResponseError; end
+
     # HTTP status codes mapped to error classes.
     STATUS_MAPPINGS = {
       400 => BadRequest,
@@ -148,7 +151,8 @@ module Gitlab
       429 => TooManyRequests,
       500 => InternalServerError,
       502 => BadGateway,
-      503 => ServiceUnavailable
+      503 => ServiceUnavailable,
+      522 => ConnectionTimedOut
     }.freeze
   end
 end
