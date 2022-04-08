@@ -154,5 +154,17 @@ module Gitlab
       503 => ServiceUnavailable,
       522 => ConnectionTimedOut
     }.freeze
+
+    # Returns error class that should be raised for this response. Returns nil
+    # if the response status code is not 4xx or 5xx.
+    #
+    # @param  [HTTParty::Response] response The response object.
+    # @return [Class<Error::ResponseError>, nil]
+    def self.klass(response)
+      error_klass = STATUS_MAPPINGS[response.code]
+      return error_klass if error_klass
+
+      ResponseError if response.server_error? || response.client_error?
+    end
   end
 end

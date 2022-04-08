@@ -115,6 +115,32 @@ RSpec.describe Gitlab::Request do
     end
   end
 
+  describe 'errors' do
+    before do
+      @request.private_token = 'token'
+      @request.endpoint = 'https://example.com/api/v4'
+      @rpath = "#{@request.endpoint}/version"
+
+      allow(@request).to receive(:httparty)
+    end
+
+    it 'raises error for 5xx status code without special error class' do
+      stub_request(:get, @rpath).to_return(status: 599)
+
+      expect { @request.get('/version') }.to raise_error(Gitlab::Error::ResponseError)
+
+      expect(a_request(:get, @rpath)).to have_been_made
+    end
+
+    it 'raises error for 4xx status code without special error class' do
+      stub_request(:get, @rpath).to_return(status: 499)
+
+      expect { @request.get('/version') }.to raise_error(Gitlab::Error::ResponseError)
+
+      expect(a_request(:get, @rpath)).to have_been_made
+    end
+  end
+
   describe 'ratelimiting' do
     before do
       @request.private_token = 'token'

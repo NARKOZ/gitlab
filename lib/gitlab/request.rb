@@ -67,7 +67,7 @@ module Gitlab
     # Checks the response code for common errors.
     # Returns parsed response for successful requests.
     def validate(response)
-      error_klass = Error::STATUS_MAPPINGS[response.code]
+      error_klass = Error.klass(response)
       raise error_klass, response if error_klass
 
       parsed = response.parsed_response
