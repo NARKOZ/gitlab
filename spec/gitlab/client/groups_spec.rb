@@ -126,6 +126,23 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.all_group_members' do
+    before do
+      stub_get('/groups/3/members/all', 'group_members')
+      @all_members = Gitlab.all_group_members(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/members/all')).to have_been_made
+    end
+
+    it "returns information about a group's members" do
+      expect(@all_members).to be_a Gitlab::PaginatedResponse
+      expect(@all_members.size).to eq(2)
+      expect(@all_members[1].name).to eq('John Smith')
+    end
+  end
+
   describe '.group_descendants' do
     before do
       stub_get('/groups/3/descendant_groups', 'group_descendants')

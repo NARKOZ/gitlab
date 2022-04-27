@@ -71,6 +71,21 @@ class Gitlab::Client
       get("/groups/#{url_encode id}/members", query: options)
     end
 
+    # Gets a list of all group members including inherited members.
+    #
+    # @example
+    #   Gitlab.all_group_members(1)
+    #   Gitlab.all_group_members(1, { per_page: 40 })
+    #
+    # @param  [Integer] id The ID of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def all_group_members(id, options = {})
+      get("/groups/#{url_encode id}/members/all", query: options)
+    end
+
     # Get a list of descendant groups of a group.
     #
     # @example
