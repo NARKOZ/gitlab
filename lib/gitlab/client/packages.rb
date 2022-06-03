@@ -3,7 +3,7 @@
 class Gitlab::Client
   # Defines methods related to GitLab Packages.
   # @see https://docs.gitlab.com/ee/api/packages.html
-  module ContainerRegistry
+  module Packages
     # Gets a list of project packages.
     #
     # @example
