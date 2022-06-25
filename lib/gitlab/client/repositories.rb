@@ -113,7 +113,7 @@ class Gitlab::Client
     # Get changelog data
     #
     # @example
-    #   Gitlab.generate_changelog(42, 'v1.0.0')
+    #   Gitlab.get_changelog(42, 'v1.0.0')
     #
     # @param [Integer, String] project The ID or name of a project
     # @param [String] version The version to generate the changelog for
