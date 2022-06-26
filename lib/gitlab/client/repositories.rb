@@ -109,5 +109,22 @@ class Gitlab::Client
     def generate_changelog(project, version, options = {})
       post("/projects/#{url_encode project}/repository/changelog", body: options.merge(version: version))
     end
+
+    # Get changelog data
+    #
+    # @example
+    #   Gitlab.get_changelog(42, 'v1.0.0')
+    #
+    # @param [Integer, String] project The ID or name of a project
+    # @param [String] version The version to generate the changelog for
+    # @param [Hash] options A customizable set of options
+    # @option options [String] :from The start of the range of commits (SHA)
+    # @option options [String] :to The end of the range of commits (as a SHA) to use for the changelog
+    # @option options [String] :date The date and time of the release, defaults to the current time
+    # @option options [String] :trailer The Git trailer to use for including commits
+    # @return [Gitlab::ObjectifiedHash]
+    def get_changelog(project, version, options = {})
+      get("/projects/#{url_encode project}/repository/changelog", body: options.merge(version: version))
+    end
   end
 end

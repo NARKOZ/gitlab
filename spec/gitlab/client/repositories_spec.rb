@@ -132,7 +132,7 @@ RSpec.describe Gitlab::Client do
 
   describe '.generate_changelog' do
     before do
-      stub_post('/projects/3/repository/changelog', 'changelog')
+      stub_post('/projects/3/repository/changelog', 'generate_changelog')
         .with(body: { version: 'v1.0.0', branch: 'main' })
       @changelog = Gitlab.generate_changelog(3, 'v1.0.0', branch: 'main')
     end
@@ -144,6 +144,24 @@ RSpec.describe Gitlab::Client do
 
     it 'returns successful result' do
       expect(@changelog).to be_truthy
+    end
+  end
+
+  describe '.get_changelog' do
+    before do
+      stub_get('/projects/3/repository/changelog', 'changelog')
+        .with(body: { version: 'v1.0.0' })
+      @changelog = Gitlab.get_changelog(3, 'v1.0.0')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/repository/changelog')
+        .with(body: { version: 'v1.0.0' })).to have_been_made
+    end
+
+    it 'returns changelog notes' do
+      expect(@changelog).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@changelog.notes).to be_a String
     end
   end
 end
