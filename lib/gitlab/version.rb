@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Gitlab
-  VERSION = '4.18.0'
+  VERSION = '4.19.0'
 end
