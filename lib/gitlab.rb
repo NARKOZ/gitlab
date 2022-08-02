@@ -50,7 +50,7 @@ module Gitlab
   # @return [Array<Symbol>]
   def self.actions
     hidden =
-      /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate\z|request_defaults|httparty/
+      /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|patch|\Adelete\z|validate\z|request_defaults|httparty/
     (Gitlab::Client.instance_methods - Object.methods).reject { |e| e[hidden] }
   end
 end

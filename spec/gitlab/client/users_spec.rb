@@ -632,4 +632,18 @@ RSpec.describe Gitlab::Client do
       expect(@token.to_hash).to be_empty
     end
   end
+
+  describe '.disable_two_factor' do
+    before do
+      stub_request(:patch, "#{Gitlab.endpoint}/users/1/disable_two_factor")
+        .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        .to_return(status: 204)
+      @token = Gitlab.disable_two_factor(1)
+    end
+
+    it 'successfully disabled 2fa' do
+      expect(a_response(:patch, '/users/1/disable_two_factor')).to have_been_made
+      expect(@token.to_hash).to be_empty
+    end
+  end
 end
