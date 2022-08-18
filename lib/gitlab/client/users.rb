@@ -393,5 +393,15 @@ class Gitlab::Client
     def revoke_user_impersonation_token(user_id, impersonation_token_id)
       delete("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
     end
+
+    # Lists all projects and groups a user is a member of
+    #
+    # @example
+    #   Gitlab.memberships(2)
+    #
+    # @param  [Integer] user_id The ID of the user.
+    def memberships(user_id)
+      get("/users/#{user_id}/memberships")
+    end
   end
 end
