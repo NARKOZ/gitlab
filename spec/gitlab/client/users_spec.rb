@@ -478,6 +478,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.user_status' do
+    before do
+      stub_get('/users/2/status', 'user_status')
+      @user_status = Gitlab.user_status(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users/2/status')).to have_been_made
+    end
+
+    it 'returns the status of a user' do
+      expect(@user_status.availability).to eq('busy')
+    end
+  end
+
   describe '.user_search' do
     before do
       stub_get('/users?search=User', 'user_search')
