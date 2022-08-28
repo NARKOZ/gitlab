@@ -276,6 +276,17 @@ class Gitlab::Client
       delete(url)
     end
 
+    # Gets user status.
+    #
+    # @example
+    #   Gitlab.user_status(2)
+    #
+    # @param  [Integer] user_id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def user_status(user_id)
+      get("/users/#{user_id}/status")
+    end
+
     # Search for groups by name
     #
     # @example
