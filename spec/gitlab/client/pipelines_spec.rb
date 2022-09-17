@@ -73,7 +73,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it "returns pipeline's variables" do
-      expect(@variables[0]["key"]).to eq('RUN_NIGHTLY_BUILD')
+      expect(@variables[0]['key']).to eq('RUN_NIGHTLY_BUILD')
     end
   end
 
