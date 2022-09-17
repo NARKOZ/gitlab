@@ -58,6 +58,25 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.pipeline_variables' do
+    before do
+      stub_get('/projects/3/pipelines/46/variables', 'pipeline_variables')
+      @variables = Gitlab.pipeline_variables(3, 46)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/pipelines/46/variables')).to have_been_made
+    end
+
+    it 'returns a paginated response of pipeline variables' do
+      expect(@variables).to be_a Gitlab::PaginatedResponse
+    end
+
+    it "returns pipeline's variables" do
+      expect(@variables[0]["key"]).to eq('RUN_NIGHTLY_BUILD')
+    end
+  end
+
   describe '.create_pipeline' do
     let(:pipeline_path) { '/projects/3/pipeline?ref=master' }
 
