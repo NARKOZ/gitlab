@@ -30,7 +30,7 @@ module Gitlab
     end
 
     def parse_headers!(headers)
-      @links = PageLinks.new headers
+      @links = Headers::PageLinks.new headers
       @total = Headers::Total.new headers
     end
 
