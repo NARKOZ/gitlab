@@ -49,8 +49,10 @@ module Gitlab
   #
   # @return [Array<Symbol>]
   def self.actions
+    # rubocop:disable Layout/LineLength
     hidden =
-      /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|\Adelete\z|validate\z|request_defaults|httparty/
+      /endpoint|private_token|auth_token|user_agent|sudo|get|post|put|patch|\Adelete\z|validate\z|request_defaults|httparty/
+    # rubocop:enable Layout/LineLength
     (Gitlab::Client.instance_methods - Object.methods).reject { |e| e[hidden] }
   end
 end

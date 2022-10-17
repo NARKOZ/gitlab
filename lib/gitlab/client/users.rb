@@ -393,5 +393,16 @@ class Gitlab::Client
     def revoke_user_impersonation_token(user_id, impersonation_token_id)
       delete("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
     end
+
+    # Disables two factor authentication (2FA) for the specified user.
+    #
+    # @example
+    #   Gitlab.disable_two_factor(1)
+    #
+    # @param [Integer] id The ID of a user.
+    # @return [Gitlab::ObjectifiedHash]
+    def disable_two_factor(user_id)
+      patch("/users/#{user_id}/disable_two_factor")
+    end
   end
 end
