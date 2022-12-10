@@ -170,6 +170,36 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.deactivate_user' do
+    before do
+      stub_post('/users/1/deactivate', 'user_deactivate_activate')
+      @result = Gitlab.deactivate_user(1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/users/1/deactivate')).to have_been_made
+    end
+
+    it 'returns boolean' do
+      expect(@result).to eq(true)
+    end
+  end
+
+  describe '.activate' do
+    before do
+      stub_post('/users/1/activate', 'user_deactivate_activate')
+      @result = Gitlab.activate(1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/users/1/activate')).to have_been_made
+    end
+
+    it 'returns boolean' do
+      expect(@result).to eq(true)
+    end
+  end
+
   describe '.approve_user' do
     before do
       stub_post('/users/1/approve', 'user_approve')
