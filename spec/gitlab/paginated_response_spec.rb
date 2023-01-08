@@ -8,7 +8,7 @@ RSpec.describe Gitlab::PaginatedResponse do
     @paginated_response = described_class.new array
   end
 
-  it 'responds to *_page and has_*_page methods' do
+  it 'responds to total, *_page and has_*_page methods' do
     expect(@paginated_response).to respond_to :first_page
     expect(@paginated_response).to respond_to :last_page
     expect(@paginated_response).to respond_to :next_page
@@ -17,11 +17,12 @@ RSpec.describe Gitlab::PaginatedResponse do
     expect(@paginated_response).to respond_to :has_last_page?
     expect(@paginated_response).to respond_to :has_next_page?
     expect(@paginated_response).to respond_to :has_prev_page?
+    expect(@paginated_response).to respond_to :total
   end
 
   describe '.parse_headers!' do
     it 'parses headers' do
-      @paginated_response.parse_headers!('Link' => '<http://example.com/api/v3/projects?page=1&per_page=5>; rel="first", <http://example.com/api/v3/projects?page=20&per_page=5>; rel="last"')
+      @paginated_response.parse_headers!('Link' => '<http://example.com/api/v3/projects?page=1&per_page=5>; rel="first", <http://example.com/api/v3/projects?page=20&per_page=5>; rel="last"', 'x-total' => '8')
       client = @paginated_response.client = double('client')
       first_page_response = double('first_page_response')
       last_page_response = double('last_page_response')
@@ -36,6 +37,7 @@ RSpec.describe Gitlab::PaginatedResponse do
       expect(@paginated_response.last_page).to be last_page_response
       expect(@paginated_response.next_page).to be_nil
       expect(@paginated_response.prev_page).to be_nil
+      expect(@paginated_response.total).to eq('8')
     end
 
     context 'when the Link header endpoint does not match the configured endpoint' do
