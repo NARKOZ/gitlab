@@ -188,7 +188,7 @@ RSpec.describe Gitlab::Client do
   describe '.activate' do
     before do
       stub_post('/users/1/activate', 'user_deactivate_activate')
-      @result = Gitlab.activate(1)
+      @result = Gitlab.activate_user(1)
     end
 
     it 'gets the correct resource' do
@@ -672,7 +672,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'successfully disabled 2fa' do
-      expect(a_response(:patch, '/users/1/disable_two_factor')).to have_been_made
+      expect(a_patch('/users/1/disable_two_factor')).to have_been_made
       expect(@token.to_hash).to be_empty
     end
   end
