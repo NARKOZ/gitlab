@@ -403,6 +403,22 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.merge_request_diffs' do
+    before do
+      stub_get('/projects/3/merge_requests/105/diffs', 'merge_request_diffs')
+      @versions = Gitlab.merge_request_diffs(3, 105)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/105/diffs')).to have_been_made
+    end
+
+    it 'returns an array of the diffs' do
+      expect(@versions.length).to eq(2)
+      expect(@versions.first.old_path).to eq('README')
+    end
+  end
+
   describe '.merge_request_diff_versions' do
     before do
       stub_get('/projects/3/merge_requests/105/versions', 'merge_request_diff_versions')
