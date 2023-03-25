@@ -7,7 +7,7 @@ require File.expand_path('../lib/gitlab', __dir__)
 require File.expand_path('../lib/gitlab/cli', __dir__)
 
 def load_fixture(name)
-  name, extension = name.split('.')
+  name, extension = name.split('.', 2)
   File.new(File.dirname(__FILE__) + "/fixtures/#{name}.#{extension || 'json'}")
 end
 
