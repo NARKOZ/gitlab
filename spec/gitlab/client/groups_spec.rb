@@ -446,4 +446,22 @@ RSpec.describe Gitlab::Client do
       end
     end
   end
+
+  describe '.add_group_to_group' do
+    before do
+      stub_post('/groups/1/share', 'group_share_group')
+      @share_group = Gitlab.add_group_to_group(1, 2, 50, '2023-05-26')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/groups/1/share')
+          .with(body: { group_id: 2, group_access: 50, expires_at: '2023-05-26' })).to have_been_made
+    end
+
+    it 'returns information about the share group' do
+      expect(@share_group.group_id).to eq(2)
+      expect(@share_group.group_access).to eq(50)
+      expect(@share_group.expires_at).to eq('2023-05-26')
+    end
+  end
 end
