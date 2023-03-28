@@ -354,5 +354,21 @@ class Gitlab::Client
     def delete_group_custom_attribute(key, group_id = nil)
       delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
+    
+    # Share Groups with Groups
+    #
+    # @example
+    #   Gitlab.add_group_to_group(1, 1, 50, '2023-05-26')
+    #
+    # @param  [Integer] id The ID of the group
+    # @param  [Integer] group_id The ID of the group to share with
+    # @param  [Integer] group_access The role (access_level) to grant the group
+    # @param  [String] expires_at Share expiration date in ISO 8601
+    # @return [Gitlab::ObjectifiedHash] Information about added group to share with
+    def add_group_to_group(id, group_id, group_access, expires_at = nil)
+      body = { group_id: group_id, group_access: group_access }
+      body[:expires_at] = expires_at if expires_at
+      post("/groups/#{url_encode id}/share", body: body)
+    end
   end
 end
