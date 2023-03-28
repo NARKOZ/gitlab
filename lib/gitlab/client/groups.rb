@@ -354,7 +354,7 @@ class Gitlab::Client
     def delete_group_custom_attribute(key, group_id = nil)
       delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
-    
+
     # Share Groups with Groups
     #
     # @example
