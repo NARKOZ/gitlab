@@ -518,4 +518,19 @@ RSpec.describe Gitlab::Client do
       expect(@hook.url).to eq('http://example.com/hook')
     end
   end
+
+  describe '.delete_group_hook(group_id, hook_id)' do
+    before do
+      stub_delete('/groups/3/hooks/1', 'group_hook_delete')
+      @hook = Gitlab.delete_group_hook(3, 1)
+    end
+
+    it 'delete the resource' do
+      expect(a_delete('/groups/3/hooks/1')).to have_been_made
+    end
+
+    it 'returns false in test but in real life it returns status without a body which is converted to ObjectifiedHash' do
+      expect(@hook).to eq(false)
+    end
+  end
 end

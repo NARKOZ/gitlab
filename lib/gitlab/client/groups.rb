@@ -436,5 +436,17 @@ class Gitlab::Client
     def edit_group_hook(group_id, hook_id, url, options = {})
       post("/groups/#{group_id}/hooks/#{hook_id}", body: options.merge(url: url))
     end
+
+    # Delete a group hook
+    #
+    # @example
+    #   Gitlab.delete_group_hook(3, 1)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of a group.
+    # @return [Gitlab::ObjectifiedHash] no body, will evaluate to an empty hash. https://docs.gitlab.com/ee/api/groups.html#delete-group-hook
+    def delete_group_hook(group_id, hook_id)
+      delete("/groups/#{group_id}/hooks/#{hook_id}")
+    end
   end
 end
