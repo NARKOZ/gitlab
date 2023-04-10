@@ -446,4 +446,21 @@ RSpec.describe Gitlab::Client do
       end
     end
   end
+
+  describe '.list_group_hooks' do
+    before do
+      stub_get('/groups/3/hooks', 'group_hooks')
+      @hooks = Gitlab.list_group_hooks(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/hooks')).to have_been_made
+    end
+
+    it 'returns a list of registered group hooks based on the group id' do
+      expect(@hooks).to be_a Gitlab::PaginatedResponse
+      expect(@hooks.size).to eq(1)
+      expect(@hooks[0].url).to eq('http://example.com/hook')
+    end
+  end
 end

@@ -354,5 +354,16 @@ class Gitlab::Client
     def delete_group_custom_attribute(key, group_id = nil)
       delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
+
+    # List all the specified groups hooks
+    #
+    # @example
+    #   Gitlab.list_group_hooks(3)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Gitlab::PaginatedResponse] List of registered hooks https://docs.gitlab.com/ee/api/groups.html#hooks
+    def list_group_hooks(group_id)
+      get("/groups/#{group_id}/hooks")
+    end
   end
 end
