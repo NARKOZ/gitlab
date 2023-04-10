@@ -463,4 +463,20 @@ RSpec.describe Gitlab::Client do
       expect(@hooks[0].url).to eq('http://example.com/hook')
     end
   end
+
+  describe '.group_hook(group_id, hook_id)' do
+    before do
+      stub_get('/groups/3/hooks/1', 'group_hook')
+      @hook = Gitlab.group_hook(3,1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/hooks/1')).to have_been_made
+    end
+
+    it 'returns information about the requested group hook' do
+      expect(@hook).to be_a Gitlab::ObjectifiedHash
+      expect(@hook.url).to eq('http://example.com/hook')
+    end
+  end
 end

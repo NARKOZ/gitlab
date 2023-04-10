@@ -365,5 +365,17 @@ class Gitlab::Client
     def list_group_hooks(group_id)
       get("/groups/#{group_id}/hooks")
     end
+
+    # get specified group hook
+    #
+    # @example
+    #   Gitlab.group_hook(3, 1)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of the hook.
+    # @return [Gitlab::ObjectifiedHash] The hook https://docs.gitlab.com/ee/api/groups.html#get-group-hook
+    def group_hook(group_id, hook_id)
+      get("/groups/#{group_id}/hooks/#{hook_id}")
+    end
   end
 end
