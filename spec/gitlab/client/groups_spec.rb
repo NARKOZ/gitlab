@@ -501,4 +501,21 @@ RSpec.describe Gitlab::Client do
       expect(@hook.url).to eq('http://example.com/hook')
     end
   end
+
+  describe '.edit_group_hook(group_id, hook_id, url)' do
+    before do
+      stub_post('/groups/3/hooks/1', 'group_hook')
+      @hook = Gitlab.edit_group_hook(3, 1, 'http://example.com', { push_events: false, token: 'foofoofoo1234' })
+    end
+
+    it 'updates the correct resource' do
+      expect(a_post('/groups/3/hooks/1')
+        .with(body: { url: 'http://example.com', push_events: false, token: 'foofoofoo1234' })).to have_been_made
+    end
+
+    it 'returns the updated group hook resource' do
+      expect(@hook).to be_a Gitlab::ObjectifiedHash
+      expect(@hook.url).to eq('http://example.com/hook')
+    end
+  end
 end

@@ -406,5 +406,35 @@ class Gitlab::Client
     def add_group_hook(group_id, url, options = {})
       post("/groups/#{group_id}/hooks", body: options.merge(url: url))
     end
+
+    # Edit a group hook
+    #
+    # @example
+    #   Gitlab.edit_group_hook(3, 1, "https://example.com/my-hook-receiver", {token: "verify me"})
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of a group.
+    # @param  [String] the hook url which will receive the selected events
+    # @option options [Boolean] :name The name of the group.
+    # @option options [Boolean] :push_events Trigger hook on push events
+    # @potion options [String] :push_events_branch_filter	Trigger hook on push events for matching branches only.
+    # @option options [Boolean] :issues_events Trigger hook on issues events
+    # @option options [Boolean] :confidential_issues_events Trigger hook on confidential issues events
+    # @option options [Boolean] :merge_requests_events Trigger hook on merge requests events
+    # @option options [Boolean] :tag_push_events Trigger hook on tag push events
+    # @option options [Boolean] :note_events Trigger hook on note events
+    # @option options [Boolean] :confidential_note_events Trigger hook on confidential note events
+    # @option options [Boolean] :job_events Trigger hook on job events
+    # @option options [Boolean] :pipeline_events Trigger hook on pipeline events
+    # @option options [Boolean] :wiki_page_events Trigger hook on wiki page events
+    # @option options [Boolean] :deployment_events Trigger hook on deployment events
+    # @option options [Boolean] :releases_events Trigger hook on release events
+    # @option options [Boolean] :subgroup_events Trigger hook on subgroup events
+    # @option options [Boolean] :enable_ssl_verification Do SSL verification when triggering the hook
+    # @option options [String] :token	Secret token to validate received payloads; not returned in the response
+    # @return [Gitlab::ObjectifiedHash] Response body matches https://docs.gitlab.com/ee/api/groups.html#edit-group-hook
+    def edit_group_hook(group_id, hook_id, url, options = {})
+      post("/groups/#{group_id}/hooks/#{hook_id}", body: options.merge(url: url))
+    end
   end
 end
