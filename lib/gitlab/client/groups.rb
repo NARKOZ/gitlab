@@ -449,4 +449,59 @@ class Gitlab::Client
       delete("/groups/#{group_id}/hooks/#{hook_id}")
     end
   end
+
+  # Get all access tokens for a group
+  #
+  # @example
+  #   Gitlab.group_access_tokens(1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @return [Array<Gitlab::ObjectifiedHash>]
+  def group_access_tokens(group_id)
+    get("/groups/#{group_id}/access_tokens")
+  end
+
+  # Get group access token information
+  #
+  # @example
+  #   Gitlab.group_access_token(1, 1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [Integer] group_access_token_id ID of the group access token.
+  # @return [Gitlab::ObjectifiedHash]
+  def group_access_token(group_id, group_access_token_id)
+    get("/groups/#{group_id}/access_tokens/#{group_access_token_id}")
+  end
+
+  # Create group access token
+  #
+  # @example
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"])
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"], 20)
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"], 20, "1970-01-01")
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [String] name Name for group access token.
+  # @param  [Array<String>] scopes Array of scopes for the group access token
+  # @param  [Integer] access_level Project access level (10: Guest, 20: Reporter, 30: Developer, 40: Maintainer, 50: Owner).
+  # @param  [String] expires_at Date for group access token expiration in ISO format.
+  # @return [Gitlab::ObjectifiedHash]
+  def create_group_access_token(group_id, name, scopes, access_level = nil, expires_at = nil)
+    body = { name: name, scopes: scopes }
+    body[:access_level] = access_level if access_level
+    body[:expires_at] = expires_at if expires_at
+    post("/groups/#{group_id}/access_tokens", body: body)
+  end
+
+  # Revoke a group access token
+  #
+  # @example
+  #   Gitlab.revoke_group_access_token(1, 1)
+  #
+  # @param  [Integer] user_id The ID of the group.
+  # @param  [Integer] group_access_token_id ID of the group access token.
+  # @return [Gitlab::ObjectifiedHash]
+  def revoke_group_access_token(group_id, group_access_token_id)
+    delete("/groups/#{group_id}/access_tokens/#{group_access_token_id}")
+  end
 end

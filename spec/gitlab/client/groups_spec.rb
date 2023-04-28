@@ -533,4 +533,70 @@ RSpec.describe Gitlab::Client do
       expect(@hook).to eq(false)
     end
   end
+
+  describe 'group access tokens' do
+    describe 'get all' do
+      before do
+        stub_get('/groups/2/access_tokens', 'group_access_token_get_all')
+        @tokens = Gitlab.group_access_tokens(2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/access_tokens')).to have_been_made
+      end
+
+      it 'gets an array of group access tokens' do
+        expect(@tokens.first.id).to eq(2)
+        expect(@tokens.last.id).to eq(3)
+      end
+    end
+
+    describe 'get one' do
+      before do
+        stub_get('/groups/2/access_tokens/2', 'group_access_token_get')
+        @token = Gitlab.group_access_token(2, 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/access_tokens/2')).to have_been_made
+      end
+
+      it 'gets a group access token' do
+        expect(@token.user_id).to eq(2)
+        expect(@token.id).to eq(2)
+      end
+    end
+
+    describe 'create' do
+      before do
+        stub_post('/groups/2/access_tokens', 'group_access_token_create')
+        @token = Gitlab.create_group_access_token(2, 'mytoken', ['api'])
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/groups/2/access_tokens').with(body: 'name=mytoken&scopes%5B%5D=api')).to have_been_made
+      end
+
+      it 'returns a valid group access token' do
+        expect(@token.user_id).to eq(2)
+        expect(@token.id).to eq(2)
+        expect(@token.active).to be_truthy
+        expect(@token.token).to eq('zMrP_vusadyipEaqued1')
+      end
+    end
+
+    describe 'revoke' do
+      before do
+        stub_request(:delete, "#{Gitlab.endpoint}/groups/2/access_tokens/2")
+          .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(status: 204)
+        @token = Gitlab.revoke_group_access_token(2, 2)
+      end
+
+      it 'removes a token' do
+        expect(a_delete('/groups/2/access_tokens/2')).to have_been_made
+        expect(@token.to_hash).to be_empty
+      end
+    end
+  end
 end
