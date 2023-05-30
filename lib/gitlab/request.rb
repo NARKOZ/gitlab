@@ -12,7 +12,7 @@ module Gitlab
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
     parser(proc { |body, _| parse(body) })
 
-    attr_accessor :private_token, :endpoint
+    attr_accessor :private_token, :endpoint, :pat_prefix
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
@@ -93,10 +93,19 @@ module Gitlab
     def authorization_header
       raise Error::MissingCredentials, 'Please provide a private_token or auth_token for user' unless private_token
 
-      if private_token.size < 21
+      # The Personal Access Token prefix can be at most 20 characters, and the
+      # generated part is of length 20 characters. Personal Access Tokens, thus
+      # can have a maximum size of 40 characters. GitLab uses
+      # `Doorkeeper::OAuth::Helpers::UniqueToken.generate` for generating
+      # OAuth2 tokens, and specified `hex` as token generator method. Thus, the
+      # OAuth2 tokens are of length more than 64. If the token length is below
+      # that, it is probably a Personal Access Token or CI_JOB_TOKEN.
+      if private_token.size >= 64
+        { 'Authorization' => "Bearer #{private_token}" }
+      elsif private_token.start_with?(pat_prefix.to_s)
         { 'PRIVATE-TOKEN' => private_token }
       else
-        { 'Authorization' => "Bearer #{private_token}" }
+        { 'JOB-TOKEN' => private_token }
       end
     end
 
