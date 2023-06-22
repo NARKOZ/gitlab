@@ -524,6 +524,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.user_by_username' do
+    before do
+      stub_get('/users?username=User', 'user')
+      @user = Gitlab.user_by_username('User')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/users?username=User')).to have_been_made
+    end
+
+    it 'returns information about a user' do
+      expect(@user.email).to eq('john@example.com')
+    end
+  end
+
   describe '.user_custom_attributes' do
     before do
       stub_get('/users/2/custom_attributes', 'user_custom_attributes')
