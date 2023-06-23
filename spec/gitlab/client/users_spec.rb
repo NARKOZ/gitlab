@@ -525,17 +525,30 @@ RSpec.describe Gitlab::Client do
   end
 
   describe '.user_by_username' do
-    before do
-      stub_get('/users?username=User', 'user')
-      @user = Gitlab.user_by_username('User')
+    context 'with a valid username' do
+      before do
+        stub_get('/users?username=User', 'user_by_username')
+        @user = Gitlab.user_by_username('User')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/users?username=User')).to have_been_made
+      end
+
+      it 'returns information about a user' do
+        expect(@user.first.email).to eq('john@example.com')
+      end
     end
 
-    it 'gets the correct resource' do
-      expect(a_get('/users?username=User')).to have_been_made
-    end
+    context 'with an invalid username' do
+      before do
+        stub_get('/users?username=InvalidUser', 'empty_array')
+        @user = Gitlab.user_by_username('InvalidUser')
+      end
 
-    it 'returns information about a user' do
-      expect(@user.email).to eq('john@example.com')
+      it 'returns an empty array' do
+        expect(@user).to eq([])
+      end
     end
   end
 
