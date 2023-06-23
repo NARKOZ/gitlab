@@ -320,10 +320,10 @@ class Gitlab::Client
     #
     # @param  [String] username A username to get.
     # @param  [Hash] options A customizable set of options.
-    # @return [Gitlab::ObjectifiedHash]
+    # @return [Array<Gitlab::ObjectifiedHash>]
     def user_by_username(username, options = {})
       options[:username] = username
-      get('/users', query: options).first
+      get('/users', query: options)
     end
 
     # Gets user custom_attributes.
