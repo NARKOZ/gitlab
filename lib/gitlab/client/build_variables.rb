@@ -24,8 +24,10 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] key The key of a variable.
     # @return [Gitlab::ObjectifiedHash] The variable.
-    def variable(project, key)
-      get("/projects/#{url_encode project}/variables/#{key}")
+    def variable(project, key, environment_scope = nil)
+      url = "/projects/#{url_encode project}/variables/#{key}"
+      url += "?filter[environment_scope]=#{environment_scope}" if environment_scope
+      get(url)
     end
 
     # Create a build variable for a project.
@@ -53,7 +55,10 @@ class Gitlab::Client
     # @param  [Hash] opts optional parameters
     # @return [Gitlab::ObjectifiedHash] The variable.
     def update_variable(project, key, value, **opts)
-      put("/projects/#{url_encode project}/variables/#{key}", body: opts.merge(value: value))
+      environment_scope = opts.delete(:environment_scope) || opts.delete('environment_scope')
+      url = "/projects/#{url_encode project}/variables/#{key}"
+      url += "?filter[environment_scope]=#{environment_scope}" if environment_scope
+      put(url, body: opts.merge(value: value))
     end
 
     # Remove a project's build variable.
