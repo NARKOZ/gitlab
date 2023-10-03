@@ -219,10 +219,9 @@ class Gitlab::Client
     # @param  [String] group(required) Group ID.
     # @param  [Hash] options A customizable set of options.
     # @return <Gitlab::ObjectifiedHash> Response against runner registration
-    def create_group_runner(group, options={})
+    def create_group_runner(group, options = {})
       create_runner({ runner_type: 'group_type', group_id: group }.merge(options))
     end
-
 
     # Creates a new project runner with the new Gitlab approach (v16.0+) and returns the id/token information
     # https://docs.gitlab.com/ee/api/users.html#create-a-runner
@@ -235,10 +234,9 @@ class Gitlab::Client
     # @param  [String] project(required) Project ID.
     # @param  [Hash] options A customizable set of options.
     # @return <Gitlab::ObjectifiedHash> Response against runner registration
-    def create_project_runner(project, options={})
+    def create_project_runner(project, options = {})
       create_runner({ runner_type: 'project_type', project_id: project }.merge(options))
     end
-
 
     # Creates a new instance runner with the new Gitlab approach (v16.0+) and returns the id/token information
     # You must be an administrator of the GitLab instance
@@ -252,10 +250,9 @@ class Gitlab::Client
     # @param  [String] group(required) Project ID.
     # @param  [Hash] options A customizable set of options.
     # @return <Gitlab::ObjectifiedHash> Response against runner registration
-    def create_instance_runner(options={})
+    def create_instance_runner(options = {})
       create_runner({ runner_type: 'instance_type' }.merge(options))
     end
-
 
     private
 
@@ -277,7 +274,5 @@ class Gitlab::Client
     def create_runner(options)
       post('/user/runners', body: options)
     end
-
-
   end
 end
