@@ -75,5 +75,16 @@ class Gitlab::Client
     def delete_project_release(project, tag_name)
       delete("/projects/#{url_encode project}/releases/#{tag_name}")
     end
+
+    # Gets Latest Release
+    #
+    # @example
+    #   Gitlab.project_latest_release(5)
+    #
+    # @param [Integer, String] project The ID or name of a project
+    # @return [Gitlab::ObjectifiedHash] Information about the release
+    def project_latest_release(project)
+      get("/projects/#{url_encode project}/releases/permalink/latest")
+    end
   end
 end
