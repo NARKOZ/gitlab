@@ -335,4 +335,20 @@ RSpec.describe Gitlab::Client do
       expect(@merge_requests.size).to eq(2)
     end
   end
+
+  describe '.related_merge_requests' do
+    before do
+      stub_get('/projects/3/issues/33/related_merge_requests', 'related_merge_requests')
+      @merge_requests = Gitlab.related_merge_requests(3, 33)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/issues/33/related_merge_requests')).to have_been_made
+    end
+
+    it 'returns list of related merge requests' do
+      expect(@merge_requests.first.title).to eq('Related MR')
+      expect(@merge_requests).to be_one
+    end
+  end
 end
