@@ -704,5 +704,26 @@ class Gitlab::Client
     def project_deploy_tokens(project, options = {})
       get("/projects/#{url_encode project}/deploy_tokens", query: options)
     end
+    
+    def export_project(id, options = {})
+        post("/projects/#{url_encode id}/export", query: options)
+    end
+    
+    def export_project_status(id)
+        get("/projects/#{url_encode id}/export")
+    end
+    
+    def exported_project_download(id)
+        get("/projects/#{url_encode id}/export/download",
+          format: nil,
+          headers: { Accept: 'application/octet-stream' },
+          parser: proc { |body, _|
+            if body.encoding == Encoding::ASCII_8BIT # binary response
+              ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
+            else # error with json response
+              ::Gitlab::Request.parse(body)
+            end
+          })
+    end
   end
 end
