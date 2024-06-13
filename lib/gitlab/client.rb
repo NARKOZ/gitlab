@@ -37,6 +37,7 @@ module Gitlab
     include Markdown
     include MergeRequestApprovals
     include MergeRequests
+    include MergeTrains
     include Milestones
     include Namespaces
     include Notes
