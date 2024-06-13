@@ -43,6 +43,18 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/pipelines/#{id}/test_report")
     end
 
+    # Gets a single pipeline's variables.
+    #
+    # @example
+    #   Gitlab.pipeline_variables(5, 36)
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a pipeline.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def pipeline_variables(project, id)
+      get("/projects/#{url_encode project}/pipelines/#{id}/variables")
+    end
+
     # Create a pipeline.
     #
     # @example
@@ -100,6 +112,19 @@ class Gitlab::Client
     # @return [void] This API call returns an empty response body.
     def delete_pipeline(project, id)
       delete("/projects/#{url_encode project}/pipelines/#{id}")
+    end
+
+    # Update a pipeline metadata
+    #
+    # @example
+    #   Gitlab.update_pipeline_metadata(5, 1, name: 'new name')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a pipeline.
+    # @option options [String] :name The new name of the pipeline.
+    # @return [Gitlab::ObjectifiedHash]
+    def update_pipeline_metadata(project, id, options = {})
+      put("/projects/#{url_encode project}/pipelines/#{id}/metadata", body: options)
     end
   end
 end
