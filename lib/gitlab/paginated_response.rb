@@ -30,7 +30,8 @@ module Gitlab
     end
 
     def parse_headers!(headers)
-      @links = PageLinks.new headers
+      @links = Headers::PageLinks.new headers
+      @total = Headers::Total.new headers
     end
 
     def each_page
@@ -56,6 +57,10 @@ module Gitlab
       return lazy_paginate.take(limit).to_a unless block
 
       lazy_paginate.take(limit).each(&block)
+    end
+
+    def total
+      @total.total
     end
 
     def last_page?

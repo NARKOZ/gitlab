@@ -1,6 +1,6 @@
 # Gitlab
 
-[![Build Status](https://img.shields.io/github/workflow/status/NARKOZ/gitlab/CI/master)](https://github.com/NARKOZ/gitlab/actions/workflows/ci.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/NARKOZ/gitlab/ci.yml?branch=master)](https://github.com/NARKOZ/gitlab/actions/workflows/ci.yml)
 [![Gem version](https://img.shields.io/gem/v/gitlab.svg)](https://rubygems.org/gems/gitlab)
 [![License](https://img.shields.io/badge/license-BSD-red.svg)](https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt)
 

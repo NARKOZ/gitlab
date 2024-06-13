@@ -344,6 +344,18 @@ class Gitlab::Client
       delete("/projects/#{url_encode project}/merge_requests/#{merge_request_id}")
     end
 
+    # Gets a list of merge request diffs
+    #
+    # @example
+    #   Gitlab.merge_request_diffs(5, 1)
+    #   Gitlab.merge_request_diffs('gitlab', 1)
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a merge request.
+    # @return [Gitlab::ObjectifiedHash] A list of the merge request diffs.
+    def merge_request_diffs(project, merge_request_id)
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/diffs")
+    end
+
     # Gets a list of merge request diff versions
     #
     # @example

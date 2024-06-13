@@ -140,4 +140,17 @@ RSpec.describe Gitlab::Client do
       expect(a_delete('/projects/3/pipelines/46')).to have_been_made
     end
   end
+
+  describe '.update_pipeline_metadata' do
+    before do
+      stub_put('/projects/3/pipelines/46/metadata', 'pipeline')
+      Gitlab.update_pipeline_metadata(3, 46, name: 'new pipeline name')
+    end
+
+    it 'gets the correct resource' do
+      expect(
+        a_put('/projects/3/pipelines/46/metadata').with(body: { name: 'new pipeline name' })
+      ).to have_been_made
+    end
+  end
 end
