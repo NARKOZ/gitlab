@@ -718,6 +718,24 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.memberships' do
+    before do
+      stub_get('/user/2/memberships', 'memberships')
+      @memberships = Gitlab.memberships(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/user/2/memberships')).to have_been_made
+    end
+
+    it 'returns an information about all project and groups of user' do
+      expect(@memberships.first.source_id).to eq 1
+      expect(@memberships.first.source_name).to eq 'Project one'
+      expect(@memberships.first.source_type).to eq 'Project'
+      expect(@memberships.first.access_level).to eq 20
+    end
+  end
+
   describe 'get all personal access tokens' do
     describe 'get all' do
       before do
