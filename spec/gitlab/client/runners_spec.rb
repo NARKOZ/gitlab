@@ -243,6 +243,38 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe 'create_runner' do
+    it 'creates the correct group runner call' do
+      stub_post('/user/runners', 'create_group_runner_response.json').with(body: { runner_type: 'group_type', group_id: 12_345, tag_list: %w[foo bar], description: 'desc', locked: false })
+
+      @runner_response = Gitlab.create_group_runner(12_345, tag_list: %w[foo bar], description: 'desc', locked: false)
+
+      expect(a_post('/user/runners').with(body: { runner_type: 'group_type', group_id: 12_345, tag_list: %w[foo bar], description: 'desc', locked: false })).to have_been_made
+
+      expect(@runner_response.to_h).to eq({ 'id' => 12_345, 'token' => 'glrt-kyahzxLaj4Dc1jQf4xjX', 'token_expires_at' => nil })
+    end
+
+    it 'creates the correct project runner call' do
+      stub_post('/user/runners', 'create_project_runner_response.json').with(body: { runner_type: 'project_type', project_id: 56_789, tag_list: %w[foo bar], paused: true, maximum_timeout: 60 })
+
+      @runner_response = Gitlab.create_project_runner(56_789, tag_list: %w[foo bar], paused: true, maximum_timeout: 60)
+
+      expect(a_post('/user/runners').with(body: { runner_type: 'project_type', project_id: 56_789, tag_list: %w[foo bar], paused: true, maximum_timeout: 60 })).to have_been_made
+
+      expect(@runner_response.to_h).to eq({ 'id' => 56_789, 'token' => 'glrt-kyahzxLaj4Dc1jQf4xjX', 'token_expires_at' => nil })
+    end
+
+    it 'creates the correct instance runner call' do
+      stub_post('/user/runners', 'create_instance_runner_response.json').with(body: { runner_type: 'instance_type', tag_list: %w[foo bar], maintenance_note: 'note', run_untagged: false, access_level: 'ref_protected' })
+
+      @runner_response = Gitlab.create_instance_runner(tag_list: %w[foo bar], maintenance_note: 'note', run_untagged: false, access_level: 'ref_protected')
+
+      expect(a_post('/user/runners').with(body: { runner_type: 'instance_type', tag_list: %w[foo bar], maintenance_note: 'note', run_untagged: false, access_level: 'ref_protected' })).to have_been_made
+
+      expect(@runner_response.to_h).to eq({ 'id' => 9171, 'token' => 'glrt-kyahzxLaj4Dc1jQf4xjX', 'token_expires_at' => nil })
+    end
+  end
+
   describe '.delete_registered_runner' do
     before do
       stub_delete('/runners', 'empty').with(body: { token: '6337ff461c94fd3fa32ba3b1ff4125' })
