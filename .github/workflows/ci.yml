@@ -9,36 +9,17 @@ on:
       - master
 
 jobs:
-  ruby2x:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby:
-          - 2.6
-          - 2.7
-    name: Ruby ${{ matrix.ruby }} test
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby ${{ matrix.ruby }}
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Build and test with Rake
-      run: |
-        gem install bundler -v 2.4.22 --no-document
-        bundle install --jobs 4 --retry 3
-        bundle exec rake
-  ruby3x:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby:
-          - 3.0
           - 3.1
           - 3.2
+          - 3.3
     name: Ruby ${{ matrix.ruby }} test
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Ruby ${{ matrix.ruby }}
       uses: ruby/setup-ruby@v1
       with:
@@ -53,13 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Rubocop lint
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby 2.6
+    - uses: actions/checkout@v4
+    - name: Set up Ruby 3.1
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
+        ruby-version: 3.1
     - name: Lint with Rubocop
       run: |
-        gem install bundler -v 2.4.22 --no-document
+        gem install bundler --no-document
         bundle install --jobs 4 --retry 3
         bundle exec rake rubocop

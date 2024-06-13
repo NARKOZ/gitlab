@@ -6,7 +6,7 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.1
   NewCops: disable
   SuggestExtensions: false
 
@@ -38,5 +38,5 @@ Lint/NonDeterministicRequireOrder:
 RSpec/VerifiedDoubles:
   Enabled: false
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Enabled: false

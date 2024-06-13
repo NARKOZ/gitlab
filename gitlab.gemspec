@@ -28,7 +28,7 @@ Gem::Specification.new do |gem|
     'funding_uri' => 'https://github.com/NARKOZ/SponsorMe'
   }
 
-  gem.required_ruby_version = '>= 2.6'
+  gem.required_ruby_version = '>= 3.1'
 
   gem.add_runtime_dependency 'httparty', '~> 0.20'
   gem.add_runtime_dependency 'terminal-table', '>= 1.5.1'
