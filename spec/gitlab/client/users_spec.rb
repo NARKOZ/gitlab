@@ -113,6 +113,33 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.create_service_account' do
+    context 'when successful request' do
+      before do
+        stub_post('/service_accounts', 'service_account')
+        @user = Gitlab.create_service_account('name', 'username')
+      end
+
+      it 'gets the correct resource' do
+        body = { name: 'name', username: 'username' }
+        expect(a_post('/service_accounts').with(body: body)).to have_been_made
+      end
+
+      it 'returns information about a created user' do
+        expect(@user.username).to eq('service_account_2')
+      end
+    end
+
+    context 'when bad request' do
+      it 'throws an exception' do
+        stub_post('/service_accounts', 'error_already_exists', 409)
+        expect do
+          Gitlab.create_service_account('name', 'username')
+        end.to raise_error(Gitlab::Error::Conflict, "Server responded with code 409, message: 409 Already exists. Request URI: #{Gitlab.endpoint}/service_accounts")
+      end
+    end
+  end
+
   describe '.edit_user' do
     before do
       @options = { name: 'Roberto' }
@@ -524,6 +551,34 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.user_by_username' do
+    context 'with a valid username' do
+      before do
+        stub_get('/users?username=User', 'user_by_username')
+        @user = Gitlab.user_by_username('User')
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/users?username=User')).to have_been_made
+      end
+
+      it 'returns information about a user' do
+        expect(@user.first.email).to eq('john@example.com')
+      end
+    end
+
+    context 'with an invalid username' do
+      before do
+        stub_get('/users?username=InvalidUser', 'empty_array')
+        @user = Gitlab.user_by_username('InvalidUser')
+      end
+
+      it 'returns an empty array' do
+        expect(@user).to eq([])
+      end
+    end
+  end
+
   describe '.user_custom_attributes' do
     before do
       stub_get('/users/2/custom_attributes', 'user_custom_attributes')
@@ -659,6 +714,79 @@ RSpec.describe Gitlab::Client do
 
     it 'removes a token' do
       expect(a_delete('/users/2/impersonation_tokens/2')).to have_been_made
+      expect(@token.to_hash).to be_empty
+    end
+  end
+
+  describe 'get all personal access tokens' do
+    describe 'get all' do
+      before do
+        stub_get('/user_personal_access_tokens?user_id=2', 'personal_access_get_all')
+        @token = Gitlab.user_personal_access_tokens(2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/personal_access_tokens?user_id=2')).to have_been_made
+      end
+
+      it 'gets an array of user impersonation tokens' do
+        expect(@tokens.first.id).to eq(2)
+        expect(@tokens.last.id).to eq(3)
+        expect(@tokens.first.active).to be_truthy
+        expect(@tokens.last.active).to be_truthy
+      end
+    end
+  end
+
+  describe 'create personal access token' do
+    before do
+      stub_post('/user/personal_access_tokens/', 'personal_access_create')
+      @token = Gitlab.create_personal_access_token(2, 'service_account_2', ['api'])
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/user/personal_access_tokens').with(body: 'name=service_account_2&scopes%5B%5D=api')).to have_been_made
+    end
+
+    it 'returns a valid personal access token' do
+      expect(@token.name).to eq('service_account_token')
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.active).to be_truthy
+      expect(@token.token).to eq('glpat-3Hm21_tY3sn4Wafwq39p')
+    end
+  end
+
+  describe 'rotate personal access token' do
+    before do
+      stub_post('/personal_access_tokens/2/rotate', 'personal_access_rotate')
+      @token = Gitlab.rotate_personal_access_token(2, '2025-05-24')
+    end
+
+    it 'gets the correct resource' do
+      body = { expires_at: '2025-05-24' }
+      expect(a_post('/personal_access_tokens/2/rotate').with(body: body)).to have_been_made
+    end
+
+    it 'returns a valid personal access token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(4)
+      expect(@token.active).to be_truthy
+      expect(@token.expires_at).to eq('2025-05-24')
+      expect(@token.token).to eq('glpat--xSo18jU2MPtQ576ZYnp')
+    end
+  end
+
+  describe 'revoke personal accees token' do
+    before do
+      stub_request(:delete, "#{Gitlab.endpoint}/personal_access_tokens/2")
+        .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        .to_return(status: 204)
+      @token = Gitlab.revoke_user_impersonation_token(2)
+    end
+
+    it 'revokes a personal access token' do
+      expect(a_delete('/personal_access_tokens/2')).to have_been_made
       expect(@token.to_hash).to be_empty
     end
   end

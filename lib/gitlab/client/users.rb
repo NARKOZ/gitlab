@@ -58,6 +58,22 @@ class Gitlab::Client
       post('/users', body: body)
     end
 
+    # Creates a service account.
+    # Requires authentication from an admin account.
+    #
+    # @example
+    #   Gitlab.create_service_account('service_account_6018816a18e515214e0c34c2b33523fc', 'Service account user')
+    #
+    # @param  [String] name (required) The email of the service account.
+    # @param  [String] username (required) The username of the service account.
+    # @return [Gitlab::ObjectifiedHash] Information about created service account.
+    def create_service_account(*args)
+      raise ArgumentError, 'Missing required parameters' unless args[1]
+
+      body = { name: args[0], username: args[1] }
+      post('/service_accounts', body: body)
+    end
+
     # Updates a user.
     #
     # @example
@@ -298,7 +314,7 @@ class Gitlab::Client
       delete(url)
     end
 
-    # Search for groups by name
+    # Search for users by name
     #
     # @example
     #   Gitlab.user_search('gitlab')
@@ -310,6 +326,19 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def user_search(search, options = {})
       options[:search] = search
+      get('/users', query: options)
+    end
+
+    # Get user by username
+    #
+    # @example
+    #   Gitlab.user_by_username('gitlab')
+    #
+    # @param  [String] username A username to get.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_by_username(username, options = {})
+      options[:username] = username
       get('/users', query: options)
     end
 
@@ -404,6 +433,47 @@ class Gitlab::Client
       post("/users/#{user_id}/impersonation_tokens", body: body)
     end
 
+    # Get all personal access tokens for a user
+    #
+    # @example
+    #   Gitlab.user_personal_access_tokens(1)
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_personal_access_tokens(user_id)
+      get("/personal_access_tokens?user_id=#{user_id}")
+    end
+
+    # Create personal access token
+    #
+    # @example
+    #   Gitlab.create_personal_access_token(2, "token", ["api", "read_user"])
+    #   Gitlab.create_personal_access_token(2, "token", ["api", "read_user"], "1970-01-01")
+    #
+    # @param  [Integer] user_id The ID of the user.
+    # @param  [String] name Name of the personal access token.
+    # @param  [Array<String>] scopes Array of scopes for the impersonation token
+    # @param  [String] expires_at Date for impersonation token expiration in ISO format.
+    # @return [Gitlab::ObjectifiedHash]
+    def create_personal_access_token(user_id, name, scopes, expires_at = nil)
+      body = { name: name, scopes: scopes }
+      body[:expires_at] = expires_at if expires_at
+      post("/users/#{user_id}/personal_access_tokens", body: body)
+    end
+
+    # Rotate a personal access token
+    #
+    # @example
+    #   Gitlab.rotate_personal_access_token(1)
+    #
+    # @param  [Integer] personal_access_token_id ID of the personal access token.
+    # @return [Gitlab::ObjectifiedHash]
+    def rotate_personal_access_token(personal_access_token_id, expires_at = nil)
+      body = {}
+      body[:expires_at] = expires_at if expires_at
+      post("/personal_access_tokens/#{personal_access_token_id}/rotate", body: body)
+    end
+
     # Revoke an impersonation token
     #
     # @example
@@ -414,6 +484,17 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def revoke_user_impersonation_token(user_id, impersonation_token_id)
       delete("/users/#{user_id}/impersonation_tokens/#{impersonation_token_id}")
+    end
+
+    # Revoke a personal access token
+    #
+    # @example
+    #   Gitlab.revoke_personal_access_token(1)
+    #
+    # @param  [Integer] personal_access_token_id ID of the personal access token.
+    # @return [Gitlab::ObjectifiedHash]
+    def revoke_personal_access_token(personal_access_token_id)
+      delete("/personal_access_tokens/#{personal_access_token_id}")
     end
 
     # Disables two factor authentication (2FA) for the specified user.

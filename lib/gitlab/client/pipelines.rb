@@ -101,5 +101,18 @@ class Gitlab::Client
     def delete_pipeline(project, id)
       delete("/projects/#{url_encode project}/pipelines/#{id}")
     end
+
+    # Update a pipeline metadata
+    #
+    # @example
+    #   Gitlab.update_pipeline_metadata(5, 1, name: 'new name')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Integer] id The ID of a pipeline.
+    # @option options [String] :name The new name of the pipeline.
+    # @return [Gitlab::ObjectifiedHash]
+    def update_pipeline_metadata(project, id, options = {})
+      put("/projects/#{url_encode project}/pipelines/#{id}/metadata", body: options)
+    end
   end
 end
