@@ -314,7 +314,7 @@ class Gitlab::Client
       delete(url)
     end
 
-    # Search for groups by name
+    # Search for users by name
     #
     # @example
     #   Gitlab.user_search('gitlab')
@@ -326,6 +326,19 @@ class Gitlab::Client
     # @return [Array<Gitlab::ObjectifiedHash>]
     def user_search(search, options = {})
       options[:search] = search
+      get('/users', query: options)
+    end
+
+    # Get user by username
+    #
+    # @example
+    #   Gitlab.user_by_username('gitlab')
+    #
+    # @param  [String] username A username to get.
+    # @param  [Hash] options A customizable set of options.
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def user_by_username(username, options = {})
+      options[:username] = username
       get('/users', query: options)
     end
 
