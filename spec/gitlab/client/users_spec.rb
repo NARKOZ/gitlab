@@ -720,34 +720,34 @@ RSpec.describe Gitlab::Client do
 
   describe '.memberships' do
     before do
-      stub_get('/user/2/memberships', 'memberships')
+      stub_get('/users/2/memberships', 'memberships')
       @memberships = Gitlab.memberships(2)
     end
 
     it 'gets the correct resource' do
-      expect(a_get('/user/2/memberships')).to have_been_made
+      expect(a_get('/users/2/memberships')).to have_been_made
     end
 
     it 'returns an information about all project and groups of user' do
       expect(@memberships.first.source_id).to eq 1
       expect(@memberships.first.source_name).to eq 'Project one'
       expect(@memberships.first.source_type).to eq 'Project'
-      expect(@memberships.first.access_level).to eq 20
+      expect(@memberships.first.access_level).to eq '20'
     end
   end
 
   describe 'get all personal access tokens' do
     describe 'get all' do
       before do
-        stub_get('/user_personal_access_tokens?user_id=2', 'personal_access_get_all')
-        @token = Gitlab.user_personal_access_tokens(2)
+        stub_get('/personal_access_tokens?user_id=2', 'personal_access_get_all')
+        @tokens = Gitlab.user_personal_access_tokens(2)
       end
 
       it 'gets the correct resource' do
         expect(a_get('/personal_access_tokens?user_id=2')).to have_been_made
       end
 
-      it 'gets an array of user impersonation tokens' do
+      it 'gets an array of user personal access tokens' do
         expect(@tokens.first.id).to eq(2)
         expect(@tokens.last.id).to eq(3)
         expect(@tokens.first.active).to be_truthy
@@ -758,12 +758,12 @@ RSpec.describe Gitlab::Client do
 
   describe 'create personal access token' do
     before do
-      stub_post('/user/personal_access_tokens/', 'personal_access_create')
+      stub_post('/users/2/personal_access_tokens', 'personal_access_create')
       @token = Gitlab.create_personal_access_token(2, 'service_account_2', ['api'])
     end
 
     it 'gets the correct resource' do
-      expect(a_post('/user/personal_access_tokens').with(body: 'name=service_account_2&scopes%5B%5D=api')).to have_been_made
+      expect(a_post('/users/2/personal_access_tokens').with(body: 'name=service_account_2&scopes%5B%5D=api')).to have_been_made
     end
 
     it 'returns a valid personal access token' do
@@ -795,12 +795,12 @@ RSpec.describe Gitlab::Client do
     end
   end
 
-  describe 'revoke personal accees token' do
+  describe 'revoke personal access token' do
     before do
       stub_request(:delete, "#{Gitlab.endpoint}/personal_access_tokens/2")
         .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
         .to_return(status: 204)
-      @token = Gitlab.revoke_user_impersonation_token(2)
+      @token = Gitlab.revoke_personal_access_token(2)
     end
 
     it 'revokes a personal access token' do
