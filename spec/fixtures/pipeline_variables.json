@@ -1,11 +1,1 @@
-[
-  {
-    "key": "RUN_NIGHTLY_BUILD",
-    "variable_type": "env_var",
-    "value": "true"
-  },
-  {
-    "key": "foo",
-    "value": "bar"
-  }
-]
+[{"key":"RUN_NIGHTLY_BUILD","variable_type":"env_var","value":"true"},{"key":"foo","value":"bar"}]
