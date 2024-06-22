@@ -178,7 +178,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns boolean' do
-      expect(@result).to eq(true)
+      expect(@result).to be(true)
     end
   end
 
@@ -193,7 +193,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns boolean' do
-      expect(@result).to eq(true)
+      expect(@result).to be(true)
     end
   end
 
@@ -208,7 +208,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns boolean' do
-      expect(@result).to eq(true)
+      expect(@result).to be(true)
     end
   end
 
@@ -223,7 +223,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns boolean' do
-      expect(@result).to eq(true)
+      expect(@result).to be(true)
     end
   end
 
@@ -238,7 +238,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns boolean' do
-      expect(@result).to eq(true)
+      expect(@result).to be(true)
     end
   end
 

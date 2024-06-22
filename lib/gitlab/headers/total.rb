@@ -7,7 +7,7 @@ module Gitlab
     # @private
     class Total
       HEADER_TOTAL = 'x-total'
-      TOTAL_REGEX = /^\d+$/.freeze
+      TOTAL_REGEX = /^\d+$/
 
       attr_accessor :total
 

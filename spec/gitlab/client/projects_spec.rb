@@ -652,7 +652,7 @@ RSpec.describe Gitlab::Client do
       it 'returns the correct updated information' do
         expect(@project_deploy_key).to be_a Gitlab::ObjectifiedHash
         expect(@project_deploy_key.title).to eq 'New key name'
-        expect(@project_deploy_key.can_push).to eq true
+        expect(@project_deploy_key.can_push).to be true
       end
     end
   end
@@ -821,7 +821,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about a archived project' do
       expect(@archived_project.name).to eq('GitLab Community Edition')
-      expect(@archived_project.archived).to eq(true)
+      expect(@archived_project.archived).to be(true)
     end
   end
 
@@ -837,7 +837,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about a unarchived project' do
       expect(@unarchived_project.name).to eq('GitLab Community Edition')
-      expect(@unarchived_project.archived).to eq(false)
+      expect(@unarchived_project.archived).to be(false)
     end
   end
 

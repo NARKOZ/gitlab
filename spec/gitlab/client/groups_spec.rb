@@ -530,7 +530,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns false in test but in real life it returns status without a body which is converted to ObjectifiedHash' do
-      expect(@hook).to eq(false)
+      expect(@hook).to be(false)
     end
   end
 

@@ -79,7 +79,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about the label subscribed to' do
       expect(@label.name).to eq('Backlog')
-      expect(@label.subscribed).to eq(true)
+      expect(@label.subscribed).to be(true)
     end
   end
 
@@ -95,7 +95,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about the label subscribed to' do
       expect(@label.name).to eq('Backlog')
-      expect(@label.subscribed).to eq(false)
+      expect(@label.subscribed).to be(false)
     end
   end
 end

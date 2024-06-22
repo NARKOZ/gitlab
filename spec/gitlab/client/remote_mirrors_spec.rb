@@ -16,7 +16,7 @@ RSpec.describe Gitlab::Client do
     it "returns a paginated response of project's push mirrors" do
       expect(@mirrors).to be_an Gitlab::PaginatedResponse
       expect(@mirrors.first).to be_a Gitlab::ObjectifiedHash
-      expect(@mirrors.first.enabled).to eq(true)
+      expect(@mirrors.first.enabled).to be(true)
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns a single remote mirror' do
       expect(@mirror).to be_a Gitlab::ObjectifiedHash
-      expect(@mirror.enabled).to eq(false)
+      expect(@mirror.enabled).to be(false)
       expect(@mirror.id).to eq(123_456)
       expect(@mirror.url).to include('example.com/gitlab/example.git')
     end
@@ -62,9 +62,9 @@ RSpec.describe Gitlab::Client do
 
     it 'returns a single remote mirror' do
       expect(@mirror).to be_a Gitlab::ObjectifiedHash
-      expect(@mirror.enabled).to eq(false)
-      expect(@mirror.only_protected_branches).to eq(true)
-      expect(@mirror.keep_divergent_refs).to eq(true)
+      expect(@mirror.enabled).to be(false)
+      expect(@mirror.only_protected_branches).to be(true)
+      expect(@mirror.keep_divergent_refs).to be(true)
     end
   end
 end

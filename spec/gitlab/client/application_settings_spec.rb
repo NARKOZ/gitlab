@@ -33,7 +33,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about an edited project' do
-      expect(@edited_application_settings.signup_enabled).to eq(true)
+      expect(@edited_application_settings.signup_enabled).to be(true)
     end
   end
 end

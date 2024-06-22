@@ -58,8 +58,7 @@ RSpec.describe Gitlab::PaginatedResponse do
   describe '.each_page' do
     it 'iterates pages' do
       next_page = double('next_page')
-      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
-      allow(@paginated_response).to receive(:next_page).and_return(next_page)
+      allow(@paginated_response).to receive_messages(has_next_page?: true, next_page: next_page)
       allow(next_page).to receive(:has_next_page?).and_return(false)
       expect { |b| @paginated_response.each_page(&b) }.to yield_successive_args(@paginated_response, next_page)
     end
@@ -72,13 +71,11 @@ RSpec.describe Gitlab::PaginatedResponse do
 
     it 'only requests needed pages' do
       next_page = double('next_page')
-      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
-      allow(@paginated_response).to receive(:next_page).and_return(next_page)
-      allow(next_page).to receive(:has_next_page?).and_return(true)
+      allow(@paginated_response).to receive_messages(has_next_page?: true, next_page: next_page)
       # NOTE: Do not define :next_page on the next_page double
       # to prove that it is NOT called even though :has_next_page?
       # has been defined to claim another page is available.
-      allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
+      allow(next_page).to receive_messages(has_next_page?: true, to_ary: [5, 6, 7, 8])
       expect(@paginated_response.lazy_paginate.take(8)).to contain_exactly(1, 2, 3, 4, 5, 6, 7, 8)
     end
   end
@@ -86,10 +83,8 @@ RSpec.describe Gitlab::PaginatedResponse do
   describe '.auto_paginate' do
     it 'returns an array if block is not given' do
       next_page = double('next_page')
-      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
-      allow(@paginated_response).to receive(:next_page).and_return(next_page)
-      allow(next_page).to receive(:has_next_page?).and_return(false)
-      allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
+      allow(@paginated_response).to receive_messages(has_next_page?: true, next_page: next_page)
+      allow(next_page).to receive_messages(has_next_page?: false, to_ary: [5, 6, 7, 8])
       expect(@paginated_response.auto_paginate).to contain_exactly(1, 2, 3, 4, 5, 6, 7, 8)
     end
   end
@@ -97,10 +92,8 @@ RSpec.describe Gitlab::PaginatedResponse do
   shared_context 'when performing with a block limited pagination returning an array' do
     before do
       next_page = double('next_page')
-      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
-      allow(@paginated_response).to receive(:next_page).and_return(next_page)
-      allow(next_page).to receive(:has_next_page?).and_return(false)
-      allow(next_page).to receive(:to_ary).and_return([5, 6, 7, 8])
+      allow(@paginated_response).to receive_messages(has_next_page?: true, next_page: next_page)
+      allow(next_page).to receive_messages(has_next_page?: false, to_ary: [5, 6, 7, 8])
     end
   end
 
@@ -117,10 +110,8 @@ RSpec.describe Gitlab::PaginatedResponse do
 
     it 'returns a page plus one' do
       next_page = double('next_page')
-      allow(@paginated_response).to receive(:has_next_page?).and_return(true)
-      allow(@paginated_response).to receive(:next_page).and_return(next_page)
-      allow(next_page).to receive(:has_next_page?).and_return(false)
-      allow(next_page).to receive(:to_ary).and_return([5])
+      allow(@paginated_response).to receive_messages(has_next_page?: true, next_page: next_page)
+      allow(next_page).to receive_messages(has_next_page?: false, to_ary: [5])
       expect(@paginated_response.paginate_with_limit(5)).to contain_exactly(1, 2, 3, 4, 5)
     end
 
