@@ -77,7 +77,7 @@ module Gitlab
     # @return [String]
     def inspect
       inspected = super
-      inspected.sub! @private_token, only_show_last_four_chars(@private_token) if @private_token
+      inspected = redact_private_token(inspected, @private_token) if @private_token
       inspected
     end
 
@@ -91,7 +91,14 @@ module Gitlab
 
     private
 
+    def redact_private_token(inspected, private_token)
+      redacted = only_show_last_four_chars(private_token)
+      inspected.sub %(@private_token="#{private_token}"), %(@private_token="#{redacted}")
+    end
+
     def only_show_last_four_chars(token)
+      return '****' if token.size <= 4
+
       "#{'*' * (token.size - 4)}#{token[-4..]}"
     end
   end
