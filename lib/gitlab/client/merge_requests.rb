@@ -223,9 +223,11 @@ class Gitlab::Client
     #   Gitlab.merge_request_discussions('gitlab', 1)
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Gitlab::ObjectifiedHash] List of the merge request discussions.
-    def merge_request_discussions(project, merge_request_id)
-      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions")
+    def merge_request_discussions(project, merge_request_id, options = {})
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/discussions", query: options)
     end
 
     # Get single merge request discussion
