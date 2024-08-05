@@ -3,7 +3,7 @@
 class Gitlab::Client
   # Defines methods related to projects.
   # @see https://docs.gitlab.com/ce/api/projects.html
-  module Projects
+  module Projects # rubocop:disable Metrics/ModuleLength
     # Gets a list of projects owned by the authenticated user.
     #
     # @example
@@ -703,6 +703,17 @@ class Gitlab::Client
     # @option options [Boolean] :active Limit by active status. Optional.
     def project_deploy_tokens(project, options = {})
       get("/projects/#{url_encode project}/deploy_tokens", query: options)
+    end
+
+    # Get languages used with percentage value
+    #
+    # @example
+    #   Gitlab.project_languages(42)
+    #
+    # @param [Integer, String] id The ID or path of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def project_languages(project)
+      get("/projects/#{url_encode project}/languages")
     end
   end
 end
