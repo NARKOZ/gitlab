@@ -704,5 +704,16 @@ class Gitlab::Client
     def project_deploy_tokens(project, options = {})
       get("/projects/#{url_encode project}/deploy_tokens", query: options)
     end
+
+    # Get languages used with percentage value
+    #
+    # @example
+    #   Gitlab.project_languages(42)
+    #
+    # @param [Integer, String] id The ID or path of a project.
+    # @return [Gitlab::ObjectifiedHash]
+    def project_languages(project)
+      get("/projects/#{url_encode project}/languages")
+    end
   end
 end
