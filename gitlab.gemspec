@@ -30,6 +30,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 3.1'
 
+  gem.add_runtime_dependency 'base64', '~> 0.2.0'
   gem.add_runtime_dependency 'httparty', '~> 0.20'
   gem.add_runtime_dependency 'terminal-table', '>= 1.5.1'
 
