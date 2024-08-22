@@ -925,4 +925,16 @@ RSpec.describe Gitlab::Client do
       expect(@custom_attributes.first.username).to eq 'gitlab+deploy-token-93'
     end
   end
+
+  describe '.project_languages' do
+    before do
+      stub_get('/projects/2/languages', 'project_languages')
+      @project_languages = Gitlab.project_languages(2)
+    end
+
+    it 'returns a GitlabHash with language data' do
+      expect(@project_languages).to be_a Gitlab::ObjectifiedHash
+      expect(@project_languages.to_hash.keys).to contain_exactly('Ruby', 'Shell')
+    end
+  end
 end
