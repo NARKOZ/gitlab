@@ -77,6 +77,22 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.merge_request_dependencies' do
+    before do
+      stub_get('/projects/3/merge_requests/1/blocks', 'merge_request_dependencies')
+      @pipelines = Gitlab.merge_request_dependencies(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/merge_requests/1/blocks')).to have_been_made
+    end
+
+    it 'returns information about merge request dependencies' do
+      expect(@pipelines.first.id).to eq(1234)
+      expect(@pipelines.first.keys).to include('blocking_merge_request', 'blocked_merge_request')
+    end
+  end
+
   describe '.create_merge_request_pipeline' do
     before do
       stub_post('/projects/3/merge_requests/2/pipelines', 'pipeline_create')
