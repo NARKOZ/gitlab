@@ -207,5 +207,72 @@ class Gitlab::Client
       body = { token: token }
       post('/runners/verify', body: body)
     end
+
+    # Creates a new group runner with the new Gitlab approach (v16.0+) and returns the id/token information
+    # https://docs.gitlab.com/ee/api/users.html#create-a-runner
+    # You must use an access token with the create_runner scope
+    #
+    # @example
+    #   Gitlab.create_group_runner(9, tag_list: ['one', 'two'])
+    #   Gitlab.create_group_runner(9, paused: false, description: 'A note', run_untagged: true)
+    #
+    # @param  [String] group(required) Group ID.
+    # @param  [Hash] options A customizable set of options.
+    # @return <Gitlab::ObjectifiedHash> Response against runner registration
+    def create_group_runner(group, options = {})
+      create_runner({ runner_type: 'group_type', group_id: group }.merge(options))
+    end
+
+    # Creates a new project runner with the new Gitlab approach (v16.0+) and returns the id/token information
+    # https://docs.gitlab.com/ee/api/users.html#create-a-runner
+    # You must use an access token with the create_runner scope
+    #
+    # @example
+    #   Gitlab.create_project_runner(12, tag_list: ['one', 'two'])
+    #   Gitlab.create_project_runner(12, paused: false, description: 'A note', run_untagged: true)
+    #
+    # @param  [String] project(required) Project ID.
+    # @param  [Hash] options A customizable set of options.
+    # @return <Gitlab::ObjectifiedHash> Response against runner registration
+    def create_project_runner(project, options = {})
+      create_runner({ runner_type: 'project_type', project_id: project }.merge(options))
+    end
+
+    # Creates a new instance runner with the new Gitlab approach (v16.0+) and returns the id/token information
+    # You must be an administrator of the GitLab instance
+    # You must use an access token with the create_runner scope
+    # https://docs.gitlab.com/ee/api/users.html#create-a-runner
+    #
+    # @example
+    #   Gitlab.create_instance_runner(tag_list: ['one', 'two'])
+    #   Gitlab.create_instance_runner(paused: false, description: 'A note', run_untagged: true)
+    #
+    # @param  [String] group(required) Project ID.
+    # @param  [Hash] options A customizable set of options.
+    # @return <Gitlab::ObjectifiedHash> Response against runner registration
+    def create_instance_runner(options = {})
+      create_runner({ runner_type: 'instance_type' }.merge(options))
+    end
+
+    private
+
+    # Creates a runner linked to the current user.
+    # You must use an access token with the create_runner scope
+    # https://docs.gitlab.com/ee/api/users.html#create-a-runner
+    #
+    # @param  [Hash] options(required) A customizable set of options.
+    # @option options [String] :description(optional) Runner description.
+    # @option options [Hash] :info(optional) Runner metadata.
+    # @option options [Boolean] :paused(optional) Whether the Runner ignores new jobs.
+    # @option options [Boolean] :locked(optional) Whether the Runner should be locked for current project.
+    # @option options [Boolean] :run_untagged(optional) Whether the Runner should handle untagged jobs.
+    # @option options [Array<String>] :tag_list(optional) List of Runner tags.
+    # @option options [String] :access_level(optional) Access level of the runner; not_protected or ref_protected.
+    # @option options [Integer] :maximum_timeout(optional) Maximum timeout set when this Runner will handle the job.
+    # @option options [String] :maintenance_note(optional) Free-form maintenance notes for the runner (1024 characters).
+    # @return <Gitlab::ObjectifiedHash> Response against runner registration {"id": 1, "token": foo "token_expires_at": null}
+    def create_runner(options)
+      post('/user/runners', body: options)
+    end
   end
 end

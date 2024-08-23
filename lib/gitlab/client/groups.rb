@@ -354,5 +354,154 @@ class Gitlab::Client
     def delete_group_custom_attribute(key, group_id = nil)
       delete("/groups/#{group_id}/custom_attributes/#{key}")
     end
+
+    # List all the specified groups hooks
+    #
+    # @example
+    #   Gitlab.list_group_hooks(3)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @return [Gitlab::PaginatedResponse] List of registered hooks https://docs.gitlab.com/ee/api/groups.html#hooks
+    def list_group_hooks(group_id)
+      get("/groups/#{group_id}/hooks")
+    end
+
+    # get specified group hook
+    #
+    # @example
+    #   Gitlab.group_hook(3, 1)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of the hook.
+    # @return [Gitlab::ObjectifiedHash] The hook https://docs.gitlab.com/ee/api/groups.html#get-group-hook
+    def group_hook(group_id, hook_id)
+      get("/groups/#{group_id}/hooks/#{hook_id}")
+    end
+
+    # Add a new group hook
+    #
+    # @example
+    #   Gitlab.add_group_hook(3, "https://example.com/my-hook-receiver", {token: "verify me"})
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [String] the hook url which will receive the selected events
+    # @option options [Boolean] :name The name of the group.
+    # @option options [Boolean] :push_events Trigger hook on push events
+    # @potion options [String] :push_events_branch_filter	Trigger hook on push events for matching branches only.
+    # @option options [Boolean] :issues_events Trigger hook on issues events
+    # @option options [Boolean] :confidential_issues_events Trigger hook on confidential issues events
+    # @option options [Boolean] :merge_requests_events Trigger hook on merge requests events
+    # @option options [Boolean] :tag_push_events Trigger hook on tag push events
+    # @option options [Boolean] :note_events Trigger hook on note events
+    # @option options [Boolean] :confidential_note_events Trigger hook on confidential note events
+    # @option options [Boolean] :job_events Trigger hook on job events
+    # @option options [Boolean] :pipeline_events Trigger hook on pipeline events
+    # @option options [Boolean] :wiki_page_events Trigger hook on wiki page events
+    # @option options [Boolean] :deployment_events Trigger hook on deployment events
+    # @option options [Boolean] :releases_events Trigger hook on release events
+    # @option options [Boolean] :subgroup_events Trigger hook on subgroup events
+    # @option options [Boolean] :enable_ssl_verification Do SSL verification when triggering the hook
+    # @option options [String] :token	Secret token to validate received payloads; not returned in the response
+    # @return [Gitlab::ObjectifiedHash] Response body matches https://docs.gitlab.com/ee/api/groups.html#get-group-hook
+    def add_group_hook(group_id, url, options = {})
+      post("/groups/#{group_id}/hooks", body: options.merge(url: url))
+    end
+
+    # Edit a group hook
+    #
+    # @example
+    #   Gitlab.edit_group_hook(3, 1, "https://example.com/my-hook-receiver", {token: "verify me"})
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of a group.
+    # @param  [String] the hook url which will receive the selected events
+    # @option options [Boolean] :name The name of the group.
+    # @option options [Boolean] :push_events Trigger hook on push events
+    # @potion options [String] :push_events_branch_filter	Trigger hook on push events for matching branches only.
+    # @option options [Boolean] :issues_events Trigger hook on issues events
+    # @option options [Boolean] :confidential_issues_events Trigger hook on confidential issues events
+    # @option options [Boolean] :merge_requests_events Trigger hook on merge requests events
+    # @option options [Boolean] :tag_push_events Trigger hook on tag push events
+    # @option options [Boolean] :note_events Trigger hook on note events
+    # @option options [Boolean] :confidential_note_events Trigger hook on confidential note events
+    # @option options [Boolean] :job_events Trigger hook on job events
+    # @option options [Boolean] :pipeline_events Trigger hook on pipeline events
+    # @option options [Boolean] :wiki_page_events Trigger hook on wiki page events
+    # @option options [Boolean] :deployment_events Trigger hook on deployment events
+    # @option options [Boolean] :releases_events Trigger hook on release events
+    # @option options [Boolean] :subgroup_events Trigger hook on subgroup events
+    # @option options [Boolean] :enable_ssl_verification Do SSL verification when triggering the hook
+    # @option options [String] :token	Secret token to validate received payloads; not returned in the response
+    # @return [Gitlab::ObjectifiedHash] Response body matches https://docs.gitlab.com/ee/api/groups.html#edit-group-hook
+    def edit_group_hook(group_id, hook_id, url, options = {})
+      post("/groups/#{group_id}/hooks/#{hook_id}", body: options.merge(url: url))
+    end
+
+    # Delete a group hook
+    #
+    # @example
+    #   Gitlab.delete_group_hook(3, 1)
+    #
+    # @param  [Integer] group_id The ID of a group.
+    # @param  [Integer] hook_id The ID of a group.
+    # @return [Gitlab::ObjectifiedHash] no body, will evaluate to an empty hash. https://docs.gitlab.com/ee/api/groups.html#delete-group-hook
+    def delete_group_hook(group_id, hook_id)
+      delete("/groups/#{group_id}/hooks/#{hook_id}")
+    end
+  end
+
+  # Get all access tokens for a group
+  #
+  # @example
+  #   Gitlab.group_access_tokens(1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @return [Array<Gitlab::ObjectifiedHash>]
+  def group_access_tokens(group_id)
+    get("/groups/#{group_id}/access_tokens")
+  end
+
+  # Get group access token information
+  #
+  # @example
+  #   Gitlab.group_access_token(1, 1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [Integer] group_access_token_id ID of the group access token.
+  # @return [Gitlab::ObjectifiedHash]
+  def group_access_token(group_id, group_access_token_id)
+    get("/groups/#{group_id}/access_tokens/#{group_access_token_id}")
+  end
+
+  # Create group access token
+  #
+  # @example
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"])
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"], 20)
+  #   Gitlab.create_group_access_token(2, "token", ["api", "read_user"], 20, "1970-01-01")
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [String] name Name for group access token.
+  # @param  [Array<String>] scopes Array of scopes for the group access token
+  # @param  [Integer] access_level Project access level (10: Guest, 20: Reporter, 30: Developer, 40: Maintainer, 50: Owner).
+  # @param  [String] expires_at Date for group access token expiration in ISO format.
+  # @return [Gitlab::ObjectifiedHash]
+  def create_group_access_token(group_id, name, scopes, access_level = nil, expires_at = nil)
+    body = { name: name, scopes: scopes }
+    body[:access_level] = access_level if access_level
+    body[:expires_at] = expires_at if expires_at
+    post("/groups/#{group_id}/access_tokens", body: body)
+  end
+
+  # Revoke a group access token
+  #
+  # @example
+  #   Gitlab.revoke_group_access_token(1, 1)
+  #
+  # @param  [Integer] user_id The ID of the group.
+  # @param  [Integer] group_access_token_id ID of the group access token.
+  # @return [Gitlab::ObjectifiedHash]
+  def revoke_group_access_token(group_id, group_access_token_id)
+    delete("/groups/#{group_id}/access_tokens/#{group_access_token_id}")
   end
 end

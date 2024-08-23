@@ -34,8 +34,8 @@ RSpec.describe Gitlab::Client do
     it 'returns the correct updated configuration' do
       expect(@project_mr_approvals).to be_a Gitlab::ObjectifiedHash
       expect(@project_mr_approvals.approvals_before_merge).to eq 3
-      expect(@project_mr_approvals.reset_approvals_on_push).to eq false
-      expect(@project_mr_approvals.disable_overriding_approvers_per_merge_request).to eq true
+      expect(@project_mr_approvals.reset_approvals_on_push).to be false
+      expect(@project_mr_approvals.disable_overriding_approvers_per_merge_request).to be true
     end
   end
 

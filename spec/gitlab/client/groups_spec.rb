@@ -42,7 +42,7 @@ RSpec.describe Gitlab::Client do
 
       it 'gets the correct resource' do
         expect(a_post('/groups')
-            .with(body: { path: 'gitlab-path', name: 'GitLab-Group' })).to have_been_made
+          .with(body: { path: 'gitlab-path', name: 'GitLab-Group' })).to have_been_made
       end
 
       it 'returns information about a created group' do
@@ -59,8 +59,8 @@ RSpec.describe Gitlab::Client do
 
       it 'gets the correct resource' do
         expect(a_post('/groups')
-                 .with(body: { path: 'gitlab-path', name: 'GitLab-Group',
-                               description: 'gitlab group description' })).to have_been_made
+          .with(body: { path: 'gitlab-path', name: 'GitLab-Group',
+                        description: 'gitlab group description' })).to have_been_made
       end
 
       it 'returns information about a created group' do
@@ -218,7 +218,7 @@ RSpec.describe Gitlab::Client do
 
     it 'gets the correct resource' do
       expect(a_put('/groups/3/members/1')
-          .with(body: { access_level: '50' })).to have_been_made
+        .with(body: { access_level: '50' })).to have_been_made
     end
 
     it 'returns information about the edited member' do
@@ -443,6 +443,159 @@ RSpec.describe Gitlab::Client do
 
       it 'returns information about a deleted custom_attribute' do
         expect(@custom_attribute).to be_truthy
+      end
+    end
+  end
+
+  describe '.list_group_hooks' do
+    before do
+      stub_get('/groups/3/hooks', 'group_hooks')
+      @hooks = Gitlab.list_group_hooks(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/hooks')).to have_been_made
+    end
+
+    it 'returns a list of registered group hooks based on the group id' do
+      expect(@hooks).to be_a Gitlab::PaginatedResponse
+      expect(@hooks.size).to eq(1)
+      expect(@hooks[0].url).to eq('http://example.com/hook')
+    end
+  end
+
+  describe '.group_hook(group_id, hook_id)' do
+    before do
+      stub_get('/groups/3/hooks/1', 'group_hook')
+      @hook = Gitlab.group_hook(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/groups/3/hooks/1')).to have_been_made
+    end
+
+    it 'returns information about the requested group hook' do
+      expect(@hook).to be_a Gitlab::ObjectifiedHash
+      expect(@hook.url).to eq('http://example.com/hook')
+    end
+  end
+
+  describe '.add_group_hook(group_id, url, options)' do
+    before do
+      stub_post('/groups/3/hooks', 'group_hook')
+      @hook = Gitlab.add_group_hook(3, 'http://example.com', {
+                                      push_events: true,
+                                      push_events_branch_filter: 'main',
+                                      enable_ssl_verification: true,
+                                      token: 'foofoofoo1234'
+                                    })
+    end
+
+    it 'creates the correct resource' do
+      expect(a_post('/groups/3/hooks')
+        .with(body: { url: 'http://example.com', push_events: true, push_events_branch_filter: 'main', enable_ssl_verification: true, token: 'foofoofoo1234' })).to have_been_made
+    end
+
+    it 'returns the created group hook matching the format of GET hook' do
+      expect(@hook).to be_a Gitlab::ObjectifiedHash
+      expect(@hook.url).to eq('http://example.com/hook')
+    end
+  end
+
+  describe '.edit_group_hook(group_id, hook_id, url)' do
+    before do
+      stub_post('/groups/3/hooks/1', 'group_hook')
+      @hook = Gitlab.edit_group_hook(3, 1, 'http://example.com', { push_events: false, token: 'foofoofoo1234' })
+    end
+
+    it 'updates the correct resource' do
+      expect(a_post('/groups/3/hooks/1')
+        .with(body: { url: 'http://example.com', push_events: false, token: 'foofoofoo1234' })).to have_been_made
+    end
+
+    it 'returns the updated group hook resource' do
+      expect(@hook).to be_a Gitlab::ObjectifiedHash
+      expect(@hook.url).to eq('http://example.com/hook')
+    end
+  end
+
+  describe '.delete_group_hook(group_id, hook_id)' do
+    before do
+      stub_delete('/groups/3/hooks/1', 'group_hook_delete')
+      @hook = Gitlab.delete_group_hook(3, 1)
+    end
+
+    it 'delete the resource' do
+      expect(a_delete('/groups/3/hooks/1')).to have_been_made
+    end
+
+    it 'returns false in test but in real life it returns status without a body which is converted to ObjectifiedHash' do
+      expect(@hook).to be(false)
+    end
+  end
+
+  describe 'group access tokens' do
+    describe 'get all' do
+      before do
+        stub_get('/groups/2/access_tokens', 'group_access_token_get_all')
+        @tokens = Gitlab.group_access_tokens(2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/access_tokens')).to have_been_made
+      end
+
+      it 'gets an array of group access tokens' do
+        expect(@tokens.first.id).to eq(2)
+        expect(@tokens.last.id).to eq(3)
+      end
+    end
+
+    describe 'get one' do
+      before do
+        stub_get('/groups/2/access_tokens/2', 'group_access_token_get')
+        @token = Gitlab.group_access_token(2, 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/access_tokens/2')).to have_been_made
+      end
+
+      it 'gets a group access token' do
+        expect(@token.user_id).to eq(2)
+        expect(@token.id).to eq(2)
+      end
+    end
+
+    describe 'create' do
+      before do
+        stub_post('/groups/2/access_tokens', 'group_access_token_create')
+        @token = Gitlab.create_group_access_token(2, 'mytoken', ['api'])
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/groups/2/access_tokens').with(body: 'name=mytoken&scopes%5B%5D=api')).to have_been_made
+      end
+
+      it 'returns a valid group access token' do
+        expect(@token.user_id).to eq(2)
+        expect(@token.id).to eq(2)
+        expect(@token.active).to be_truthy
+        expect(@token.token).to eq('zMrP_vusadyipEaqued1')
+      end
+    end
+
+    describe 'revoke' do
+      before do
+        stub_request(:delete, "#{Gitlab.endpoint}/groups/2/access_tokens/2")
+          .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(status: 204)
+        @token = Gitlab.revoke_group_access_token(2, 2)
+      end
+
+      it 'removes a token' do
+        expect(a_delete('/groups/2/access_tokens/2')).to have_been_made
+        expect(@token.to_hash).to be_empty
       end
     end
   end

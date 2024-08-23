@@ -33,6 +33,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.project_latest_release' do
+    before do
+      stub_get('/projects/3/releases/permalink/latest', 'project_release')
+      @project_latest_release = Gitlab.project_latest_release(3)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/releases/permalink/latest')).to have_been_made
+    end
+
+    it 'returns information about a release' do
+      expect(@project_latest_release.tag_name).to eq('v0.1')
+    end
+  end
+
   describe '.create_project_release' do
     context 'without asset links' do
       before do

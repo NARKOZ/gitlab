@@ -10,11 +10,11 @@ jobs:
     name: Build + Publish
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby 2.7
+    - uses: actions/checkout@v4
+    - name: Set up Ruby 3.3
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.3
     - name: Publish to RubyGems
       run: |
         mkdir -p $HOME/.gem

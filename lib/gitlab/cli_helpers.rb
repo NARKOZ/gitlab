@@ -20,7 +20,7 @@ class Gitlab::CLI
     #
     # @return [Gitlab::Client]
     def client
-      @client ||= Gitlab::Client.new(endpoint: (Gitlab.endpoint || ''))
+      @client ||= Gitlab::Client.new(endpoint: Gitlab.endpoint || '')
     end
 
     # Returns method names and their owners

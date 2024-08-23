@@ -8,7 +8,7 @@ module Gitlab
     class PageLinks
       HEADER_LINK = 'Link'
       DELIM_LINKS = ','
-      LINK_REGEX = /<([^>]+)>; rel="([^"]+)"/.freeze
+      LINK_REGEX = /<([^>]+)>; rel="([^"]+)"/
       METAS = %w[last next first prev].freeze
 
       attr_accessor(*METAS)

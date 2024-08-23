@@ -40,7 +40,7 @@ RSpec.describe Gitlab::Client do
 
       it 'returns information about a new repository tag' do
         expect(@tag.name).to eq('v1.0.0')
-        expect(@tag.message).to eq(nil)
+        expect(@tag.message).to be_nil
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'gets diffs of a merge request' do
-      expect(@diff.diffs).to be_kind_of Array
+      expect(@diff.diffs).to be_a Array
       expect(@diff.diffs.last['new_path']).to eq 'files/js/application.js'
     end
   end
@@ -108,7 +108,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'gets common ancestor of the two refs' do
-      expect(@response).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@response).to be_a Gitlab::ObjectifiedHash
       expect(@response.id).to eq '1a0b36b3cdad1d2ee32457c102a8c0b7056fa863'
     end
   end
@@ -160,7 +160,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns changelog notes' do
-      expect(@changelog).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@changelog).to be_a Gitlab::ObjectifiedHash
       expect(@changelog.notes).to be_a String
     end
   end

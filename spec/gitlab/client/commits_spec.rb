@@ -212,7 +212,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'gets statuses of a commit' do
-      expect(@statuses).to be_kind_of Gitlab::PaginatedResponse
+      expect(@statuses).to be_a Gitlab::PaginatedResponse
       expect(@statuses.first.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@statuses.first.ref).to eq('decreased-spec')
       expect(@statuses.first.status).to eq('failed')
@@ -234,7 +234,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about the newly created status' do
-      expect(@status).to be_kind_of Gitlab::ObjectifiedHash
+      expect(@status).to be_a Gitlab::ObjectifiedHash
       expect(@status.id).to eq(498)
       expect(@status.sha).to eq('7d938cb8ac15788d71f4b67c035515a160ea76d8')
       expect(@status.status).to eq('failed')

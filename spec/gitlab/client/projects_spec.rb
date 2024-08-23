@@ -652,7 +652,7 @@ RSpec.describe Gitlab::Client do
       it 'returns the correct updated information' do
         expect(@project_deploy_key).to be_a Gitlab::ObjectifiedHash
         expect(@project_deploy_key.title).to eq 'New key name'
-        expect(@project_deploy_key.can_push).to eq true
+        expect(@project_deploy_key.can_push).to be true
       end
     end
   end
@@ -821,7 +821,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about a archived project' do
       expect(@archived_project.name).to eq('GitLab Community Edition')
-      expect(@archived_project.archived).to eq(true)
+      expect(@archived_project.archived).to be(true)
     end
   end
 
@@ -837,7 +837,7 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about a unarchived project' do
       expect(@unarchived_project.name).to eq('GitLab Community Edition')
-      expect(@unarchived_project.archived).to eq(false)
+      expect(@unarchived_project.archived).to be(false)
     end
   end
 
@@ -923,6 +923,18 @@ RSpec.describe Gitlab::Client do
     it 'returns a information about deploy tokens of project' do
       expect(@custom_attributes.first.name).to eq 'foo'
       expect(@custom_attributes.first.username).to eq 'gitlab+deploy-token-93'
+    end
+  end
+
+  describe '.project_languages' do
+    before do
+      stub_get('/projects/2/languages', 'project_languages')
+      @project_languages = Gitlab.project_languages(2)
+    end
+
+    it 'returns a GitlabHash with language data' do
+      expect(@project_languages).to be_a Gitlab::ObjectifiedHash
+      expect(@project_languages.to_hash.keys).to contain_exactly('Ruby', 'Shell')
     end
   end
 end

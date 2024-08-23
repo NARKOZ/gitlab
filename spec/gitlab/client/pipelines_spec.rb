@@ -58,6 +58,25 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.pipeline_variables' do
+    before do
+      stub_get('/projects/3/pipelines/46/variables', 'pipeline_variables')
+      @variables = Gitlab.pipeline_variables(3, 46)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/pipelines/46/variables')).to have_been_made
+    end
+
+    it 'returns a paginated response of pipeline variables' do
+      expect(@variables).to be_a Gitlab::PaginatedResponse
+    end
+
+    it "returns pipeline's variables" do
+      expect(@variables[0]['key']).to eq('RUN_NIGHTLY_BUILD')
+    end
+  end
+
   describe '.create_pipeline' do
     let(:pipeline_path) { '/projects/3/pipeline?ref=master' }
 
@@ -138,6 +157,19 @@ RSpec.describe Gitlab::Client do
 
     it 'gets the correct resource' do
       expect(a_delete('/projects/3/pipelines/46')).to have_been_made
+    end
+  end
+
+  describe '.update_pipeline_metadata' do
+    before do
+      stub_put('/projects/3/pipelines/46/metadata', 'pipeline')
+      Gitlab.update_pipeline_metadata(3, 46, name: 'new pipeline name')
+    end
+
+    it 'gets the correct resource' do
+      expect(
+        a_put('/projects/3/pipelines/46/metadata').with(body: { name: 'new pipeline name' })
+      ).to have_been_made
     end
   end
 end

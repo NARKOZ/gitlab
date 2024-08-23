@@ -117,7 +117,7 @@ RSpec.describe Gitlab::Client do
     end
 
     it 'returns information about the deleted pipeline' do
-      # expect(@pipeline_schedule.id).to eq(13)
+      expect(@pipeline_schedule.id).to eq(13)
     end
   end
 
