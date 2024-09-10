@@ -33,10 +33,10 @@ RSpec.describe Gitlab::Client do
     end
   end
 
-  describe '.get_pipelines_by_pipeline_schedule' do
+  describe '.pipelines_by_pipeline_schedule' do
     before do
       stub_get('/projects/3/pipeline_schedules/5/pipelines', 'pipeline_schedule_get_pipelines')
-      @pipeline_schedule_get_pipelines = Gitlab.get_pipelines_by_pipeline_schedule(3, 5)
+      @pipeline_schedule_get_pipelines = Gitlab.pipelines_by_pipeline_schedule(3, 5)
     end
 
     it 'gets the correct resource' do

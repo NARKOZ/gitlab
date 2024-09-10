@@ -33,12 +33,12 @@ class Gitlab::Client
     # Get all pipelines triggered by a pipeline schedule
     #
     # @example
-    #   Gitlab.get_pipelines_by_pipeline_schedule(5, 3)
+    #   Gitlab.pipelines_by_pipeline_schedule(5, 3)
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of the pipeline schedule.
     # @return  [Array<Gitlab::ObjectifiedHash>]
-    def get_pipelines_by_pipeline_schedule(project, id)
+    def pipelines_by_pipeline_schedule(project, id)
       get("/projects/#{url_encode project}/pipeline_schedules/#{id}/pipelines")
     end
 
