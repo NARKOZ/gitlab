@@ -33,6 +33,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.get_pipelines_by_pipeline_schedule' do
+    before do
+      stub_get('/projects/3/pipeline_schedules/5/pipelines', 'pipeline_schedule_get_pipelines')
+      @pipeline_schedule_get_pipelines = Gitlab.get_pipelines_by_pipeline_schedule(3, 5)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/3/pipeline_schedules/5/pipelines')).to have_been_made
+    end
+
+    it "returns a response of project's pipeline schedules" do
+      expect(@pipeline_schedule_get_pipelines).to be_a Gitlab::PaginatedResponse
+    end
+  end
+
   describe '.create_pipeline_schedule' do
     before do
       stub_post('/projects/3/pipeline_schedules', 'pipeline_schedule_create')
