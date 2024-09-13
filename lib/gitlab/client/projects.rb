@@ -715,5 +715,74 @@ class Gitlab::Client
     def project_languages(project)
       get("/projects/#{url_encode project}/languages")
     end
+
+    # List all project access tokens.
+    #
+    # @example
+    #   Gitlab.project_access_tokens(42)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @option options [String] :state Limit by active/inactive state. Optional.
+    #
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def project_access_tokens(project, options = {})
+      get("/projects/#{url_encode project}/access_tokens", query: options)
+    end
+
+    # Get a specific project access token.
+    #
+    # @example
+    #   Gitlab.project_access_token(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] token_id The ID of the project access token.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the specified project access token.
+    def project_access_token(project, token_id, options = {})
+      get("/projects/#{url_encode project}/access_tokens/#{token_id}", query: options)
+    end
+
+    # Creates a new project access token.
+    #
+    # @example
+    #   Gitlab.create_project_access_token(42, 'My Token', ['api'], '2024-12-12', access_level: 40)
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [String] name The name of the project access token.
+    # @param  [Array] scopes List of scopes of the project access token.
+    # @param  [String] expires_at A date string in the format YYYY-MM-DD.
+    # @option options [Integer] :access_level Access level. Optional. Defaults to 40.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the created project access token.
+    def create_project_access_token(project, name, scopes, expires_at, options = {})
+      post("/projects/#{url_encode project}/access_tokens", body: { name: name, scopes: scopes, expires_at: expires_at }.merge(options))
+    end
+
+    # Rotate a project access token.
+    #
+    # @example
+    #   Gitlab.rotate_project_access_token(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] token_id The ID of the project access token.
+    # @option options [String] :expires_at A date string in the format YEAR-MONTH-DAY.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the specified project access token.
+    def rotate_project_access_token(project, token_id, options = {})
+      post("/projects/#{url_encode project}/access_tokens/#{token_id}/rotate", query: options)
+    end
+
+    # Revoke a project access token.
+    #
+    # @example
+    #   Gitlab.revoke_project_access_token(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] token_id The ID of the project access token.
+    #
+    # @return [Gitlab::ObjectifiedHash]
+    def revoke_project_access_token(project, token_id)
+      delete("/projects/#{url_encode project}/access_tokens/#{token_id}")
+    end
   end
 end
