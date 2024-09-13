@@ -937,4 +937,96 @@ RSpec.describe Gitlab::Client do
       expect(@project_languages.to_hash.keys).to contain_exactly('Ruby', 'Shell')
     end
   end
+
+  describe '.project_access_tokens' do
+    before do
+      stub_get('/projects/2/access_tokens', 'project_access_tokens_get_all')
+      @tokens = Gitlab.project_access_tokens(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/access_tokens')).to have_been_made
+    end
+
+    it 'gets an array of project access tokens' do
+      expect(@tokens.first.id).to eq(2)
+      expect(@tokens.last.id).to eq(3)
+    end
+  end
+
+  describe '.project_access_token' do
+    before do
+      stub_get('/projects/2/access_tokens/2', 'project_access_token_get')
+      @token = Gitlab.project_access_token(2, 2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/access_tokens/2')).to have_been_made
+    end
+
+    it 'gets a project access token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.access_level).to eq(20)
+      expect(@token.scopes).to eq(['api'])
+      expect(@token.name).to eq('Reporter Token')
+    end
+  end
+
+  describe '.create_project_access_token' do
+    before do
+      stub_post('/projects/2/access_tokens', 'project_access_token_create')
+      @token = Gitlab.create_project_access_token(2, 'Reporter Token', ['api'], '2024-09-20')
+    end
+
+    it 'posts the correct resource' do
+      expect(a_post('/projects/2/access_tokens').with(body: 'name=Reporter%20Token&scopes%5B%5D=api&expires_at=2024-09-20')).to have_been_made
+    end
+
+    it 'returns a valid project access token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.access_level).to eq(20)
+      expect(@token.scopes).to eq(['api'])
+      expect(@token.name).to eq('Reporter Token')
+      expect(@token.token).to eq('glpat-aRandomStringAsToken')
+    end
+  end
+
+  describe '.rotate_project_access_token' do
+    before do
+      stub_post('/projects/2/access_tokens/2/rotate', 'project_access_token_create')
+      @token = Gitlab.rotate_project_access_token(2, 2)
+    end
+
+    it 'posts the correct resource' do
+      expect(a_post('/projects/2/access_tokens/2/rotate')).to have_been_made
+    end
+
+    it 'returns a valid project access token' do
+      expect(@token.user_id).to eq(2)
+      expect(@token.id).to eq(2)
+      expect(@token.access_level).to eq(20)
+      expect(@token.scopes).to eq(['api'])
+      expect(@token.name).to eq('Reporter Token')
+      expect(@token.token).to eq('glpat-aRandomStringAsToken')
+    end
+  end
+
+  describe '.revoke_project_access_token' do
+    before do
+      stub_request(:delete, "#{Gitlab.endpoint}/projects/2/access_tokens/2")
+        .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        .to_return(status: 204)
+      @token = Gitlab.revoke_project_access_token(2, 2)
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/2/access_tokens/2')).to have_been_made
+    end
+
+    it 'removes a token' do
+      expect(@token.to_h).to be_empty
+    end
+  end
 end
