@@ -1029,4 +1029,69 @@ RSpec.describe Gitlab::Client do
       expect(@token.to_h).to be_empty
     end
   end
+
+  describe '.project_variables' do
+    before do
+      stub_get('/projects/2/variables', 'project_variables_get_all')
+      @variables = Gitlab.project_variables(2)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/variables')).to have_been_made
+    end
+
+    it 'gets an array of project variables' do
+      expect(@variables.first.key).to eq('MY_VAR')
+      expect(@variables.last.key).to eq('MY_VAR_2')
+    end
+  end
+
+  describe '.project_variable' do
+    before do
+      stub_get('/projects/2/variables/MY_VAR', 'project_variable_get')
+      @variable = Gitlab.project_variable(2, 'MY_VAR')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_get('/projects/2/variables/MY_VAR')).to have_been_made
+    end
+
+    it 'gets a project variable' do
+      expect(@variable.key).to eq('MY_VAR')
+      expect(@variable.value).to eq('Custom Value')
+    end
+  end
+
+  describe '.create_project_variable' do
+    before do
+      stub_post('/projects/2/variables', 'project_variable_create')
+      @variable = Gitlab.create_project_variable(2, 'MY_VAR', 'Custom Value')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/projects/2/variables').with(body: 'key=MY_VAR&value=Custom%20Value')).to have_been_made
+    end
+
+    it 'creates a project variable' do
+      expect(@variable.key).to eq('MY_VAR')
+      expect(@variable.value).to eq('Custom Value')
+    end
+  end
+
+  describe '.delete_project_variable' do
+    before do
+      stub_request(:delete, "#{Gitlab.endpoint}/projects/2/variables/MY_VAR")
+        .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+        .to_return(status: 204)
+      @variable = Gitlab.delete_project_variable(2, 'MY_VAR')
+    end
+
+    it 'deletes the correct resource' do
+      expect(a_delete('/projects/2/variables/MY_VAR')).to have_been_made
+    end
+
+    it 'removes a token' do
+      expect(@variable.to_h).to be_empty
+    end
+  end
 end

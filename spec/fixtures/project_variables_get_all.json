@@ -1,0 +1,24 @@
+[
+  {
+    "variable_type": "env_var",
+    "key": "MY_VAR",
+    "value": "Custom Value",
+    "hidden": false,
+    "protected": false,
+    "masked": false,
+    "raw": true,
+    "environment_scope": "*",
+    "description": "A sample variable"
+  },
+  {
+    "variable_type": "env_var",
+    "key": "MY_VAR_2",
+    "value": "Another Value",
+    "hidden": false,
+    "protected": false,
+    "masked": false,
+    "raw": true,
+    "environment_scope": "*",
+    "description": "Another sample variable"
+  }
+]

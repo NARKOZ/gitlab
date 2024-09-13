@@ -784,5 +784,85 @@ class Gitlab::Client
     def revoke_project_access_token(project, token_id)
       delete("/projects/#{url_encode project}/access_tokens/#{token_id}")
     end
+
+    # List all project variables.
+    #
+    # @example
+    #   Gitlab.project_variables(42)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    #
+    # @return [Array<Gitlab::ObjectifiedHash>]
+    def project_variables(project, options = {})
+      get("/projects/#{url_encode project}/variables", query: options)
+    end
+
+    # Get a specific project variable.
+    #
+    # @example
+    #   Gitlab.project_variable(42, 'MY_VAR')
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] key The key of the variable.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the specified project variable.
+    def project_variable(project, key, options = {})
+      get("/projects/#{url_encode project}/variables/#{key}", query: options)
+    end
+
+    # Creates a new project variable.
+    #
+    # @example
+    #   Gitlab.create_project_variable(42, 'MY_VAR', 'Value of the variable')
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [String] key The key of the project variable.
+    # @param  [String] value The value of the project variable.
+    # @option options [String] :description Description for the project variable.
+    # @option options [String] :environment_scope The environment scope for the project variable.
+    # @option options [Boolean] :masked Whether the variable is masked.
+    # @option options [Boolean] :protected Whether the variable is protected.
+    # @option options [Boolean] :raw Whether the variable is raw.
+    # @option options [String] :variable_type The type of the project variable.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the created project variable.
+    def create_project_variable(project, key, value, options = {})
+      post("/projects/#{url_encode project}/variables", body: { key: key, value: value }.merge(options))
+    end
+
+    # Updates an existing project variable.
+    #
+    # @example
+    #   Gitlab.update_project_variable(42, 'MY_VAR', 'Value of the variable')
+    #
+    # @param  [Integer, String] project The ID or path of a project.
+    # @param  [String] key The key of the project variable.
+    # @param  [String] value The value of the project variable.
+    # @option options [String] :description Description for the project variable.
+    # @option options [String] :environment_scope The environment scope for the project variable.
+    # @option options [Boolean] :masked Whether the variable is masked.
+    # @option options [Boolean] :protected Whether the variable is protected.
+    # @option options [Boolean] :raw Whether the variable is raw.
+    # @option options [String] :variable_type The type of the project variable.
+    # @option options [Hash] :filter Filter the project variables considered.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the updated project variable.
+    def update_project_variable(project, key, value, options = {})
+      put("/projects/#{url_encode project}/variables", body: { key: key, value: value }.merge(options))
+    end
+
+    # Delete a project variable.
+    #
+    # @example
+    #   Gitlab.delete_project_variable(42, 'MY_VAR')
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] key The key of the project variable.
+    # @option options [Hash] :filter Filter the project variables considered.
+    #
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_project_variable(project, key, options = {})
+      delete("/projects/#{url_encode project}/variables/#{key}", query: options)
+    end
   end
 end
