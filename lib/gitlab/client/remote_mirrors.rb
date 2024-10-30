@@ -16,6 +16,19 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/remote_mirrors")
     end
 
+    # Get a specific remote mirror.
+    #
+    # @example
+    #   Gitlab.remote_mirror(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] id The ID of the remote mirror.
+    #
+    # @return [Gitlab::ObjectifiedHash] Information about the specified remote mirror.
+    def remote_mirror(project, id)
+      get("/projects/#{url_encode project}/remote_mirrors/#{id}")
+    end
+
     # Create a remote mirror
     #
     # @example
@@ -46,6 +59,32 @@ class Gitlab::Client
     # @return [Gitlab::ObjectifiedHash]
     def edit_remote_mirror(project, id, options = {})
       put("/projects/#{url_encode project}/remote_mirrors/#{id}", body: options)
+    end
+
+    # Delete a remote mirror.
+    #
+    # @example
+    #   Gitlab.delete_remote_mirror(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] id The ID of the remote mirror.
+    #
+    # @return [Gitlab::ObjectifiedHash]
+    def delete_remote_mirror(project, id)
+      delete("/projects/#{url_encode project}/remote_mirrors/#{id}")
+    end
+
+    # Force push mirror update.
+    #
+    # @example
+    #   Gitlab.sync_remote_mirror(42, 1234)
+    #
+    # @param [Integer, String] project The ID or path of a project.
+    # @param [Integer] id The ID of the remote mirror.
+    #
+    # @return [Gitlab::ObjectifiedHash]
+    def sync_remote_mirror(project, id)
+      post("/projects/#{url_encode project}/remote_mirrors/#{id}/sync")
     end
   end
 end
