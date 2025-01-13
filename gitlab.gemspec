@@ -16,7 +16,6 @@ Gem::Specification.new do |gem|
   gem.files         = Dir['{exe,lib}/**/*', 'LICENSE.txt', 'README.md', 'CHANGELOG.md']
   gem.bindir        = 'exe'
   gem.executables   = gem.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
   gem.license       = 'BSD-2-Clause'
 
