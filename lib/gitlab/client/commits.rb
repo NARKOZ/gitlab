@@ -172,14 +172,14 @@ class Gitlab::Client
 
     # Creates a single commit with one or more changes
     #
-    # @see https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
+    # @see https://docs.gitlab.com/api/commits/#create-a-commit-with-multiple-files-and-actions
     # Introduced in Gitlab 8.13
     #
     # @example
-    # Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'create', file_path: '/foo.txt', content: 'bar'}])
-    # Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'delete', file_path: '/foo.txt'}])
+    #   Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'create', file_path: '/foo.txt', content: 'bar'}])
+    #   Gitlab.create_commit(2726132, 'master', 'refactors everything', [{action: 'delete', file_path: '/foo.txt'}])
     #
-    # @param  [Integer, String] project The ID or name of a project.
+    # @param [Integer, String] project The ID or name of a project.
     # @param [String] branch the branch name you wish to commit to
     # @param [String] message the commit message
     # @param [Array[Hash]] An array of action hashes to commit as a batch. See the next table for what attributes it can take.
