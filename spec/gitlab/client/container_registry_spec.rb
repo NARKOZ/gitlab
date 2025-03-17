@@ -16,6 +16,17 @@ RSpec.describe Gitlab::Client do
     it "returns a paginated response of project's registry repositories" do
       expect(@registry_repositories).to be_a Gitlab::PaginatedResponse
     end
+
+    context 'with options' do
+      before do
+        stub_get('/projects/3/registry/repositories?tags=true&tags_count=true&per_page=100', 'registry_repositories')
+        @registry_repositories = Gitlab.registry_repositories(3, { tags: true, tags_count: true, per_page: 100 })
+      end
+
+      it "passes query options" do
+        expect(a_get('/projects/3/registry/repositories?tags=true&tags_count=true&per_page=100')).to have_been_made
+      end
+    end
   end
 
   describe '.delete_registry_repository' do
