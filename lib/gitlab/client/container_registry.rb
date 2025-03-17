@@ -10,9 +10,14 @@ class Gitlab::Client
     #   Gitlab.registry_repositories(5)
     #
     # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Boolean] :tags Return tags array in the response.
+    # @option options [Boolean] :tags_count Return tags count in the response.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
     # @return [Array<Gitlab::ObjectifiedHash>] Returns list of registry repositories in a project.
-    def registry_repositories(project)
-      get("/projects/#{url_encode project}/registry/repositories")
+    def registry_repositories(project, options = {})
+      get("/projects/#{url_encode project}/registry/repositories", query: options)
     end
 
     # Delete a repository in registry.
