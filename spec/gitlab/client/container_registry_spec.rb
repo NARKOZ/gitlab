@@ -23,7 +23,7 @@ RSpec.describe Gitlab::Client do
         @registry_repositories = Gitlab.registry_repositories(3, { tags: true, tags_count: true, per_page: 100 })
       end
 
-      it "passes query options" do
+      it 'passes query options' do
         expect(a_get('/projects/3/registry/repositories?tags=true&tags_count=true&per_page=100')).to have_been_made
       end
     end
