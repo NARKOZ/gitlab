@@ -63,14 +63,28 @@ RSpec.describe Gitlab::Client do
       end
     end
 
-    context 'with options' do
+    context 'with basic options' do
       before do
-        @branch = Gitlab.protect_branch(3, 'api', developers_can_push: true)
+        @branch = Gitlab.protect_branch(3, 'api', push_access_level: 30)
       end
 
       it 'updates the correct resource with the correct options' do
         expect(
-          a_post('/projects/3/protected_branches').with(body: { name: 'api', developers_can_push: 'true' })
+          a_post('/projects/3/protected_branches').with(body: { name: 'api', push_access_level: 30 })
+        ).to have_been_made
+      end
+    end
+
+    context 'with complex options' do
+      before do
+        @branch = Gitlab.protect_branch(3, 'api', allowed_to_push: [{ access_level: 40 }, { user_id: 12 }])
+      end
+
+      it 'updates the correct resource with the correct options' do
+        expect(
+          a_post('/projects/3/protected_branches')
+            .with(body: { name: 'api', allowed_to_push: [{ access_level: 40 }, { user_id: 12 }] })
+            .with(headers: { 'Content-Type' => 'application/json' })
         ).to have_been_made
       end
     end
@@ -88,6 +102,23 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about an unprotected repository branch' do
       expect(@branch.name).to eq('api')
+    end
+  end
+
+  describe '.update_protected_branch' do
+    before do
+      stub_patch('/projects/3/protected_branches/api', 'branch').with(headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'updates the correct resource with the correct options' do
+      @branch = Gitlab.update_protected_branch(3, 'api', allowed_to_push: [
+                                                 { access_level: 40 }, { user_id: 12 }
+                                               ])
+
+      expect(
+        a_patch('/projects/3/protected_branches/api')
+        .with(body: { allowed_to_push: [{ access_level: 40 }, { user_id: 12 }] })
+      ).to have_been_made
     end
   end
 
