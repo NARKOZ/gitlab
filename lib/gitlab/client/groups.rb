@@ -148,26 +148,34 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.add_group_member(1, 2, 40)
+    #   Gitlab.add_group_member(1, 2, 40, member_role_id: 5)
     #
     # @param  [Integer] team_id The group id to add a member to.
     # @param  [Integer] user_id The user id of the user to add to the team.
     # @param  [Integer] access_level Project access level.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :member_role_id The id of a custom member role.
     # @return [Gitlab::ObjectifiedHash] Information about added team member.
-    def add_group_member(team_id, user_id, access_level)
-      post("/groups/#{url_encode team_id}/members", body: { user_id: user_id, access_level: access_level })
+    def add_group_member(team_id, user_id, access_level, options = {})
+      body = { user_id: user_id, access_level: access_level }.merge(options)
+      post("/groups/#{url_encode team_id}/members", body: body)
     end
 
     # Edit a user of a group.
     #
     # @example
     #   Gitlab.edit_group_member(1, 2, 40)
+    #   Gitlab.edit_group_member(1, 2, 40, member_role_id: 5)
     #
     # @param  [Integer] team_id The group id of member to edit.
     # @param  [Integer] user_id The user id of the user to edit.
     # @param  [Integer] access_level Project access level.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [Integer] :member_role_id The id of a custom member role.
     # @return [Gitlab::ObjectifiedHash] Information about edited team member.
-    def edit_group_member(team_id, user_id, access_level)
-      put("/groups/#{url_encode team_id}/members/#{user_id}", body: { access_level: access_level })
+    def edit_group_member(team_id, user_id, access_level, options = {})
+      body = { access_level: access_level }.merge(options)
+      put("/groups/#{url_encode team_id}/members/#{user_id}", body: body)
     end
 
     # Removes user from user group.

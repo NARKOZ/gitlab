@@ -216,6 +216,22 @@ RSpec.describe Gitlab::Client do
       expect(@team_member.name).to eq('John Smith')
       expect(@team_member.expires_at).to eq('2018-12-31T00:00:00Z')
     end
+
+    context 'with member_role_id' do
+      before do
+        stub_post('/projects/example-project/members', 'team_member')
+        @member_with_role = Gitlab.add_team_member('example-project', 2, 30, member_role_id: 5)
+      end
+
+      it 'gets the correct resource with member_role_id' do
+        expect(a_post('/projects/example-project/members')
+          .with(body: { user_id: '2', access_level: '30', member_role_id: '5' })).to have_been_made
+      end
+
+      it 'returns information about the added member' do
+        expect(@member_with_role.name).to eq('John Smith')
+      end
+    end
   end
 
   describe '.edit_team_member' do
@@ -232,6 +248,22 @@ RSpec.describe Gitlab::Client do
     it 'returns information about an edited team member' do
       expect(@team_member.name).to eq('John Smith')
       expect(@team_member.expires_at).to eq('2018-12-31T00:00:00Z')
+    end
+
+    context 'with member_role_id' do
+      before do
+        stub_put('/projects/example-project/members/2', 'group_member_edit')
+        @member_with_role = Gitlab.edit_team_member('example-project', 2, 10, member_role_id: 6)
+      end
+
+      it 'gets the correct resource with member_role_id' do
+        expect(a_put('/projects/example-project/members/2')
+          .with(body: { access_level: '10', member_role_id: '6' })).to have_been_made
+      end
+
+      it 'returns information about the edited member' do
+        expect(@member_with_role.access_level).to eq(50)
+      end
     end
   end
 
