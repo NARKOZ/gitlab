@@ -3,6 +3,7 @@
 require 'yaml'
 require 'json'
 require 'base64'
+require 'stringio'
 
 class Gitlab::CLI
   # Defines methods related to CLI output and formatting.
