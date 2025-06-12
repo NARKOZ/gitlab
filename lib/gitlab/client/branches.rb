@@ -38,20 +38,36 @@ class Gitlab::Client
     # @example
     #   Gitlab.protect_branch(3, 'api')
     #   Gitlab.repo_protect_branch(5, 'master')
-    #   Gitlab.protect_branch(5, 'api', developers_can_push: true)
+    #   Gitlab.protect_branch(5, 'api', push_access_level: 30)
     #
-    # To update options, call `protect_branch` again with new options (i.e. `developers_can_push: false`)
+    # To update options, use update_protected_branch
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] branch The name of the branch.
     # @param  [Hash] options A customizable set of options.
-    # @option options [Boolean] :developers_can_push True to allow developers to push to the branch (default = false)
-    # @option options [Boolean] :developers_can_merge True to allow developers to merge into the branch (default = false)
+    #   See https://docs.gitlab.com/api/protected_branches/#protect-repository-branches for details.
     # @return [Gitlab::ObjectifiedHash] Details about the branch
     def protect_branch(project, branch, options = {})
-      post("/projects/#{url_encode project}/protected_branches", body: { name: branch }.merge(options))
+      post("/projects/#{url_encode project}/protected_branches",
+           headers: { 'Content-Type' => 'application/json' }, body: { name: branch }.merge(options).to_json)
     end
     alias repo_protect_branch protect_branch
+
+    # Updates a protected repository branch.
+    #
+    # @example
+    #   Gitlab.update_protected_branch(5, 'api', { allowed_to_push: [{ access_level => 40 }, { user_id => 5 }] })
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] branch The name of the branch.
+    # @param  [Hash] options A customizable set of options.
+    #   See https://docs.gitlab.com/api/protected_branches/#update-a-protected-branches for details.
+    # @return [Gitlab::ObjectifiedHash] Details about the branch
+    def update_protected_branch(project, branch, options = {})
+      patch("/projects/#{url_encode project}/protected_branches/#{url_encode branch}",
+            headers: { 'Content-Type' => 'application/json' }, body: options.to_json)
+    end
+    alias repo_update_protected_branch update_protected_branch
 
     # Unprotects a repository branch.
     #
