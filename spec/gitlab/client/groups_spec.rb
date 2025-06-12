@@ -208,6 +208,24 @@ RSpec.describe Gitlab::Client do
     it 'returns information about the added member' do
       expect(@member.name).to eq('John Smith')
     end
+
+    context 'with member_role_id' do
+      before do
+        stub_post('/groups/4/members', 'group_member') # Assuming fixture 'group_member' is suitable
+        @member_with_role = Gitlab.add_group_member(4, 2, 30, member_role_id: 5)
+      end
+
+      it 'gets the correct resource with member_role_id' do
+        expect(a_post('/groups/4/members')
+          .with(body: { user_id: '2', access_level: '30', member_role_id: '5' })).to have_been_made
+      end
+
+      it 'returns information about the added member' do
+        # NOTE: The 'group_member' fixture does not include member_role_id in the response.
+        # So, we can only verify the request was made correctly.
+        expect(@member_with_role.name).to eq('John Smith')
+      end
+    end
   end
 
   describe '.edit_group_member' do
@@ -223,6 +241,24 @@ RSpec.describe Gitlab::Client do
 
     it 'returns information about the edited member' do
       expect(@member.access_level).to eq(50)
+    end
+
+    context 'with member_role_id' do
+      before do
+        stub_put('/groups/4/members/2', 'group_member_edit') # Assuming fixture 'group_member_edit' is suitable
+        @member_with_role = Gitlab.edit_group_member(4, 2, 20, member_role_id: 6)
+      end
+
+      it 'gets the correct resource with member_role_id' do
+        expect(a_put('/groups/4/members/2')
+          .with(body: { access_level: '20', member_role_id: '6' })).to have_been_made
+      end
+
+      it 'returns information about the edited member' do
+        # NOTE: The 'group_member_edit' fixture does not include member_role_id in the response.
+        # So, we can only verify the request was made correctly.
+        expect(@member_with_role.access_level).to eq(50) # This will depend on the 'group_member_edit' fixture content
+      end
     end
   end
 
