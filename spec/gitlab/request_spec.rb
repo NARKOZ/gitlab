@@ -15,6 +15,7 @@ RSpec.describe Gitlab::Request do
   it { is_expected.to respond_to :post }
   it { is_expected.to respond_to :put }
   it { is_expected.to respond_to :delete }
+  it { is_expected.to respond_to :patch }
 
   describe '.default_options' do
     it 'has default values' do
@@ -286,6 +287,35 @@ RSpec.describe Gitlab::Request do
           }.merge(described_class.headers)
         )
       ).to have_been_made
+    end
+  end
+
+  describe 'JSON request bodies' do
+    subject(:request) { described_class.new }
+
+    let(:endpoint) { 'https://example.com/api/v4' }
+    let(:path) { '/testpath' }
+    let(:request_path) { "#{endpoint}#{path}" }
+
+    before do
+      request.private_token = 'token'
+      request.endpoint = endpoint
+      request.body_as_json = true
+      allow(request).to receive(:httparty) # rubocop:disable RSpec/SubjectStub
+
+      stub_request(:post, request_path).with(headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'makes a request with application/json encoding when no Content-Type is specified' do
+      request.post(path, body: { param: 'val' })
+
+      expect(a_request(:post, request_path).with(body: { param: 'val' }.to_json)).to have_been_made
+    end
+
+    it 'passes the unmodified request when a Content-Type is specified' do
+      request.post(path, body: { param: 'val' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      expect(a_request(:post, request_path).with(body: { param: 'val' }.to_json)).to have_been_made
     end
   end
 end

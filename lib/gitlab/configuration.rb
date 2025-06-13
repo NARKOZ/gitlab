@@ -5,7 +5,7 @@ module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
     # An array of valid keys in the options hash when configuring a Gitlab::API.
-    VALID_OPTIONS_KEYS = %i[endpoint private_token user_agent sudo httparty pat_prefix].freeze
+    VALID_OPTIONS_KEYS = %i[endpoint private_token user_agent sudo httparty pat_prefix body_as_json].freeze
 
     # The user agent that will be sent to the API endpoint if none is set.
     DEFAULT_USER_AGENT = "Gitlab Ruby Gem #{Gitlab::VERSION}"
@@ -41,6 +41,7 @@ module Gitlab
       self.httparty       = get_httparty_config(ENV['GITLAB_API_HTTPARTY_OPTIONS'])
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
+      self.body_as_json   = false
     end
 
     private
