@@ -12,7 +12,7 @@ module Gitlab
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
     parser(proc { |body, _| parse(body) })
 
-    attr_accessor :private_token, :endpoint, :pat_prefix
+    attr_accessor :private_token, :endpoint, :pat_prefix, :body_as_json
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
@@ -48,6 +48,8 @@ module Gitlab
           params[:headers] ||= {}
           params[:headers].merge!(authorization_header)
         end
+
+        jsonify_body_content(params) if body_as_json
 
         retries_left = params[:ratelimit_retries] || 3
         begin
@@ -113,6 +115,25 @@ module Gitlab
     # @see https://github.com/jnunemaker/httparty
     def httparty_config(options)
       options.merge!(httparty) if httparty
+    end
+
+    # Handle 'body_as_json' configuration option
+    # Modifies passed params in place.
+    def jsonify_body_content(params)
+      # Only modify the content type if there is a body to process AND multipath
+      # was not explicitly requested. There are no uses of multipart in this code
+      # today, but file upload methods require it and someone might be manually
+      # crafting a post call with it:
+      return unless params[:body] && params[:multipart] != true
+
+      # If the caller explicitly requested a Content-Type during the call, assume
+      # they know best and have formatted the body as required:
+      return if params[:headers]&.key?('Content-Type')
+
+      # If we make it here, then we assume it is safe to JSON encode the body:
+      params[:headers] ||= {}
+      params[:headers]['Content-Type'] = 'application/json'
+      params[:body] = params[:body].to_json
     end
   end
 end
