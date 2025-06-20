@@ -27,7 +27,7 @@ Gem::Specification.new do |gem|
     'funding_uri' => 'https://github.com/NARKOZ/SponsorMe'
   }
 
-  gem.required_ruby_version = '>= 3.1'
+  gem.required_ruby_version = '>= 3.2'
 
   gem.add_runtime_dependency 'base64', '~> 0.2.0'
   gem.add_runtime_dependency 'httparty', '~> 0.20'
