@@ -34,6 +34,13 @@ module Gitlab
         @response.parsed_response.message
       end
 
+      # Headers returned in the HTTP response
+      #
+      # @return [HTTParty::Response::Headers]
+      def response_headers
+        @response.headers
+      end
+
       # Additional error context returned by some API endpoints
       #
       # @return [String]

@@ -12,7 +12,7 @@ module Gitlab
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
     parser(proc { |body, _| parse(body) })
 
-    attr_accessor :private_token, :endpoint, :pat_prefix, :body_as_json
+    attr_accessor :private_token, :endpoint, :pat_prefix, :body_as_json, :before_hooks, :around_hooks, :after_hooks
 
     # Converts the response body to an ObjectifiedHash.
     def self.parse(body)
@@ -51,18 +51,40 @@ module Gitlab
 
         jsonify_body_content(params) if body_as_json
 
-        retries_left = params[:ratelimit_retries] || 3
-        begin
-          response = self.class.send(method, endpoint + path, params)
-          validate response
-        rescue Gitlab::Error::TooManyRequests => e
-          retries_left -= 1
-          raise e if retries_left.zero?
+        execute_before_hooks(method, path, params)
 
-          wait_time = response.headers['Retry-After'] || 2
-          sleep(wait_time.to_i)
-          retry
+        execute_with_around_hooks(method, path, params) do
+          execute_api_call(method, path, params)
         end
+      end
+    end
+
+    def execute_api_call(method, path, params)
+      response = self.class.send(method, endpoint + path, params)
+      validate response
+    ensure
+      execute_after_hooks(response, method, path, params)
+    end
+
+    def execute_with_around_hooks(method, path, params, &api_block)
+      return yield if around_hooks.nil? || around_hooks.empty?
+
+      full_collection = around_hooks.inject(api_block) do |collection, around_hook|
+        proc { around_hook.call(method, path, params, collection) }
+      end
+
+      full_collection.call
+    end
+
+    def execute_before_hooks(method, path, params)
+      before_hooks&.each do |hook|
+        hook.call(method:, path:, params:)
+      end
+    end
+
+    def execute_after_hooks(response, method, path, params)
+      after_hooks&.each do |hook|
+        hook.call(response: response.dup, method:, path:, params:)
       end
     end
 
