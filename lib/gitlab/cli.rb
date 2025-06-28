@@ -16,12 +16,13 @@ class Gitlab::CLI
   #
   # @param [Array] args The command and it's optional arguments.
   def self.start(args)
+    args_dup = args.dup
     command = begin
-      args.shift.strip
+      args_dup.shift.strip
     rescue StandardError
       'help'
     end
-    run(command, args)
+    run(command, args_dup)
   end
 
   # Processes a CLI command and outputs a result to the stream (stdout).
