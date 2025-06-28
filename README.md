@@ -42,6 +42,7 @@ Gitlab.configure do |config|
   # Optional
   # config.user_agent   = 'Custom User Agent'          # user agent, default: 'Gitlab Ruby Gem [version]'
   # config.sudo         = 'user'                       # username for sudo mode, default: nil
+  # config.body_as_json = false                        # use application/json for all requests with a body, default: false
 end
 ```
 
