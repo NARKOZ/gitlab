@@ -161,6 +161,17 @@ class Gitlab::Client
       post("/groups/#{url_encode team_id}/members", body: body)
     end
 
+    # Set LDAP override flag for a member of a group
+    #
+    # @example
+    #   Gitlab.override_group_member(1, 2)
+    #
+    # @param  [Integer] team_id The group id into which LDAP syncs the user.
+    # @param  [Integer] user_id The user id of the user.
+    def override_group_member(team_id, user_id)
+      post("/groups/#{url_encode team_id}/members/#{user_id}/override")
+    end
+
     # Edit a user of a group.
     #
     # @example
