@@ -24,7 +24,7 @@ class Gitlab::Client
     # @param [String] tag_name  The tag where the release will be created from..
     # @return [Gitlab::ObjectifiedHash] Information about the release
     def project_release(project, tag_name)
-      get("/projects/#{url_encode project}/releases/#{tag_name}")
+      get("/projects/#{url_encode project}/releases/#{url_encode tag_name}")
     end
 
     # Creates a Release. You need push access to the repository to create a Release.
@@ -61,7 +61,7 @@ class Gitlab::Client
     # @option options [String] :description(optional)  The description of the release. You can use markdown.
     # @return [Gitlab::ObjectifiedHash] Information about the updated release.
     def update_project_release(project, tag_name, options = {})
-      put("/projects/#{url_encode project}/releases/#{tag_name}", body: options)
+      put("/projects/#{url_encode project}/releases/#{url_encode tag_name}", body: options)
     end
 
     # Delete a Release. Deleting a Release will not delete the associated tag.
@@ -73,7 +73,7 @@ class Gitlab::Client
     # @param [String] tag_name  The tag where the release will be created from.
     # @return [Gitlab::ObjectifiedHash] Information about the deleted release.
     def delete_project_release(project, tag_name)
-      delete("/projects/#{url_encode project}/releases/#{tag_name}")
+      delete("/projects/#{url_encode project}/releases/#{url_encode tag_name}")
     end
 
     # Gets Latest Release
