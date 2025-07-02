@@ -3,12 +3,55 @@
 require 'spec_helper'
 
 RSpec.describe Gitlab::Request do
+  let!(:hook_test_class) do
+    Class.new do
+      @before_hook_called = false
+      @before_hook_args = nil
+
+      @after_hook_called = false
+      @after_hook_args = nil
+
+      class << self
+        attr_reader :before_hook_args, :after_hook_args
+      end
+
+      def self.before_hook(method:, path:, params:)
+        @before_hook_called = true
+        @before_hook_args = { method: method, path: path, params: params }
+      end
+
+      def self.after_hook(response:, method:, path:, params:)
+        @after_hook_called = true
+        @after_hook_args = { response:, method:, path:, params: }
+      end
+
+      def self.before_hook_called?
+        @before_hook_called
+      end
+
+      def self.after_hook_called?
+        @after_hook_called
+      end
+
+      def self.reset_hooks
+        @after_hook_called = false
+        @after_hook_args = nil
+
+        @after_hook_called = false
+        @after_hook_args = nil
+      end
+    end
+  end
+
   before do
     # Prevent tests modifying the `default_params` value from causing cross-test
     # pollution
     described_class.default_params.delete(:sudo)
 
     @request = described_class.new
+    @request.before_hooks = [hook_test_class.method(:before_hook)]
+    @request.after_hooks = [hook_test_class.method(:after_hook)]
+    @request.around_hooks = [Gitlab::Configuration.method(:handle_too_many_requests)]
   end
 
   it { is_expected.to respond_to :get }
@@ -16,6 +59,49 @@ RSpec.describe Gitlab::Request do
   it { is_expected.to respond_to :put }
   it { is_expected.to respond_to :delete }
   it { is_expected.to respond_to :patch }
+
+  describe 'hooks' do
+    before do
+      @request.private_token = 'token'
+      @request.endpoint = 'https://example.com/api/v4'
+      @rpath = "#{@request.endpoint}/version"
+
+      allow(@request).to receive(:httparty)
+    end
+
+    describe '#before_hooks' do
+      it 'calls before_hooks' do
+        stub_request(:get, @rpath)
+          .to_return(
+            status: 200
+          )
+
+        @request.get('/version')
+
+        expect(hook_test_class.before_hook_called?).to be true
+        expect(hook_test_class.before_hook_args[:method]).to eq('get')
+        expect(hook_test_class.before_hook_args[:path]).to eq('/version')
+        expect(hook_test_class.before_hook_args[:params]).to include(:headers)
+      end
+    end
+
+    describe '#after_hooks' do
+      it 'calls after_hooks' do
+        stub_request(:get, @rpath)
+          .to_return(
+            status: 200
+          )
+
+        @request.get('/version')
+
+        expect(hook_test_class.after_hook_called?).to be true
+        expect(hook_test_class.after_hook_args[:response]).to be_an_instance_of(HTTParty::Response)
+        expect(hook_test_class.after_hook_args[:method]).to eq('get')
+        expect(hook_test_class.after_hook_args[:path]).to eq('/version')
+        expect(hook_test_class.after_hook_args[:params]).to include(:headers)
+      end
+    end
+  end
 
   describe '.default_options' do
     it 'has default values' do

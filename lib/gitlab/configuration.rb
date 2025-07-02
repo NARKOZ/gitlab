@@ -5,7 +5,8 @@ module Gitlab
   # Defines constants and methods related to configuration.
   module Configuration
     # An array of valid keys in the options hash when configuring a Gitlab::API.
-    VALID_OPTIONS_KEYS = %i[endpoint private_token user_agent sudo httparty pat_prefix body_as_json].freeze
+    VALID_OPTIONS_KEYS = %i[endpoint private_token user_agent sudo httparty pat_prefix body_as_json
+                            before_hooks around_hooks after_hooks].freeze
 
     # The user agent that will be sent to the API endpoint if none is set.
     DEFAULT_USER_AGENT = "Gitlab Ruby Gem #{Gitlab::VERSION}"
@@ -42,6 +43,23 @@ module Gitlab
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
       self.body_as_json   = false
+      self.before_hooks   = []
+      self.around_hooks   = [Gitlab::Configuration.method(:handle_too_many_requests)]
+      self.after_hooks    = []
+    end
+
+    def self.handle_too_many_requests(_method, _path, params, block)
+      retries_left = params[:ratelimit_retries] || 3
+      begin
+        block.call
+      rescue Gitlab::Error::TooManyRequests => e
+        retries_left -= 1
+        raise e if retries_left.zero?
+
+        wait_time = e.response_headers['Retry-After'] || 2
+        sleep(wait_time.to_i)
+        retry
+      end
     end
 
     private
