@@ -262,6 +262,21 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.override_group_member' do
+    before do
+      stub_post('/groups/3/members/1/override', 'group_member_override')
+      @member = Gitlab.override_group_member(3, 1)
+    end
+
+    it 'gets the correct resource' do
+      expect(a_post('/groups/3/members/1/override')).to have_been_made
+    end
+
+    it 'returns the override flag for the member' do
+      expect(@member.override).to be(true)
+    end
+  end
+
   describe '.remove_group_member' do
     before do
       stub_delete('/groups/3/members/1', 'group_member_delete')
