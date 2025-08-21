@@ -38,16 +38,18 @@ RSpec.describe Gitlab::Client do
   describe '.create_snippet' do
     before do
       stub_post('/projects/3/snippets', 'snippet')
-      @snippet = Gitlab.create_snippet(3, title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public')
+      @body = { title: 'REST', description: 'A sample snippet', files: [{ content: 'Hello world', 'file_path': 'mailer_test.rb' }], visibility: 'public' }
+      @snippet = Gitlab.create_snippet(3, @body)
     end
 
     it 'gets the correct resource' do
-      body = { title: 'API', file_name: 'api.rb', code: 'code', visibility: 'public' }
-      expect(a_post('/projects/3/snippets').with(body: body)).to have_been_made
+      expect(a_post('/projects/3/snippets').with(body: @body)).to have_been_made
     end
 
     it 'returns information about a new snippet' do
       expect(@snippet.file_name).to eq('mailer_test.rb')
+      expect(@snippet.files).to be_a(Array)
+      expect(@snippet.description).to eq('A sample snippet')
       expect(@snippet.author.name).to eq('John Smith')
     end
   end

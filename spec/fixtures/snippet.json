@@ -1,1 +1,26 @@
-{"id":1,"title":"Rails Console ActionMailer","file_name":"mailer_test.rb","author":{"id":1,"email":"john@example.com","name":"John Smith","blocked":false,"created_at":"2012-09-17T09:41:56Z"},"expires_at":"2012-09-24T00:00:00Z","updated_at":"2012-09-17T09:51:42Z","created_at":"2012-09-17T09:51:42Z"}
+{
+  "id": 1,
+  "title": "Rails Console ActionMailer",
+  "description": "A sample snippet",
+  "file_name": "mailer_test.rb",
+  "files": [
+    {
+      "path": "mailer_test.rb",
+      "raw_url": "https://example.org/group/project/-/snippet/4/raw/main/mailer_test.rb"
+    },
+    {
+      "path": "2.rb",
+      "raw_url": "https://gitlab.com/gitlab-org/gitlab/-/snippets/4881934/raw/main/2.rb"
+    }
+  ],
+  "author": {
+    "id": 1,
+    "email": "john@example.com",
+    "name": "John Smith",
+    "blocked": false,
+    "created_at": "2012-09-17T09:41:56Z"
+  },
+  "expires_at": "2012-09-24T00:00:00Z",
+  "updated_at": "2012-09-17T09:51:42Z",
+  "created_at": "2012-09-17T09:51:42Z"
+}
