@@ -365,9 +365,12 @@ class Gitlab::Client
     #   Gitlab.merge_request_diffs('gitlab', 1)
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] id The ID of a merge request.
+    # @option options [Integer] :page The page number.
+    # @option options [Integer] :per_page The number of results per page.
+    # @option options [Boolean] :unidiff Present diffs in the unified diff format.
     # @return [Gitlab::ObjectifiedHash] A list of the merge request diffs.
-    def merge_request_diffs(project, merge_request_id)
-      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/diffs")
+    def merge_request_diffs(project, merge_request_id, options = {})
+      get("/projects/#{url_encode project}/merge_requests/#{merge_request_id}/diffs", query: options)
     end
 
     # Gets a list of merge request diff versions
