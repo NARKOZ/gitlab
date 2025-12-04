@@ -2,7 +2,7 @@
 
 ## Get private token
 
-Authorize and get private token of a user
+Authorize and get the private token of a user
 
 ```rb
 user = Gitlab.session('email', 'password')

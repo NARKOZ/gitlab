@@ -6,7 +6,7 @@ You need to set an API endpoint URL before usage
 Gitlab.endpoint = 'https://example.net/api/v4'
 ```
 
-Setting GitLab user's private token (not required for `session`)
+Set the GitLab user's private token (not required for `session`)
 
 ```sh
 Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
@@ -14,13 +14,13 @@ Gitlab.private_token = 'qEsq1pt6HJPaNciie3MG'
 
 ## Sudo
 
-Optionally you can set sudo parameter to perform API calls as another user
+Optionally, you can set the `sudo` parameter to perform API calls as another user
 
 ```sh
 Gitlab.sudo = 'other_user'
 ```
 
-To disable it
+To disable it:
 
 ```sh
 Gitlab.sudo = nil
@@ -42,8 +42,8 @@ variables by default.
 
 ## Ruby on Rails
 
-Create file `config/initializers/gitlab.rb` and insert the following code into.
-Edit where necessary.
+Create the file `config/initializers/gitlab.rb` and insert the following code
+into it. Edit where necessary.
 
 ```rb
 Gitlab.configure do |config|

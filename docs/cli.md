@@ -1,12 +1,12 @@
 # CLI
 
 > [!IMPORTANT]
-> You need to set [environment variables](./configuration#environment-variables) before using CLI.
+> You need to set [environment variables](./configuration#environment-variables) before using the CLI.
 
 ## Commands
 
-Send gitlab methods as commands, and parameters as arguments to `gitlab` command
-line utility
+Send `gitlab` methods as commands, and parameters as arguments to the `gitlab`
+command-line utility
 
 ```sh
 gitlab users
@@ -39,15 +39,15 @@ gitlab users --except=id,email,name
 
 `help` lists all available actions
 
-`shell` runs shell to perform commands
+`shell` runs a shell to perform commands
 
-`info` gives information about environment
+`info` gives information about the environment
 
-`-v` or `--version` shows gem version
+`-v` or `--version` shows the gem version
 
 ## Shell
 
-You can perform commands in interactive `gitlab` shell by running `gitlab shell`
+You can perform commands in an interactive `gitlab` shell by running `gitlab shell`
 
 ```sh
 gitlab shell
