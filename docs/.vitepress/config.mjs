@@ -26,7 +26,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Released under the <a href="https://github.com/NARKOZ/gitlab/blob/master/LICENSE.txt" target="_blank">BSD 2-clause license</a>.',
-      copyright: 'Copyright &copy; 2012-present <a href="https://github.com/NARKOZ" target="_blank">Nihad Abbasov</a>'
+      copyright: `Copyright &copy; 2012-${new Date().getFullYear()} <a href="https://github.com/NARKOZ" target="_blank">Nihad Abbasov</a>`
     },
     editLink: {
       pattern: 'https://github.com/NARKOZ/gitlab/edit/master/docs/:path',
