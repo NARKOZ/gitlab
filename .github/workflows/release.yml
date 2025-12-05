@@ -1,0 +1,26 @@
+name: Release new version to RubyGems.org
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-slim
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Install LibYAML
+        run: sudo apt-get update && sudo apt-get -y install libyaml-dev
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4
+          bundler-cache: true
+      - uses: rubygems/release-gem@v1
