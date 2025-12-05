@@ -7,14 +7,15 @@ const sharedLinks = [
   { text: 'CLI', link: '/cli' },
   { text: 'Examples', link: '/examples' }
 ];
+const measurementId = 'G-CREP55LVZ0';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/gitlab/',
   title: 'gitlab ruby gem',
   description: 'Ruby client and CLI for GitLab API',
+  srcExclude: ['**/README.md'],
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' }
     ].concat(sharedLinks),
@@ -40,5 +41,19 @@ export default defineConfig({
       }
     },
     externalLinkIcon: true
-  }
+  },
+  head: [
+    [
+      'script',
+      { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${measurementId}` }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${measurementId}');`
+    ]
+  ]
 });
