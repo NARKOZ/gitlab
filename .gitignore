@@ -20,3 +20,5 @@ vendor/bundle
 .idea
 .ruby-version
 .ruby-gemset
+docs/.vitepress/dist
+docs/.vitepress/cache
