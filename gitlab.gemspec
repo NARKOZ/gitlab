@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'BSD-2-Clause'
 
   gem.metadata = {
+    'rubygems_mfa_required' => 'true',
     'homepage_uri' => gem.homepage,
     'source_code_uri' => gem.homepage,
     'bug_tracker_uri' => 'https://github.com/NARKOZ/gitlab/issues',
