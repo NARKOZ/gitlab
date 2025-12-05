@@ -19,28 +19,28 @@ jobs:
           - 3.4
     name: Ruby ${{ matrix.ruby }} test
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby ${{ matrix.ruby }}
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Build and test with Rake
-      run: |
-        gem install bundler --no-document
-        bundle install --jobs 4 --retry 3
-        bundle exec rake
+      - uses: actions/checkout@v6
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Build and test with Rake
+        run: |
+          gem install bundler --no-document
+          bundle install --jobs 4 --retry 3
+          bundle exec rake
 
   lint:
     runs-on: ubuntu-latest
     name: Rubocop lint
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby 3.2
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2
-    - name: Lint with Rubocop
-      run: |
-        gem install bundler --no-document
-        bundle install --jobs 4 --retry 3
-        bundle exec rake rubocop
+      - uses: actions/checkout@v6
+      - name: Set up Ruby 3.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Lint with Rubocop
+        run: |
+          gem install bundler --no-document
+          bundle install --jobs 4 --retry 3
+          bundle exec rake rubocop
