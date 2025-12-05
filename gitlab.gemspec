@@ -7,8 +7,8 @@ require 'gitlab/version'
 Gem::Specification.new do |gem|
   gem.name          = 'gitlab'
   gem.version       = Gitlab::VERSION
-  gem.authors       = ['Nihad Abbasov', 'Sean Edge']
-  gem.email         = ['nihad@42na.in', 'asedge@gmail.com']
+  gem.authors       = ['Nihad Abbasov']
+  gem.email         = ['nihad@42na.in']
   gem.description   = 'Ruby client and CLI for GitLab API'
   gem.summary       = 'A Ruby wrapper and CLI for the GitLab API'
   gem.homepage      = 'https://github.com/NARKOZ/gitlab'
