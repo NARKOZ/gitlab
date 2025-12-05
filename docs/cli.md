@@ -1,3 +1,4 @@
+<!-- THIS DOCUMENT IS PUBLISHED ON https://narkoz.github.io/gitlab -->
 # CLI
 
 > [!IMPORTANT]

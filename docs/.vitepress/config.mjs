@@ -15,6 +15,7 @@ export default defineConfig({
   title: 'gitlab ruby gem',
   description: 'Ruby client and CLI for GitLab API',
   srcExclude: ['**/README.md'],
+  cleanUrls: true,
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' }
