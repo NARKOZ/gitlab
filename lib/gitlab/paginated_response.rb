@@ -17,9 +17,9 @@ module Gitlab
       @array.inspect
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *, &)
       if @array.respond_to?(name)
-        @array.send(name, *args, &block)
+        @array.send(name, *, &)
       else
         super
       end

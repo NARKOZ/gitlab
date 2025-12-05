@@ -33,12 +33,12 @@ module Gitlab
     attr_reader :hash, :data
 
     # Respond to messages for which `self.data` has a key
-    def method_missing(method_name, *args, &block)
+    def method_missing(method_name, *, &)
       if data.key?(method_name.to_s)
         data[method_name.to_s]
       elsif data.respond_to?(method_name)
         warn 'WARNING: Please convert ObjectifiedHash object to hash before calling Hash methods on it.'
-        data.send(method_name, *args, &block)
+        data.send(method_name, *, &)
       else
         super
       end

@@ -29,7 +29,7 @@ class Gitlab::Shell
           when 'exit'
             quit_shell
           when /^\bhelp\b+/
-            puts help(arguments[0]) { |out| out.gsub!(/Gitlab\./, 'gitlab> ') }
+            puts help(arguments[0]) { |out| out.gsub!('Gitlab.', 'gitlab> ') }
           else
             history << buffer
 
@@ -48,7 +48,7 @@ class Gitlab::Shell
       buf = Shellwords.shellwords(buffer)
 
       @command = buf.shift
-      @arguments = buf.count.positive? ? buf : []
+      @arguments = buf.any? ? buf : []
     end
 
     def setup

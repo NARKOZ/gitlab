@@ -62,8 +62,8 @@ module Gitlab::Help
       table do |t|
         t.title = topic || 'Help Topics'
 
-        # add_row expects an array and we have strings hence the map.
-        rows.sort.map { |r| [r] }.each_with_index do |row, index|
+        # add_row expects an array and we have strings hence the zip
+        rows.sort.zip.each_with_index do |row, index|
           t.add_row row
           t.add_separator unless rows.size - 1 == index
         end
@@ -84,7 +84,7 @@ module Gitlab::Help
       output_str.gsub!(/,\s*/, ', ')
 
       # Ensure @option descriptions are on a single line
-      output_str.gsub!(/\n\[/, " \[")
+      output_str.gsub!("\n[", ' [')
       output_str.gsub!(/\s(@)/, "\n@")
       output_str.gsub!(/(\])\n(:)/, '\\1 \\2')
       output_str.gsub!(/(:.*)(\n)(.*\.)/, '\\1 \\3')

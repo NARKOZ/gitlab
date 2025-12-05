@@ -35,10 +35,10 @@ module Gitlab
 
     # Resets all configuration options to the defaults.
     def reset
-      self.endpoint       = ENV['GITLAB_API_ENDPOINT'] || ENV['CI_API_V4_URL']
-      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV['GITLAB_API_AUTH_TOKEN']
+      self.endpoint       = ENV['GITLAB_API_ENDPOINT'] || ENV.fetch('CI_API_V4_URL', nil)
+      self.private_token  = ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV.fetch('GITLAB_API_AUTH_TOKEN', nil)
       self.pat_prefix     = nil
-      self.httparty       = get_httparty_config(ENV['GITLAB_API_HTTPARTY_OPTIONS'])
+      self.httparty       = get_httparty_config(ENV.fetch('GITLAB_API_HTTPARTY_OPTIONS', nil))
       self.sudo           = nil
       self.user_agent     = DEFAULT_USER_AGENT
       self.body_as_json   = false

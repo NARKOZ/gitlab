@@ -23,16 +23,16 @@ module Gitlab
   end
 
   if Gem::Version.new(RUBY_VERSION).release >= Gem::Version.new('3.0.0')
-    def self.method_missing(method, *args, **keywargs, &block)
+    def self.method_missing(method, *, **keywargs, &)
       return super unless client.respond_to?(method)
 
-      client.send(method, *args, **keywargs, &block)
+      client.send(method, *, **keywargs, &)
     end
   else
-    def self.method_missing(method, *args, &block)
+    def self.method_missing(method, *, &)
       return super unless client.respond_to?(method)
 
-      client.send(method, *args, &block)
+      client.send(method, *, &)
     end
   end
 

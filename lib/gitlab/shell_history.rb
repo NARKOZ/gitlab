@@ -42,10 +42,10 @@ class Gitlab::Shell
       File.expand_path(@file_path)
     end
 
-    def read_from_file(&block)
+    def read_from_file(&)
       path = history_file_path
 
-      File.foreach(path, &block) if File.exist?(path)
+      File.foreach(path, &) if File.exist?(path)
     rescue StandardError => e
       warn "History file not loaded: #{e.message}"
     end

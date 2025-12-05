@@ -24,7 +24,7 @@ RSpec.describe Gitlab::Error::ResponseError do
     { code: 404, parsed_response: Gitlab::ObjectifiedHash.new(error_description: 'Displayed error_description', error: 'also will not be displayed') },
     { code: 401, parsed_response: Gitlab::ObjectifiedHash.new(error: 'Displayed error') },
     { code: 500, parsed_response: Gitlab::ObjectifiedHash.new(embed_entity: { foo: ['bar'], sna: ['fu'] }, password: ['too short']) },
-    { code: 403, parsed_response: Array.new(['First message.', 'Second message.']) },
+    { code: 403, parsed_response: ['First message.', 'Second message.'] },
     { code: 400, parsed_response: Gitlab::ObjectifiedHash.new(message: { error: 'Spam detected' }) }
 
   ].each_with_index do |data, index|

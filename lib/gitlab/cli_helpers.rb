@@ -86,11 +86,11 @@ class Gitlab::CLI
     # Gets defined help for a specific command/action.
     #
     # @return [String]
-    def help(cmd = nil, &block)
+    def help(cmd = nil, &)
       if cmd.nil? || Gitlab::Help.help_map.key?(cmd)
         Gitlab::Help.actions_table(cmd)
       else
-        Gitlab::Help.get_help(cmd, &block)
+        Gitlab::Help.get_help(cmd, &)
       end
     end
 
@@ -187,7 +187,7 @@ class Gitlab::CLI
 
           result.push row
         end
-        result = result[0] if single_value && result.count.positive?
+        result = result[0] if single_value && result.any?
       end
 
       {

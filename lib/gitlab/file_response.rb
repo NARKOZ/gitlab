@@ -27,9 +27,9 @@ module Gitlab
       "#<#{self.class}:#{object_id} {filename: #{filename.inspect}}>"
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *, &)
       if @file.respond_to?(name)
-        @file.send(name, *args, &block)
+        @file.send(name, *, &)
       else
         super
       end

@@ -7,6 +7,7 @@ module Gitlab
   # @private
   class Request
     include HTTParty
+
     format :json
     maintain_method_across_redirects true
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'

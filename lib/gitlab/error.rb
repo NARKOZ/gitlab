@@ -54,8 +54,8 @@ module Gitlab
         parsed_response = classified_response
         message = check_error_keys(parsed_response)
         "Server responded with code #{@response.code}, message: " \
-        "#{handle_message(message)}. " \
-        "Request URI: #{@response.request.base_uri}#{@response.request.path}"
+          "#{handle_message(message)}. " \
+          "Request URI: #{@response.request.base_uri}#{@response.request.path}"
       end
 
       # Error keys vary across the API, find the first key that the parsed_response
@@ -69,7 +69,7 @@ module Gitlab
       #
       # @return parsed response
       def classified_response
-        if @response.respond_to?('headers')
+        if @response.respond_to?(:headers)
           @response.headers['content-type'] == 'text/plain' ? { message: @response.to_s } : @response.parsed_response
         else
           @response.parsed_response

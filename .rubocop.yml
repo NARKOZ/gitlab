@@ -4,11 +4,11 @@ inherit_from: .rubocop_todo.yml
 plugins:
   - rubocop-performance
   - rubocop-rspec
+  - rubocop-rake
 
 AllCops:
   TargetRubyVersion: 3.2
-  NewCops: disable
-  SuggestExtensions: false
+  NewCops: enable
 
 Layout/LineLength:
   Max: 123
@@ -19,7 +19,6 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
-    - 'gitlab.gemspec'
 
 Metrics/ParameterLists:
   MaxOptionalParameters: 4
@@ -32,11 +31,14 @@ Style/ClassAndModuleChildren:
     - 'lib/gitlab/*'
     - 'lib/gitlab/client/*'
 
-Lint/NonDeterministicRequireOrder:
-  Enabled: false
-
 RSpec/VerifiedDoubles:
   Enabled: false
 
 RSpec/SpecFilePathFormat:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Gemspec/DevelopmentDependencies:
   Enabled: false
