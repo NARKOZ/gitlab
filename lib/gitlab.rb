@@ -22,18 +22,10 @@ module Gitlab
     Gitlab::Client.new(options)
   end
 
-  if Gem::Version.new(RUBY_VERSION).release >= Gem::Version.new('3.0.0')
-    def self.method_missing(method, *, **keywargs, &)
-      return super unless client.respond_to?(method)
+  def self.method_missing(method, *, **keywargs, &)
+    return super unless client.respond_to?(method)
 
-      client.send(method, *, **keywargs, &)
-    end
-  else
-    def self.method_missing(method, *, &)
-      return super unless client.respond_to?(method)
-
-      client.send(method, *, &)
-    end
+    client.send(method, *, **keywargs, &)
   end
 
   # Delegate to Gitlab::Client
