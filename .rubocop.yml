@@ -40,5 +40,8 @@ RSpec/SpecFilePathFormat:
 Bundler/OrderedGems:
   Enabled: false
 
+Gemspec/OrderedDependencies:
+  Enabled: false
+
 Gemspec/DevelopmentDependencies:
   Enabled: false
