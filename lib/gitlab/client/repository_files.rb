@@ -56,6 +56,26 @@ class Gitlab::Client
           })
     end
 
+    # Gets a repository file metadata.
+    #
+    # @example
+    #   Gitlab.get_file_metadata(42, "README.md", "master")
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [String] file_path The full path of the file.
+    # @param  [String] ref The name of branch, tag or commit.
+    # @return [Gitlab::ObjectifiedHash]
+    def get_file_metadata(project, file_path, ref)
+      head(
+        "/projects/#{url_encode project}/repository/files/#{url_encode file_path}",
+        query: { ref: ref },
+        format: nil,
+        parser: proc do |_body, _format|
+          ::Gitlab::HeaderResponse.new
+        end
+      )
+    end
+
     # Creates a new repository file.
     #
     # @example

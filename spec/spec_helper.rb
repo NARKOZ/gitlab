@@ -36,7 +36,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 end
 
-%i[get post put delete patch].each do |method|
+Gitlab::Request::SUPPORTED_METHODS.each do |method|
   define_method "stub_#{method}" do |path, fixture, status_code = 200|
     stub_request(method, "#{Gitlab.endpoint}#{path}")
       .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })

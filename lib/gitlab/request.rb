@@ -8,6 +8,8 @@ module Gitlab
   class Request
     include HTTParty
 
+    SUPPORTED_METHODS = %i[head get post put patch delete].freeze
+
     format :json
     maintain_method_across_redirects true
     headers 'Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'
@@ -39,7 +41,7 @@ module Gitlab
       raise Error::Parsing, 'The response is not a valid JSON'
     end
 
-    %w[get post put patch delete].each do |method|
+    SUPPORTED_METHODS.each do |method|
       define_method method do |path, options = {}|
         params = options.dup
 

@@ -50,6 +50,17 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.get_file_metadata' do
+    before do
+      stub_head('/projects/3/repository/files/README%2Emd?ref=master', 'empty')
+      @file = Gitlab.get_file_metadata(3, 'README.md', 'master')
+    end
+
+    it 'gets the correct resource' do
+      expect(a_head('/projects/3/repository/files/README%2Emd?ref=master')).to have_been_made
+    end
+  end
+
   describe '.create_file' do
     let(:api_path) { '/projects/3/repository/files/path' }
 
