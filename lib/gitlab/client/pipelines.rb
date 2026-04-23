@@ -31,6 +31,21 @@ class Gitlab::Client
       get("/projects/#{url_encode project}/pipelines/#{id}")
     end
 
+    # Gets the latest pipeline for the most recent commit on a specific ref.
+    #
+    # @example
+    #   Gitlab.latest_pipeline(5)
+    #   Gitlab.latest_pipeline(5, ref: 'develop')
+    #
+    # @param  [Integer, String] project The ID or name of a project.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :ref The branch or tag to check for the latest pipeline. Defaults to the project's default branch.
+    # @return [Gitlab::ObjectifiedHash]
+    # @see https://docs.gitlab.com/ee/api/pipelines.html#get-the-latest-pipeline
+    def latest_pipeline(project, options = {})
+      get("/projects/#{url_encode project}/pipelines/latest", query: options)
+    end
+
     # Gets a single pipeline's test report.
     #
     # @example
