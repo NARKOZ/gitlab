@@ -38,6 +38,39 @@ RSpec.describe Gitlab::Client do
     end
   end
 
+  describe '.latest_pipeline' do
+    context 'without a ref option' do
+      before do
+        stub_get('/projects/3/pipelines/latest', 'latest_pipeline')
+        @pipeline = Gitlab.latest_pipeline(3)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/projects/3/pipelines/latest')).to have_been_made
+      end
+
+      it 'returns a single pipeline' do
+        expect(@pipeline).to be_a Gitlab::ObjectifiedHash
+      end
+
+      it 'returns information about the latest pipeline' do
+        expect(@pipeline.id).to eq(48)
+        expect(@pipeline.ref).to eq('main')
+      end
+    end
+
+    context 'with a ref option' do
+      before do
+        stub_get('/projects/3/pipelines/latest', 'latest_pipeline').with(query: { ref: 'develop' })
+        @pipeline = Gitlab.latest_pipeline(3, ref: 'develop')
+      end
+
+      it 'forwards the ref to the latest pipeline endpoint' do
+        expect(a_get('/projects/3/pipelines/latest').with(query: { ref: 'develop' })).to have_been_made
+      end
+    end
+  end
+
   describe '.pipeline_test_report' do
     before do
       stub_get('/projects/3/pipelines/46/test_report', 'pipeline_test_report')
