@@ -116,6 +116,29 @@ RSpec.describe Gitlab::Client do
       end
     end
 
+    context 'when successful text response' do
+      before do
+        fixture = load_fixture('raw_file.txt')
+        @body = fixture.read
+        stub_request(:get, "#{Gitlab.endpoint}/projects/3/jobs/artifacts/master/download")
+          .with(query: { job: 'test' }, headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(body: @body, headers: { 'Content-Disposition' => 'attachment; filename=raw_file.txt' })
+        @job_artifacts = Gitlab.job_artifacts_download(3, 'master', 'test')
+      end
+
+      it 'returns a FileResponse' do
+        expect(@job_artifacts).to be_a Gitlab::FileResponse
+      end
+
+      it 'returns a file with filename' do
+        expect(@job_artifacts.filename).to eq 'raw_file.txt'
+      end
+
+      it 'returns the body content' do
+        expect(@job_artifacts.read).to eq @body
+      end
+    end
+
     context 'when bad request' do
       it 'throws an exception' do
         stub_get('/projects/3/jobs/artifacts/master/download', 'error_project_not_found', 404)
@@ -149,6 +172,29 @@ RSpec.describe Gitlab::Client do
       end
     end
 
+    context 'when successful text response' do
+      before do
+        fixture = load_fixture('raw_file.txt')
+        @body = fixture.read
+        stub_request(:get, "#{Gitlab.endpoint}/projects/3/jobs/5/artifacts/raw_file.txt")
+          .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(body: @body, headers: { 'Content-Disposition' => 'attachment; filename=raw_file.txt' })
+        @job_artifact_file = Gitlab.download_job_artifact_file(3, 5, 'raw_file.txt')
+      end
+
+      it 'returns a FileResponse' do
+        expect(@job_artifact_file).to be_a Gitlab::FileResponse
+      end
+
+      it 'returns a file with filename' do
+        expect(@job_artifact_file.filename).to eq 'raw_file.txt'
+      end
+
+      it 'returns the body content' do
+        expect(@job_artifact_file.read).to eq @body
+      end
+    end
+
     context 'when bad request' do
       it 'throws an exception' do
         stub_get('/projects/3/jobs/5/artifacts/raw_file.txt', 'error_project_not_found', 404)
@@ -179,6 +225,29 @@ RSpec.describe Gitlab::Client do
 
       it 'returns a file with filename' do
         expect(@branch_artifact_file.filename).to eq 'raw_file.txt'
+      end
+    end
+
+    context 'when successful text response' do
+      before do
+        fixture = load_fixture('raw_file.txt')
+        @body = fixture.read
+        stub_request(:get, "#{Gitlab.endpoint}/projects/1/jobs/artifacts/master/raw/raw_file.txt")
+          .with(query: { job: 'txt' }, headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(body: @body, headers: { 'Content-Disposition' => 'attachment; filename=raw_file.txt' })
+        @branch_artifact_file = Gitlab.download_branch_artifact_file(1, 'master', 'raw_file.txt', 'txt')
+      end
+
+      it 'returns a FileResponse' do
+        expect(@branch_artifact_file).to be_a Gitlab::FileResponse
+      end
+
+      it 'returns a file with filename' do
+        expect(@branch_artifact_file.filename).to eq 'raw_file.txt'
+      end
+
+      it 'returns the body content' do
+        expect(@branch_artifact_file.read).to eq @body
       end
     end
 

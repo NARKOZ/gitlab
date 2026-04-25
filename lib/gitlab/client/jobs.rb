@@ -97,8 +97,12 @@ class Gitlab::Client
           parser: proc { |body, _|
                     if body.encoding == Encoding::ASCII_8BIT # binary response
                       ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
-                    else # error with json response
-                      ::Gitlab::Request.parse(body)
+                    else
+                      begin
+                        ::Gitlab::Request.parse(body) # JSON error envelope
+                      rescue ::Gitlab::Error::Parsing
+                        ::Gitlab::FileResponse.new StringIO.new(body) # text artifact
+                      end
                     end
                   })
     end
@@ -119,8 +123,12 @@ class Gitlab::Client
           parser: proc { |body, _|
                     if body.encoding == Encoding::ASCII_8BIT # binary response
                       ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
-                    else # error with json response
-                      ::Gitlab::Request.parse(body)
+                    else
+                      begin
+                        ::Gitlab::Request.parse(body) # JSON error envelope
+                      rescue ::Gitlab::Error::Parsing
+                        ::Gitlab::FileResponse.new StringIO.new(body) # text artifact
+                      end
                     end
                   })
     end
@@ -143,8 +151,12 @@ class Gitlab::Client
           parser: proc { |body, _|
                     if body.encoding == Encoding::ASCII_8BIT # binary response
                       ::Gitlab::FileResponse.new StringIO.new(body, 'rb+')
-                    else # error with json response
-                      ::Gitlab::Request.parse(body)
+                    else
+                      begin
+                        ::Gitlab::Request.parse(body) # JSON error envelope
+                      rescue ::Gitlab::Error::Parsing
+                        ::Gitlab::FileResponse.new StringIO.new(body) # text artifact
+                      end
                     end
                   })
     end
