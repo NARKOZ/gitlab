@@ -650,4 +650,73 @@ RSpec.describe Gitlab::Client do
       end
     end
   end
+
+  describe 'group deploy tokens' do
+    describe 'get all' do
+      before do
+        stub_get('/groups/2/deploy_tokens', 'group_deploy_token_get_all')
+        @tokens = Gitlab.group_deploy_tokens(2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/deploy_tokens')).to have_been_made
+      end
+
+      it 'gets an array of group deploy tokens' do
+        expect(@tokens.first.id).to eq(2)
+        expect(@tokens.last.id).to eq(3)
+      end
+    end
+
+    describe 'get one' do
+      before do
+        stub_get('/groups/2/deploy_tokens/2', 'group_deploy_token_get')
+        @token = Gitlab.group_deploy_token(2, 2)
+      end
+
+      it 'gets the correct resource' do
+        expect(a_get('/groups/2/deploy_tokens/2')).to have_been_made
+      end
+
+      it 'gets a group deploy token' do
+        expect(@token.name).to eq('MyToken1')
+        expect(@token.username).to eq('gitlab+deploy-token-1')
+        expect(@token.id).to eq(2)
+      end
+    end
+
+    describe 'create' do
+      before do
+        stub_post('/groups/2/deploy_tokens', 'group_deploy_token_create')
+        @token = Gitlab.create_group_deploy_token(2, 'mytoken', ['api'])
+      end
+
+      it 'gets the correct resource' do
+        expect(a_post('/groups/2/deploy_tokens').with(body: 'name=mytoken&scopes%5B%5D=api')).to have_been_made
+      end
+
+      it 'returns a valid group deploy token' do
+        expect(@token.name).to eq('mytoken')
+        expect(@token.username).to eq('gitlab+deploy-token-1')
+        expect(@token.id).to eq(2)
+        expect(@token.revoked).to be_falsey
+        expect(@token.expired).to be_falsey
+        expect(@token.token).to eq('jMRvtPNxrn3crTAGukpZ')
+      end
+    end
+
+    describe 'revoke' do
+      before do
+        stub_request(:delete, "#{Gitlab.endpoint}/groups/2/deploy_tokens/2")
+          .with(headers: { 'PRIVATE-TOKEN' => Gitlab.private_token })
+          .to_return(status: 204)
+        @token = Gitlab.revoke_group_deploy_token(2, 2)
+      end
+
+      it 'removes a group deploy token' do
+        expect(a_delete('/groups/2/deploy_tokens/2')).to have_been_made
+        expect(@token.to_hash).to be_empty
+      end
+    end
+  end
 end

@@ -523,4 +523,62 @@ class Gitlab::Client
   def revoke_group_access_token(group_id, group_access_token_id)
     delete("/groups/#{group_id}/access_tokens/#{group_access_token_id}")
   end
+
+  # Get all deploy tokens for a group
+  #
+  # @example
+  #   Gitlab.group_deploy_tokens(1)
+  #   Gitlab.group_deploy_tokens(1, active: true)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [Hash] options A customizable set of options.
+  # @option options [Boolean] :active Limit by active status.
+  # @return [Array<Gitlab::ObjectifiedHash>]
+  def group_deploy_tokens(group_id, options = {})
+    get("/groups/#{group_id}/deploy_tokens", query: options)
+  end
+
+  # Get group deploy token information
+  #
+  # @example
+  #   Gitlab.group_deploy_token(1, 1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [Integer] group_deploy_token_id ID of the group deploy token.
+  # @return [Gitlab::ObjectifiedHash]
+  def group_deploy_token(group_id, group_deploy_token_id)
+    get("/groups/#{group_id}/deploy_tokens/#{group_deploy_token_id}")
+  end
+
+  # Create group deploy token
+  #
+  # @example
+  #   Gitlab.create_group_deploy_token(2, "token", ["api", "read_user"])
+  #   Gitlab.create_group_deploy_token(2, "token", ["api", "read_user"], "1970-01-01")
+  #   Gitlab.create_group_deploy_token(2, "token", ["api", "read_user"], "1970-01-01", 'myuser')
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [String] name Name for group deploy token.
+  # @param  [Array<String>] scopes Array of scopes for the group deploy token
+  # @param  [String] expires_at Date for the group deploy token expiration in ISO format.
+  # @param  [String] username Username for the group deploy token.
+  # @return [Gitlab::ObjectifiedHash]
+  def create_group_deploy_token(group_id, name, scopes, expires_at = nil, username = nil)
+    body = { name: name, scopes: scopes }
+    body[:expires_at] = expires_at if expires_at
+    body[:username] = username if username
+    post("/groups/#{group_id}/deploy_tokens", body: body)
+  end
+
+  # Revoke a group deploy token
+  #
+  # @example
+  #   Gitlab.revoke_group_deploy_token(1, 1)
+  #
+  # @param  [Integer] group_id The ID of the group.
+  # @param  [Integer] group_deploy_token_id ID of the group deploy token.
+  # @return [Gitlab::ObjectifiedHash]
+  def revoke_group_deploy_token(group_id, group_deploy_token_id)
+    delete("/groups/#{group_id}/deploy_tokens/#{group_deploy_token_id}")
+  end
 end

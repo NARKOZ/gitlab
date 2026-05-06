@@ -1,0 +1,1 @@
+[{"id":2,"name":"MyToken1","username":"gitlab+deploy-token-1","expires_at":null,"revoked":false,"expired":false,"scopes":["api"]},{"id":3,"name":"MyToken2","username":"gitlab+deploy-token-2","expires_at":"2026-12-25T00:00:00.000Z","revoked":false,"expired":false,"scopes":["read_registry"]}]
