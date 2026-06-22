@@ -23,7 +23,7 @@ jobs:
           - 4.0
     name: Ruby ${{ matrix.ruby }} test
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
         with:
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Rubocop lint
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Ruby 3.2
         uses: ruby/setup-ruby@v1
         with:
