@@ -59,17 +59,24 @@ class Gitlab::Client
     #
     # @example
     #   Gitlab.create_pipeline(5, 'master')
+    #   Gitlab.create_pipeline(5, 'master', { VAR1: 'value' })
+    #   Gitlab.create_pipeline(5, 'master', {}, { environment: 'production' })
     #
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [String] ref Reference to commit.
     # @param  [Hash] variables Variables passed to pipelines
+    # @param  [Hash] inputs Inputs passed to the pipeline, validated against the pipeline's `spec:inputs` section
     # @return [Gitlab::ObjectifiedHash] The pipelines changes.
-    def create_pipeline(project, ref, variables = {})
+    def create_pipeline(project, ref, variables = {}, inputs = {})
       body = {}
 
       # This mapping is necessary, cause the API expects an array with objects (with `key` and `value` keys)
       # See: https://docs.gitlab.com/ee/api/pipelines.html#create-a-new-pipeline
       body[:variables] = variables.map { |(key, value)| { key: key, value: value } } if variables.any?
+
+      # The API expects inputs as a hash of key-value pairs.
+      # See: https://docs.gitlab.com/ci/triggers/#pass-pipeline-inputs-in-the-api-call
+      body[:inputs] = inputs if inputs.any?
 
       post(
         "/projects/#{url_encode project}/pipeline",
