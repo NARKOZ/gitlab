@@ -109,6 +109,19 @@ RSpec.describe Gitlab::Client do
         expect(a_post(pipeline_path).with(body: expected_body.gsub('[', '%5B').gsub(']', '%5D'))).to have_been_made
       end
     end
+
+    context 'when inputs are passed' do
+      before do
+        stub_post(pipeline_path, 'pipeline_create')
+        inputs = { environment: 'production', level: 3 }
+        @pipeline_create = Gitlab.create_pipeline(3, 'master', {}, inputs)
+      end
+
+      it 'calls with the correct body' do
+        expected_body = 'inputs[environment]=production&inputs[level]=3'
+        expect(a_post(pipeline_path).with(body: expected_body.gsub('[', '%5B').gsub(']', '%5D'))).to have_been_made
+      end
+    end
   end
 
   describe '.cancel_pipeline' do
